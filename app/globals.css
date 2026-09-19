@@ -134,6 +134,42 @@ h3 {
   height: auto;
 }
 
+/* Contrast panel for content sitting over the background video. A fixed
+   dark scrim + blur is used regardless of the video's actual frame
+   content or the visitor's OS color scheme, so legibility never depends
+   on what's currently playing. */
+.page-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-height: var(--viewport-height);
+  max-width: 75rem;
+  margin-inline: auto;
+  padding: var(--space-lg) var(--space-md);
+  background: rgba(8, 8, 8, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #ffffff;
+}
+
+.page-content main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-md);
+  max-width: 42rem;
+}
+
+.page-content address {
+  font-style: normal;
+}
+
+.page-content a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 /* Respect the user's reduced-motion preference: disable non-essential
    animation/transition/smooth-scroll everywhere by default. Components
    with essential motion (e.g. the background video) opt back in

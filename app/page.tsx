@@ -8,14 +8,22 @@ export default function Home() {
   return (
     <>
       <BackgroundVideo />
-      <header className="content-layer">
-        <Logo />
-      </header>
-      <main className="content-layer">
-        <h1>{siteConfig.name}</h1>
-        <ProjectDescription />
-        <Contact />
-      </main>
+      <div className="content-layer page-content">
+        <header>
+          <Logo />
+        </header>
+        <main>
+          <h1>{siteConfig.name}</h1>
+          <ProjectDescription />
+          <Contact />
+        </main>
+        <footer>
+          <p>
+            &copy; {new Date().getFullYear()} {siteConfig.name} — CNC-Fertigung
+            in {siteConfig.serviceArea}
+          </p>
+        </footer>
+      </div>
     </>
   );
 }
