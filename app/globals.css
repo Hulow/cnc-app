@@ -182,10 +182,10 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: var(--viewport-height);
-  /* Reserve extra space below only, so the centered logo sits a bit
-     higher than dead-center rather than at the exact vertical middle. */
-  padding-bottom: 40vh;
+  /* No forced min-height here: the header should hug the logo plus a
+     comfortable amount of breathing room, not reserve a full viewport
+     regardless of content, so main starts right after it. */
+  padding-block: var(--space-xl);
 }
 
 .page-content main {
