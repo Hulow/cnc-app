@@ -129,6 +129,11 @@ h3 {
   z-index: 1;
 }
 
+.logo {
+  width: clamp(9rem, 8rem + 8vw, 18rem);
+  height: auto;
+}
+
 /* Respect the user's reduced-motion preference: disable non-essential
    animation/transition/smooth-scroll everywhere by default. Components
    with essential motion (e.g. the background video) opt back in
