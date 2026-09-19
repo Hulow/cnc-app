@@ -122,6 +122,19 @@ h3 {
 .background-video {
   z-index: 0;
   background-color: var(--background);
+  filter: grayscale(1);
+  object-position: center;
+}
+
+/* Mobile framing (object-position: center, above) is already correct and
+   stays untouched. On laptop/desktop, centered cropping was cutting off
+   the bottom of the frame, so anchor to the bottom instead — this trades
+   off some of the top instead, without ever exposing empty space since
+   object-fit: cover still fills the viewport completely. */
+@media (min-width: 1024px) {
+  .background-video {
+    object-position: center 65%;
+  }
 }
 
 .content-layer {
