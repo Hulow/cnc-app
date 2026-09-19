@@ -17,6 +17,17 @@ export const siteConfig = {
     src: "https://res.cloudinary.com/wkjycihi/video/upload/v1789818952/cnc.mp4",
     // TODO: add a Cloudinary-hosted poster image once available.
     poster: undefined as string | undefined,
+    // Tunable WebGL shader "look" — see components/background-video.tsx.
+    // Kept here, not hardcoded in the shader, so the treatment can be
+    // iterated without touching the video asset or the render code.
+    shader: {
+      grayscale: 1,
+      brightness: -0.06,
+      contrast: 1.15,
+      gamma: 1,
+      exposure: 0,
+      saturation: 1,
+    },
   },
   keywords: [
     "CNC Fräsen Berlin",
