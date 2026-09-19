@@ -15,7 +15,7 @@ export default function Home() {
           <Logo />
         </header>
         <main>
-          <h1>{siteConfig.name}</h1>
+          <h1 className="sr-only">{siteConfig.name}</h1>
           <ProjectDescription />
           <Contact />
         </main>
