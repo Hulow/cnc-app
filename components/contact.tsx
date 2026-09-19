@@ -12,6 +12,8 @@ export function Contact() {
         <a href={`mailto:${siteConfig.contact.email}`}>
           {siteConfig.contact.email}
         </a>
+        <br />
+        {siteConfig.contact.address}
       </address>
     </section>
   );

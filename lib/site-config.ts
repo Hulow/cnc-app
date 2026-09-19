@@ -10,9 +10,8 @@ export const siteConfig = {
   siteUrl: "https://example.com",
   serviceArea: "Berlin",
   contact: {
-    // TODO: replace with the real contact name and email.
-    name: "CNC Berlin",
-    email: "contact@example.com",
+    email: "viq.hlw@gmail.com",
+    address: "Coppistraße 17, 10963 Berlin",
   },
   video: {
     src: "https://res.cloudinary.com/wkjycihi/video/upload/v1789818952/cnc.mp4",
