@@ -116,6 +116,19 @@ h3 {
   object-fit: cover;
 }
 
+/* Stacking: the video sits at the base layer, page content is promoted
+   above it. Deliberately avoids a negative z-index on the video, which
+   would risk painting it behind the body's own background box. */
+.background-video {
+  z-index: 0;
+  background-color: var(--background);
+}
+
+.content-layer {
+  position: relative;
+  z-index: 1;
+}
+
 /* Respect the user's reduced-motion preference: disable non-essential
    animation/transition/smooth-scroll everywhere by default. Components
    with essential motion (e.g. the background video) opt back in
