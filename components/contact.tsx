@@ -7,8 +7,6 @@ export function Contact() {
     <section aria-labelledby="contact-heading">
       <h2 id="contact-heading">Kontakt</h2>
       <address>
-        {siteConfig.contact.name}
-        <br />
         <a href={`mailto:${siteConfig.contact.email}`}>
           {siteConfig.contact.email}
         </a>
