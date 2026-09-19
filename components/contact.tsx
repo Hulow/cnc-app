@@ -1,0 +1,18 @@
+import { siteConfig } from "@/lib/site-config";
+
+// Server Component so the contact details (and mailto: link) are present
+// in the server-rendered HTML, not dependent on client-side JavaScript.
+export function Contact() {
+  return (
+    <section aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Kontakt</h2>
+      <address>
+        {siteConfig.contact.name}
+        <br />
+        <a href={`mailto:${siteConfig.contact.email}`}>
+          {siteConfig.contact.email}
+        </a>
+      </address>
+    </section>
+  );
+}

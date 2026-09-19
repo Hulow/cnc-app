@@ -1,5 +1,7 @@
 import { BackgroundVideo } from "@/components/background-video";
+import { Contact } from "@/components/contact";
 import { Logo } from "@/components/logo";
+import { ProjectDescription } from "@/components/project-description";
 import { siteConfig } from "@/lib/site-config";
 
 export default function Home() {
@@ -11,7 +13,8 @@ export default function Home() {
       </header>
       <main className="content-layer">
         <h1>{siteConfig.name}</h1>
-        <p>Site content coming soon.</p>
+        <ProjectDescription />
+        <Contact />
       </main>
     </>
   );
