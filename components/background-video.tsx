@@ -23,11 +23,11 @@ const VERTEX_SHADER_SOURCE = `
   }
 `;
 
-// Tone-adjustment uniforms (grayscale/brightness/contrast/gamma/exposure/
-// saturation) live above the marked line below. A future selective-color
-// "highlight the chips" pass would add its own uniforms (accentColor,
-// chipThreshold, hueRange, ...) and sample logic after the grayscale mix,
-// re-injecting color into detected regions rather than fighting it.
+// Structured in two sections so a future selective-color "highlight the
+// chips" pass (see FutureChipHighlightParams below) has an obvious place
+// to go: tone adjustment first, chip detection/re-coloring second — in
+// that order because detection needs the original hue/saturation data,
+// which the final grayscale mix at the end of this section destroys.
 const FRAGMENT_SHADER_SOURCE = `
   precision mediump float;
   varying vec2 vTexCoord;
@@ -41,6 +41,8 @@ const FRAGMENT_SHADER_SOURCE = `
 
   void main() {
     vec3 color = texture2D(uVideo, vTexCoord).rgb;
+
+    // --- Tone adjustment (this spec) -----------------------------------
 
     // Exposure: stops-based multiplier (0.0 = unchanged).
     color *= pow(2.0, uExposure);
@@ -60,9 +62,16 @@ const FRAGMENT_SHADER_SOURCE = `
     float luminance = dot(color, vec3(0.299, 0.587, 0.114));
     color = mix(vec3(luminance), color, uSaturation);
 
-    // --- future chip-highlighting uniforms/logic would plug in here ---
+    // --- Future chip detection / re-coloring (not implemented) ---------
+    // color here still carries its original hue — this is the only
+    // point in the pipeline where that's true. A future pass would
+    // classify chip pixels from this value (uChipThreshold/uHueRange/
+    // uSaturationThreshold/uBrightnessThreshold) and lerp color towards
+    // uAccentColor by uAccentStrength for pixels that match, before the
+    // unconditional grayscale mix below discards hue for everything
+    // else. See FutureChipHighlightParams in site-config.ts.
 
-    // Grayscale: final blend towards luminance.
+    // --- Grayscale (this spec): final blend towards luminance ----------
     float grayLuminance = dot(color, vec3(0.299, 0.587, 0.114));
     color = mix(color, vec3(grayLuminance), uGrayscale);
 

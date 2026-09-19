@@ -39,3 +39,29 @@ export const siteConfig = {
 } as const;
 
 export type SiteConfig = typeof siteConfig;
+
+/**
+ * Documented extension point for the future selective-color "highlight
+ * the chips" pass described in specs/003-video.md — detect the wood
+ * chips produced by the milling process and recolor just those pixels
+ * while the rest of the video stays grayscale.
+ *
+ * Not implemented and not wired to any shader uniform yet (see
+ * components/background-video.tsx). Kept as a type only, rather than
+ * default values on `siteConfig.video.shader`, so it's clear this has no
+ * runtime effect until the detection logic actually lands.
+ */
+export type FutureChipHighlightParams = {
+  /** Color applied to detected chip pixels, e.g. a CSS color string. */
+  accentColor: string;
+  /** How strongly the accent color replaces the original pixel, 0-1. */
+  accentStrength: number;
+  /** Minimum confidence for a pixel to be classified as a chip, 0-1. */
+  chipThreshold: number;
+  /** Hue range (degrees) considered chip-colored wood. */
+  hueRange: [min: number, max: number];
+  /** Minimum saturation for a pixel to be considered chip-colored. */
+  saturationThreshold: number;
+  /** Minimum brightness for a pixel to be considered chip-colored. */
+  brightnessThreshold: number;
+};
