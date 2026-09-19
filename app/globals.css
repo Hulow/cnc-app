@@ -1,6 +1,36 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Fluid spacing scale: clamp(min, preferred, max) between a 360px and
+     a 1920px viewport, so layout adapts without media-query breakpoints. */
+  --space-xs: clamp(0.5rem, 0.4rem + 0.3vw, 0.75rem);
+  --space-sm: clamp(0.75rem, 0.6rem + 0.5vw, 1.25rem);
+  --space-md: clamp(1.25rem, 1rem + 1vw, 2rem);
+  --space-lg: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+  --space-xl: clamp(3rem, 2rem + 4vw, 6rem);
+
+  /* Fluid typography scale. */
+  --font-size-sm: clamp(0.875rem, 0.8rem + 0.3vw, 1rem);
+  --font-size-base: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+  --font-size-lg: clamp(1.25rem, 1.1rem + 0.8vw, 1.75rem);
+  --font-size-xl: clamp(1.75rem, 1.4rem + 1.8vw, 2.75rem);
+  --font-size-2xl: clamp(2.25rem, 1.6rem + 3.2vw, 4rem);
+
+  /* Full-viewport sizing, preferring dvh/svh where supported. */
+  --viewport-height: 100vh;
+}
+
+@supports (height: 100svh) {
+  :root {
+    --viewport-height: 100svh;
+  }
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --viewport-height: 100dvh;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,6 +57,8 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  font-size: var(--font-size-base);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -37,13 +69,64 @@ body {
   margin: 0;
 }
 
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+
 a {
   color: inherit;
   text-decoration: none;
 }
 
+h1 {
+  font-size: var(--font-size-2xl);
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: var(--font-size-xl);
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: var(--font-size-lg);
+  line-height: 1.3;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+/* Full-bleed layer, used by the background video and any element that
+   must fill the viewport independently of document flow/content height. */
+.full-bleed {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: var(--viewport-height);
+}
+
+.object-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Respect the user's reduced-motion preference: disable non-essential
+   animation/transition/smooth-scroll everywhere by default. Components
+   with essential motion (e.g. the background video) opt back in
+   explicitly rather than relying on this being absent. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
