@@ -155,10 +155,26 @@ export function BackgroundVideo() {
     document.addEventListener("visibilitychange", syncPlayback);
     window.addEventListener("pageshow", syncPlayback);
 
+    // iOS blocks autoplay outright (even muted) while Low Power Mode is
+    // on, with no event or API to detect it beforehand — the play()
+    // promise above just rejects silently. A user-initiated play() isn't
+    // subject to that restriction, so retry once on the first tap
+    // anywhere on the page as a best-effort recovery. Harmless no-op if
+    // autoplay already succeeded.
+    const retryOnFirstInteraction = () => {
+      syncPlayback();
+      window.removeEventListener("touchend", retryOnFirstInteraction);
+      window.removeEventListener("pointerdown", retryOnFirstInteraction);
+    };
+    window.addEventListener("touchend", retryOnFirstInteraction, { once: true });
+    window.addEventListener("pointerdown", retryOnFirstInteraction, { once: true });
+
     return () => {
       reducedMotion.removeEventListener("change", syncPlayback);
       document.removeEventListener("visibilitychange", syncPlayback);
       window.removeEventListener("pageshow", syncPlayback);
+      window.removeEventListener("touchend", retryOnFirstInteraction);
+      window.removeEventListener("pointerdown", retryOnFirstInteraction);
     };
   }, [failed]);
 
