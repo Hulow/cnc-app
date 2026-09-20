@@ -144,7 +144,22 @@ export function BackgroundVideo() {
 
     syncPlayback();
     reducedMotion.addEventListener("change", syncPlayback);
-    return () => reducedMotion.removeEventListener("change", syncPlayback);
+
+    // iOS Safari pauses autoplaying video when the tab is backgrounded
+    // (app switch, screen lock, incoming call banner) and, unlike desktop
+    // browsers, does not resume it automatically when the page becomes
+    // visible again — nor after a bfcache restore (e.g. swipe-back
+    // navigation), which fires "pageshow" without remounting this
+    // component. Without re-triggering play() here, the video is left
+    // frozen on whatever frame it was paused at.
+    document.addEventListener("visibilitychange", syncPlayback);
+    window.addEventListener("pageshow", syncPlayback);
+
+    return () => {
+      reducedMotion.removeEventListener("change", syncPlayback);
+      document.removeEventListener("visibilitychange", syncPlayback);
+      window.removeEventListener("pageshow", syncPlayback);
+    };
   }, [failed]);
 
   // WebGL render loop: uploads each video frame as a texture and draws it
