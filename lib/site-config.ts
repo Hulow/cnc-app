@@ -14,7 +14,7 @@ export const siteConfig = {
     address: "Coppistraße 17, 10963 Berlin",
   },
   video: {
-    src: "https://res.cloudinary.com/wkjycihi/video/upload/v1789818952/cnc.mp4",
+    src: "https://res.cloudinary.com/wkjycihi/video/upload/v1789982751/cnc.mp4",
     // TODO: add a Cloudinary-hosted poster image once available.
     poster: undefined as string | undefined,
   },
