@@ -10,7 +10,6 @@ const VIDEO_OVERLAY_DISMISSED_KEY = "video-overlay-dismissed";
 
 export function BackgroundVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const userStartedPlaybackRef = useRef(false);
   const overlayId = useId();
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -27,6 +26,13 @@ export function BackgroundVideo() {
       return false;
     }
   });
+  // The overlay's only action dismisses it *and* plays the video, so a
+  // dismissal persisted from an earlier visit already means this browser
+  // consented to playback once. Seed the opt-in from that instead of
+  // always starting `false` — otherwise a returning reduced-motion visitor
+  // has no overlay left to click (it's already dismissed) and no way to
+  // ever unblock the video again.
+  const userStartedPlaybackRef = useRef(dismissed);
 
   useEffect(() => {
     const video = videoRef.current;
