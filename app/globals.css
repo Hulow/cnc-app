@@ -116,20 +116,13 @@ h3 {
   object-fit: cover;
 }
 
-/* Stacking: the video/canvas sits at the base layer, page content is
-   promoted above it. Deliberately avoids a negative z-index on the video,
-   which would risk painting it behind the body's own background box. The
-   grayscale/darker/contrast look is applied by the WebGL shader in
-   components/background-video.tsx, not a CSS filter, on the primary path. */
+/* Stacking: the video sits at the base layer, page content is promoted
+   above it. Deliberately avoids a negative z-index on the video, which
+   would risk painting it behind the body's own background box. */
 .background-video {
   z-index: 0;
   background-color: var(--background);
   object-position: center;
-}
-
-/* Only used when WebGL is unavailable and background-video.tsx falls back
-   to rendering the plain <video> element directly. */
-.background-video--fallback {
   filter: grayscale(1);
 }
 
