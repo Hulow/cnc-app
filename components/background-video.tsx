@@ -6,10 +6,25 @@ import { siteConfig } from "@/lib/site-config";
 // Full-screen background video, decorative only. Content elsewhere on the
 // page must remain fully usable if this never loads or plays.
 
+const VIDEO_OVERLAY_DISMISSED_KEY = "video-overlay-dismissed";
+
 export function BackgroundVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const [dismissed, setDismissed] = useState(() => {
+    if (typeof window === "undefined") return false;
+
+    try {
+      return (
+        window.localStorage.getItem(VIDEO_OVERLAY_DISMISSED_KEY) === "1"
+      );
+    } catch {
+      // Storage unavailable (private mode, quota) — treat as "not
+      // dismissed" and just skip persisting later.
+      return false;
+    }
+  });
 
   useEffect(() => {
     const video = videoRef.current;
@@ -266,34 +281,67 @@ export function BackgroundVideo() {
   }
 
   return (
-    <video
-      ref={videoRef}
-      className="full-bleed object-cover background-video"
-      src={siteConfig.video.src}
-      poster={siteConfig.video.poster}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="auto"
-      aria-hidden="true"
-      tabIndex={-1}
-      data-playing={playing}
-      onPlaying={() => setPlaying(true)}
-      onPause={() => setPlaying(false)}
-      onEmptied={() => setPlaying(false)}
-      onError={() => {
-        console.error("[BackgroundVideo] React onError fired", {
-          error: videoRef.current?.error
-            ? {
-                code: videoRef.current.error.code,
-                message: videoRef.current.error.message,
-              }
-            : null,
-        });
+    <>
+      {!playing && !dismissed && (
+        <div className="video-overlay" role="note">
+          <p>
+            Diese Website verwendet keine Analyse-, Werbe- oder
+            Tracking-Cookies und keine Benutzerkonten. Sie wird von Vercel
+            gehostet und nutzt Cloudinary zur Auslieferung von
+            Videoinhalten. Diese Anbieter können dabei technische Daten wie
+            IP-Adressen und Anfrageinformationen verarbeiten.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              // Must be the first statement in this handler: Safari only
+              // treats play() as a genuine user gesture if it's called
+              // synchronously within the trusted click event, not after
+              // an await or a state update.
+              videoRef.current?.play().catch(() => {});
 
-        setFailed(true);
-      }}
-    />
+              setDismissed(true);
+
+              try {
+                window.localStorage.setItem(VIDEO_OVERLAY_DISMISSED_KEY, "1");
+              } catch {
+                // Best-effort only — the overlay just reappears next visit.
+              }
+            }}
+          >
+            Verstanden
+          </button>
+        </div>
+      )}
+      <video
+        ref={videoRef}
+        className="full-bleed object-cover background-video"
+        src={siteConfig.video.src}
+        poster={siteConfig.video.poster}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        tabIndex={-1}
+        data-playing={playing}
+        onPlaying={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onEmptied={() => setPlaying(false)}
+        onError={() => {
+          console.error("[BackgroundVideo] React onError fired", {
+            error: videoRef.current?.error
+              ? {
+                  code: videoRef.current.error.code,
+                  message: videoRef.current.error.message,
+                }
+              : null,
+          });
+
+          setFailed(true);
+        }}
+      />
+    </>
   );
 }

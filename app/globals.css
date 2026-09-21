@@ -165,6 +165,52 @@ h3 {
   z-index: 1;
 }
 
+/* Small, unobtrusive informational panel — not a full-screen modal — that
+   also doubles as the genuine user gesture Safari needs before it will
+   allow the background video to autoplay. Sits above the content layer so
+   it's always reachable, anchored to the bottom so it doesn't cover the
+   logo. */
+.video-overlay {
+  position: fixed;
+  z-index: 2;
+  left: var(--space-md);
+  right: var(--space-md);
+  bottom: var(--space-md);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  max-width: 40rem;
+  margin-inline: auto;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 0.5rem;
+  background: rgba(10, 10, 10, 0.85);
+  color: #ffffff;
+}
+
+.video-overlay p {
+  flex: 1 1 16rem;
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+.video-overlay button {
+  flex: 0 0 auto;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.video-overlay button:hover,
+.video-overlay button:focus-visible {
+  background: rgba(255, 255, 255, 0.15);
+}
+
 .logo {
   width: clamp(26rem, 15rem + 40vw, 56rem);
   height: auto;
