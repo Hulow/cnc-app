@@ -126,6 +126,20 @@ h3 {
   filter: grayscale(1);
 }
 
+/* iOS Safari overlays its own "tap to start" play button on a <video>
+   whenever autoplay is blocked (e.g. Low Power Mode) — even without a
+   `controls` attribute — and there's no standard way to opt out of it.
+   This decorative background video should never show that affordance;
+   background-video.tsx already listens for the first tap anywhere on the
+   page and calls play() itself, so hiding the button doesn't lose the
+   "tap to start" recovery, just WebKit's visual for it. */
+.background-video::-webkit-media-controls,
+.background-video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0 !important;
+}
+
 /* Mobile framing (object-position: center, above) is already correct and
    stays untouched. On laptop/desktop, centered cropping was cutting off
    the bottom of the frame, so anchor to the bottom instead — this trades
