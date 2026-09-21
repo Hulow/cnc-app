@@ -10,6 +10,7 @@ const VIDEO_OVERLAY_DISMISSED_KEY = "video-overlay-dismissed";
 
 export function BackgroundVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const userStartedPlaybackRef = useRef(false);
   const overlayId = useId();
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -34,7 +35,7 @@ export function BackgroundVideo() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const syncPlayback = async (reason: string) => {
-      if (reducedMotion.matches) {
+      if (reducedMotion.matches && !userStartedPlaybackRef.current) {
         video.pause();
         return;
       }
@@ -158,6 +159,7 @@ export function BackgroundVideo() {
             // synchronously within the trusted click event, not after
             // an await or a state update.
             videoRef.current?.play().catch(() => {});
+            userStartedPlaybackRef.current = true;
 
             setDismissed(true);
 
