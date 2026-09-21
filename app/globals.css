@@ -211,6 +211,13 @@ h3 {
   background: rgba(255, 255, 255, 0.15);
 }
 
+/* The `hidden` attribute is UA-default `display: none`, but our own
+   `display: flex` above has equal specificity and, as an author style,
+   wins over that default — so it must be restated explicitly here. */
+.video-overlay[hidden] {
+  display: none;
+}
+
 .logo {
   width: clamp(26rem, 15rem + 40vw, 56rem);
   height: auto;

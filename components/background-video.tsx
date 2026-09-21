@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { siteConfig } from "@/lib/site-config";
 
 // Full-screen background video, decorative only. Content elsewhere on the
@@ -10,6 +10,7 @@ const VIDEO_OVERLAY_DISMISSED_KEY = "video-overlay-dismissed";
 
 export function BackgroundVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const overlayId = useId();
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [dismissed, setDismissed] = useState(() => {
@@ -124,39 +125,59 @@ export function BackgroundVideo() {
     return null;
   }
 
+  // Whether the overlay div is present in the tree never changes between
+  // server and client render (it's always mounted); only its `hidden`
+  // attribute is state-driven. This avoids relying on hydration to
+  // add/remove a whole subtree based on client-only localStorage, which
+  // this Next.js version doesn't reliably reconcile — see "Preventing
+  // flash before hydration" in the Next.js docs. The inline script below
+  // sets `hidden` before first paint so there's no flash either.
+  const overlayHidden = playing || dismissed;
+
   return (
     <>
-      {!playing && !dismissed && (
-        <div className="video-overlay" role="note">
-          <p>
-            Diese Website verwendet keine Analyse-, Werbe- oder
-            Tracking-Cookies und keine Benutzerkonten. Sie wird von Vercel
-            gehostet und nutzt Cloudinary zur Auslieferung von
-            Videoinhalten. Diese Anbieter können dabei technische Daten wie
-            IP-Adressen und Anfrageinformationen verarbeiten.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              // Must be the first statement in this handler: Safari only
-              // treats play() as a genuine user gesture if it's called
-              // synchronously within the trusted click event, not after
-              // an await or a state update.
-              videoRef.current?.play().catch(() => {});
+      <div
+        id={overlayId}
+        className="video-overlay"
+        role="note"
+        hidden={overlayHidden}
+        suppressHydrationWarning
+      >
+        <p>
+          Diese Website verwendet keine Analyse-, Werbe- oder
+          Tracking-Cookies und keine Benutzerkonten. Sie wird von Vercel
+          gehostet und nutzt Cloudinary zur Auslieferung von
+          Videoinhalten. Diese Anbieter können dabei technische Daten wie
+          IP-Adressen und Anfrageinformationen verarbeiten.
+        </p>
+        <button
+          type="button"
+          onClick={() => {
+            // Must be the first statement in this handler: Safari only
+            // treats play() as a genuine user gesture if it's called
+            // synchronously within the trusted click event, not after
+            // an await or a state update.
+            videoRef.current?.play().catch(() => {});
 
-              setDismissed(true);
+            setDismissed(true);
 
-              try {
-                window.localStorage.setItem(VIDEO_OVERLAY_DISMISSED_KEY, "1");
-              } catch {
-                // Best-effort only — the overlay just reappears next visit.
-              }
-            }}
-          >
-            Verstanden
-          </button>
-        </div>
-      )}
+            try {
+              window.localStorage.setItem(VIDEO_OVERLAY_DISMISSED_KEY, "1");
+            } catch {
+              // Best-effort only — the overlay just reappears next visit.
+            }
+          }}
+        >
+          Verstanden
+        </button>
+      </div>
+      <script
+        type={typeof window === "undefined" ? "text/javascript" : "text/plain"}
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: `{try{if(localStorage.getItem("${VIDEO_OVERLAY_DISMISSED_KEY}")==="1"){var el=document.getElementById("${overlayId}");if(el)el.hidden=true}}catch(e){}}`,
+        }}
+      />
       <video
         ref={videoRef}
         className="full-bleed object-cover background-video"
