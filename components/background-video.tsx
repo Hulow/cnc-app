@@ -9,6 +9,7 @@ import { siteConfig } from "@/lib/site-config";
 export function BackgroundVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [failed, setFailed] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -277,6 +278,10 @@ export function BackgroundVideo() {
       preload="auto"
       aria-hidden="true"
       tabIndex={-1}
+      data-playing={playing}
+      onPlaying={() => setPlaying(true)}
+      onPause={() => setPlaying(false)}
+      onEmptied={() => setPlaying(false)}
       onError={() => {
         console.error("[BackgroundVideo] React onError fired", {
           error: videoRef.current?.error

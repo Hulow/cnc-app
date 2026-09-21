@@ -124,6 +124,15 @@ h3 {
   background-color: var(--background);
   object-position: center;
   filter: grayscale(1);
+  transition: opacity 300ms ease;
+}
+
+/* Keep the page background showing until the video is actually playing
+   (onPlaying), not merely loaded — there's no poster image configured
+   yet, so without this a loaded-but-paused frame could otherwise be
+   mistaken for a stalled/working video. */
+.background-video[data-playing="false"] {
+  opacity: 0;
 }
 
 /* iOS Safari overlays its own "tap to start" play button on a <video>
