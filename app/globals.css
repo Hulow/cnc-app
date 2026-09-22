@@ -234,14 +234,17 @@ h3 {
   text-align: center;
 }
 
-/* Full-bleed: break out of .welcome-screen-content's centered max-width
-   so this box spans the entire viewport width, ignoring .welcome-screen's
-   own padding, regardless of how narrow/wide the centered content column is. */
+/* Full-bleed: break out of .welcome-screen-content's centered max-width so
+   this box spans the entire viewport width, ignoring .welcome-screen's own
+   padding, regardless of how narrow/wide the centered content column is.
+   Margin-only (no position:relative/left): this element is a flex item of
+   a column flex container, and percentage-based `left` offsets on flex
+   items resolve unreliably, clipping the box off-screen; percentage
+   margins don't have that problem. */
 .welcome-screen-text {
-  position: relative;
-  left: 50%;
   width: 100vw;
-  margin-left: -50vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -250,6 +253,8 @@ h3 {
 }
 
 .welcome-screen-content p {
+  max-width: 40rem;
+  margin-inline: auto;
   font-size: var(--font-size-sm);
   line-height: 1.4;
 }
