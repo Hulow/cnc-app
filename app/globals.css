@@ -84,6 +84,12 @@ p {
   text-align: justify;
 }
 
+h1,
+h2,
+h3 {
+  margin-bottom: var(--space-xs);
+}
+
 h1 {
   font-size: var(--font-size-2xl);
   line-height: 1.1;
