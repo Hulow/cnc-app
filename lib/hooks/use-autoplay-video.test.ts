@@ -3,16 +3,11 @@ import { act, cleanup, renderHook, waitFor } from "@testing-library/react";
 import { useAutoplayVideo } from "./use-autoplay-video";
 import { mockMatchMedia } from "@/lib/test-utils/match-media";
 
-function renderAutoplayVideo(options: { enabled?: boolean; initialUserOptIn?: boolean } = {}) {
+function renderAutoplayVideo(options: { enabled?: boolean } = {}) {
   const video = document.createElement("video");
   const ref = { current: video };
 
-  const hook = renderHook(() =>
-    useAutoplayVideo(ref, {
-      enabled: options.enabled ?? true,
-      initialUserOptIn: options.initialUserOptIn ?? false,
-    }),
-  );
+  const hook = renderHook(() => useAutoplayVideo(ref, { enabled: options.enabled ?? true }));
 
   return { video, ...hook };
 }
@@ -50,14 +45,6 @@ describe("useAutoplayVideo", () => {
 
     await waitFor(() => expect(video.pause).toHaveBeenCalled());
     expect(video.play).not.toHaveBeenCalled();
-  });
-
-  it("still autoplays under reduced motion when seeded with a prior opt-in", async () => {
-    mockMatchMedia(true);
-    const { video } = renderAutoplayVideo({ initialUserOptIn: true });
-
-    await waitFor(() => expect(video.play).toHaveBeenCalled());
-    expect(video.pause).not.toHaveBeenCalled();
   });
 
   it("lets a subsequent reduced-motion re-sync succeed once markUserStarted() has been called", async () => {

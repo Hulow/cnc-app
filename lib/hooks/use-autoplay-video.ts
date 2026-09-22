@@ -4,22 +4,17 @@ interface UseAutoplayVideoOptions {
   // Set false (e.g. once the video has errored) to stop trying to sync
   // playback entirely.
   enabled: boolean;
-  // Seeds opt-in to playback under prefers-reduced-motion. Only read once,
-  // on mount — pass the persisted "already opted in before" value so a
-  // returning reduced-motion visitor isn't stuck with no way to unblock
-  // playback (see markUserStarted).
-  initialUserOptIn: boolean;
 }
 
 // Keeps a background <video> playing across the situations a plain
 // `autoPlay` attribute doesn't handle on its own, and respects
-// prefers-reduced-motion unless the user has explicitly opted in (see
-// `markUserStarted`).
+// prefers-reduced-motion unless the user has explicitly opted in during
+// this visit (see `markUserStarted`).
 export function useAutoplayVideo(
   videoRef: RefObject<HTMLVideoElement | null>,
-  { enabled, initialUserOptIn }: UseAutoplayVideoOptions,
+  { enabled }: UseAutoplayVideoOptions,
 ) {
-  const userStartedPlaybackRef = useRef(initialUserOptIn);
+  const userStartedPlaybackRef = useRef(false);
 
   const markUserStarted = useCallback(() => {
     userStartedPlaybackRef.current = true;

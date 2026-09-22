@@ -25,14 +25,7 @@ export function BackgroundVideo({ ref }: BackgroundVideoProps) {
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
 
-  // WelcomeScreen shows on every visit (not persisted — see
-  // specs/007-specs.md), so there's no prior-visit opt-in to seed here: the
-  // gesture-driven play() below is always what starts playback, including
-  // under reduced motion.
-  const { markUserStarted } = useAutoplayVideo(videoRef, {
-    enabled: !failed,
-    initialUserOptIn: false,
-  });
+  const { markUserStarted } = useAutoplayVideo(videoRef, { enabled: !failed });
 
   useImperativeHandle(
     ref,
