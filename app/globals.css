@@ -170,7 +170,7 @@ h3 {
 .content-layer {
   position: relative;
   z-index: 1;
-  width: 70%; /* xs: < 576px */
+  width: 90%; /* xs: < 576px */
   background: rgba(10, 10, 10, 0.6);
 }
 
@@ -182,25 +182,25 @@ h3 {
 
 @media (min-width: 768px) {
   .content-layer {
-    width: 60%; /* md: >= 768px, tablets portrait */
+    width: 70%; /* md: >= 768px, tablets portrait */
   }
 }
 
 @media (min-width: 992px) {
   .content-layer {
-    width: 60%; /* lg: >= 992px, tablets landscape / small laptops */
+    width: 70%; /* lg: >= 992px, tablets landscape / small laptops */
   }
 }
 
 @media (min-width: 1200px) {
   .content-layer {
-    width: 60%; /* xl: >= 1200px, laptops / desktops */
+    width: 70%; /* xl: >= 1200px, laptops / desktops */
   }
 }
 
 @media (min-width: 1400px) {
   .content-layer {
-    width: 60%; /* xxl: >= 1400px, large desktops */
+    width: 70%; /* xxl: >= 1400px, large desktops */
   }
 }
 
