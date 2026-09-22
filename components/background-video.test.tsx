@@ -1,15 +1,14 @@
 import { createRef } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react";
+import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { BackgroundVideo, type BackgroundVideoHandle } from "./background-video";
 import { siteConfig } from "@/lib/site-config";
-import { mockMatchMedia } from "@/lib/test-utils/match-media";
 
 // These are composition-level tests: they check that BackgroundVideo wires
 // the video element, the autoplay hook, and its imperative `play()` handle
-// together correctly. The autoplay retry/reduced-motion logic itself is
-// covered in lib/hooks/use-autoplay-video.test.ts. BackgroundVideo no
-// longer owns any overlay — that's WelcomeScreen/ExperienceGate's job now
+// together correctly. The autoplay retry logic itself is covered in
+// lib/hooks/use-autoplay-video.test.ts. BackgroundVideo no longer owns any
+// overlay — that's WelcomeScreen/ExperienceGate's job now
 // (components/welcome-screen.test.tsx, components/experience-gate.test.tsx).
 
 function getVideo(container: HTMLElement) {
@@ -30,7 +29,6 @@ afterEach(() => {
 describe("Given the background video is rendered", () => {
   describe("When it mounts", () => {
     it("Then it renders a video with the configured src and decorative attributes", () => {
-      mockMatchMedia(false);
       const { container } = render(<BackgroundVideo />);
       const video = getVideo(container);
 
@@ -45,7 +43,6 @@ describe("Given the background video is rendered", () => {
     });
 
     it("Then it renders no overlay of its own", () => {
-      mockMatchMedia(false);
       const { container } = render(<BackgroundVideo />);
 
       expect(container.querySelector(".video-overlay")).not.toBeInTheDocument();
@@ -55,7 +52,6 @@ describe("Given the background video is rendered", () => {
 
   describe("When data-playing tracks playback events", () => {
     it("Then the attribute follows playing/pause/emptied events", () => {
-      mockMatchMedia(false);
       const { container } = render(<BackgroundVideo />);
       const video = getVideo(container);
 
@@ -71,7 +67,6 @@ describe("Given the background video is rendered", () => {
 
   describe("When the video errors", () => {
     it("Then it logs the media error and falls back to rendering nothing", () => {
-      mockMatchMedia(false);
       const { container } = render(<BackgroundVideo />);
       const video = getVideo(container);
 
@@ -96,7 +91,6 @@ describe("Given the background video is rendered", () => {
 describe("Given a caller holds a ref to the background video", () => {
   describe("When the ref's play() is called", () => {
     it("Then the underlying video element's play() is invoked", () => {
-      mockMatchMedia(false);
       const ref = createRef<BackgroundVideoHandle>();
       const { container } = render(<BackgroundVideo ref={ref} />);
       const video = getVideo(container);
@@ -106,32 +100,6 @@ describe("Given a caller holds a ref to the background video", () => {
       });
 
       expect(video.play).toHaveBeenCalled();
-    });
-
-    it("Then it marks the user as having opted into playback, so a later reduced-motion re-sync does not pause it", async () => {
-      mockMatchMedia(true);
-      const ref = createRef<BackgroundVideoHandle>();
-      const { container } = render(<BackgroundVideo ref={ref} />);
-      const video = getVideo(container);
-
-      await waitFor(() => expect(video.pause).toHaveBeenCalled());
-      vi.mocked(video.pause).mockClear();
-      vi.mocked(video.play).mockClear();
-
-      act(() => {
-        ref.current?.play();
-      });
-
-      expect(video.play).toHaveBeenCalled();
-
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)") as unknown as {
-        dispatchChange: (matches: boolean) => void;
-      };
-      act(() => {
-        reducedMotion.dispatchChange(true);
-      });
-
-      expect(video.pause).not.toHaveBeenCalled();
     });
   });
 });

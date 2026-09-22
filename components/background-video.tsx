@@ -25,7 +25,7 @@ export function BackgroundVideo({ ref }: BackgroundVideoProps) {
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
 
-  const { markUserStarted } = useAutoplayVideo(videoRef, { enabled: !failed });
+  useAutoplayVideo(videoRef, { enabled: !failed });
 
   useImperativeHandle(
     ref,
@@ -36,10 +36,9 @@ export function BackgroundVideo({ ref }: BackgroundVideoProps) {
         // treats play() as genuine if there's no await/state-update
         // between the trusted event and this call.
         videoRef.current?.play().catch(() => {});
-        markUserStarted();
       },
     }),
-    [markUserStarted],
+    [],
   );
 
   if (failed) {

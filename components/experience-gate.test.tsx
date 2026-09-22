@@ -1,7 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { ExperienceGate } from "./experience-gate";
-import { mockMatchMedia } from "@/lib/test-utils/match-media";
 
 // Composition-level tests: check that ExperienceGate wires BackgroundVideo,
 // the page's children, and WelcomeScreen together. WelcomeScreen's own
@@ -29,7 +28,6 @@ afterEach(() => {
 describe("Given a visitor loads the page", () => {
   describe("When ExperienceGate mounts", () => {
     it("Then it renders the background video, the page content, and a visible welcome screen", () => {
-      mockMatchMedia(false);
       const { container } = render(
         <ExperienceGate>
           <main>Page content</main>
@@ -44,7 +42,6 @@ describe("Given a visitor loads the page", () => {
 
   describe("When the visitor clicks Continue", () => {
     it("Then the background video starts playing", () => {
-      mockMatchMedia(false);
       const { container } = render(
         <ExperienceGate>
           <main>Page content</main>
@@ -58,7 +55,6 @@ describe("Given a visitor loads the page", () => {
     });
 
     it("Then the welcome screen is hidden", () => {
-      mockMatchMedia(false);
       const { container } = render(
         <ExperienceGate>
           <main>Page content</main>
@@ -75,7 +71,6 @@ describe("Given a visitor loads the page", () => {
 describe("Given a visitor already clicked Continue during an earlier page load", () => {
   describe("When the page is loaded again (a fresh mount)", () => {
     it("Then the welcome screen shows again, not persisted from the earlier visit", () => {
-      mockMatchMedia(false);
       const first = render(
         <ExperienceGate>
           <main>Page content</main>
