@@ -251,8 +251,8 @@ h3 {
 .welcome-screen-content button:hover,
 .welcome-screen-content button:focus-visible {
   background: rgba(255, 255, 255, 0.15);
-  border-width: 2px;
   border-color: rgb(231, 39, 58);
+  box-shadow: 0 0 0 1px rgb(231, 39, 58);
   color: rgb(231, 39, 58);
   font-weight: bold;
 }
