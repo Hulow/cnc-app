@@ -160,10 +160,48 @@ h3 {
   }
 }
 
+/* Width follows Bootstrap's six breakpoints:
+   xs   < 576px   phones, portrait
+   sm   >= 576px  phones, landscape
+   md   >= 768px  tablets, portrait
+   lg   >= 992px  tablets landscape / small laptops
+   xl   >= 1200px laptops / desktops
+   xxl  >= 1400px large desktops */
 .content-layer {
   position: relative;
   z-index: 1;
+  width: 70%; /* xs: < 576px */
   background: rgba(10, 10, 10, 0.6);
+}
+
+@media (min-width: 576px) {
+  .content-layer {
+    width: 70%; /* sm: >= 576px, phones landscape */
+  }
+}
+
+@media (min-width: 768px) {
+  .content-layer {
+    width: 60%; /* md: >= 768px, tablets portrait */
+  }
+}
+
+@media (min-width: 992px) {
+  .content-layer {
+    width: 60%; /* lg: >= 992px, tablets landscape / small laptops */
+  }
+}
+
+@media (min-width: 1200px) {
+  .content-layer {
+    width: 60%; /* xl: >= 1200px, laptops / desktops */
+  }
+}
+
+@media (min-width: 1400px) {
+  .content-layer {
+    width: 60%; /* xxl: >= 1400px, large desktops */
+  }
 }
 
 /* The entry point to the whole app: a full-screen, dark-transparent gate
