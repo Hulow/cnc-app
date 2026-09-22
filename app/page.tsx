@@ -21,8 +21,8 @@ export default function Home() {
           </main>
           <footer>
             <p>
-              &copy; {new Date().getFullYear()} {siteConfig.name} —
-              CNC-Fertigung in {siteConfig.serviceArea}
+              &copy; {new Date().getFullYear()} -  Victor Le Fur -
+              Design & fabrication in {siteConfig.serviceArea}
             </p>
           </footer>
         </div>

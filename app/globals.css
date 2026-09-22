@@ -164,47 +164,19 @@ h3 {
   }
 }
 
-/* Width follows Bootstrap's six breakpoints:
-   xs   < 576px   phones, portrait
-   sm   >= 576px  phones, landscape
-   md   >= 768px  tablets, portrait
-   lg   >= 992px  tablets landscape / small laptops
-   xl   >= 1200px laptops / desktops
-   xxl  >= 1400px large desktops */
+/* Width steps from 90% to 70% once past phone-portrait width (576px);
+   Bootstrap's remaining breakpoints (md/lg/xl/xxl) used to repeat this
+   same 70% and did nothing, so they've been dropped. */
 .content-layer {
   position: relative;
   z-index: 1;
-  width: 90%; /* xs: < 576px */
+  width: 90%;
   background: rgba(10, 10, 10, 0.6);
 }
 
 @media (min-width: 576px) {
   .content-layer {
-    width: 70%; /* sm: >= 576px, phones landscape */
-  }
-}
-
-@media (min-width: 768px) {
-  .content-layer {
-    width: 70%; /* md: >= 768px, tablets portrait */
-  }
-}
-
-@media (min-width: 992px) {
-  .content-layer {
-    width: 70%; /* lg: >= 992px, tablets landscape / small laptops */
-  }
-}
-
-@media (min-width: 1200px) {
-  .content-layer {
-    width: 70%; /* xl: >= 1200px, laptops / desktops */
-  }
-}
-
-@media (min-width: 1400px) {
-  .content-layer {
-    width: 70%; /* xxl: >= 1400px, large desktops */
+    width: 70%;
   }
 }
 
