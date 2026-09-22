@@ -165,37 +165,38 @@ h3 {
   z-index: 1;
 }
 
-/* Small, unobtrusive informational panel — not a full-screen modal — that
-   also doubles as the genuine user gesture Safari needs before it will
-   allow the background video to autoplay. Sits above the content layer so
-   it's always reachable, anchored to the bottom so it doesn't cover the
-   logo. */
-.video-overlay {
+/* The entry point to the whole app: a full-screen, dark-transparent gate
+   over everything else (video + page content), so the site is briefly
+   visible behind it. Also doubles as the genuine user gesture Safari needs
+   before it will allow the background video to autoplay. Sits above the
+   content layer so it's always on top. */
+.welcome-screen {
   position: fixed;
+  inset: 0;
   z-index: 2;
-  left: var(--space-md);
-  right: var(--space-md);
-  bottom: var(--space-md);
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-sm);
-  max-width: 40rem;
-  margin-inline: auto;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: 0.5rem;
+  justify-content: center;
+  padding: var(--space-md);
   background: rgba(10, 10, 10, 0.85);
   color: #ffffff;
 }
 
-.video-overlay p {
-  flex: 1 1 16rem;
+.welcome-screen-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  max-width: 40rem;
+  text-align: center;
+}
+
+.welcome-screen-content p {
   font-size: var(--font-size-sm);
   line-height: 1.4;
 }
 
-.video-overlay button {
-  flex: 0 0 auto;
+.welcome-screen-content button {
   padding: var(--space-xs) var(--space-md);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 0.375rem;
@@ -206,15 +207,15 @@ h3 {
   cursor: pointer;
 }
 
-.video-overlay button:hover,
-.video-overlay button:focus-visible {
+.welcome-screen-content button:hover,
+.welcome-screen-content button:focus-visible {
   background: rgba(255, 255, 255, 0.15);
 }
 
 /* The `hidden` attribute is UA-default `display: none`, but our own
    `display: flex` above has equal specificity and, as an author style,
    wins over that default — so it must be restated explicitly here. */
-.video-overlay[hidden] {
+.welcome-screen[hidden] {
   display: none;
 }
 

@@ -1,36 +1,53 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { siteConfig } from "@/lib/site-config";
-import { usePersistedFlag } from "@/lib/hooks/use-persisted-flag";
 import { useAutoplayVideo } from "@/lib/hooks/use-autoplay-video";
 import { Video } from "./video";
-import { VideoOverlay } from "./video-overlay";
 
 // Orchestrates the full-screen background video: owns the video ref and
-// playback/failure state, and wires the (presentational) <Video> and
-// <VideoOverlay> together. Content elsewhere on the page must remain fully
-// usable if this never loads or plays.
+// playback/failure state, and wires the (presentational) <Video> together
+// with the autoplay hook. Content elsewhere on the page must remain fully
+// usable if this never loads or plays. Renders no overlay of its own —
+// callers that need a gesture to unblock playback (e.g. ExperienceGate's
+// WelcomeScreen) do so via the `play()` exposed on `ref`.
 
-const VIDEO_OVERLAY_DISMISSED_KEY = "video-overlay-dismissed";
+export interface BackgroundVideoHandle {
+  play: () => void;
+}
 
-export function BackgroundVideo() {
+interface BackgroundVideoProps {
+  ref?: Ref<BackgroundVideoHandle | null>;
+}
+
+export function BackgroundVideo({ ref }: BackgroundVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const overlayId = useId();
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [dismissed, dismiss] = usePersistedFlag(VIDEO_OVERLAY_DISMISSED_KEY);
 
-  // The overlay's only action dismisses it *and* plays the video, so a
-  // dismissal persisted from an earlier visit already means this browser
-  // consented to playback once — seed the hook's opt-in from that instead
-  // of always starting unset, otherwise a returning reduced-motion visitor
-  // has no overlay left to click (it's already dismissed) and no way to
-  // ever unblock the video again.
+  // WelcomeScreen shows on every visit (not persisted — see
+  // specs/007-specs.md), so there's no prior-visit opt-in to seed here: the
+  // gesture-driven play() below is always what starts playback, including
+  // under reduced motion.
   const { markUserStarted } = useAutoplayVideo(videoRef, {
     enabled: !failed,
-    initialUserOptIn: dismissed,
+    initialUserOptIn: false,
   });
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      play: () => {
+        // Callers must invoke this synchronously within a real user
+        // gesture (e.g. first statement in a click handler) — Safari only
+        // treats play() as genuine if there's no await/state-update
+        // between the trusted event and this call.
+        videoRef.current?.play().catch(() => {});
+        markUserStarted();
+      },
+    }),
+    [markUserStarted],
+  );
 
   if (failed) {
     // Fall back to the plain page background rather than a broken player.
@@ -38,36 +55,21 @@ export function BackgroundVideo() {
   }
 
   return (
-    <>
-      <VideoOverlay
-        id={overlayId}
-        hidden={playing || dismissed}
-        storageKey={VIDEO_OVERLAY_DISMISSED_KEY}
-        onDismiss={() => {
-          // Must be the first statement here: Safari only treats play() as
-          // a genuine user gesture if it's called synchronously within the
-          // trusted click event, not after an await or a state update.
-          videoRef.current?.play().catch(() => {});
-          markUserStarted();
-          dismiss();
-        }}
-      />
-      <Video
-        ref={videoRef}
-        src={siteConfig.video.src}
-        poster={siteConfig.video.poster}
-        playing={playing}
-        onPlaying={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onEmptied={() => setPlaying(false)}
-        onError={(error) => {
-          console.error("[BackgroundVideo] React onError fired", {
-            error: error ? { code: error.code, message: error.message } : null,
-          });
+    <Video
+      ref={videoRef}
+      src={siteConfig.video.src}
+      poster={siteConfig.video.poster}
+      playing={playing}
+      onPlaying={() => setPlaying(true)}
+      onPause={() => setPlaying(false)}
+      onEmptied={() => setPlaying(false)}
+      onError={(error) => {
+        console.error("[BackgroundVideo] React onError fired", {
+          error: error ? { code: error.code, message: error.message } : null,
+        });
 
-          setFailed(true);
-        }}
-      />
-    </>
+        setFailed(true);
+      }}
+    />
   );
 }
