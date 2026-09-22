@@ -317,6 +317,12 @@ h3 {
   text-underline-offset: 0.15em;
 }
 
+.project-description-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
 /* Respect the user's reduced-motion preference: disable non-essential
    animation/transition/smooth-scroll everywhere by default. Components
    with essential motion (e.g. the background video) opt back in
