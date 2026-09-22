@@ -12,16 +12,18 @@ export function WelcomeScreen({ hidden, onContinue }: WelcomeScreenProps) {
   return (
     <div className="welcome-screen" role="dialog" aria-modal="true" hidden={hidden}>
       <div className="welcome-screen-content">
-        <p>
-          This website does not use analytics, advertising, or tracking
-          cookies, and it does not require user accounts.
-        </p>
-        <p>
-          The website is hosted by Vercel and uses Cloudinary to deliver
-          video content. These providers may process technical
-          information, such as IP addresses and request data, as part of
-          delivering the website and its content.
-        </p>
+        <div className="welcome-screen-text">
+          <p>
+            This website does not use analytics, advertising, or tracking
+            cookies, and it does not require user accounts.
+          </p>
+          <p>
+            The website is hosted by Vercel and uses Cloudinary to deliver
+            video content. These providers may process technical
+            information, such as IP addresses and request data, as part of
+            delivering the website and its content.
+          </p>
+        </div>
         <button type="button" onClick={onContinue}>
           Continue
         </button>

@@ -234,6 +234,21 @@ h3 {
   text-align: center;
 }
 
+/* Full-bleed: break out of .welcome-screen-content's centered max-width
+   so this box spans the entire viewport width, ignoring .welcome-screen's
+   own padding, regardless of how narrow/wide the centered content column is. */
+.welcome-screen-text {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: #000000;
+}
+
 .welcome-screen-content p {
   font-size: var(--font-size-sm);
   line-height: 1.4;
