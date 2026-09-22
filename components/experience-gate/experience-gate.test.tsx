@@ -4,8 +4,8 @@ import { ExperienceGate } from "./experience-gate";
 
 // Composition-level tests: check that ExperienceGate wires BackgroundVideo,
 // the page's children, and WelcomeScreen together. WelcomeScreen's own
-// rendering is covered in components/welcome-screen.test.tsx,
-// BackgroundVideo's in components/background-video.test.tsx.
+// rendering is covered in components/welcome-screen/welcome-screen.test.tsx,
+// BackgroundVideo's in components/background-video/background-video.test.tsx.
 
 function getVideo(container: HTMLElement) {
   return container.querySelector("video") as HTMLVideoElement;

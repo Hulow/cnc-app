@@ -1,8 +1,8 @@
-import { Contact } from "@/components/contact";
-import { ExperienceGate } from "@/components/experience-gate";
-import { Logo } from "@/components/logo";
-import { ProjectDescription } from "@/components/project-description";
-import { StructuredData } from "@/components/structured-data";
+import { Contact } from "@/components/contact/contact";
+import { ExperienceGate } from "@/components/experience-gate/experience-gate";
+import { Logo } from "@/components/logo/logo";
+import { ProjectDescription } from "@/components/project-description/project-description";
+import { StructuredData } from "@/components/structured-data/structured-data";
 import { siteConfig } from "@/lib/site-config";
 
 export default function Home() {

@@ -2,7 +2,7 @@
 
 import { useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
 import { siteConfig } from "@/lib/site-config";
-import { useBackgroundVideo } from "@/lib/hooks/use-background-video";
+import { useBackgroundVideo } from "./use-background-video";
 import { Video } from "./video";
 
 // Orchestrates the full-screen background video: owns the video ref and

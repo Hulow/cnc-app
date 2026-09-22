@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef, useState, type ReactNode } from "react";
-import { BackgroundVideo, type BackgroundVideoHandle } from "./background-video";
-import { WelcomeScreen } from "./welcome-screen";
+import { BackgroundVideo, type BackgroundVideoHandle } from "@/components/background-video/background-video";
+import { WelcomeScreen } from "@/components/welcome-screen/welcome-screen";
 
 // The entry point to the whole app: composes the background video with the
 // page's own content and gates both behind WelcomeScreen. The visitor sees
