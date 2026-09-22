@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/shared/site-config";
 
 // Vector logo served as a static asset (not inlined) so the browser can
 // cache it independently of the page HTML. `unoptimized` skips next/image's

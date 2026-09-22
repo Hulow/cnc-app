@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/shared/site-config";
 
 // Schema.org LocalBusiness structured data. Deliberately omits `address`:
 // the business has no public customer-facing location, so Berlin is

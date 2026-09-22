@@ -3,7 +3,7 @@ import { ExperienceGate } from "@/components/experience-gate/experience-gate";
 import { Logo } from "@/components/logo/logo";
 import { ProjectDescription } from "@/components/project-description/project-description";
 import { StructuredData } from "@/components/structured-data/structured-data";
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/shared/site-config";
 
 export default function Home() {
   return (

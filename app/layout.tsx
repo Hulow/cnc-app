@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/shared/site-config";
 // Grid + utilities only: no Reboot, so Bootstrap doesn't override the
 // existing global element styles/reset in globals.css.
 import "bootstrap/dist/css/bootstrap-grid.css";

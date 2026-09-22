@@ -2,7 +2,7 @@ import { createRef } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { BackgroundVideo, type BackgroundVideoHandle } from "./background-video";
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/shared/site-config";
 
 // These are composition-level tests: they check that BackgroundVideo wires
 // the video element, the autoplay hook, and its imperative `play()` handle

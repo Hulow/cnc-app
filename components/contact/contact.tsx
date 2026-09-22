@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/shared/site-config";
 
 // Server Component so the contact details (and mailto: link) are present
 // in the server-rendered HTML, not dependent on client-side JavaScript.
