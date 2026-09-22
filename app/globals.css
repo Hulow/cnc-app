@@ -80,6 +80,10 @@ a {
   text-decoration: none;
 }
 
+p {
+  text-align: justify;
+}
+
 h1 {
   font-size: var(--font-size-2xl);
   line-height: 1.1;
