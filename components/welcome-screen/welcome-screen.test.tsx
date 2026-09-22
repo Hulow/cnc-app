@@ -8,13 +8,14 @@ afterEach(() => {
 
 describe("Given a visitor is viewing the welcome screen", () => {
   describe("When it renders", () => {
-    it("Then both paragraphs of the disclosure copy are shown", () => {
+    it("Then all paragraphs of the disclosure copy are shown", () => {
       render(<WelcomeScreen hidden={false} onContinue={() => {}} />);
 
       expect(
-        screen.getByText(
-          /This website does not collect or track your personal data/,
-        ),
+        screen.getByText(/does not use analytics, advertising or tracking cookies/),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/If you use the contact form/),
       ).toBeInTheDocument();
       expect(
         screen.getByText(/The website is hosted by Vercel and uses Cloudinary/),
