@@ -26,5 +26,3 @@ export const siteConfig = {
     "individuelle CNC-Fertigung",
   ],
 } as const;
-
-export type SiteConfig = typeof siteConfig;

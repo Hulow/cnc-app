@@ -7,7 +7,7 @@ import { siteConfig } from "@/lib/site-config";
 // These are composition-level tests: they check that BackgroundVideo wires
 // the video element, the autoplay hook, and its imperative `play()` handle
 // together correctly. The autoplay retry logic itself is covered in
-// lib/hooks/use-autoplay-video.test.ts. BackgroundVideo no longer owns any
+// lib/hooks/use-background-video.test.ts. BackgroundVideo no longer owns any
 // overlay — that's WelcomeScreen/ExperienceGate's job now
 // (components/welcome-screen.test.tsx, components/experience-gate.test.tsx).
 

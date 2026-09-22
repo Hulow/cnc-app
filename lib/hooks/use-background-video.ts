@@ -1,6 +1,6 @@
 import { useEffect, type RefObject } from "react";
 
-interface UseAutoplayVideoOptions {
+interface UseBackgroundVideoOptions {
   // Set false (e.g. once the video has errored) to stop trying to sync
   // playback entirely.
   enabled: boolean;
@@ -10,9 +10,9 @@ interface UseAutoplayVideoOptions {
 // `autoPlay` attribute doesn't handle on its own (backgrounded tabs,
 // bfcache restores), and silently absorbs the expected Safari
 // autoplay-policy rejection.
-export function useAutoplayVideo(
+export function useBackgroundVideo(
   videoRef: RefObject<HTMLVideoElement | null>,
-  { enabled }: UseAutoplayVideoOptions,
+  { enabled }: UseBackgroundVideoOptions,
 ) {
   useEffect(() => {
     const video = videoRef.current;

@@ -139,9 +139,9 @@ h3 {
    whenever autoplay is blocked (e.g. Low Power Mode) — even without a
    `controls` attribute — and there's no standard way to opt out of it.
    This decorative background video should never show that affordance;
-   background-video.tsx already listens for the first tap anywhere on the
-   page and calls play() itself, so hiding the button doesn't lose the
-   "tap to start" recovery, just WebKit's visual for it. */
+   WelcomeScreen's mandatory "Continue" button already recovers playback
+   via BackgroundVideo's exposed play(), so hiding the button doesn't lose
+   the recovery path, just WebKit's visual for it. */
 .background-video::-webkit-media-controls,
 .background-video::-webkit-media-controls-start-playback-button {
   display: none !important;

@@ -2,7 +2,7 @@
 
 import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { siteConfig } from "@/lib/site-config";
-import { useAutoplayVideo } from "@/lib/hooks/use-autoplay-video";
+import { useBackgroundVideo } from "@/lib/hooks/use-background-video";
 import { Video } from "./video";
 
 // Orchestrates the full-screen background video: owns the video ref and
@@ -25,7 +25,7 @@ export function BackgroundVideo({ ref }: BackgroundVideoProps) {
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
 
-  useAutoplayVideo(videoRef, { enabled: !failed });
+  useBackgroundVideo(videoRef, { enabled: !failed });
 
   useImperativeHandle(
     ref,

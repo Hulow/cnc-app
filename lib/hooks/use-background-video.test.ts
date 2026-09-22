@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, renderHook, waitFor } from "@testing-library/react";
-import { useAutoplayVideo } from "./use-autoplay-video";
+import { useBackgroundVideo } from "./use-background-video";
 
-function renderAutoplayVideo(options: { enabled?: boolean } = {}) {
+function renderBackgroundVideo(options: { enabled?: boolean } = {}) {
   const video = document.createElement("video");
   const ref = { current: video };
 
-  const hook = renderHook(() => useAutoplayVideo(ref, { enabled: options.enabled ?? true }));
+  const hook = renderHook(() => useBackgroundVideo(ref, { enabled: options.enabled ?? true }));
 
   return { video, ...hook };
 }
@@ -22,22 +22,22 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe("useAutoplayVideo", () => {
+describe("useBackgroundVideo", () => {
   it("attempts to play the video on mount", async () => {
-    renderAutoplayVideo();
+    renderBackgroundVideo();
 
     await waitFor(() => expect(HTMLMediaElement.prototype.play).toHaveBeenCalled());
   });
 
   it("does nothing when disabled", async () => {
-    renderAutoplayVideo({ enabled: false });
+    renderBackgroundVideo({ enabled: false });
 
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
   });
 
   it("re-attempts playback on visibilitychange", async () => {
-    const { video } = renderAutoplayVideo();
+    const { video } = renderBackgroundVideo();
 
     await waitFor(() => expect(video.play).toHaveBeenCalledTimes(1));
 
@@ -49,7 +49,7 @@ describe("useAutoplayVideo", () => {
   });
 
   it("re-attempts playback on pageshow, including bfcache restores", async () => {
-    const { video } = renderAutoplayVideo();
+    const { video } = renderBackgroundVideo();
 
     await waitFor(() => expect(video.play).toHaveBeenCalledTimes(1));
 
@@ -67,7 +67,7 @@ describe("useAutoplayVideo", () => {
       Object.assign(new Error("not allowed"), { name: "NotAllowedError" }),
     );
 
-    renderAutoplayVideo();
+    renderBackgroundVideo();
 
     await waitFor(() => expect(HTMLMediaElement.prototype.play).toHaveBeenCalled());
     expect(console.error).not.toHaveBeenCalled();
@@ -77,7 +77,7 @@ describe("useAutoplayVideo", () => {
     const error = new Error("media error");
     vi.spyOn(HTMLMediaElement.prototype, "play").mockRejectedValue(error);
 
-    renderAutoplayVideo();
+    renderBackgroundVideo();
 
     await waitFor(() => {
       expect(console.error).toHaveBeenCalledWith(
@@ -91,7 +91,7 @@ describe("useAutoplayVideo", () => {
     const docRemoveSpy = vi.spyOn(document, "removeEventListener");
     const winRemoveSpy = vi.spyOn(window, "removeEventListener");
 
-    const { unmount } = renderAutoplayVideo();
+    const { unmount } = renderBackgroundVideo();
     unmount();
 
     expect(docRemoveSpy).toHaveBeenCalledWith("visibilitychange", expect.any(Function));
