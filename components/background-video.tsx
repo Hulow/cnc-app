@@ -1,6 +1,6 @@
 "use client";
 
-import { useImperativeHandle, useRef, useState, type Ref } from "react";
+import { useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
 import { siteConfig } from "@/lib/site-config";
 import { useBackgroundVideo } from "@/lib/hooks/use-background-video";
 import { Video } from "./video";
@@ -26,6 +26,23 @@ export function BackgroundVideo({ ref }: BackgroundVideoProps) {
   const [playing, setPlaying] = useState(false);
 
   useBackgroundVideo(videoRef, { enabled: !failed });
+
+  // The <video autoPlay> tag is in the server-rendered HTML, so the browser
+  // can start playing it before this component finishes hydrating and
+  // attaches the onPlaying listener below — most likely right after a fresh
+  // deploy, when the JS bundle is a slow cold fetch but the video (served
+  // from an untouched CDN) isn't. A "playing" event that fires in that gap
+  // is missed permanently, leaving `playing` stuck at false and the video
+  // stuck at opacity: 0 (see .background-video[data-playing="false"] in
+  // globals.css) even though it's actually playing. Catch that on mount by
+  // checking the video's actual state instead of only listening for future
+  // events.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video && !video.paused && !video.ended && video.readyState > 2) {
+      setPlaying(true);
+    }
+  }, []);
 
   useImperativeHandle(
     ref,

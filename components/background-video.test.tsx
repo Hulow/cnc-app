@@ -63,6 +63,21 @@ describe("Given the background video is rendered", () => {
       fireEvent.pause(video);
       expect(video).toHaveAttribute("data-playing", "false");
     });
+
+    it("Then it treats a video that started playing before hydration as playing", () => {
+      // Simulates the native autoPlay attribute winning the race against a
+      // slow (e.g. post-deploy, cold-cache) hydration: the browser already
+      // started playback, and fired "playing" natively, before this
+      // component's onPlaying listener existed to catch it.
+      vi.spyOn(HTMLMediaElement.prototype, "paused", "get").mockReturnValue(false);
+      vi.spyOn(HTMLMediaElement.prototype, "ended", "get").mockReturnValue(false);
+      vi.spyOn(HTMLMediaElement.prototype, "readyState", "get").mockReturnValue(4);
+
+      const { container } = render(<BackgroundVideo />);
+      const video = getVideo(container);
+
+      expect(video).toHaveAttribute("data-playing", "true");
+    });
   });
 
   describe("When the video errors", () => {
