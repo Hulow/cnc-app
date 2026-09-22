@@ -14,15 +14,10 @@ export function WelcomeScreen({ hidden, onContinue }: WelcomeScreenProps) {
       <div className="welcome-screen-content">
         <div className="welcome-screen-text">
           <p>
-            This website does not use analytics, advertising, or tracking
-            cookies, and it does not require user accounts.
+          This website does not collect or track your personal data. It does not use analytics, advertising or tracking cookies, and it does not require user accounts.
           </p>
           <p>
-            The website is hosted by Vercel and uses Cloudinary to deliver
-            video content. These providers may process technical
-            information, such as IP addresses and request data, as part of
-            delivering the website and its content.
-          </p>
+          The website is hosted by Vercel and uses Cloudinary to deliver video content. These providers may process technical information, such as your IP address and information about requests made to the website, to deliver the website and its content.          </p>
         </div>
         <button type="button" onClick={onContinue}>
           Continue
