@@ -14,13 +14,12 @@ function widthInRule(selectorPattern: RegExp) {
   return match?.[1]?.trim();
 }
 
+// Only xs (default) and sm (576px) set a width; the remaining Bootstrap
+// breakpoints (md/lg/xl/xxl) were dropped from globals.css because they
+// repeated the same 70% and did nothing.
 const breakpoints = [
   { name: "xs", minWidth: null },
   { name: "sm", minWidth: 576 },
-  { name: "md", minWidth: 768 },
-  { name: "lg", minWidth: 992 },
-  { name: "xl", minWidth: 1200 },
-  { name: "xxl", minWidth: 1400 },
 ];
 
 describe(".content-layer responsive width", () => {

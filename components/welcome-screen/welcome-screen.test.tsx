@@ -13,7 +13,7 @@ describe("Given a visitor is viewing the welcome screen", () => {
 
       expect(
         screen.getByText(
-          /This website does not use analytics, advertising, or tracking cookies/,
+          /This website does not collect or track your personal data/,
         ),
       ).toBeInTheDocument();
       expect(
