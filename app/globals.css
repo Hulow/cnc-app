@@ -163,6 +163,7 @@ h3 {
 .content-layer {
   position: relative;
   z-index: 1;
+  background: rgba(10, 10, 10, 0.6);
 }
 
 /* The entry point to the whole app: a full-screen, dark-transparent gate
@@ -250,7 +251,6 @@ h3 {
   max-width: 75rem;
   margin-inline: auto;
   padding: var(--space-lg) var(--space-md);
-  background: transparent;
   color: #ffffff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 1px 12px rgba(0, 0, 0, 0.5);
 }
