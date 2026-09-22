@@ -1,0 +1,153 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
+import { ALLOWED_ATTACHMENT_EXTENSIONS, MAX_ATTACHMENT_BYTES } from "@/shared/contact-attachment";
+
+interface ContactFormProps {
+  formId: string;
+  onClose: () => void;
+}
+
+type FieldName = "firstName" | "lastName" | "email" | "message" | "attachment";
+type Status = "idle" | "submitting" | "success" | "error";
+
+interface FieldError {
+  field: string;
+  code: string;
+}
+
+// Human-readable copy for the domain's field/code error pairs. Codes
+// that the domain can no longer produce (e.g. attachment rejections)
+// are intentionally left unmapped and fall back to DEFAULT_ERROR_MESSAGE.
+const FIELD_ERROR_MESSAGES: Partial<Record<FieldName, Partial<Record<string, string>>>> = {
+  firstName: { required: "Enter your first name." },
+  lastName: { required: "Enter your last name." },
+  email: {
+    required: "Enter your email address.",
+    invalid_format: "Enter a valid email address.",
+  },
+};
+
+const DEFAULT_ERROR_MESSAGE = "Please check the form and try again.";
+const ACCEPT_ATTRIBUTE = ALLOWED_ATTACHMENT_EXTENSIONS.join(",");
+const MAX_ATTACHMENT_MB = Math.round(MAX_ATTACHMENT_BYTES / (1024 * 1024));
+
+function fieldErrorMessages(errors: FieldError[]): Partial<Record<FieldName, string>> {
+  const messages: Partial<Record<FieldName, string>> = {};
+  for (const { field, code } of errors) {
+    messages[field as FieldName] = FIELD_ERROR_MESSAGES[field as FieldName]?.[code] ?? DEFAULT_ERROR_MESSAGE;
+  }
+  return messages;
+}
+
+export function ContactForm({ formId, onClose }: ContactFormProps) {
+  const [status, setStatus] = useState<Status>("idle");
+  const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldName, string>>>({});
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (status === "submitting") return;
+
+    const form = event.currentTarget;
+    setStatus("submitting");
+    setFormErrorMessage(null);
+    setFieldErrors({});
+
+    try {
+      const response = await fetch("/api/contact", { method: "POST", body: new FormData(form) });
+      const body: { ok: boolean; errors?: FieldError[]; error?: string } = await response.json();
+
+      if (body.ok) {
+        setStatus("success");
+        return;
+      }
+
+      if (body.errors) {
+        setFieldErrors(fieldErrorMessages(body.errors));
+      } else {
+        setFormErrorMessage(body.error ?? DEFAULT_ERROR_MESSAGE);
+      }
+      setStatus("error");
+    } catch {
+      setFormErrorMessage(DEFAULT_ERROR_MESSAGE);
+      setStatus("error");
+    }
+  }
+
+  if (status === "success") {
+    return (
+      <div id={formId} className="contact-form" role="status">
+        <p>Thanks for reaching out — your message has been sent.</p>
+        <button type="button" onClick={onClose}>
+          Close
+        </button>
+      </div>
+    );
+  }
+
+  const isSubmitting = status === "submitting";
+
+  return (
+    <form id={formId} className="contact-form" onSubmit={handleSubmit} noValidate>
+      <div className="contact-form-field">
+        <label htmlFor="contact-first-name">First name</label>
+        <input id="contact-first-name" name="firstName" type="text" required disabled={isSubmitting} />
+        {fieldErrors.firstName && <p role="alert">{fieldErrors.firstName}</p>}
+      </div>
+
+      <div className="contact-form-field">
+        <label htmlFor="contact-last-name">Last name</label>
+        <input id="contact-last-name" name="lastName" type="text" required disabled={isSubmitting} />
+        {fieldErrors.lastName && <p role="alert">{fieldErrors.lastName}</p>}
+      </div>
+
+      <div className="contact-form-field">
+        <label htmlFor="contact-email">Email</label>
+        <input id="contact-email" name="email" type="email" required disabled={isSubmitting} />
+        {fieldErrors.email && <p role="alert">{fieldErrors.email}</p>}
+      </div>
+
+      <div className="contact-form-field">
+        <label htmlFor="contact-message">Message</label>
+        <textarea id="contact-message" name="message" rows={5} disabled={isSubmitting} />
+        {fieldErrors.message && <p role="alert">{fieldErrors.message}</p>}
+      </div>
+
+      <div className="contact-form-field">
+        <label htmlFor="contact-attachment">Attachment (optional)</label>
+        <input
+          id="contact-attachment"
+          name="attachment"
+          type="file"
+          accept={ACCEPT_ATTRIBUTE}
+          disabled={isSubmitting}
+        />
+        <p className="contact-form-hint">Max {MAX_ATTACHMENT_MB} MB.</p>
+      </div>
+
+      {/* Honeypot: invisible to real visitors (see .contact-form-honeypot),
+          skipped from tab order, left empty so genuine submissions never
+          trip the server's spam check in app/api/contact/route.ts. */}
+      <div className="contact-form-honeypot" aria-hidden="true">
+        <label htmlFor="contact-company">Company</label>
+        <input id="contact-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
+      {formErrorMessage && (
+        <p className="contact-form-error" role="alert">
+          {formErrorMessage}
+        </p>
+      )}
+
+      <div className="contact-form-actions">
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Sending…" : "Send message"}
+        </button>
+        <button type="button" onClick={onClose} disabled={isSubmitting}>
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
+}
