@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
+// Grid + utilities only: no Reboot, so Bootstrap doesn't override the
+// existing global element styles/reset in globals.css.
+import "bootstrap/dist/css/bootstrap-grid.css";
+import "bootstrap/dist/css/bootstrap-utilities.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
