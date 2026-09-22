@@ -309,7 +309,7 @@ h3 {
   flex-direction: column;
   justify-content: center;
   gap: var(--space-md);
-  max-width: 42rem;
+  width: 100%;
 }
 
 .page-content address {
