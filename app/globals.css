@@ -308,7 +308,14 @@ h3 {
   position: fixed;
   top: var(--space-md);
   right: var(--space-md);
-  z-index: 1;
+  /* Must outrank .content-layer (z-index: 1): on narrow viewports
+     .content-layer is 90% wide and its box genuinely reaches the toggle's
+     corner position, so an equal z-index left .content-layer (later in
+     the DOM) painted on top and swallowed clicks meant for the toggle.
+     Tied with .welcome-screen (also 2) is fine — it always renders after
+     header in the DOM, so it still wins that tie and stays on top while
+     the gate hasn't been dismissed yet. */
+  z-index: 2;
 }
 
 .site-nav-toggle {
