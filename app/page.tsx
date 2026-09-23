@@ -10,15 +10,18 @@ export default function Home() {
     <>
       <StructuredData />
       <ExperienceGate>
-        <div className="content-layer page-content">
-          <PageView logo={<Logo />} service={<ProjectDescription />} />
-          <footer>
-            <p>
-              &copy; {new Date().getFullYear()} -  Victor Le Fur -
-              Design & fabrication in {siteConfig.serviceArea}
-            </p>
-          </footer>
-        </div>
+        <PageView
+          logo={<Logo />}
+          service={<ProjectDescription />}
+          footer={
+            <footer>
+              <p>
+                &copy; {new Date().getFullYear()} -  Victor Le Fur -
+                Design & fabrication in {siteConfig.serviceArea}
+              </p>
+            </footer>
+          }
+        />
       </ExperienceGate>
     </>
   );

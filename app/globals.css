@@ -299,23 +299,16 @@ h3 {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 1px 12px rgba(0, 0, 0, 0.5);
 }
 
-.page-content header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* No forced min-height here: the header only hosts the nav toggle
-     (pinned via .site-nav's own absolute positioning), so it just needs
-     enough padding to give that button room, not a full viewport. */
-  padding-block: var(--space-xl);
-}
-
-/* Pinned to the header's own top-right corner (absolute, out of flow) so
-   the dropdown menu button doesn't disturb the logo's centering above. */
+/* Fixed to the viewport, not the <header> landmark it sits in: .site-nav
+   is the only thing that needs a box here, and position:fixed takes it
+   out of flow entirely — <header> is left with no content-driven height,
+   so it reserves no layout space and .content-layer starts flush at the
+   top of the screen. */
 .site-nav {
-  position: absolute;
+  position: fixed;
   top: var(--space-md);
   right: var(--space-md);
+  z-index: 1;
 }
 
 .site-nav-toggle {

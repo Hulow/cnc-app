@@ -16,11 +16,17 @@ interface PageViewProps {
   // onClose closure (a function, which can't cross that boundary) lives.
   logo: ReactNode;
   service: ReactNode;
+  footer: ReactNode;
 }
 
 // Rendering only: which view is current, what navigate/goHome do, and the
 // default view all live in usePageView.
-export function PageView({ logo, service }: PageViewProps) {
+//
+// <header> carries no layout of its own — .site-nav (in globals.css)
+// pins the toggle to the screen's top-right corner via fixed positioning,
+// so .content-layer below starts flush at the top of the screen instead
+// of leaving a gap for an (unstyled) header row above it.
+export function PageView({ logo, service, footer }: PageViewProps) {
   const { view, navigate, goHome } = usePageView();
 
   return (
@@ -28,12 +34,15 @@ export function PageView({ logo, service }: PageViewProps) {
       <header>
         <Navbar onNavigate={navigate} />
       </header>
-      <main>
-        <h1 className="sr-only">{siteConfig.name}</h1>
-        {view === "logo" && logo}
-        {view === "service" && service}
-        {view === "contact" && <ContactForm formId={CONTACT_FORM_ID} onClose={goHome} />}
-      </main>
+      <div className="content-layer page-content">
+        <main>
+          <h1 className="sr-only">{siteConfig.name}</h1>
+          {view === "logo" && logo}
+          {view === "service" && service}
+          {view === "contact" && <ContactForm formId={CONTACT_FORM_ID} onClose={goHome} />}
+        </main>
+        {footer}
+      </div>
     </>
   );
 }
