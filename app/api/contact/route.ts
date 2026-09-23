@@ -31,6 +31,7 @@ async function readMessageInput(formData: FormData): Promise<MessageInput> {
     firstName: readString(formData, "firstName"),
     lastName: readString(formData, "lastName"),
     email: readString(formData, "email"),
+    phone: readString(formData, "phone"),
     message: readString(formData, "message"),
     attachment: await readAttachment(formData),
   };

@@ -24,6 +24,7 @@ function validMessage(): Message {
     firstName: "Ada",
     lastName: "Lovelace",
     email: "ada@example.com",
+    phone: "030 1234567",
     message: "I'd like a quote for a milled aluminum bracket.",
   });
 

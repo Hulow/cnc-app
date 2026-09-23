@@ -18,6 +18,7 @@ function validFormData(overrides: Record<string, string> = {}): FormData {
   formData.set("firstName", overrides.firstName ?? "Ada");
   formData.set("lastName", overrides.lastName ?? "Lovelace");
   formData.set("email", overrides.email ?? "ada@example.com");
+  formData.set("phone", overrides.phone ?? "030 1234567");
   formData.set("message", overrides.message ?? "I'd like a quote for a milled aluminum bracket.");
   return formData;
 }
@@ -55,6 +56,33 @@ describe("Given an invalid email address", () => {
       expect(response.status).toBe(400);
       expect(body).toEqual({ ok: false, errors: [{ field: "email", code: "invalid_format" }] });
       expect(sendMock).not.toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given an invalid phone number", () => {
+  describe("When it is posted", () => {
+    it("Then it is rejected with a 400 and the mailer is never invoked", async () => {
+      const response = await POST(postRequest(validFormData({ phone: "call me" })));
+      const body = await response.json();
+
+      expect(response.status).toBe(400);
+      expect(body).toEqual({ ok: false, errors: [{ field: "phone", code: "invalid_format" }] });
+      expect(sendMock).not.toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given no phone number", () => {
+  describe("When it is posted", () => {
+    it("Then it succeeds", async () => {
+      sendMock.mockResolvedValue(undefined);
+
+      const response = await POST(postRequest(validFormData({ phone: "" })));
+      const body = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(body).toEqual({ ok: true });
     });
   });
 });

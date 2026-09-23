@@ -8,7 +8,7 @@ interface ContactFormProps {
   onClose: () => void;
 }
 
-type FieldName = "firstName" | "lastName" | "email" | "message" | "attachment";
+type FieldName = "firstName" | "lastName" | "email" | "phone" | "message" | "attachment";
 type Status = "idle" | "submitting" | "success" | "error";
 
 interface FieldError {
@@ -25,6 +25,9 @@ const FIELD_ERROR_MESSAGES: Partial<Record<FieldName, Partial<Record<string, str
   email: {
     required: "Enter your email address.",
     invalid_format: "Enter a valid email address.",
+  },
+  phone: {
+    invalid_format: "Enter a valid phone number.",
   },
 };
 
@@ -146,6 +149,18 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           disabled={isSubmitting}
         />
         {fieldErrors.email && <p role="alert">{fieldErrors.email}</p>}
+      </div>
+
+      <div className="contact-form-field">
+        <label className="sr-only" htmlFor="contact-phone">Phone</label>
+        <input
+          id="contact-phone"
+          name="phone"
+          type="tel"
+          placeholder="Phone (optional)"
+          disabled={isSubmitting}
+        />
+        {fieldErrors.phone && <p role="alert">{fieldErrors.phone}</p>}
       </div>
 
       <div className="contact-form-field">

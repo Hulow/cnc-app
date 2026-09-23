@@ -6,6 +6,7 @@ function validInput(overrides: Partial<MessageInput> = {}): MessageInput {
     firstName: "Ada",
     lastName: "Lovelace",
     email: "ada@example.com",
+    phone: "030 1234567",
     message: "I'd like a quote for a milled aluminum bracket.",
     ...overrides,
   };
@@ -39,8 +40,21 @@ describe("Given valid contact information", () => {
       expect(result.value.firstName).toBe("Ada");
       expect(result.value.lastName).toBe("Lovelace");
       expect(result.value.email).toBe("ada@example.com");
+      expect(result.value.phone).toBe("030 1234567");
       expect(result.value.message).toBe("Hello.");
       expect(result.value.attachment).toBeUndefined();
+    });
+  });
+});
+
+describe("Given no phone number", () => {
+  describe("When a contact message is created", () => {
+    it("Then it is accepted with an empty phone number", () => {
+      const result = Message.create(validInput({ phone: "" }));
+
+      expect(result.ok).toBe(true);
+      if (!result.ok) return;
+      expect(result.value.phone).toBe("");
     });
   });
 });
@@ -61,13 +75,14 @@ describe("Given valid contact information with a supported attachment", () => {
 describe("Given multiple invalid fields", () => {
   describe("When a contact message is created", () => {
     it("Then every violated field is reported", () => {
-      const result = Message.create(validInput({ firstName: "", email: "bad" }));
+      const result = Message.create(validInput({ firstName: "", email: "bad", phone: "call me" }));
 
       expect(result).toEqual({
         ok: false,
         errors: [
           { field: "firstName", code: "required" },
           { field: "email", code: "invalid_format" },
+          { field: "phone", code: "invalid_format" },
         ],
       });
     });

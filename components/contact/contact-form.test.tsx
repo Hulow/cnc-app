@@ -81,6 +81,25 @@ describe("Given the API rejects the submission with field errors", () => {
   });
 });
 
+describe("Given the API rejects the submission with a phone field error", () => {
+  describe("When the visitor submits", () => {
+    it("Then the phone field's validation message is shown", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue(
+          jsonResponse({ ok: false, errors: [{ field: "phone", code: "invalid_format" }] }, false),
+        ),
+      );
+      render(<ContactForm formId="contact-form" onClose={() => {}} />);
+
+      fillRequiredFields();
+      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+
+      expect(await screen.findByText("Enter a valid phone number.")).toBeInTheDocument();
+    });
+  });
+});
+
 describe("Given the API reports a delivery failure", () => {
   describe("When the visitor submits", () => {
     it("Then the server's generic error message is shown", async () => {

@@ -2,6 +2,7 @@ export type MessageFieldError =
   | { field: "firstName"; code: "required" | "too_long" }
   | { field: "lastName"; code: "required" | "too_long" }
   | { field: "email"; code: "required" | "too_long" | "invalid_format" }
+  | { field: "phone"; code: "too_long" | "invalid_format" }
   | { field: "message"; code: "required" | "too_long" }
   | { field: "attachment"; code: "unsupported_type" | "too_large" };
 

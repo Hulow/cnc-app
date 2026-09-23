@@ -19,6 +19,7 @@ function validMessage(): Message {
     firstName: "Ada",
     lastName: "Lovelace",
     email: "ada@example.com",
+    phone: "030 1234567",
     message: "I'd like a quote for a milled aluminum bracket.",
   });
 
@@ -79,6 +80,7 @@ describe("Given a message with no attachment", () => {
           from: "no-reply@example.com",
           replyTo: "ada@example.com",
           subject: expect.stringContaining("Ada Lovelace"),
+          text: expect.stringContaining("Phone: 030 1234567"),
           attachments: undefined,
         }),
       );
@@ -96,6 +98,7 @@ describe("Given a message with an attachment", () => {
         firstName: "Ada",
         lastName: "Lovelace",
         email: "ada@example.com",
+        phone: "030 1234567",
         message: "See attached.",
         attachment: {
           filename: "part.step",
