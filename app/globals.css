@@ -304,9 +304,9 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* No forced min-height here: the header should hug the logo plus a
-     comfortable amount of breathing room, not reserve a full viewport
-     regardless of content, so main starts right after it. */
+  /* No forced min-height here: the header only hosts the nav toggle
+     (pinned via .site-nav's own absolute positioning), so it just needs
+     enough padding to give that button room, not a full viewport. */
   padding-block: var(--space-xl);
 }
 

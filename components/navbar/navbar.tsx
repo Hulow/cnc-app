@@ -6,17 +6,24 @@ const MENU_ID = "site-nav-menu";
 const EXIT_ANIMATION_NAME = "site-nav-item-out";
 
 // Plain <a> anchors, not next/link: these are same-page hash links, not
-// route navigation (matches the mailto: link pattern in Contact).
+// route navigation (matches the mailto: link pattern in Contact). `view`
+// is an opaque string PageView maps to a section — undefined for the
+// links that don't have a section yet (Projects, CNC), which keep their
+// default hash-navigation behavior instead of calling onNavigate.
 const NAV_LINKS = [
-  { href: "#service", label: "Service" },
-  { href: "#contact", label: "Contact" },
-  { href: "#projects", label: "Projects" },
-  { href: "#cnc", label: "CNC" },
+  { href: "#service", label: "Service", view: "service" },
+  { href: "#contact", label: "Contact", view: "contact" },
+  { href: "#projects", label: "Projects", view: undefined },
+  { href: "#cnc", label: "CNC", view: undefined },
 ] as const;
+
+interface NavbarProps {
+  onNavigate?: (view: string) => void;
+}
 
 // Rendering only: open/closed state, the stagger, and the mount-until-
 // exit-animation-finishes lifecycle all live in useNavBar.
-export function Navbar() {
+export function Navbar({ onNavigate }: NavbarProps) {
   const { isOpen, isRendered, visibleCount, toggle, close, handleAnimationEnd } = useNavBar({
     itemCount: NAV_LINKS.length,
     exitAnimationName: EXIT_ANIMATION_NAME,
@@ -44,9 +51,18 @@ export function Navbar() {
           onAnimationEnd={(event) => handleAnimationEnd(event.animationName)}
         >
           {NAV_LINKS.slice(0, isOpen ? visibleCount : NAV_LINKS.length).map(
-            ({ href, label }) => (
+            ({ href, label, view }) => (
               <li key={href}>
-                <a href={href} onClick={close}>
+                <a
+                  href={href}
+                  onClick={(event) => {
+                    if (view) {
+                      event.preventDefault();
+                      onNavigate?.(view);
+                    }
+                    close();
+                  }}
+                >
                   {label}
                 </a>
               </li>
