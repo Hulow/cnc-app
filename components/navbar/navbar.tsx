@@ -10,6 +10,7 @@ const EXIT_ANIMATION_NAME = "site-nav-item-out";
 // is an opaque string PageView maps to a section — Projects and CNC don't
 // have their own content yet, so both share the "placeholder" view.
 const NAV_LINKS = [
+  { href: "#home", label: "Home", view: "logo" },
   { href: "#service", label: "Service", view: "service" },
   { href: "#contact", label: "Contact", view: "contact" },
   { href: "#projects", label: "Projects", view: "placeholder" },

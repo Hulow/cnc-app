@@ -2,9 +2,8 @@ import { useState } from "react";
 
 export type PageViewName = "logo" | "service" | "contact" | "placeholder";
 
-// Targets a nav item is allowed to switch to. "logo" is intentionally
-// excluded — there's no nav item that links back to it, only goHome.
-const NAVIGABLE_VIEWS: readonly PageViewName[] = ["service", "contact", "placeholder"];
+// Targets a nav item is allowed to switch to.
+const NAVIGABLE_VIEWS: readonly PageViewName[] = ["logo", "service", "contact", "placeholder"];
 
 const DEFAULT_VIEW: PageViewName = "logo";
 

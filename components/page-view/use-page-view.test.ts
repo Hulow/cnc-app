@@ -77,6 +77,21 @@ describe("Given the service view is showing", () => {
       expect(result.current.view).toBe("contact");
     });
   });
+
+  describe('When navigate is called with "logo"', () => {
+    it("Then the logo view is shown again", () => {
+      const { result } = renderHook(() => usePageView());
+
+      act(() => {
+        result.current.navigate("service");
+      });
+      act(() => {
+        result.current.navigate("logo");
+      });
+
+      expect(result.current.view).toBe("logo");
+    });
+  });
 });
 
 describe("Given the contact view is showing", () => {
