@@ -1,6 +1,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Matches the stroke/fill color baked into public/logo.svg. */
+  --logo-color: #51f501;
 
   /* Fluid spacing scale: clamp(min, preferred, max) between a 360px and
      a 1920px viewport, so layout adapts without media-query breakpoints. */
@@ -335,7 +337,7 @@ h3 {
   top: 50%;
   width: 100%;
   height: 3px;
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--logo-color);
   transition: transform 200ms ease;
 }
 
@@ -403,11 +405,10 @@ h3 {
 }
 
 
-/* Specificity must beat .page-content a (same 0,1,1 weight, declared
-   later in this file) so the underline actually stays off. */
-.page-content .site-nav-menu a {
+.site-nav-menu a {
   display: block;
   padding: var(--space-xs) 0;
+  color: var(--logo-color);
   text-decoration: none;
   text-shadow: none;
   transform-origin: left center;
