@@ -300,6 +300,7 @@ h3 {
 }
 
 .page-content header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -307,6 +308,61 @@ h3 {
      comfortable amount of breathing room, not reserve a full viewport
      regardless of content, so main starts right after it. */
   padding-block: var(--space-xl);
+}
+
+/* Pinned to the header's own top-right corner (absolute, out of flow) so
+   the dropdown menu button doesn't disturb the logo's centering above. */
+.site-nav {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+}
+
+.site-nav-toggle {
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.site-nav-toggle:hover,
+.site-nav-toggle:focus-visible {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgb(231, 39, 58);
+  box-shadow: 0 0 0 1px rgb(231, 39, 58);
+  color: rgb(231, 39, 58);
+  font-weight: bold;
+}
+
+.site-nav-menu {
+  position: absolute;
+  top: calc(100% + var(--space-xs));
+  right: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 10rem;
+  padding: var(--space-sm);
+  list-style: none;
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 0.375rem;
+}
+
+.site-nav-menu a {
+  display: block;
+  padding: var(--space-xs) 0;
+  text-decoration: none;
+}
+
+.site-nav-menu a:hover,
+.site-nav-menu a:focus-visible {
+  color: rgb(231, 39, 58);
 }
 
 .page-content main {
