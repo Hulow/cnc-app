@@ -296,7 +296,9 @@ h3 {
   min-height: var(--viewport-height);
   max-width: 75rem;
   margin-inline: auto;
-  padding: var(--space-lg) var(--space-md);
+  /* Top matches the sides (--space-sm); bottom keeps the larger
+     --space-lg gap for separation from the footer below. */
+  padding: var(--space-sm) var(--space-sm) var(--space-lg);
   color: #ffffff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 1px 12px rgba(0, 0, 0, 0.5);
 }
@@ -471,11 +473,17 @@ h3 {
   font-weight: bold;
 }
 
+/* Fills .content-layer's box (flex: 1 grows into main's available
+   height, width: 100% takes its full width) instead of floating as a
+   separate ~30rem card. Its own darker background sits inset from
+   .content-layer's edges by .page-content's existing padding, rather
+   than butting flush against it. */
 .contact-form {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  width: 100%;
   gap: var(--space-sm);
-  max-width: 30rem;
   padding: var(--space-md);
   background: rgba(0, 0, 0, 0.6);
   border-radius: 0.375rem;
