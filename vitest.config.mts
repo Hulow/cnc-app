@@ -9,5 +9,8 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],
+    // Reuse one jsdom per worker thread instead of recreating it per test
+    // file — files still run isolated from each other, just cheaper setup.
+    pool: "vmThreads",
   },
 });
