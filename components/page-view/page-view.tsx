@@ -42,7 +42,7 @@ export function PageView({ logo, service, footer }: PageViewProps) {
           {view === "contact" && <ContactForm formId={CONTACT_FORM_ID} onClose={goHome} />}
           {view === "placeholder" && <p>No content yet.</p>}
         </main>
-        {footer}
+        {view === "logo" && footer}
       </div>
     </>
   );
