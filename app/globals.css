@@ -368,6 +368,41 @@ h3 {
   list-style: none;
 }
 
+@keyframes site-nav-item-in {
+  from {
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes site-nav-item-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+}
+
+/* Closed by default: an exit animation (all items together, no delay). */
+.site-nav-menu li {
+  animation: site-nav-item-out 200ms ease forwards;
+}
+
+/* Plays once per item as it's mounted; the one-after-another stagger
+   itself comes from Navbar staggering when each <li> is added to the
+   DOM, not from an animation-delay here. */
+.site-nav-menu[data-open="true"] li {
+  animation: site-nav-item-in 200ms ease forwards;
+}
+
+
 /* Specificity must beat .page-content a (same 0,1,1 weight, declared
    later in this file) so the underline actually stays off. */
 .page-content .site-nav-menu a {
