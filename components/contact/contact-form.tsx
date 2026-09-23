@@ -44,11 +44,15 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldName, string>>>({});
-  const [hasAttachment, setHasAttachment] = useState(false);
+  // The real filename, not just a boolean: the native input is fully
+  // hidden (so the button can read "Upload" instead of the browser's
+  // fixed label), so its own filename display is hidden too — this is
+  // rendered in its place ourselves.
+  const [attachmentName, setAttachmentName] = useState<string | null>(null);
   const attachmentInputRef = useRef<HTMLInputElement>(null);
 
   function handleAttachmentChange(event: ChangeEvent<HTMLInputElement>) {
-    setHasAttachment((event.target.files?.length ?? 0) > 0);
+    setAttachmentName(event.target.files?.[0]?.name ?? null);
   }
 
   // File inputs are uncontrolled — clearing one means resetting the DOM
@@ -57,7 +61,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
     if (attachmentInputRef.current) {
       attachmentInputRef.current.value = "";
     }
-    setHasAttachment(false);
+    setAttachmentName(null);
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -160,14 +164,18 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
         <label className="sr-only" htmlFor="contact-attachment">Attachment (optional)</label>
         <div className="contact-form-attachment-row">
           <div className="contact-form-file">
-            {/* Placeholder text overlaid on the (still-clickable) input
-                when empty — file inputs have no real placeholder support.
-                Same input node throughout: only its opacity toggles, so
-                the selected file survives the hasAttachment switch. */}
-            {!hasAttachment && (
-              <span className="contact-form-file-placeholder" aria-hidden="true">
-                Attachment (optional)
-              </span>
+            {/* Custom "Upload" trigger + filename/placeholder text — the
+                real input has no native placeholder and its button label
+                can't be renamed, so it's fully hidden (opacity: 0,
+                stacked on top so clicks still reach it natively) and
+                these decorative elements stand in for it visually. */}
+            <span className="contact-form-file-button" aria-hidden="true">
+              Upload
+            </span>
+            {attachmentName ? (
+              <span className="contact-form-file-name">{attachmentName}</span>
+            ) : (
+              <span className="contact-form-file-placeholder">Attachment (optional)</span>
             )}
             <input
               ref={attachmentInputRef}
@@ -179,7 +187,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
               onChange={handleAttachmentChange}
             />
           </div>
-          {hasAttachment && (
+          {attachmentName && (
             <button
               type="button"
               className="contact-form-attachment-remove"

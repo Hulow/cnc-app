@@ -547,34 +547,63 @@ h3 {
   grid-template-columns: 1fr auto;
 }
 
+/* Fully custom widget: the native button's label can't be renamed
+   ("Choose file" is fixed by the browser/OS/locale), so the real input
+   is hidden entirely and this wrapper supplies the visible box (border,
+   background, padding) that the input itself used to provide. */
 .contact-form-file {
   position: relative;
-  min-width: 0;
-}
-
-/* The input stays in normal flow (so .contact-form-file sizes around it
-   and the grid's height-matching keeps working) but visually disappears
-   while empty; the placeholder span sits over it in the exact same box.
-   pointer-events stays default on the span's ancestor box, but the span
-   itself is pointer-events: none so clicks fall through to the (still
-   interactive, just invisible) input beneath — native click-to-open,
-   no JS-triggered .click() needed. */
-.contact-form-file:has(.contact-form-file-placeholder) input {
-  opacity: 0;
-}
-
-.contact-form-file-placeholder {
-  position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
   padding: var(--space-xs);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 0.375rem;
   background: rgba(255, 255, 255, 0.05);
+}
+
+/* Invisible but on top and interactive, so clicks land on the real
+   input natively (genuine file-picker behavior, no JS .click() needed);
+   the button/name/placeholder beneath are purely decorative. */
+.contact-form-file input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.contact-form-file-button {
+  flex-shrink: 0;
+  padding: 0.125rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 0.25rem;
   font-size: var(--font-size-sm);
-  opacity: 0.6;
   pointer-events: none;
+}
+
+/* Sits right after .contact-form-file-button in normal flow — no
+   positioning trickery needed now that the button's width is ours to
+   know, unlike the native button it replaces. */
+.contact-form-file-name,
+.contact-form-file-placeholder {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--font-size-sm);
+  pointer-events: none;
+}
+
+.contact-form-file-placeholder {
+  opacity: 0.6;
+}
+
+.contact-form-file:has(input:disabled) {
+  opacity: 0.6;
 }
 
 /* aspect-ratio (not a fixed width) keeps it square while its height
