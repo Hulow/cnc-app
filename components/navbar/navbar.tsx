@@ -23,11 +23,14 @@ export function Navbar() {
       <button
         type="button"
         className="site-nav-toggle"
+        data-open={isOpen}
         aria-expanded={isOpen}
         aria-controls={MENU_ID}
+        aria-label={isOpen ? "Close menu" : "Open menu"}
         onClick={() => setIsOpen((open) => !open)}
       >
-        {isOpen ? "Close menu" : "Menu"}
+        <span className="site-nav-toggle-bar" />
+        <span className="site-nav-toggle-bar" />
       </button>
       {isOpen && (
         <ul id={MENU_ID} className="site-nav-menu">
