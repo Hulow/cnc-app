@@ -164,3 +164,33 @@ describe("Given the visitor cancels", () => {
     });
   });
 });
+
+describe("Given no attachment has been selected", () => {
+  describe("When the form is rendered", () => {
+    it("Then no remove-attachment control is shown", () => {
+      vi.stubGlobal("fetch", vi.fn());
+      render(<ContactForm formId="contact-form" onClose={() => {}} />);
+
+      expect(screen.queryByRole("button", { name: "Remove attachment" })).not.toBeInTheDocument();
+    });
+  });
+});
+
+describe("Given the visitor has selected an attachment", () => {
+  describe("When they click Remove attachment", () => {
+    it("Then the file is cleared and the control disappears", () => {
+      vi.stubGlobal("fetch", vi.fn());
+      render(<ContactForm formId="contact-form" onClose={() => {}} />);
+
+      const fileInput = screen.getByLabelText("Attachment (optional)") as HTMLInputElement;
+      const file = new File(["content"], "bracket.pdf", { type: "application/pdf" });
+      fireEvent.change(fileInput, { target: { files: [file] } });
+
+      expect(screen.getByRole("button", { name: "Remove attachment" })).toBeInTheDocument();
+
+      fireEvent.click(screen.getByRole("button", { name: "Remove attachment" }));
+
+      expect(screen.queryByRole("button", { name: "Remove attachment" })).not.toBeInTheDocument();
+    });
+  });
+});

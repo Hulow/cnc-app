@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { ALLOWED_ATTACHMENT_EXTENSIONS, MAX_ATTACHMENT_BYTES } from "@/shared/contact-attachment";
 
 interface ContactFormProps {
@@ -44,6 +44,21 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldName, string>>>({});
+  const [hasAttachment, setHasAttachment] = useState(false);
+  const attachmentInputRef = useRef<HTMLInputElement>(null);
+
+  function handleAttachmentChange(event: ChangeEvent<HTMLInputElement>) {
+    setHasAttachment((event.target.files?.length ?? 0) > 0);
+  }
+
+  // File inputs are uncontrolled — clearing one means resetting the DOM
+  // node's own value, not React state.
+  function handleRemoveAttachment() {
+    if (attachmentInputRef.current) {
+      attachmentInputRef.current.value = "";
+    }
+    setHasAttachment(false);
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -91,38 +106,91 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
   return (
     <form id={formId} className="contact-form" onSubmit={handleSubmit} noValidate>
       <div className="contact-form-field">
-        <label htmlFor="contact-first-name">First name</label>
-        <input id="contact-first-name" name="firstName" type="text" required disabled={isSubmitting} />
+        <label className="sr-only" htmlFor="contact-first-name">First name</label>
+        <input
+          id="contact-first-name"
+          name="firstName"
+          type="text"
+          placeholder="First name"
+          required
+          disabled={isSubmitting}
+        />
         {fieldErrors.firstName && <p role="alert">{fieldErrors.firstName}</p>}
       </div>
 
       <div className="contact-form-field">
-        <label htmlFor="contact-last-name">Last name</label>
-        <input id="contact-last-name" name="lastName" type="text" required disabled={isSubmitting} />
+        <label className="sr-only" htmlFor="contact-last-name">Last name</label>
+        <input
+          id="contact-last-name"
+          name="lastName"
+          type="text"
+          placeholder="Last name"
+          required
+          disabled={isSubmitting}
+        />
         {fieldErrors.lastName && <p role="alert">{fieldErrors.lastName}</p>}
       </div>
 
       <div className="contact-form-field">
-        <label htmlFor="contact-email">Email</label>
-        <input id="contact-email" name="email" type="email" required disabled={isSubmitting} />
+        <label className="sr-only" htmlFor="contact-email">Email</label>
+        <input
+          id="contact-email"
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          disabled={isSubmitting}
+        />
         {fieldErrors.email && <p role="alert">{fieldErrors.email}</p>}
       </div>
 
       <div className="contact-form-field">
-        <label htmlFor="contact-message">Message</label>
-        <textarea id="contact-message" name="message" rows={5} disabled={isSubmitting} />
+        <label className="sr-only" htmlFor="contact-message">Message</label>
+        <textarea
+          id="contact-message"
+          name="message"
+          placeholder="Message"
+          rows={5}
+          disabled={isSubmitting}
+        />
         {fieldErrors.message && <p role="alert">{fieldErrors.message}</p>}
       </div>
 
       <div className="contact-form-field">
-        <label htmlFor="contact-attachment">Attachment (optional)</label>
-        <input
-          id="contact-attachment"
-          name="attachment"
-          type="file"
-          accept={ACCEPT_ATTRIBUTE}
-          disabled={isSubmitting}
-        />
+        <label className="sr-only" htmlFor="contact-attachment">Attachment (optional)</label>
+        <div className="contact-form-attachment-row">
+          <div className="contact-form-file">
+            {/* Placeholder text overlaid on the (still-clickable) input
+                when empty — file inputs have no real placeholder support.
+                Same input node throughout: only its opacity toggles, so
+                the selected file survives the hasAttachment switch. */}
+            {!hasAttachment && (
+              <span className="contact-form-file-placeholder" aria-hidden="true">
+                Attachment (optional)
+              </span>
+            )}
+            <input
+              ref={attachmentInputRef}
+              id="contact-attachment"
+              name="attachment"
+              type="file"
+              accept={ACCEPT_ATTRIBUTE}
+              disabled={isSubmitting}
+              onChange={handleAttachmentChange}
+            />
+          </div>
+          {hasAttachment && (
+            <button
+              type="button"
+              className="contact-form-attachment-remove"
+              onClick={handleRemoveAttachment}
+              disabled={isSubmitting}
+              aria-label="Remove attachment"
+            >
+              ×
+            </button>
+          )}
+        </div>
         <p className="contact-form-hint">Max {MAX_ATTACHMENT_MB} MB.</p>
       </div>
 
