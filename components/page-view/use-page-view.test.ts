@@ -37,6 +37,18 @@ describe("Given the logo view is showing", () => {
     });
   });
 
+  describe('When navigate is called with "placeholder"', () => {
+    it("Then the placeholder view is shown", () => {
+      const { result } = renderHook(() => usePageView());
+
+      act(() => {
+        result.current.navigate("placeholder");
+      });
+
+      expect(result.current.view).toBe("placeholder");
+    });
+  });
+
   describe("When navigate is called with a target that has no view", () => {
     it("Then the logo view stays shown", () => {
       const { result } = renderHook(() => usePageView());

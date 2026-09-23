@@ -1,18 +1,18 @@
 import { useState } from "react";
 
-export type PageViewName = "logo" | "service" | "contact";
+export type PageViewName = "logo" | "service" | "contact" | "placeholder";
 
 // Targets a nav item is allowed to switch to. "logo" is intentionally
 // excluded — there's no nav item that links back to it, only goHome.
-const NAVIGABLE_VIEWS: readonly PageViewName[] = ["service", "contact"];
+const NAVIGABLE_VIEWS: readonly PageViewName[] = ["service", "contact", "placeholder"];
 
 const DEFAULT_VIEW: PageViewName = "logo";
 
 interface UsePageViewResult {
   view: PageViewName;
   // Forward Navbar's onNavigate target here — an opaque string as far as
-  // this hook is concerned. Unrecognized targets (e.g. "projects", which
-  // has no view yet) are ignored, leaving the current view unchanged.
+  // this hook is concerned. Any target outside NAVIGABLE_VIEWS is ignored,
+  // leaving the current view unchanged.
   navigate: (target: string) => void;
   // Returns to the default view — e.g. wired to ContactForm's onClose.
   goHome: () => void;
