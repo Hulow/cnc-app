@@ -296,9 +296,10 @@ h3 {
   min-height: var(--viewport-height);
   max-width: 75rem;
   margin-inline: auto;
-  /* Top matches the sides (--space-sm); bottom keeps the larger
-     --space-lg gap for separation from the footer below. */
-  padding: var(--space-sm) var(--space-sm) var(--space-lg);
+  /* Equal on all sides. Footer (only shown on the logo view) still gets
+     its own separation from main via the flex column's gap above, not
+     from this padding. */
+  padding: var(--space-sm);
   color: #ffffff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 1px 12px rgba(0, 0, 0, 0.5);
 }
