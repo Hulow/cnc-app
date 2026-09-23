@@ -110,7 +110,7 @@ describe("Given the mailer fails to deliver", () => {
 describe("Given the mailer cannot even be constructed (e.g. missing env vars)", () => {
   describe("When a valid submission is posted", () => {
     it("Then it reports a safe generic error instead of throwing", async () => {
-      ResendContactMailerMock.mockImplementationOnce(() => {
+      ResendContactMailerMock.mockImplementationOnce(function () {
         throw new Error("Missing required environment variable: RESEND_API_KEY");
       });
 
