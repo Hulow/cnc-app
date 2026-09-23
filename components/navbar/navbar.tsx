@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, type AnimationEvent } from "react";
+import { useNavBar } from "./use-navbar";
 
 const MENU_ID = "site-nav-menu";
-const STAGGER_MS = 100;
+const EXIT_ANIMATION_NAME = "site-nav-item-out";
 
 // Plain <a> anchors, not next/link: these are same-page hash links, not
 // route navigation (matches the mailto: link pattern in Contact).
@@ -14,45 +14,13 @@ const NAV_LINKS = [
   { href: "#cnc", label: "CNC" },
 ] as const;
 
-// Purely a visibility toggle, same pattern as ContactButton: opening the
-// menu has no side effects of its own.
+// Rendering only: open/closed state, the stagger, and the mount-until-
+// exit-animation-finishes lifecycle all live in useNavBar.
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  // Stays true through the close animation: React would otherwise unmount
-  // <ul> the instant isOpen flips false, before the exit animation (CSS,
-  // keyed off isOpen via [data-open]) has a chance to play.
-  const [isRendered, setIsRendered] = useState(false);
-  // How many items are actually mounted so far while opening — items are
-  // added to the DOM one at a time (not all four at once with only their
-  // opacity staggered), so the list genuinely grows incrementally.
-  const [visibleCount, setVisibleCount] = useState(0);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const timers = NAV_LINKS.map((_, index) =>
-      setTimeout(
-        () => setVisibleCount((count) => Math.max(count, index + 1)),
-        index * STAGGER_MS,
-      ),
-    );
-    return () => timers.forEach(clearTimeout);
-  }, [isOpen]);
-
-  function openMenu() {
-    setVisibleCount(0);
-    setIsRendered(true);
-    setIsOpen(true);
-  }
-
-  function closeMenu() {
-    setIsOpen(false);
-  }
-
-  function handleMenuAnimationEnd(event: AnimationEvent<HTMLUListElement>) {
-    if (event.animationName === "site-nav-item-out") {
-      setIsRendered(false);
-    }
-  }
+  const { isOpen, isRendered, visibleCount, toggle, close, handleAnimationEnd } = useNavBar({
+    itemCount: NAV_LINKS.length,
+    exitAnimationName: EXIT_ANIMATION_NAME,
+  });
 
   return (
     <nav className="site-nav" aria-label="Main">
@@ -63,7 +31,7 @@ export function Navbar() {
         aria-expanded={isOpen}
         aria-controls={MENU_ID}
         aria-label={isOpen ? "Close menu" : "Open menu"}
-        onClick={() => (isOpen ? closeMenu() : openMenu())}
+        onClick={toggle}
       >
         <span className="site-nav-toggle-bar" />
         <span className="site-nav-toggle-bar" />
@@ -73,12 +41,12 @@ export function Navbar() {
           id={MENU_ID}
           className="site-nav-menu"
           data-open={isOpen}
-          onAnimationEnd={handleMenuAnimationEnd}
+          onAnimationEnd={(event) => handleAnimationEnd(event.animationName)}
         >
           {NAV_LINKS.slice(0, isOpen ? visibleCount : NAV_LINKS.length).map(
             ({ href, label }) => (
               <li key={href}>
-                <a href={href} onClick={closeMenu}>
+                <a href={href} onClick={close}>
                   {label}
                 </a>
               </li>
