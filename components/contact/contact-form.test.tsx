@@ -34,7 +34,7 @@ describe("Given every required field is left empty", () => {
       vi.stubGlobal("fetch", fetchMock);
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(screen.getByText("Enter your first name.")).toBeInTheDocument();
       expect(fetchMock).not.toHaveBeenCalled();
@@ -51,7 +51,7 @@ describe("Given only the email field is left empty", () => {
 
       fireEvent.change(screen.getByLabelText("First name"), { target: { value: "Ada" } });
       fireEvent.change(screen.getByLabelText("Last name"), { target: { value: "Lovelace" } });
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(screen.getByText("Enter your email address.")).toBeInTheDocument();
       expect(fetchMock).not.toHaveBeenCalled();
@@ -66,7 +66,7 @@ describe("Given a valid submission", () => {
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(await screen.findByText(/thanks for reaching out/i)).toBeInTheDocument();
     });
@@ -77,7 +77,7 @@ describe("Given a valid submission", () => {
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       await screen.findByText(/thanks for reaching out/i);
       expect(fetchMock).toHaveBeenCalledWith("/api/contact", expect.objectContaining({ method: "POST" }));
@@ -97,7 +97,7 @@ describe("Given the API rejects the submission with a field error", () => {
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(await screen.findByText("Enter a valid email address.")).toBeInTheDocument();
     });
@@ -112,7 +112,7 @@ describe("Given the API rejects the submission with a field error", () => {
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       await screen.findByText("Enter a valid email address.");
       expect(screen.getByLabelText("First name")).toHaveValue("Ada");
@@ -128,7 +128,7 @@ describe("Given the API rejects the submission with a field error", () => {
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
       await screen.findByText("Enter a valid email address.");
 
       fireEvent.change(screen.getByLabelText("Email"), { target: { value: "ada@example.org" } });
@@ -150,7 +150,7 @@ describe("Given the API rejects the submission with a phone field error", () => 
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(await screen.findByText("Enter a valid phone number.")).toBeInTheDocument();
     });
@@ -169,7 +169,7 @@ describe("Given the API reports a delivery failure", () => {
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(
         await screen.findByText("We couldn't send your message. Please try again."),
@@ -204,7 +204,7 @@ describe("Given the API reports the attachment was too large for it to accept", 
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(await screen.findByText("The attachment is too large.")).toBeInTheDocument();
     });
@@ -223,7 +223,7 @@ describe("Given the API responds with the obsolete plural errors shape", () => {
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(await screen.findByText("Please check the form and try again.")).toBeInTheDocument();
       expect(screen.queryByText("Enter a valid email address.")).not.toBeInTheDocument();
@@ -238,7 +238,7 @@ describe("Given the request itself fails (e.g. offline)", () => {
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(await screen.findByText("Please check the form and try again.")).toBeInTheDocument();
     });
@@ -257,7 +257,7 @@ describe("Given a submission is already in flight", () => {
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      const submitButton = screen.getByRole("button", { name: "Send message" });
+      const submitButton = screen.getByRole("button", { name: "Send" });
       fireEvent.click(submitButton);
       fireEvent.click(submitButton);
 
@@ -273,7 +273,7 @@ describe("Given a submission is already in flight", () => {
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(await screen.findByRole("button", { name: "Sending…" })).toBeDisabled();
     });
@@ -307,7 +307,7 @@ describe("Given the visitor has filled in the form", () => {
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
       await screen.findByText("Enter a valid email address.");
 
       fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
