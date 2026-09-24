@@ -640,6 +640,7 @@ h3 {
   top: var(--space-xs);
   left: var(--space-xs);
   display: none;
+  font-size: var(--font-size-sm);
   color: inherit;
   opacity: 0.6;
   white-space: nowrap;
