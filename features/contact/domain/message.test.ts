@@ -59,12 +59,12 @@ describe("Given valid contact information", () => {
 
 describe("Given no phone number", () => {
   describe("When a contact message is created", () => {
-    it("Then it is accepted with an empty phone number", () => {
-      const result = Message.create(validInput({ phone: "" }));
+    it("Then it is accepted with a null phone number", () => {
+      const result = Message.create(validInput({ phone: null }));
 
       expect(result.ok).toBe(true);
       if (!result.ok) return;
-      expect(result.value.phone).toBe("");
+      expect(result.value.phone).toBeNull();
     });
   });
 });
@@ -85,14 +85,13 @@ describe("Given valid contact information with a supported attachment", () => {
 describe("Given multiple invalid fields", () => {
   describe("When a contact message is created", () => {
     it("Then every violated field is reported", () => {
-      const result = Message.create(validInput({ firstName: "", email: "bad", phone: "call me" }));
+      const result = Message.create(validInput({ firstName: "", email: "bad" }));
 
       expect(result).toEqual({
         ok: false,
         errors: [
           { field: "firstName", code: "required" },
           { field: "email", code: "invalid_format" },
-          { field: "phone", code: "invalid_format" },
         ],
       });
     });

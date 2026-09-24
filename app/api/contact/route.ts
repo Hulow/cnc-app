@@ -14,6 +14,12 @@ function readString(formData: FormData, field: string): string {
   return typeof value === "string" ? value : "";
 }
 
+function readOptionalString(formData: FormData, field: string): string | null {
+  const value = formData.get(field);
+  if (typeof value !== "string" || value.trim().length === 0) return null;
+  return value;
+}
+
 async function readAttachment(formData: FormData): Promise<Attachment | undefined> {
   const value = formData.get("attachment");
   if (!(value instanceof File) || value.size === 0) return undefined;
@@ -31,7 +37,7 @@ async function readMessageInput(formData: FormData): Promise<MessageInput> {
     firstName: readString(formData, "firstName"),
     lastName: readString(formData, "lastName"),
     email: readString(formData, "email"),
-    phone: readString(formData, "phone"),
+    phone: readOptionalString(formData, "phone"),
     message: readString(formData, "message"),
     attachment: await readAttachment(formData),
   };

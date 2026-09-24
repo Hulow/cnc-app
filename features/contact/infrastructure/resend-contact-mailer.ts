@@ -39,7 +39,7 @@ export class ResendContactMailer implements ContactMailer {
       text: [
         `Name: ${message.firstName} ${message.lastName}`,
         `Email: ${message.email}`,
-        `Phone: ${message.phone}`,
+        `Phone: ${message.phone ?? "Not provided"}`,
         `Message ID: ${message.id}`,
         "",
         message.message,

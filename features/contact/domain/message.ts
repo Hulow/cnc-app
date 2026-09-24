@@ -20,7 +20,7 @@ export interface MessageInput {
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
+  phone: string | null;
   message: string;
   attachment?: Attachment;
 }
@@ -90,7 +90,6 @@ export class Message {
       firstNameError,
       lastNameError,
       emailError,
-      phone.error,
       body.error,
       attachment?.error,
     ].filter((error): error is MessageFieldError => error !== undefined);
@@ -106,7 +105,7 @@ export class Message {
         firstName!,
         lastName!,
         email!,
-        phone.value!,
+        phone,
         body.value!,
         attachment?.value,
       ),
@@ -125,7 +124,7 @@ export class Message {
     return this.emailVO.value;
   }
 
-  get phone(): string {
+  get phone(): string | null {
     return this.phoneVO.value;
   }
 
@@ -148,7 +147,7 @@ export class Message {
       this.firstNameVO.value === other.firstNameVO.value &&
       this.lastNameVO.value === other.lastNameVO.value &&
       this.emailVO.value === other.emailVO.value &&
-      this.phoneVO.equals(other.phoneVO) &&
+      this.phoneVO.value === other.phoneVO.value &&
       this.bodyVO.equals(other.bodyVO) &&
       sameAttachment
     );

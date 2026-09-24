@@ -60,19 +60,6 @@ describe("Given an invalid email address", () => {
   });
 });
 
-describe("Given an invalid phone number", () => {
-  describe("When it is posted", () => {
-    it("Then it is rejected with a 400 and the mailer is never invoked", async () => {
-      const response = await POST(postRequest(validFormData({ phone: "call me" })));
-      const body = await response.json();
-
-      expect(response.status).toBe(400);
-      expect(body).toEqual({ ok: false, errors: [{ field: "phone", code: "invalid_format" }] });
-      expect(sendMock).not.toHaveBeenCalled();
-    });
-  });
-});
-
 describe("Given no phone number", () => {
   describe("When it is posted", () => {
     it("Then it succeeds", async () => {

@@ -1,61 +1,44 @@
 import { describe, expect, it } from "vitest";
 import { PhoneNumber } from "./phone-number";
 
-describe("Given a valid phone number", () => {
+describe("Given a phone number", () => {
   describe("When a contact phone number is created", () => {
     it("Then it is accepted", () => {
-      const result = PhoneNumber.create("+49 30 1234567");
+      const phone = PhoneNumber.create("+49 30 1234567");
 
-      expect(result.value?.value).toBe("+49 30 1234567");
-      expect(result.error).toBeUndefined();
+      expect(phone.value).toBe("+49 30 1234567");
     });
 
     it("Then surrounding whitespace is trimmed", () => {
-      const result = PhoneNumber.create("  030 1234567  ");
+      const phone = PhoneNumber.create("  030 1234567  ");
 
-      expect(result.value?.value).toBe("030 1234567");
+      expect(phone.value).toBe("030 1234567");
+    });
+
+    it("Then no format is enforced", () => {
+      const phone = PhoneNumber.create("call me maybe");
+
+      expect(phone.value).toBe("call me maybe");
     });
   });
 });
 
-describe("Given an empty phone number", () => {
+describe("Given a blank phone number", () => {
   describe("When a contact phone number is created", () => {
-    it("Then it is accepted", () => {
-      const result = PhoneNumber.create("   ");
+    it("Then it is null", () => {
+      const phone = PhoneNumber.create("   ");
 
-      expect(result.value?.value).toBe("");
-      expect(result.error).toBeUndefined();
+      expect(phone.value).toBeNull();
     });
   });
 });
 
-describe("Given an invalid phone number", () => {
+describe("Given a null phone number", () => {
   describe("When a contact phone number is created", () => {
-    it("Then it is rejected", () => {
-      const result = PhoneNumber.create("call me maybe");
+    it("Then it is null", () => {
+      const phone = PhoneNumber.create(null);
 
-      expect(result.error).toEqual({ field: "phone", code: "invalid_format" });
-    });
-  });
-});
-
-describe("Given an oversized phone number", () => {
-  describe("When a contact phone number is created", () => {
-    it("Then it is rejected", () => {
-      const result = PhoneNumber.create("+" + "1".repeat(30));
-
-      expect(result.error).toEqual({ field: "phone", code: "too_long" });
-    });
-  });
-});
-
-describe("Given two phone numbers with the same value", () => {
-  describe("When they are compared", () => {
-    it("Then they are equal", () => {
-      const first = PhoneNumber.create("030 1234567").value!;
-      const second = PhoneNumber.create("030 1234567").value!;
-
-      expect(first.equals(second)).toBe(true);
+      expect(phone.value).toBeNull();
     });
   });
 });
