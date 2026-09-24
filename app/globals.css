@@ -457,13 +457,14 @@ h3 {
 .site-nav-menu a {
   display: block;
   padding: var(--space-xs) var(--space-sm);
-  border: 1px solid var(--logo-color);
+  border: 2px solid var(--logo-color);
   border-radius: 0.375rem;
   background: rgba(0, 0, 0, 0.35);
   color: var(--logo-color);
   text-decoration: none;
   text-shadow: none;
   text-align: center;
+  font-weight: bold;
 }
 
 .page-content main {
