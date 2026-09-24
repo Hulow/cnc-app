@@ -390,8 +390,12 @@ h3 {
   pointer-events: none;
 }
 
+/* Below tablet, colors are inverted from the tablet+ scheme (see the
+   media query below, which restores fill/background to their original
+   values): an opaque green bump with the bars/X in transparent black,
+   rather than a transparent-black bump with a green border/bars. */
 .site-nav-toggle-shape path {
-  fill: rgba(0, 0, 0, 0.35);
+  fill: var(--logo-color);
   stroke: var(--logo-color);
   stroke-width: 2px;
   /* Keeps the stroke a constant 2px on screen as the shape scales
@@ -410,7 +414,9 @@ h3 {
   top: 50%;
   width: 60%;
   height: 3px;
-  background: var(--logo-color);
+  /* Matches .contact-form's own background exactly, not an arbitrary
+     black. */
+  background: rgba(0, 0, 0, 0.6);
   transition: transform 200ms ease;
 }
 
@@ -453,6 +459,15 @@ h3 {
   .site-nav-toggle-bar {
     left: 30%;
     width: 64%;
+    /* Original (non-inverted) scheme: the mobile rule above swaps this to
+       transparent black. */
+    background: var(--logo-color);
+  }
+
+  /* Original (non-inverted) scheme: the mobile rule above swaps this to
+     an opaque --logo-color fill. */
+  .site-nav-toggle-shape path {
+    fill: rgba(0, 0, 0, 0.35);
   }
 }
 
