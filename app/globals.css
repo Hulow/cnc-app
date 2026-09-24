@@ -320,7 +320,12 @@ h3 {
 .site-nav {
   position: fixed;
   top: var(--space-md);
-  right: var(--space-md);
+  /* 0, not --space-md: the toggle's circle (see .site-nav-toggle) must be
+     centered exactly on the viewport's right edge, so this box — which
+     shrink-wraps to the toggle, the only in-flow content since the menu
+     list is fixed positioned independently — has to start flush with
+     that edge rather than inset from it. */
+  right: 0;
   /* Must outrank .content-layer (z-index: 1): on narrow viewports
      .content-layer is 90% wide and its box genuinely reaches the toggle's
      corner position, so an equal z-index left .content-layer (later in
@@ -331,22 +336,33 @@ h3 {
   z-index: 2;
 }
 
+/* A full circle, half of it pushed off the right edge of the screen: the
+   button is laid out flush against .site-nav's right edge (itself flush
+   with the viewport edge, see above) and then shifted right by half its
+   own width via transform. That puts the circle's center exactly on the
+   viewport edge, leaving only its left half visible — styled like a menu
+   item (see .site-nav-menu a) since it's effectively a stub of the menu
+   itself. */
 .site-nav-toggle {
   position: relative;
-  width: 2.5rem;
-  height: 1.75rem;
-  border: none;
-  background: transparent;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 2px solid var(--logo-color);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
   cursor: pointer;
+  transform: translateX(50%);
 }
 
-/* Two bars, resting flush with the button's top/bottom edges; on open
-   they're re-centered and rotated 45deg opposite ways to form an "X". */
+/* Two bars, confined to the left 50% of the button — the half that's
+   actually visible on screen (see .site-nav-toggle above) — instead of
+   the full circle; on open they're re-centered and rotated 45deg
+   opposite ways to form an "X", still within that same visible half. */
 .site-nav-toggle-bar {
   position: absolute;
   left: 0;
   top: 50%;
-  width: 100%;
+  width: 50%;
   height: 3px;
   background: var(--logo-color);
   transition: transform 200ms ease;
