@@ -84,23 +84,4 @@ export class Message {
   get attachment(): Attachment | undefined {
     return this.attachmentVO?.value;
   }
-
-  equals(other: Message): boolean {
-    const sameAttachment =
-      (this.attachmentVO === undefined && other.attachmentVO === undefined) ||
-      (this.attachmentVO !== undefined &&
-        other.attachmentVO !== undefined &&
-        this.attachmentVO.value.filename === other.attachmentVO.value.filename &&
-        this.attachmentVO.value.mimeType === other.attachmentVO.value.mimeType &&
-        this.attachmentVO.value.sizeBytes === other.attachmentVO.value.sizeBytes);
-
-    return (
-      this.firstNameVO.value === other.firstNameVO.value &&
-      this.lastNameVO.value === other.lastNameVO.value &&
-      this.emailVO.value === other.emailVO.value &&
-      this.phoneVO.value === other.phoneVO.value &&
-      this.bodyVO.value === other.bodyVO.value &&
-      sameAttachment
-    );
-  }
 }

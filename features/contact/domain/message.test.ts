@@ -100,22 +100,22 @@ describe("Given multiple invalid fields", () => {
 
 describe("Given two messages created from the same input", () => {
   describe("When they are compared", () => {
-    it("Then they are equal", () => {
+    it("Then their fields have the same values", () => {
       const first = Message.create(validInput());
       const second = Message.create(validInput());
 
-      expect(first.equals(second)).toBe(true);
+      expect(first.message).toBe(second.message);
     });
   });
 });
 
 describe("Given two messages with different content", () => {
   describe("When they are compared", () => {
-    it("Then they are not equal", () => {
+    it("Then their fields have different values", () => {
       const first = Message.create(validInput());
       const second = Message.create(validInput({ message: "Different message." }));
 
-      expect(first.equals(second)).toBe(false);
+      expect(first.message).not.toBe(second.message);
     });
   });
 });
