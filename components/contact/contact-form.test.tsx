@@ -1,6 +1,13 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { ContactForm } from "./contact-form";
+import { MAX_ATTACHMENT_BYTES } from "@/shared/contact-attachment";
+
+function oversizedFile(): File {
+  const file = new File(["content"], "big.pdf", { type: "application/pdf" });
+  Object.defineProperty(file, "size", { value: MAX_ATTACHMENT_BYTES + 1 });
+  return file;
+}
 
 function fillRequiredFields() {
   fireEvent.change(screen.getByLabelText("First name"), { target: { value: "Ada" } });
@@ -153,7 +160,23 @@ describe("Given the API reports a delivery failure", () => {
   });
 });
 
-describe("Given the attachment is too large for the server to accept", () => {
+describe("Given the visitor selects an attachment over the size limit", () => {
+  describe("When it is selected", () => {
+    it("Then it is rejected with a message and not attached", () => {
+      vi.stubGlobal("fetch", vi.fn());
+      render(<ContactForm formId="contact-form" onClose={() => {}} />);
+
+      const fileInput = screen.getByLabelText("Attachment") as HTMLInputElement;
+      fireEvent.change(fileInput, { target: { files: [oversizedFile()] } });
+
+      expect(screen.getByText("The attachment is too large.")).toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Remove attachment" })).not.toBeInTheDocument();
+      expect(fileInput.value).toBe("");
+    });
+  });
+});
+
+describe("Given the API reports the attachment was too large for it to accept", () => {
   describe("When the visitor submits", () => {
     it("Then a message about the attachment size is shown", async () => {
       vi.stubGlobal(

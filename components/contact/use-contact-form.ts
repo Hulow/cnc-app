@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { ATTACHMENT_TOO_LARGE_MESSAGE } from "@/shared/contact-attachment";
 
 type FieldName = "firstName" | "lastName" | "email" | "phone" | "companyName" | "message" | "attachment";
 type Status = "idle" | "submitting" | "success" | "error";
@@ -67,7 +68,7 @@ export function useContactForm() {
       const response = await fetch("/api/contact", { method: "POST", body: formData });
 
       if (response.status === 413) {
-        setFormErrorMessage("The attachment is too large.");
+        setFormErrorMessage(ATTACHMENT_TOO_LARGE_MESSAGE);
         setStatus("error");
         return;
       }

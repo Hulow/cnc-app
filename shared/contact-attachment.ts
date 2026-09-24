@@ -32,8 +32,13 @@ export const ATTACHMENT_MIME_TYPES_BY_EXTENSION: Record<AllowedAttachmentExtensi
   ".webp": ["image/webp"],
 };
 
-export const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
+export const MAX_ATTACHMENT_BYTES = 4.5 * 1024 * 1024;
 export const MAX_ATTACHMENT_COUNT = 1;
+export const ATTACHMENT_TOO_LARGE_MESSAGE = "The attachment is too large.";
+
+export function isAttachmentTooLarge(sizeBytes: number): boolean {
+  return sizeBytes > MAX_ATTACHMENT_BYTES;
+}
 
 export function getAttachmentExtension(filename: string): string {
   const lastDot = filename.lastIndexOf(".");

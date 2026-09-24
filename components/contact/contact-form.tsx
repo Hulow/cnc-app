@@ -1,7 +1,12 @@
 "use client";
 
 import { useRef, useState, type ChangeEvent, type MouseEvent } from "react";
-import { ALLOWED_ATTACHMENT_EXTENSIONS, MAX_ATTACHMENT_BYTES } from "@/shared/contact-attachment";
+import {
+  ALLOWED_ATTACHMENT_EXTENSIONS,
+  ATTACHMENT_TOO_LARGE_MESSAGE,
+  MAX_ATTACHMENT_BYTES,
+  isAttachmentTooLarge,
+} from "@/shared/contact-attachment";
 import { useContactForm } from "./use-contact-form";
 
 interface ContactFormProps {
@@ -10,7 +15,7 @@ interface ContactFormProps {
 }
 
 const ACCEPT_ATTRIBUTE = ALLOWED_ATTACHMENT_EXTENSIONS.join(",");
-const MAX_ATTACHMENT_MB = Math.round(MAX_ATTACHMENT_BYTES / (1024 * 1024));
+const MAX_ATTACHMENT_MB = (MAX_ATTACHMENT_BYTES / (1024 * 1024)).toFixed(1);
 
 export function ContactForm({ formId, onClose }: ContactFormProps) {
   const { status, isSubmitting, formErrorMessage, fieldErrors, handleSubmit, reset } = useContactForm();
@@ -19,10 +24,21 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
   // fixed label), so its own filename display is hidden too — this is
   // rendered in its place ourselves.
   const [attachmentName, setAttachmentName] = useState<string | null>(null);
+  const [attachmentTooLarge, setAttachmentTooLarge] = useState(false);
   const attachmentInputRef = useRef<HTMLInputElement>(null);
 
   function handleAttachmentChange(event: ChangeEvent<HTMLInputElement>) {
-    setAttachmentName(event.target.files?.[0]?.name ?? null);
+    const file = event.target.files?.[0];
+
+    if (file && isAttachmentTooLarge(file.size)) {
+      event.target.value = "";
+      setAttachmentName(null);
+      setAttachmentTooLarge(true);
+      return;
+    }
+
+    setAttachmentName(file?.name ?? null);
+    setAttachmentTooLarge(false);
   }
 
   // File inputs are uncontrolled — clearing one means resetting the DOM
@@ -32,6 +48,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
       attachmentInputRef.current.value = "";
     }
     setAttachmentName(null);
+    setAttachmentTooLarge(false);
   }
 
   // Cancel clears the form in place rather than closing it — native
@@ -41,6 +58,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
   function handleCancel(event: MouseEvent<HTMLButtonElement>) {
     event.currentTarget.form?.reset();
     setAttachmentName(null);
+    setAttachmentTooLarge(false);
     reset();
   }
 
@@ -172,6 +190,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           )}
         </div>
         <p className="contact-form-hint">Max {MAX_ATTACHMENT_MB} MB.</p>
+        {attachmentTooLarge && <p role="alert">{ATTACHMENT_TOO_LARGE_MESSAGE}</p>}
       </div>
 
       {/* Honeypot: invisible to real visitors (see .contact-form-honeypot),
