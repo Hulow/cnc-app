@@ -368,38 +368,53 @@ h3 {
   transform: translateY(-50%) rotate(-45deg);
 }
 
+/* Fixed (not absolute-in-.site-nav): sized/centered the same way as
+   .content-layer (width 90%/70%, capped at 75rem, margin-inline: auto via
+   the left/right: 0 + auto-margin centering trick) so this bar overlays
+   .content-layer's box exactly instead of hugging the toggle button as a
+   small corner dropdown. Row layout + justify-content: space-evenly gives
+   every gap the same size, edges (left/right padding) included — not just
+   the gaps between items, which is all space-between would guarantee.
+   top: 0 lines it up with .content-layer's own top edge (it starts flush
+   at the top of the screen — see the .site-nav comment above). */
 .site-nav-menu {
-  position: absolute;
-  top: calc(100% + var(--space-xs));
+  position: fixed;
+  top: 0;
+  left: 0;
   right: 0;
+  width: 90%;
+  max-width: 75rem;
+  margin-inline: auto;
   z-index: 1;
   display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  min-width: 10rem;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
   padding: var(--space-sm);
   list-style: none;
+}
+
+@media (min-width: 576px) {
+  .site-nav-menu {
+    width: 70%;
+  }
 }
 
 @keyframes site-nav-item-in {
   from {
     opacity: 0;
-    transform: translateX(2rem);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
   }
 }
 
 @keyframes site-nav-item-out {
   from {
     opacity: 1;
-    transform: translateX(0);
   }
   to {
     opacity: 0;
-    transform: translateX(2rem);
   }
 }
 
@@ -408,21 +423,25 @@ h3 {
   animation: site-nav-item-out 200ms ease forwards;
 }
 
-/* Plays once per item as it's mounted; the one-after-another stagger
-   itself comes from Navbar staggering when each <li> is added to the
-   DOM, not from an animation-delay here. */
+/* All items are mounted together and share this animation, so they fade
+   in from fully transparent to normal at the same time — no stagger. */
 .site-nav-menu[data-open="true"] li {
   animation: site-nav-item-in 200ms ease forwards;
 }
 
 
+/* background is what actually makes border-radius visible — a rounded
+   corner on a fully transparent box wouldn't show anything. */
 .site-nav-menu a {
   display: block;
-  padding: var(--space-xs) 0;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--logo-color);
+  border-radius: 0.375rem;
+  background: rgba(0, 0, 0, 0.35);
   color: var(--logo-color);
   text-decoration: none;
   text-shadow: none;
-  transform-origin: left center;
+  transform-origin: center;
   transition: transform 150ms ease;
 }
 

@@ -21,11 +21,10 @@ interface NavbarProps {
   onNavigate?: (view: string) => void;
 }
 
-// Rendering only: open/closed state, the stagger, and the mount-until-
-// exit-animation-finishes lifecycle all live in useNavBar.
+// Rendering only: open/closed state and the mount-until-exit-animation-
+// finishes lifecycle live in useNavBar.
 export function Navbar({ onNavigate }: NavbarProps) {
-  const { isOpen, isRendered, visibleCount, toggle, close, handleAnimationEnd } = useNavBar({
-    itemCount: NAV_LINKS.length,
+  const { isOpen, isRendered, toggle, close, handleAnimationEnd } = useNavBar({
     exitAnimationName: EXIT_ANIMATION_NAME,
   });
 
@@ -50,24 +49,22 @@ export function Navbar({ onNavigate }: NavbarProps) {
           data-open={isOpen}
           onAnimationEnd={(event) => handleAnimationEnd(event.animationName)}
         >
-          {NAV_LINKS.slice(0, isOpen ? visibleCount : NAV_LINKS.length).map(
-            ({ href, label, view }) => (
-              <li key={href}>
-                <a
-                  href={href}
-                  onClick={(event) => {
-                    if (view) {
-                      event.preventDefault();
-                      onNavigate?.(view);
-                    }
-                    close();
-                  }}
-                >
-                  {label}
-                </a>
-              </li>
-            ),
-          )}
+          {NAV_LINKS.map(({ href, label, view }) => (
+            <li key={href}>
+              <a
+                href={href}
+                onClick={(event) => {
+                  if (view) {
+                    event.preventDefault();
+                    onNavigate?.(view);
+                  }
+                  close();
+                }}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
         </ul>
       )}
     </nav>
