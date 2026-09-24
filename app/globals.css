@@ -324,13 +324,14 @@ h3 {
      properties only cascade down to descendants, not up to ancestors. */
   --toggle-size: 3.5rem;
   position: fixed;
-  /* Centered on the viewport's height rather than pinned near the top:
-     half the shrink-wrapped box's own height (--toggle-size) up from
-     center. Deliberately not translateY(-50%) — a transform on .site-nav
-     would make it the containing block for its position: fixed children,
-     including .site-nav-menu, whose own top: 0 must stay resolved against
-     the real viewport. */
-  top: calc(50% - (var(--toggle-size) / 2));
+  /* A bit above the viewport's vertical center (30%, not 50%) rather than
+     pinned near the top: half the shrink-wrapped box's own height
+     (--toggle-size) up from that 30% mark. Deliberately not
+     translateY(-50%) — a transform on .site-nav would make it the
+     containing block for its position: fixed children, including
+     .site-nav-menu, whose own top: 0 must stay resolved against the real
+     viewport. */
+  top: calc(30% - (var(--toggle-size) / 2));
   /* 0, not --space-md: the toggle's shape (see .site-nav-toggle and
      .site-nav-toggle-shape) must sit flush against the viewport's right
      edge, so this box — which shrink-wraps to the toggle, the only
@@ -398,26 +399,27 @@ h3 {
   vector-effect: non-scaling-stroke;
 }
 
-/* Two bars spanning the button's full width (unlike the shape itself,
-   they don't need the fillets' extra height, so they stay anchored to
-   the button's own vertical center via top: 50%); on open they're
-   re-centered and rotated 45deg opposite ways to form an "X". */
+/* Two bars, centered within the button (unlike the shape itself, they
+   don't need the fillets' extra height, so they stay anchored to the
+   button's own vertical center via top: 50%); on open they're re-centered
+   and rotated 45deg opposite ways to form an "X". Smaller here (below
+   tablet) than at the tablet+ breakpoint below. */
 .site-nav-toggle-bar {
   position: absolute;
-  left: 0;
+  left: 20%;
   top: 50%;
-  width: 100%;
+  width: 60%;
   height: 3px;
   background: var(--logo-color);
   transition: transform 200ms ease;
 }
 
 .site-nav-toggle-bar:first-of-type {
-  transform: translateY(calc(-50% - 12.5px));
+  transform: translateY(calc(-50% - 8px));
 }
 
 .site-nav-toggle-bar:last-of-type {
-  transform: translateY(calc(-50% + 12.5px));
+  transform: translateY(calc(-50% + 8px));
 }
 
 .site-nav-toggle[data-open="true"] .site-nav-toggle-bar:first-of-type {
@@ -435,6 +437,9 @@ h3 {
 @media (min-width: 768px) {
   .site-nav {
     --toggle-size: 6.5rem;
+    /* Much higher than the mobile 30% mark — closer to the top of the
+       screen instead of near its vertical center. */
+    top: calc(12% - (var(--toggle-size) / 2));
   }
 
   .site-nav-toggle-bar:first-of-type {

@@ -50,10 +50,14 @@ export function Navbar({ onNavigate, onOpenChange }: NavbarProps) {
         {/* One continuous outline — main bump + tangent concave fillets
             top and bottom — drawn as a single path so there's no seam
             where the pieces would otherwise meet (see .site-nav-toggle-
-            shape in globals.css for the geometry). Decorative: aria-label
-            above already names the button. */}
+            shape in globals.css for the geometry). No trailing Z: fill
+            still closes the shape implicitly (SVG always closes subpaths
+            for filling), but leaving the path open means the stroke skips
+            the straight closing segment that would otherwise run along
+            the screen's edge. Decorative: aria-label above already names
+            the button. */}
         <svg className="site-nav-toggle-shape" viewBox="-100 -154.919 100 309.838" aria-hidden="true" focusable="false">
-          <path d="M 0 -154.919 A 70 70 0 0 1 -41.176 -91.129 A 100 100 0 0 0 -41.176 91.129 A 70 70 0 0 1 0 154.919 Z" />
+          <path d="M 0 -154.919 A 70 70 0 0 1 -41.176 -91.129 A 100 100 0 0 0 -41.176 91.129 A 70 70 0 0 1 0 154.919" />
         </svg>
         <span className="site-nav-toggle-bar" />
         <span className="site-nav-toggle-bar" />
