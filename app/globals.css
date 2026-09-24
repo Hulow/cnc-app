@@ -318,13 +318,24 @@ h3 {
    so it reserves no layout space and .content-layer starts flush at the
    top of the screen. */
 .site-nav {
+  /* Both the toggle's own size breakpoints (see .site-nav-toggle) and the
+     top offset below need this — hoisted here (rather than defined on
+     .site-nav-toggle itself) so this rule can read it too; custom
+     properties only cascade down to descendants, not up to ancestors. */
+  --toggle-size: 3.5rem;
   position: fixed;
-  top: var(--space-md);
-  /* 0, not --space-md: the toggle's circle (see .site-nav-toggle) must be
-     centered exactly on the viewport's right edge, so this box — which
-     shrink-wraps to the toggle, the only in-flow content since the menu
-     list is fixed positioned independently — has to start flush with
-     that edge rather than inset from it. */
+  /* Centered on the viewport's height rather than pinned near the top:
+     half the shrink-wrapped box's own height (--toggle-size) up from
+     center. Deliberately not translateY(-50%) — a transform on .site-nav
+     would make it the containing block for its position: fixed children,
+     including .site-nav-menu, whose own top: 0 must stay resolved against
+     the real viewport. */
+  top: calc(50% - (var(--toggle-size) / 2));
+  /* 0, not --space-md: the toggle's shape (see .site-nav-toggle and
+     .site-nav-toggle-shape) must sit flush against the viewport's right
+     edge, so this box — which shrink-wraps to the toggle, the only
+     in-flow content since the menu list is fixed positioned independently
+     — has to start flush with that edge rather than inset from it. */
   right: 0;
   /* Must outrank .content-layer (z-index: 1): on narrow viewports
      .content-layer is 90% wide and its box genuinely reaches the toggle's
@@ -336,74 +347,107 @@ h3 {
   z-index: 2;
 }
 
-/* A full circle, half of it pushed off the right edge of the screen: the
-   button is laid out flush against .site-nav's right edge (itself flush
-   with the viewport edge, see above) and then shifted right by half its
-   own width via transform. That puts the circle's center exactly on the
-   viewport edge, leaving only its left half visible — styled like a menu
-   item (see .site-nav-menu a) since it's effectively a stub of the menu
-   itself. */
+/* The button itself is just a hit target now — no border/background of
+   its own (that's all drawn by .site-nav-toggle-shape's <path>, see
+   below) — kept at the same width/height (--toggle-size) the plain
+   circle used to be, so the toggle's on-screen position doesn't shift.
+   The shape itself is taller than that (the fillets add height above/
+   below the bump) and is centered on this box rather than fitted inside
+   it — overflow: visible lets that extra height render past this box's
+   own top/bottom edges without being clipped. */
 .site-nav-toggle {
   position: relative;
-  width: 3.5rem;
-  height: 3.5rem;
-  border: 2px solid var(--logo-color);
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.35);
+  width: calc(var(--toggle-size) / 2);
+  height: var(--toggle-size);
+  padding: 0;
+  border: none;
+  background: none;
   cursor: pointer;
-  transform: translateX(50%);
+  overflow: visible;
 }
 
-/* Two bars, confined to the left 50% of the button — the half that's
-   actually visible on screen (see .site-nav-toggle above) — instead of
-   the full circle; on open they're re-centered and rotated 45deg
-   opposite ways to form an "X", still within that same visible half. */
+/* One continuous shape (a single <path>, no stacked pieces) for the bump
+   coming out of the screen's right edge: a main arc (radius R =
+   --toggle-size / 2) plus a smaller concave fillet arc at the top and
+   bottom (radius r = 0.7R) that's tangent to both the main arc and the
+   screen edge, so the outline flows edge → fillet → bump → fillet → edge
+   with no corners. The path's own coordinates (in a -100..0 / R=100
+   space) bake in that 0.7 ratio via closed-form tangency math: a fillet
+   of radius r tangent to the main circle and to the same edge line sits
+   with its center offset R*sqrt(1+2r/R) from the main circle's center —
+   change the fillet ratio by recomputing these numbers, not by editing a
+   variable (SVG path data can't consume calc()/var()). Positioned
+   centered on the button (top: 50% + translateY(-50%)) rather than flush
+   to its top, since the shape is taller than the button's own box. */
+.site-nav-toggle-shape {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: calc(var(--toggle-size) / 2);
+  height: calc(var(--toggle-size) * 1.54919);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.site-nav-toggle-shape path {
+  fill: rgba(0, 0, 0, 0.35);
+  stroke: var(--logo-color);
+  stroke-width: 2px;
+  /* Keeps the stroke a constant 2px on screen as the shape scales
+     between breakpoints, instead of scaling with the viewBox. */
+  vector-effect: non-scaling-stroke;
+}
+
+/* Two bars spanning the button's full width (unlike the shape itself,
+   they don't need the fillets' extra height, so they stay anchored to
+   the button's own vertical center via top: 50%); on open they're
+   re-centered and rotated 45deg opposite ways to form an "X". */
 .site-nav-toggle-bar {
   position: absolute;
   left: 0;
   top: 50%;
-  width: 50%;
+  width: 100%;
   height: 3px;
   background: var(--logo-color);
   transition: transform 200ms ease;
 }
 
-.site-nav-toggle-bar:first-child {
+.site-nav-toggle-bar:first-of-type {
   transform: translateY(calc(-50% - 12.5px));
 }
 
-.site-nav-toggle-bar:last-child {
+.site-nav-toggle-bar:last-of-type {
   transform: translateY(calc(-50% + 12.5px));
 }
 
-.site-nav-toggle[data-open="true"] .site-nav-toggle-bar:first-child {
+.site-nav-toggle[data-open="true"] .site-nav-toggle-bar:first-of-type {
   transform: translateY(-50%) rotate(45deg);
 }
 
-.site-nav-toggle[data-open="true"] .site-nav-toggle-bar:last-child {
+.site-nav-toggle[data-open="true"] .site-nav-toggle-bar:last-of-type {
   transform: translateY(-50%) rotate(-45deg);
 }
 
-/* Tablet and up: enlarge the toggle's circle (see .site-nav-toggle above)
-   and scale the bars' spacing to match, so they stay centered within the
-   bigger circle instead of clustering near its middle. */
+/* Tablet and up: enlarge the toggle's shape (see .site-nav-toggle and
+   .site-nav-toggle-shape above) and scale the bars' spacing to match, so
+   they stay centered within the bigger shape instead of clustering near
+   its middle. */
 @media (min-width: 768px) {
-  .site-nav-toggle {
-    width: 6.5rem;
-    height: 6.5rem;
+  .site-nav {
+    --toggle-size: 6.5rem;
   }
 
-  .site-nav-toggle-bar:first-child {
+  .site-nav-toggle-bar:first-of-type {
     transform: translateY(calc(-50% - 14px));
   }
 
-  .site-nav-toggle-bar:last-child {
+  .site-nav-toggle-bar:last-of-type {
     transform: translateY(calc(-50% + 14px));
   }
 
   .site-nav-toggle-bar {
-    left: 15%;
-    width: 32%;
+    left: 30%;
+    width: 64%;
   }
 }
 
