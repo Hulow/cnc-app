@@ -1,5 +1,7 @@
-import { FirstName, InvalidFirstNameError } from "./first-name";
+import { FirstName } from "./first-name";
+import { InvalidFirstNameError } from "./first-name-error";
 import { LastName } from "./last-name";
+import { InvalidLastNameError } from "./last-name-error";
 import { EmailAddress } from "./email-address";
 import { PhoneNumber } from "./phone-number";
 import { MessageBody } from "./message-body";
@@ -61,7 +63,15 @@ export class Message {
       firstNameError = { field: "firstName", code: error.code };
     }
 
-    const lastName = LastName.create(input.lastName);
+    let lastName: LastName | undefined;
+    let lastNameError: MessageFieldError | undefined;
+    try {
+      lastName = LastName.create(input.lastName);
+    } catch (error) {
+      if (!(error instanceof InvalidLastNameError)) throw error;
+      lastNameError = { field: "lastName", code: error.code };
+    }
+
     const email = EmailAddress.create(input.email);
     const phone = PhoneNumber.create(input.phone);
     const body = MessageBody.create(input.message);
@@ -69,7 +79,7 @@ export class Message {
 
     const errors = [
       firstNameError,
-      lastName.error,
+      lastNameError,
       email.error,
       phone.error,
       body.error,
@@ -85,7 +95,7 @@ export class Message {
       value: new Message(
         crypto.randomUUID(),
         firstName!,
-        lastName.value!,
+        lastName!,
         email.value!,
         phone.value!,
         body.value!,
@@ -127,7 +137,7 @@ export class Message {
 
     return (
       this.firstNameVO.value === other.firstNameVO.value &&
-      this.lastNameVO.equals(other.lastNameVO) &&
+      this.lastNameVO.value === other.lastNameVO.value &&
       this.emailVO.equals(other.emailVO) &&
       this.phoneVO.equals(other.phoneVO) &&
       this.bodyVO.equals(other.bodyVO) &&

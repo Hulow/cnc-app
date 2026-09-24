@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { FirstName, InvalidFirstNameError } from "./first-name";
+import { FirstName } from "./first-name";
+import { InvalidFirstNameError } from "./first-name-error";
 
 describe("Given a valid first name", () => {
   describe("When a first name is created", () => {
