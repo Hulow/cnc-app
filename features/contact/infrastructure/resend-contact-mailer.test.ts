@@ -71,8 +71,9 @@ describe("Given a message with no attachment", () => {
       stubValidEnv();
       sendMock.mockResolvedValue({ data: { id: "email_1" }, error: null });
       const mailer = new ResendContactMailer();
+      const message = validMessage();
 
-      await mailer.send(validMessage());
+      await mailer.send(message);
 
       expect(sendMock).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -82,6 +83,21 @@ describe("Given a message with no attachment", () => {
           subject: expect.stringContaining("Ada Lovelace"),
           text: expect.stringContaining("Phone: 030 1234567"),
           attachments: undefined,
+        }),
+      );
+    });
+
+    it("Then the message id is included in the body", async () => {
+      stubValidEnv();
+      sendMock.mockResolvedValue({ data: { id: "email_1" }, error: null });
+      const mailer = new ResendContactMailer();
+      const message = validMessage();
+
+      await mailer.send(message);
+
+      expect(sendMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          text: expect.stringContaining(`Message ID: ${message.id}`),
         }),
       );
     });
