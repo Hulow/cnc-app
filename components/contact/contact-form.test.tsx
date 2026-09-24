@@ -68,7 +68,7 @@ describe("Given a valid submission", () => {
       fillRequiredFields();
       fireEvent.click(screen.getByRole("button", { name: "Send message" }));
 
-      expect(await screen.findByText(/your message has been sent/i)).toBeInTheDocument();
+      expect(await screen.findByText(/thanks for reaching out/i)).toBeInTheDocument();
     });
 
     it("Then the request is a POST to /api/contact", async () => {
@@ -79,7 +79,7 @@ describe("Given a valid submission", () => {
       fillRequiredFields();
       fireEvent.click(screen.getByRole("button", { name: "Send message" }));
 
-      await screen.findByText(/your message has been sent/i);
+      await screen.findByText(/thanks for reaching out/i);
       expect(fetchMock).toHaveBeenCalledWith("/api/contact", expect.objectContaining({ method: "POST" }));
     });
   });
@@ -262,7 +262,7 @@ describe("Given a submission is already in flight", () => {
       fireEvent.click(submitButton);
 
       resolveFetch(jsonResponse({ ok: true }));
-      await screen.findByText(/your message has been sent/i);
+      await screen.findByText(/thanks for reaching out/i);
 
       expect(fetchMock).toHaveBeenCalledTimes(1);
     });
