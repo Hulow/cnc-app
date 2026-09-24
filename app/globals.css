@@ -368,28 +368,28 @@ h3 {
   transform: translateY(-50%) rotate(-45deg);
 }
 
-/* Fixed (not absolute-in-.site-nav): sized/centered the same way as
-   .content-layer (width 90%/70%, capped at 75rem, margin-inline: auto via
-   the left/right: 0 + auto-margin centering trick) so this bar overlays
-   .content-layer's box exactly instead of hugging the toggle button as a
-   small corner dropdown. Row layout + justify-content: space-evenly gives
-   every gap the same size, edges (left/right padding) included — not just
-   the gaps between items, which is all space-between would guarantee.
-   top: 0 lines it up with .content-layer's own top edge (it starts flush
-   at the top of the screen — see the .site-nav comment above). */
+/* Fixed (not absolute-in-.site-nav), centered with left: 50% +
+   translateX(-50%): width (not max-width) matches .content-layer's own
+   width (90%/70%, capped at 75rem) exactly, so the menu's edges line up
+   with the dark panel underneath instead of shrink-wrapping its items.
+   Items (see .site-nav-menu li below) are flex: 1, so they grow to fill
+   that full width evenly on their own — the row needs only a small fixed
+   gap between them, not justify-content, and the items themselves get
+   bigger as the screen does rather than leaving ever-larger empty gaps
+   (space-between's effect with only 4 items). top: 0 lines it up with
+   .content-layer's own top edge (it starts flush at the top of the
+   screen — see the .site-nav comment above). */
 .site-nav-menu {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 90%;
   max-width: 75rem;
-  margin-inline: auto;
   z-index: 1;
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
   align-items: center;
+  gap: var(--space-xs);
   padding: var(--space-sm);
   list-style: none;
 }
@@ -418,9 +418,31 @@ h3 {
   }
 }
 
-/* Closed by default: an exit animation (all items together, no delay). */
+/* Closed by default: an exit animation (all items together, no delay).
+   flex: 1 makes every item claim an equal share of .site-nav-menu's full
+   width, so they grow together as the row widens instead of leaving
+   growing empty space around fixed-size items. */
 .site-nav-menu li {
+  flex: 1;
   animation: site-nav-item-out 200ms ease forwards;
+}
+
+/* Below 576px there isn't enough width for 4 items on one line without
+   squeezing each one down to near-unreadable — wrap into 2 rows of 2
+   instead. Comes after the flex: 1 rule above (same specificity, so
+   source order decides) so it actually wins at these widths. flex-basis
+   50% (minus half the row's own gap, so two items plus the gap between
+   them still sum to exactly 100%) forces exactly two per row rather than
+   however many happen to fit. gap covers both row and column spacing
+   here, so it stays visually consistent in both directions. */
+@media (max-width: 575px) {
+  .site-nav-menu {
+    flex-wrap: wrap;
+  }
+
+  .site-nav-menu li {
+    flex: 0 0 calc(50% - var(--space-xs) / 2);
+  }
 }
 
 /* All items are mounted together and share this animation, so they fade
@@ -441,6 +463,7 @@ h3 {
   color: var(--logo-color);
   text-decoration: none;
   text-shadow: none;
+  text-align: center;
 }
 
 .page-content main {
@@ -518,6 +541,16 @@ h3 {
    height, and let it settle back once the menu closes. */
 .content-layer[data-menu-open="true"] .contact-form {
   margin-top: 4rem;
+}
+
+/* Below 576px the menu wraps into 2 rows (see .site-nav-menu's own
+   max-width: 575px query), roughly doubling its height — the 4rem push
+   above only clears a single row, so it needs more room here or the
+   second row sits on top of the form. */
+@media (max-width: 575px) {
+  .content-layer[data-menu-open="true"] .contact-form {
+    margin-top: 7rem;
+  }
 }
 
 /* Success state reuses .contact-form's box but centers its (much
