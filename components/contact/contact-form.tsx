@@ -103,11 +103,14 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           id="contact-first-name"
           name="firstName"
           type="text"
-          placeholder="First name *"
+          placeholder="First name"
           required
           disabled={isSubmitting}
           onChange={() => clearFieldError("firstName")}
         />
+        <span className="contact-form-placeholder" aria-hidden="true">
+          First name<span className="contact-form-required"> *</span>
+        </span>
         {fieldErrors.firstName && <p role="alert">{fieldErrors.firstName}</p>}
       </div>
 
@@ -117,11 +120,14 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           id="contact-last-name"
           name="lastName"
           type="text"
-          placeholder="Last name *"
+          placeholder="Last name"
           required
           disabled={isSubmitting}
           onChange={() => clearFieldError("lastName")}
         />
+        <span className="contact-form-placeholder" aria-hidden="true">
+          Last name<span className="contact-form-required"> *</span>
+        </span>
         {fieldErrors.lastName && <p role="alert">{fieldErrors.lastName}</p>}
       </div>
 
@@ -131,12 +137,15 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           id="contact-email"
           name="email"
           type="email"
-          placeholder="Email *"
+          placeholder="Email"
           required
           disabled={isSubmitting}
           onChange={() => clearFieldError("email")}
           onBlur={(event) => validateEmailOnBlur(event.target.value)}
         />
+        <span className="contact-form-placeholder" aria-hidden="true">
+          Email<span className="contact-form-required"> *</span>
+        </span>
         {fieldErrors.email && <p role="alert">{fieldErrors.email}</p>}
       </div>
 
