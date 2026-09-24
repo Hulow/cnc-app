@@ -201,7 +201,7 @@ describe("Given the visitor has selected an attachment", () => {
       vi.stubGlobal("fetch", vi.fn());
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
-      const fileInput = screen.getByLabelText("Attachment (optional)") as HTMLInputElement;
+      const fileInput = screen.getByLabelText("Attachment") as HTMLInputElement;
       const file = new File(["content"], "bracket.pdf", { type: "application/pdf" });
       fireEvent.change(fileInput, { target: { files: [file] } });
 

@@ -118,7 +118,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           id="contact-company-name"
           name="companyName"
           type="text"
-          placeholder="Company (optional)"
+          placeholder="Company"
           disabled={isSubmitting}
         />
         {fieldErrors.companyName && <p role="alert">{fieldErrors.companyName}</p>}
@@ -130,7 +130,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           id="contact-first-name"
           name="firstName"
           type="text"
-          placeholder="First name"
+          placeholder="First name *"
           required
           disabled={isSubmitting}
         />
@@ -143,7 +143,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           id="contact-last-name"
           name="lastName"
           type="text"
-          placeholder="Last name"
+          placeholder="Last name *"
           required
           disabled={isSubmitting}
         />
@@ -156,7 +156,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           id="contact-email"
           name="email"
           type="email"
-          placeholder="Email"
+          placeholder="Email *"
           required
           disabled={isSubmitting}
         />
@@ -169,7 +169,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           id="contact-phone"
           name="phone"
           type="tel"
-          placeholder="Phone (optional)"
+          placeholder="Phone"
           disabled={isSubmitting}
         />
         {fieldErrors.phone && <p role="alert">{fieldErrors.phone}</p>}
@@ -188,7 +188,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
       </div>
 
       <div className="contact-form-field">
-        <label className="sr-only" htmlFor="contact-attachment">Attachment (optional)</label>
+        <label className="sr-only" htmlFor="contact-attachment">Attachment</label>
         <div className="contact-form-attachment-row">
           <div className="contact-form-file">
             {/* Custom "Upload" trigger + filename/placeholder text — the
@@ -202,7 +202,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
             {attachmentName ? (
               <span className="contact-form-file-name">{attachmentName}</span>
             ) : (
-              <span className="contact-form-file-placeholder">Attachment (optional)</span>
+              <span className="contact-form-file-placeholder">Attachment</span>
             )}
             <input
               ref={attachmentInputRef}
