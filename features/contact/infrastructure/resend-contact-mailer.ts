@@ -29,7 +29,8 @@ export class ResendContactMailer implements ContactMailer {
   }
 
   async send(message: Message): Promise<void> {
-    const { firstName, lastName, email, phone, message: body, attachment } = message.toPrimitives();
+    const { firstName, lastName, email, phone, companyName, message: body, attachment } =
+      message.toPrimitives();
 
     const { error } = await this.client.emails.send({
       to: this.toEmail,
@@ -40,6 +41,7 @@ export class ResendContactMailer implements ContactMailer {
         `Name: ${firstName} ${lastName}`,
         `Email: ${email}`,
         `Phone: ${phone ?? "Not provided"}`,
+        `Company: ${companyName ?? "Not provided"}`,
         `Message ID: ${message.id}`,
         "",
         body,

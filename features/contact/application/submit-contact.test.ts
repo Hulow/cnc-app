@@ -27,6 +27,7 @@ function validInput(): MessageInput {
     lastName: "Lovelace",
     email: "ada@example.com",
     phone: "030 1234567",
+    companyName: "Acme Corp",
     message: "I'd like a quote for a milled aluminum bracket.",
   };
 }

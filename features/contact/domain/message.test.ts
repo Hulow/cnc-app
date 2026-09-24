@@ -9,6 +9,7 @@ function validInput(overrides: Partial<MessageInput> = {}): MessageInput {
     lastName: "Lovelace",
     email: "ada@example.com",
     phone: "030 1234567",
+    companyName: "Acme Corp",
     message: "I'd like a quote for a milled aluminum bracket.",
     ...overrides,
   };
@@ -48,6 +49,7 @@ describe("Given valid contact information", () => {
         lastName: "Lovelace",
         email: "ada@example.com",
         phone: "030 1234567",
+        companyName: "Acme Corp",
         message: "Hello.",
         attachment: undefined,
       });
@@ -61,6 +63,16 @@ describe("Given no phone number", () => {
       const message = Message.create(validInput({ phone: null }));
 
       expect(message.toPrimitives().phone).toBeNull();
+    });
+  });
+});
+
+describe("Given no company name", () => {
+  describe("When a contact message is created", () => {
+    it("Then it is accepted with a null company name", () => {
+      const message = Message.create(validInput({ companyName: null }));
+
+      expect(message.toPrimitives().companyName).toBeNull();
     });
   });
 });

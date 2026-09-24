@@ -8,7 +8,7 @@ interface ContactFormProps {
   onClose: () => void;
 }
 
-type FieldName = "firstName" | "lastName" | "email" | "phone" | "message" | "attachment";
+type FieldName = "firstName" | "lastName" | "email" | "phone" | "companyName" | "message" | "attachment";
 type Status = "idle" | "submitting" | "success" | "error";
 
 interface FieldError {
@@ -112,6 +112,18 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
 
   return (
     <form id={formId} className="contact-form" onSubmit={handleSubmit} noValidate>
+      <div className="contact-form-field">
+        <label className="sr-only" htmlFor="contact-company-name">Company</label>
+        <input
+          id="contact-company-name"
+          name="companyName"
+          type="text"
+          placeholder="Company (optional)"
+          disabled={isSubmitting}
+        />
+        {fieldErrors.companyName && <p role="alert">{fieldErrors.companyName}</p>}
+      </div>
+
       <div className="contact-form-field">
         <label className="sr-only" htmlFor="contact-first-name">First name</label>
         <input

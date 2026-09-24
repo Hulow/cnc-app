@@ -20,6 +20,7 @@ function validMessage(): Message {
     lastName: "Lovelace",
     email: "ada@example.com",
     phone: "030 1234567",
+    companyName: "Acme Corp",
     message: "I'd like a quote for a milled aluminum bracket.",
   });
 }
@@ -112,6 +113,7 @@ describe("Given a message with an attachment", () => {
         lastName: "Lovelace",
         email: "ada@example.com",
         phone: "030 1234567",
+        companyName: "Acme Corp",
         message: "See attached.",
         attachment: {
           filename: "part.step",

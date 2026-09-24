@@ -2,6 +2,7 @@ import { FirstName } from "./first-name";
 import { LastName } from "./last-name";
 import { EmailAddress } from "./email-address";
 import { PhoneNumber } from "./phone-number";
+import { CompanyName } from "./company-name";
 import { MessageBody } from "./message-body";
 import { ValidatedAttachment, type Attachment } from "./validated-attachment";
 
@@ -13,6 +14,7 @@ export interface MessageInput {
   lastName: string;
   email: string;
   phone: string | null;
+  companyName: string | null;
   message: string;
   attachment?: Attachment;
 }
@@ -22,6 +24,7 @@ export interface MessagePrimitives {
   lastName: string;
   email: string;
   phone: string | null;
+  companyName: string | null;
   message: string;
   attachment?: Attachment;
 }
@@ -33,7 +36,7 @@ export interface MessagePrimitives {
  * message is never mutated after creation — it is validated once, handed
  * to the mailer, and discarded. All invariants are enforced by the
  * constituent value objects
- * (`FirstName`, `LastName`, `EmailAddress`, `PhoneNumber`, `MessageBody`, `ValidatedAttachment`);
+ * (`FirstName`, `LastName`, `EmailAddress`, `PhoneNumber`, `CompanyName`, `MessageBody`, `ValidatedAttachment`);
  * there is no way to obtain a `Message` instance that violates them.
  *
  * `create` throws the first violated value object's domain error rather
@@ -53,6 +56,7 @@ export class Message {
     private readonly lastNameVO: LastName,
     private readonly emailVO: EmailAddress,
     private readonly phoneVO: PhoneNumber,
+    private readonly companyNameVO: CompanyName,
     private readonly bodyVO: MessageBody,
     private readonly attachmentVO: ValidatedAttachment | undefined,
   ) {
@@ -64,10 +68,20 @@ export class Message {
     const lastName = LastName.create(input.lastName);
     const email = EmailAddress.create(input.email);
     const phone = PhoneNumber.create(input.phone);
+    const companyName = CompanyName.create(input.companyName);
     const body = MessageBody.create(input.message);
     const attachment = input.attachment ? ValidatedAttachment.create(input.attachment).value : undefined;
 
-    return new Message(crypto.randomUUID(), firstName, lastName, email, phone, body, attachment);
+    return new Message(
+      crypto.randomUUID(),
+      firstName,
+      lastName,
+      email,
+      phone,
+      companyName,
+      body,
+      attachment,
+    );
   }
 
   toPrimitives(): MessagePrimitives {
@@ -76,6 +90,7 @@ export class Message {
       lastName: this.lastNameVO.value,
       email: this.emailVO.value,
       phone: this.phoneVO.value,
+      companyName: this.companyNameVO.value,
       message: this.bodyVO.value,
       attachment: this.attachmentVO?.value,
     };
