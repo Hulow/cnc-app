@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useNavBar } from "./use-navbar";
 
 const MENU_ID = "site-nav-menu";
@@ -19,14 +20,22 @@ const NAV_LINKS = [
 
 interface NavbarProps {
   onNavigate?: (view: string) => void;
+  // Fired whenever the menu opens or closes — lets a page layout react
+  // (e.g. make room for the menu overlaying its content) without knowing
+  // anything about Navbar's own state or animation lifecycle.
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
 // Rendering only: open/closed state and the mount-until-exit-animation-
 // finishes lifecycle live in useNavBar.
-export function Navbar({ onNavigate }: NavbarProps) {
+export function Navbar({ onNavigate, onOpenChange }: NavbarProps) {
   const { isOpen, isRendered, toggle, close, handleAnimationEnd } = useNavBar({
     exitAnimationName: EXIT_ANIMATION_NAME,
   });
+
+  useEffect(() => {
+    onOpenChange?.(isOpen);
+  }, [isOpen, onOpenChange]);
 
   return (
     <nav className="site-nav" aria-label="Main">

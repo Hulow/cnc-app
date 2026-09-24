@@ -515,6 +515,16 @@ h3 {
   padding: var(--space-md);
   background: rgba(0, 0, 0, 0.6);
   border-radius: 0.375rem;
+  margin-top: 0;
+  transition: margin-top 200ms ease;
+}
+
+/* .site-nav-menu overlays .content-layer's top edge (position: fixed, so
+   it reserves no layout space of its own) — nudge the form down out of
+   its way while the menu is open, matching roughly the menu bar's own
+   height, and let it settle back once the menu closes. */
+.content-layer[data-menu-open="true"] .contact-form {
+  margin-top: 4rem;
 }
 
 /* Success state reuses .contact-form's box but centers its (much

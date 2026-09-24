@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { ContactForm } from "@/components/contact/contact-form";
 import { Navbar } from "@/components/navbar/navbar";
 import { siteConfig } from "@/shared/site-config";
@@ -28,13 +28,16 @@ interface PageViewProps {
 // of leaving a gap for an (unstyled) header row above it.
 export function PageView({ logo, service, footer }: PageViewProps) {
   const { view, navigate, goHome } = usePageView();
+  // Drives .contact-form's down-shift (see globals.css) so the menu
+  // overlaying .content-layer's top doesn't cover the form.
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <>
       <header>
-        <Navbar onNavigate={navigate} />
+        <Navbar onNavigate={navigate} onOpenChange={setIsMenuOpen} />
       </header>
-      <div className="content-layer page-content">
+      <div className="content-layer page-content" data-menu-open={isMenuOpen}>
         <main>
           <h1 className="sr-only">{siteConfig.name}</h1>
           {view === "logo" && logo}
