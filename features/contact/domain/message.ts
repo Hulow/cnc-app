@@ -143,7 +143,7 @@ export class Message {
   }
 
   get attachment(): Attachment | undefined {
-    return this.attachmentVO?.toProps();
+    return this.attachmentVO?.value;
   }
 
   equals(other: Message): boolean {
@@ -151,7 +151,9 @@ export class Message {
       (this.attachmentVO === undefined && other.attachmentVO === undefined) ||
       (this.attachmentVO !== undefined &&
         other.attachmentVO !== undefined &&
-        this.attachmentVO.equals(other.attachmentVO));
+        this.attachmentVO.value.filename === other.attachmentVO.value.filename &&
+        this.attachmentVO.value.mimeType === other.attachmentVO.value.mimeType &&
+        this.attachmentVO.value.sizeBytes === other.attachmentVO.value.sizeBytes);
 
     return (
       this.firstNameVO.value === other.firstNameVO.value &&

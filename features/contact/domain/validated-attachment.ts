@@ -8,24 +8,12 @@ export interface Attachment {
 }
 
 /**
- * Value object wrapping an attachment. Immutable; equality by value.
+ * Value object wrapping an attachment. Immutable.
  */
 export class ValidatedAttachment {
-  private constructor(private readonly props: Attachment) {}
+  private constructor(readonly value: Attachment) {}
 
   static create(props: Attachment): FieldResult<ValidatedAttachment> {
     return { value: new ValidatedAttachment(props) };
-  }
-
-  toProps(): Attachment {
-    return { ...this.props };
-  }
-
-  equals(other: ValidatedAttachment): boolean {
-    return (
-      this.props.filename === other.props.filename &&
-      this.props.mimeType === other.props.mimeType &&
-      this.props.sizeBytes === other.props.sizeBytes
-    );
   }
 }

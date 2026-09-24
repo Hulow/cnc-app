@@ -24,7 +24,7 @@ describe("Given a supported attachment", () => {
       const attachment = validAttachment({ filename: "part.pdf", mimeType: "application/pdf" });
       const result = ValidatedAttachment.create(attachment);
 
-      expect(result.value?.toProps()).toEqual(attachment);
+      expect(result.value?.value).toEqual(attachment);
     });
   });
 });
@@ -56,12 +56,12 @@ describe("Given an attachment over any size limit", () => {
 });
 
 describe("Given two validated attachments with the same properties", () => {
-  describe("When they are compared", () => {
+  describe("When their properties are compared", () => {
     it("Then they are equal", () => {
       const first = ValidatedAttachment.create(validAttachment()).value!;
       const second = ValidatedAttachment.create(validAttachment()).value!;
 
-      expect(first.equals(second)).toBe(true);
+      expect(first.value).toEqual(second.value);
     });
   });
 });
