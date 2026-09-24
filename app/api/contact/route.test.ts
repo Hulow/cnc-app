@@ -54,7 +54,33 @@ describe("Given an invalid email address", () => {
       const body = await response.json();
 
       expect(response.status).toBe(400);
-      expect(body).toEqual({ ok: false, errors: [{ field: "email", code: "invalid_format" }] });
+      expect(body).toEqual({ ok: false, error: { field: "email", code: "invalid_format" } });
+      expect(sendMock).not.toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given a missing last name", () => {
+  describe("When it is posted", () => {
+    it("Then it is rejected with a 400 and the mailer is never invoked", async () => {
+      const response = await POST(postRequest(validFormData({ lastName: "" })));
+      const body = await response.json();
+
+      expect(response.status).toBe(400);
+      expect(body).toEqual({ ok: false, error: { field: "lastName", code: "required" } });
+      expect(sendMock).not.toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given a message body that is too long", () => {
+  describe("When it is posted", () => {
+    it("Then it is rejected with a 400 and the mailer is never invoked", async () => {
+      const response = await POST(postRequest(validFormData({ message: "a".repeat(5001) })));
+      const body = await response.json();
+
+      expect(response.status).toBe(400);
+      expect(body).toEqual({ ok: false, error: { field: "message", code: "too_long" } });
       expect(sendMock).not.toHaveBeenCalled();
     });
   });
@@ -81,7 +107,7 @@ describe("Given a missing first name", () => {
       const body = await response.json();
 
       expect(response.status).toBe(400);
-      expect(body).toEqual({ ok: false, errors: [{ field: "firstName", code: "required" }] });
+      expect(body).toEqual({ ok: false, error: { field: "firstName", code: "required" } });
       expect(sendMock).not.toHaveBeenCalled();
     });
   });
@@ -115,7 +141,7 @@ describe("Given the mailer fails to deliver", () => {
       expect(response.status).toBe(500);
       expect(body).toEqual({
         ok: false,
-        error: "We couldn't send your message. Please try again.",
+        error: "Something went wrong with my Email delivery provider",
       });
       expect(JSON.stringify(body)).not.toContain("sk_live_xxx");
     });
@@ -135,7 +161,7 @@ describe("Given the mailer cannot even be constructed (e.g. missing env vars)", 
       expect(response.status).toBe(500);
       expect(body).toEqual({
         ok: false,
-        error: "We couldn't send your message. Please try again.",
+        error: "Something went wrong",
       });
     });
   });

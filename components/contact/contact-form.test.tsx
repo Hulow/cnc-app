@@ -46,13 +46,13 @@ describe("Given a valid submission", () => {
   });
 });
 
-describe("Given the API rejects the submission with field errors", () => {
+describe("Given the API rejects the submission with a field error", () => {
   describe("When the visitor submits", () => {
     it("Then the matching field's validation message is shown", async () => {
       vi.stubGlobal(
         "fetch",
         vi.fn().mockResolvedValue(
-          jsonResponse({ ok: false, errors: [{ field: "email", code: "invalid_format" }] }, false),
+          jsonResponse({ ok: false, error: { field: "email", code: "invalid_format" } }, false),
         ),
       );
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
@@ -67,7 +67,7 @@ describe("Given the API rejects the submission with field errors", () => {
       vi.stubGlobal(
         "fetch",
         vi.fn().mockResolvedValue(
-          jsonResponse({ ok: false, errors: [{ field: "email", code: "invalid_format" }] }, false),
+          jsonResponse({ ok: false, error: { field: "email", code: "invalid_format" } }, false),
         ),
       );
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
@@ -87,7 +87,7 @@ describe("Given the API rejects the submission with a phone field error", () => 
       vi.stubGlobal(
         "fetch",
         vi.fn().mockResolvedValue(
-          jsonResponse({ ok: false, errors: [{ field: "phone", code: "invalid_format" }] }, false),
+          jsonResponse({ ok: false, error: { field: "phone", code: "invalid_format" } }, false),
         ),
       );
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
@@ -117,6 +117,26 @@ describe("Given the API reports a delivery failure", () => {
       expect(
         await screen.findByText("We couldn't send your message. Please try again."),
       ).toBeInTheDocument();
+    });
+  });
+});
+
+describe("Given the API responds with the obsolete plural errors shape", () => {
+  describe("When the visitor submits", () => {
+    it("Then it is not specially handled and a generic message is shown instead", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue(
+          jsonResponse({ ok: false, errors: [{ field: "email", code: "invalid_format" }] }, false),
+        ),
+      );
+      render(<ContactForm formId="contact-form" onClose={() => {}} />);
+
+      fillRequiredFields();
+      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+
+      expect(await screen.findByText("Please check the form and try again.")).toBeInTheDocument();
+      expect(screen.queryByText("Enter a valid email address.")).not.toBeInTheDocument();
     });
   });
 });

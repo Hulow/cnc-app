@@ -67,28 +67,28 @@ export async function POST(request: Request): Promise<Response> {
   } catch (error) {
     if (error instanceof InvalidFirstNameError) {
       return Response.json(
-        { ok: false, errors: [{ field: "firstName", code: error.code }] },
+        { ok: false, error: { field: "firstName", code: error.code } },
         { status: 400 }
       );
     }
 
     if (error instanceof InvalidLastNameError) {
       return Response.json(
-        { ok: false, errors: [{ field: "lastName", code: error.code }] },
+        { ok: false, error: { field: "lastName", code: error.code } },
         { status: 400 }
       );
     }
 
     if (error instanceof InvalidEmailAddressError) {
       return Response.json(
-        { ok: false, errors: [{ field: "email", code: error.code }] },
+        { ok: false, error: { field: "email", code: error.code } },
         { status: 400 }
       );
     }
 
     if (error instanceof InvalidMessageBodyError) {
       return Response.json(
-        { ok: false, errors: [{ field: "message", code: error.code }] },
+        { ok: false, error: { field: "message", code: error.code } },
         { status: 400 }
       );
     }

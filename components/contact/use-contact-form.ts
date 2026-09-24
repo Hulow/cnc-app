@@ -4,7 +4,7 @@ type FieldName = "firstName" | "lastName" | "email" | "phone" | "companyName" | 
 type Status = "idle" | "submitting" | "success" | "error";
 
 interface FieldError {
-  field: string;
+  field: FieldName;
   code: string;
 }
 
@@ -25,12 +25,8 @@ const FIELD_ERROR_MESSAGES: Partial<Record<FieldName, Partial<Record<string, str
 
 const DEFAULT_ERROR_MESSAGE = "Please check the form and try again.";
 
-function fieldErrorMessages(errors: FieldError[]): Partial<Record<FieldName, string>> {
-  const messages: Partial<Record<FieldName, string>> = {};
-  for (const { field, code } of errors) {
-    messages[field as FieldName] = FIELD_ERROR_MESSAGES[field as FieldName]?.[code] ?? DEFAULT_ERROR_MESSAGE;
-  }
-  return messages;
+function fieldErrorMessage({ field, code }: FieldError): Partial<Record<FieldName, string>> {
+  return { [field]: FIELD_ERROR_MESSAGES[field]?.[code] ?? DEFAULT_ERROR_MESSAGE };
 }
 
 export function useContactForm() {
@@ -49,17 +45,19 @@ export function useContactForm() {
 
     try {
       const response = await fetch("/api/contact", { method: "POST", body: new FormData(form) });
-      const body: { ok: boolean; errors?: FieldError[]; error?: string } = await response.json();
+      const body: { ok: boolean; error?: FieldError | string } = await response.json();
 
       if (body.ok) {
         setStatus("success");
         return;
       }
 
-      if (body.errors) {
-        setFieldErrors(fieldErrorMessages(body.errors));
-      } else {
+      if (typeof body.error === "string") {
         setFormErrorMessage(body.error ?? DEFAULT_ERROR_MESSAGE);
+      } else if (body.error) {
+        setFieldErrors(fieldErrorMessage(body.error));
+      } else {
+        setFormErrorMessage(DEFAULT_ERROR_MESSAGE);
       }
       setStatus("error");
     } catch {
