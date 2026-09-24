@@ -17,6 +17,15 @@ export interface MessageInput {
   attachment?: Attachment;
 }
 
+export interface MessagePrimitives {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string | null;
+  message: string;
+  attachment?: Attachment;
+}
+
 /**
  * Aggregate root of the contact feature's domain.
  *
@@ -61,27 +70,14 @@ export class Message {
     return new Message(crypto.randomUUID(), firstName, lastName, email, phone, body, attachment);
   }
 
-  get firstName(): string {
-    return this.firstNameVO.value;
-  }
-
-  get lastName(): string {
-    return this.lastNameVO.value;
-  }
-
-  get email(): string {
-    return this.emailVO.value;
-  }
-
-  get phone(): string | null {
-    return this.phoneVO.value;
-  }
-
-  get message(): string {
-    return this.bodyVO.value;
-  }
-
-  get attachment(): Attachment | undefined {
-    return this.attachmentVO?.value;
+  toPrimitives(): MessagePrimitives {
+    return {
+      firstName: this.firstNameVO.value,
+      lastName: this.lastNameVO.value,
+      email: this.emailVO.value,
+      phone: this.phoneVO.value,
+      message: this.bodyVO.value,
+      attachment: this.attachmentVO?.value,
+    };
   }
 }

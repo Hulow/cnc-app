@@ -43,12 +43,14 @@ describe("Given valid contact information", () => {
         validInput({ firstName: "  Ada  ", lastName: "  Lovelace  ", message: "  Hello.  " }),
       );
 
-      expect(message.firstName).toBe("Ada");
-      expect(message.lastName).toBe("Lovelace");
-      expect(message.email).toBe("ada@example.com");
-      expect(message.phone).toBe("030 1234567");
-      expect(message.message).toBe("Hello.");
-      expect(message.attachment).toBeUndefined();
+      expect(message.toPrimitives()).toEqual({
+        firstName: "Ada",
+        lastName: "Lovelace",
+        email: "ada@example.com",
+        phone: "030 1234567",
+        message: "Hello.",
+        attachment: undefined,
+      });
     });
   });
 });
@@ -58,7 +60,7 @@ describe("Given no phone number", () => {
     it("Then it is accepted with a null phone number", () => {
       const message = Message.create(validInput({ phone: null }));
 
-      expect(message.phone).toBeNull();
+      expect(message.toPrimitives().phone).toBeNull();
     });
   });
 });
@@ -69,7 +71,7 @@ describe("Given valid contact information with a supported attachment", () => {
       const attachment = validAttachment();
       const message = Message.create(validInput({ attachment }));
 
-      expect(message.attachment).toEqual(attachment);
+      expect(message.toPrimitives().attachment).toEqual(attachment);
     });
   });
 });
@@ -104,7 +106,7 @@ describe("Given two messages created from the same input", () => {
       const first = Message.create(validInput());
       const second = Message.create(validInput());
 
-      expect(first.message).toBe(second.message);
+      expect(first.toPrimitives()).toEqual(second.toPrimitives());
     });
   });
 });
@@ -115,7 +117,7 @@ describe("Given two messages with different content", () => {
       const first = Message.create(validInput());
       const second = Message.create(validInput({ message: "Different message." }));
 
-      expect(first.message).not.toBe(second.message);
+      expect(first.toPrimitives()).not.toEqual(second.toPrimitives());
     });
   });
 });

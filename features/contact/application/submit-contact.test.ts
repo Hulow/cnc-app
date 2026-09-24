@@ -38,7 +38,7 @@ describe("Given a mailer that delivers successfully", () => {
       await submitContact.execute(validInput());
 
       expect(mailer.sentMessages).toHaveLength(1);
-      expect(mailer.sentMessages[0].email).toBe("ada@example.com");
+      expect(mailer.sentMessages[0].toPrimitives().email).toBe("ada@example.com");
     });
 
     it("Then the result reports success with the created message's id", async () => {

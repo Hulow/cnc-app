@@ -29,20 +29,20 @@ export class ResendContactMailer implements ContactMailer {
   }
 
   async send(message: Message): Promise<void> {
-    const attachment = message.attachment;
+    const { firstName, lastName, email, phone, message: body, attachment } = message.toPrimitives();
 
     const { error } = await this.client.emails.send({
       to: this.toEmail,
       from: this.fromEmail,
-      replyTo: message.email,
-      subject: `Website contact request from ${message.firstName} ${message.lastName}`,
+      replyTo: email,
+      subject: `Website contact request from ${firstName} ${lastName}`,
       text: [
-        `Name: ${message.firstName} ${message.lastName}`,
-        `Email: ${message.email}`,
-        `Phone: ${message.phone ?? "Not provided"}`,
+        `Name: ${firstName} ${lastName}`,
+        `Email: ${email}`,
+        `Phone: ${phone ?? "Not provided"}`,
         `Message ID: ${message.id}`,
         "",
-        message.message,
+        body,
       ].join("\n"),
       attachments: attachment
         ? [
