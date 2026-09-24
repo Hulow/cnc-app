@@ -511,6 +511,10 @@ h3 {
   color: inherit;
 }
 
+.contact-form-field textarea {
+  resize: vertical;
+}
+
 /* Labels are visually hidden (.sr-only) in favor of placeholder text, so
    the placeholder needs enough contrast to read as the field's name. */
 .contact-form-field input::placeholder,
