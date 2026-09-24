@@ -153,6 +153,23 @@ describe("Given the API reports a delivery failure", () => {
   });
 });
 
+describe("Given the attachment is too large for the server to accept", () => {
+  describe("When the visitor submits", () => {
+    it("Then a message about the attachment size is shown", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue({ ok: false, status: 413, json: async () => ({}) } as Response),
+      );
+      render(<ContactForm formId="contact-form" onClose={() => {}} />);
+
+      fillRequiredFields();
+      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+
+      expect(await screen.findByText("The attachment is too large.")).toBeInTheDocument();
+    });
+  });
+});
+
 describe("Given the API responds with the obsolete plural errors shape", () => {
   describe("When the visitor submits", () => {
     it("Then it is not specially handled and a generic message is shown instead", async () => {

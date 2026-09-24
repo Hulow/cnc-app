@@ -65,6 +65,13 @@ export function useContactForm() {
 
     try {
       const response = await fetch("/api/contact", { method: "POST", body: formData });
+
+      if (response.status === 413) {
+        setFormErrorMessage("The attachment is too large.");
+        setStatus("error");
+        return;
+      }
+
       const body: { ok: boolean; error?: FieldError | string } = await response.json();
 
       if (body.ok) {
