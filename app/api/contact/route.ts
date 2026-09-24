@@ -1,4 +1,5 @@
 import type { Attachment, MessageInput } from "@/features/contact/domain/message";
+import { toMessageFieldError } from "@/features/contact/domain/errors/to-message-field-error";
 import { SubmitContact } from "@/features/contact/application/submit-contact";
 import { ResendContactMailer } from "@/features/contact/infrastructure/resend-contact-mailer";
 
@@ -52,19 +53,15 @@ export async function POST(request: Request): Promise<Response> {
 
   try {
     const submitContact = new SubmitContact(new ResendContactMailer());
-    const submitResult = await submitContact.execute(await readMessageInput(formData));
+    await submitContact.execute(await readMessageInput(formData));
 
-    if (!submitResult.ok) {
-      if (submitResult.error === "validation_failed") {
-        return Response.json({ ok: false, errors: submitResult.errors }, { status: 400 });
-      }
-      console.log(`[contact] message ${submitResult.messageId} failed to send`);
-      return Response.json({ ok: false, error: GENERIC_DELIVERY_ERROR_MESSAGE }, { status: 500 });
-    }
-
-    console.log(`[contact] message ${submitResult.messageId} sent`);
     return Response.json({ ok: true }, { status: 200 });
-  } catch {
+  } catch (error) {
+    const fieldError = toMessageFieldError(error);
+    if (fieldError) {
+      return Response.json({ ok: false, errors: [fieldError] }, { status: 400 });
+    }
+    console.log("[contact] message failed to send");
     return Response.json({ ok: false, error: GENERIC_DELIVERY_ERROR_MESSAGE }, { status: 500 });
   }
 }
