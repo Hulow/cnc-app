@@ -1,4 +1,4 @@
-import { Message, type Attachment, type MessageInput } from "@/features/contact/domain/message";
+import type { Attachment, MessageInput } from "@/features/contact/domain/message";
 import { SubmitContact } from "@/features/contact/application/submit-contact";
 import { ResendContactMailer } from "@/features/contact/infrastructure/resend-contact-mailer";
 
@@ -44,17 +44,14 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json({ ok: true }, { status: 200 });
   }
 
-  const result = Message.create(await readMessageInput(formData));
-
-  if (!result.ok) {
-    return Response.json({ ok: false, errors: result.errors }, { status: 400 });
-  }
-
   try {
     const submitContact = new SubmitContact(new ResendContactMailer());
-    const submitResult = await submitContact.execute(result.value);
+    const submitResult = await submitContact.execute(await readMessageInput(formData));
 
     if (!submitResult.ok) {
+      if (submitResult.error === "validation_failed") {
+        return Response.json({ ok: false, errors: submitResult.errors }, { status: 400 });
+      }
       return Response.json({ ok: false, error: GENERIC_DELIVERY_ERROR_MESSAGE }, { status: 500 });
     }
 
