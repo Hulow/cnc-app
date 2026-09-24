@@ -3,6 +3,7 @@ import { InvalidFirstNameError } from "./first-name-error";
 import { LastName } from "./last-name";
 import { InvalidLastNameError } from "./last-name-error";
 import { EmailAddress } from "./email-address";
+import { InvalidEmailAddressError } from "./email-address-error";
 import { PhoneNumber } from "./phone-number";
 import { MessageBody } from "./message-body";
 import { ValidatedAttachment, type Attachment } from "./validated-attachment";
@@ -72,7 +73,15 @@ export class Message {
       lastNameError = { field: "lastName", code: error.code };
     }
 
-    const email = EmailAddress.create(input.email);
+    let email: EmailAddress | undefined;
+    let emailError: MessageFieldError | undefined;
+    try {
+      email = EmailAddress.create(input.email);
+    } catch (error) {
+      if (!(error instanceof InvalidEmailAddressError)) throw error;
+      emailError = { field: "email", code: error.code };
+    }
+
     const phone = PhoneNumber.create(input.phone);
     const body = MessageBody.create(input.message);
     const attachment = input.attachment ? ValidatedAttachment.create(input.attachment) : undefined;
@@ -80,7 +89,7 @@ export class Message {
     const errors = [
       firstNameError,
       lastNameError,
-      email.error,
+      emailError,
       phone.error,
       body.error,
       attachment?.error,
@@ -96,7 +105,7 @@ export class Message {
         crypto.randomUUID(),
         firstName!,
         lastName!,
-        email.value!,
+        email!,
         phone.value!,
         body.value!,
         attachment?.value,
@@ -138,7 +147,7 @@ export class Message {
     return (
       this.firstNameVO.value === other.firstNameVO.value &&
       this.lastNameVO.value === other.lastNameVO.value &&
-      this.emailVO.equals(other.emailVO) &&
+      this.emailVO.value === other.emailVO.value &&
       this.phoneVO.equals(other.phoneVO) &&
       this.bodyVO.equals(other.bodyVO) &&
       sameAttachment
