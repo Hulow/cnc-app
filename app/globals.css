@@ -384,6 +384,29 @@ h3 {
   transform: translateY(-50%) rotate(-45deg);
 }
 
+/* Tablet and up: enlarge the toggle's circle (see .site-nav-toggle above)
+   and scale the bars' spacing to match, so they stay centered within the
+   bigger circle instead of clustering near its middle. */
+@media (min-width: 768px) {
+  .site-nav-toggle {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
+
+  .site-nav-toggle-bar:first-child {
+    transform: translateY(calc(-50% - 14px));
+  }
+
+  .site-nav-toggle-bar:last-child {
+    transform: translateY(calc(-50% + 14px));
+  }
+
+  .site-nav-toggle-bar {
+    left: 15%;
+    width: 32%;
+  }
+}
+
 /* Fixed (not absolute-in-.site-nav), centered with left: 50% +
    translateX(-50%): width (not max-width) matches .content-layer's own
    width (90%/70%, capped at 75rem) exactly, so the menu's edges line up
