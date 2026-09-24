@@ -576,6 +576,15 @@ h3 {
   cursor: pointer;
 }
 
+/* The generic `.contact-form-field input:disabled` rule outranks the
+   rule above on specificity, so without this the native (real, still
+   invisible-by-design) file input would pop back to visible — showing
+   its own filename label on top of .contact-form-file-name — the
+   moment the form disables it while submitting. */
+.contact-form-file input:disabled {
+  opacity: 0;
+}
+
 .contact-form-file-button {
   flex-shrink: 0;
   padding: 0.125rem 0.6rem;
