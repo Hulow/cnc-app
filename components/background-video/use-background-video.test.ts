@@ -14,6 +14,7 @@ function renderBackgroundVideo(options: { enabled?: boolean } = {}) {
 beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
   vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
+  vi.spyOn(HTMLMediaElement.prototype, "load").mockImplementation(() => {});
   vi.spyOn(console, "error").mockImplementation(() => {});
 });
 
@@ -85,6 +86,26 @@ describe("useBackgroundVideo", () => {
         expect.objectContaining({ reason: "initial", error }),
       );
     });
+  });
+
+  it("reloads the source before playing when readyState is HAVE_NOTHING", async () => {
+    // jsdom's videos default to readyState 0 (HAVE_NOTHING), matching a
+    // real browser that's evicted a backgrounded video's buffered data.
+    const { video } = renderBackgroundVideo();
+
+    await waitFor(() => expect(video.load).toHaveBeenCalledTimes(1));
+    expect(video.play).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not reload the source when it already has data", async () => {
+    const video = document.createElement("video");
+    Object.defineProperty(video, "readyState", { value: 4 });
+    const ref = { current: video };
+
+    renderHook(() => useBackgroundVideo(ref, { enabled: true }));
+
+    await waitFor(() => expect(video.play).toHaveBeenCalledTimes(1));
+    expect(video.load).not.toHaveBeenCalled();
   });
 
   it("removes all listeners on unmount", () => {
