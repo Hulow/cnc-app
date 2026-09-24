@@ -59,6 +59,24 @@ describe("Given only the email field is left empty", () => {
   });
 });
 
+describe("Given the email field has an invalid format", () => {
+  describe("When the visitor submits", () => {
+    it("Then the email field's message is shown and no request is sent", () => {
+      const fetchMock = vi.fn();
+      vi.stubGlobal("fetch", fetchMock);
+      render(<ContactForm formId="contact-form" onClose={() => {}} />);
+
+      fireEvent.change(screen.getByLabelText("First name"), { target: { value: "Ada" } });
+      fireEvent.change(screen.getByLabelText("Last name"), { target: { value: "Lovelace" } });
+      fireEvent.change(screen.getByLabelText("Email"), { target: { value: "not-an-email" } });
+      fireEvent.click(screen.getByRole("button", { name: "Send" }));
+
+      expect(screen.getByText("Enter a valid email address.")).toBeInTheDocument();
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+  });
+});
+
 describe("Given a valid submission", () => {
   describe("When the visitor submits and the API accepts it", () => {
     it("Then a success confirmation is shown", async () => {

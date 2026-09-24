@@ -61,6 +61,13 @@ export function useContactForm() {
       return;
     }
 
+    const email = formData.get("email");
+    if (typeof email === "string" && !isValidEmailFormat(email)) {
+      setFormErrorMessage(null);
+      setFieldErrors({ email: FIELD_ERROR_MESSAGES.email!.invalid_format! });
+      return;
+    }
+
     setStatus("submitting");
     setFormErrorMessage(null);
     setFieldErrors({});
