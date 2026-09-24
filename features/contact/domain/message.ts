@@ -1,4 +1,4 @@
-import { FirstName } from "./first-name";
+import { FirstName, InvalidFirstNameError } from "./first-name";
 import { LastName } from "./last-name";
 import { EmailAddress } from "./email-address";
 import { PhoneNumber } from "./phone-number";
@@ -52,7 +52,15 @@ export class Message {
   }
 
   static create(input: MessageInput): MessageResult {
-    const firstName = FirstName.create(input.firstName);
+    let firstName: FirstName | undefined;
+    let firstNameError: MessageFieldError | undefined;
+    try {
+      firstName = FirstName.create(input.firstName);
+    } catch (error) {
+      if (!(error instanceof InvalidFirstNameError)) throw error;
+      firstNameError = { field: "firstName", code: error.code };
+    }
+
     const lastName = LastName.create(input.lastName);
     const email = EmailAddress.create(input.email);
     const phone = PhoneNumber.create(input.phone);
@@ -60,7 +68,7 @@ export class Message {
     const attachment = input.attachment ? ValidatedAttachment.create(input.attachment) : undefined;
 
     const errors = [
-      firstName.error,
+      firstNameError,
       lastName.error,
       email.error,
       phone.error,
@@ -76,7 +84,7 @@ export class Message {
       ok: true,
       value: new Message(
         crypto.randomUUID(),
-        firstName.value!,
+        firstName!,
         lastName.value!,
         email.value!,
         phone.value!,
@@ -118,7 +126,7 @@ export class Message {
         this.attachmentVO.equals(other.attachmentVO));
 
     return (
-      this.firstNameVO.equals(other.firstNameVO) &&
+      this.firstNameVO.value === other.firstNameVO.value &&
       this.lastNameVO.equals(other.lastNameVO) &&
       this.emailVO.equals(other.emailVO) &&
       this.phoneVO.equals(other.phoneVO) &&
