@@ -100,6 +100,17 @@ export function useContactForm() {
     setFieldErrors({});
   }
 
+  // Called as the visitor edits a field, so a shown error doesn't linger
+  // once they've started correcting it.
+  function clearFieldError(field: FieldName) {
+    setFieldErrors((previous) => {
+      if (!(field in previous)) return previous;
+      const next = { ...previous };
+      delete next[field];
+      return next;
+    });
+  }
+
   return {
     status,
     isSubmitting: status === "submitting",
@@ -107,5 +118,6 @@ export function useContactForm() {
     fieldErrors,
     handleSubmit,
     reset,
+    clearFieldError,
   };
 }

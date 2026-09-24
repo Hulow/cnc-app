@@ -117,6 +117,24 @@ describe("Given the API rejects the submission with a field error", () => {
       await screen.findByText("Enter a valid email address.");
       expect(screen.getByLabelText("First name")).toHaveValue("Ada");
     });
+
+    it("Then editing the field clears its error", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue(
+          jsonResponse({ ok: false, error: { field: "email", code: "invalid_format" } }, false),
+        ),
+      );
+      render(<ContactForm formId="contact-form" onClose={() => {}} />);
+
+      fillRequiredFields();
+      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      await screen.findByText("Enter a valid email address.");
+
+      fireEvent.change(screen.getByLabelText("Email"), { target: { value: "ada@example.org" } });
+
+      expect(screen.queryByText("Enter a valid email address.")).not.toBeInTheDocument();
+    });
   });
 });
 

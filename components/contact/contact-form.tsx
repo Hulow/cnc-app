@@ -18,7 +18,8 @@ const ACCEPT_ATTRIBUTE = ALLOWED_ATTACHMENT_EXTENSIONS.join(",");
 const MAX_ATTACHMENT_MB = (MAX_ATTACHMENT_BYTES / (1024 * 1024)).toFixed(1);
 
 export function ContactForm({ formId, onClose }: ContactFormProps) {
-  const { status, isSubmitting, formErrorMessage, fieldErrors, handleSubmit, reset } = useContactForm();
+  const { status, isSubmitting, formErrorMessage, fieldErrors, handleSubmit, reset, clearFieldError } =
+    useContactForm();
   // The real filename, not just a boolean: the native input is fully
   // hidden (so the button can read "Upload" instead of the browser's
   // fixed label), so its own filename display is hidden too — this is
@@ -83,6 +84,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           type="text"
           placeholder="Company"
           disabled={isSubmitting}
+          onChange={() => clearFieldError("companyName")}
         />
         {fieldErrors.companyName && <p role="alert">{fieldErrors.companyName}</p>}
       </div>
@@ -96,6 +98,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           placeholder="First name *"
           required
           disabled={isSubmitting}
+          onChange={() => clearFieldError("firstName")}
         />
         {fieldErrors.firstName && <p role="alert">{fieldErrors.firstName}</p>}
       </div>
@@ -109,6 +112,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           placeholder="Last name *"
           required
           disabled={isSubmitting}
+          onChange={() => clearFieldError("lastName")}
         />
         {fieldErrors.lastName && <p role="alert">{fieldErrors.lastName}</p>}
       </div>
@@ -122,6 +126,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           placeholder="Email *"
           required
           disabled={isSubmitting}
+          onChange={() => clearFieldError("email")}
         />
         {fieldErrors.email && <p role="alert">{fieldErrors.email}</p>}
       </div>
@@ -134,6 +139,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           type="tel"
           placeholder="Phone"
           disabled={isSubmitting}
+          onChange={() => clearFieldError("phone")}
         />
         {fieldErrors.phone && <p role="alert">{fieldErrors.phone}</p>}
       </div>
@@ -146,6 +152,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           placeholder="Message"
           rows={5}
           disabled={isSubmitting}
+          onChange={() => clearFieldError("message")}
         />
         {fieldErrors.message && <p role="alert">{fieldErrors.message}</p>}
       </div>
