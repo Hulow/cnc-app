@@ -66,11 +66,18 @@ export function useContactForm() {
     }
   }
 
+  function reset() {
+    setStatus("idle");
+    setFormErrorMessage(null);
+    setFieldErrors({});
+  }
+
   return {
     status,
     isSubmitting: status === "submitting",
     formErrorMessage,
     fieldErrors,
     handleSubmit,
+    reset,
   };
 }

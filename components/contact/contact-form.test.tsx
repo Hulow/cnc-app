@@ -190,16 +190,53 @@ describe("Given a submission is already in flight", () => {
   });
 });
 
-describe("Given the visitor cancels", () => {
-  describe("When the Cancel button is clicked", () => {
-    it("Then onClose is called", () => {
+describe("Given the visitor has filled in the form", () => {
+  describe("When they click Cancel", () => {
+    it("Then the form stays open and its fields are cleared", () => {
       vi.stubGlobal("fetch", vi.fn());
       const onClose = vi.fn();
       render(<ContactForm formId="contact-form" onClose={onClose} />);
 
+      fillRequiredFields();
       fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
 
-      expect(onClose).toHaveBeenCalledTimes(1);
+      expect(onClose).not.toHaveBeenCalled();
+      expect(screen.getByLabelText("First name")).toHaveValue("");
+      expect(screen.getByLabelText("Last name")).toHaveValue("");
+      expect(screen.getByLabelText("Email")).toHaveValue("");
+      expect(screen.getByLabelText("Message")).toHaveValue("");
+    });
+
+    it("Then a shown validation error is cleared", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue(
+          jsonResponse({ ok: false, error: { field: "email", code: "invalid_format" } }, false),
+        ),
+      );
+      render(<ContactForm formId="contact-form" onClose={() => {}} />);
+
+      fillRequiredFields();
+      fireEvent.click(screen.getByRole("button", { name: "Send message" }));
+      await screen.findByText("Enter a valid email address.");
+
+      fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+      expect(screen.queryByText("Enter a valid email address.")).not.toBeInTheDocument();
+    });
+
+    it("Then a selected attachment is cleared", () => {
+      vi.stubGlobal("fetch", vi.fn());
+      render(<ContactForm formId="contact-form" onClose={() => {}} />);
+
+      const fileInput = screen.getByLabelText("Attachment") as HTMLInputElement;
+      const file = new File(["content"], "bracket.pdf", { type: "application/pdf" });
+      fireEvent.change(fileInput, { target: { files: [file] } });
+      expect(screen.getByRole("button", { name: "Remove attachment" })).toBeInTheDocument();
+
+      fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+      expect(screen.queryByRole("button", { name: "Remove attachment" })).not.toBeInTheDocument();
     });
   });
 });

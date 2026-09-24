@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ChangeEvent } from "react";
+import { useRef, useState, type ChangeEvent, type MouseEvent } from "react";
 import { ALLOWED_ATTACHMENT_EXTENSIONS, MAX_ATTACHMENT_BYTES } from "@/shared/contact-attachment";
 import { useContactForm } from "./use-contact-form";
 
@@ -13,7 +13,7 @@ const ACCEPT_ATTRIBUTE = ALLOWED_ATTACHMENT_EXTENSIONS.join(",");
 const MAX_ATTACHMENT_MB = Math.round(MAX_ATTACHMENT_BYTES / (1024 * 1024));
 
 export function ContactForm({ formId, onClose }: ContactFormProps) {
-  const { status, isSubmitting, formErrorMessage, fieldErrors, handleSubmit } = useContactForm();
+  const { status, isSubmitting, formErrorMessage, fieldErrors, handleSubmit, reset } = useContactForm();
   // The real filename, not just a boolean: the native input is fully
   // hidden (so the button can read "Upload" instead of the browser's
   // fixed label), so its own filename display is hidden too — this is
@@ -32,6 +32,16 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
       attachmentInputRef.current.value = "";
     }
     setAttachmentName(null);
+  }
+
+  // Cancel clears the form in place rather than closing it — native
+  // form.reset() handles the input elements, so only the React-tracked
+  // state (attachment name, submit status, field/form errors) needs to
+  // be reset alongside it.
+  function handleCancel(event: MouseEvent<HTMLButtonElement>) {
+    event.currentTarget.form?.reset();
+    setAttachmentName(null);
+    reset();
   }
 
   if (status === "success") {
@@ -182,7 +192,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Sending…" : "Send message"}
         </button>
-        <button type="button" onClick={onClose} disabled={isSubmitting}>
+        <button type="button" onClick={handleCancel} disabled={isSubmitting}>
           Cancel
         </button>
       </div>
