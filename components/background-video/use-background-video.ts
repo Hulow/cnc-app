@@ -21,16 +21,6 @@ export function useBackgroundVideo(
     const syncPlayback = async (reason: string) => {
       if (!video.paused) return;
 
-      // iOS Safari can evict a backgrounded video's decoded/buffered data
-      // under memory pressure — readyState drops back to HAVE_NOTHING (0),
-      // the same reset the "emptied" event reports (see BackgroundVideo's
-      // onEmptied). play() alone won't recover from that: the element
-      // needs to reload its source first, or it just silently fails to
-      // resume, leaving the video frozen even though nothing here errors.
-      if (video.readyState === 0) {
-        video.load();
-      }
-
       try {
         await video.play();
       } catch (error) {
