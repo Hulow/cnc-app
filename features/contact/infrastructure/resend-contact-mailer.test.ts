@@ -15,16 +15,13 @@ vi.mock("resend", () => ({
 const { ResendContactMailer } = await import("./resend-contact-mailer");
 
 function validMessage(): Message {
-  const result = Message.create({
+  return Message.create({
     firstName: "Ada",
     lastName: "Lovelace",
     email: "ada@example.com",
     phone: "030 1234567",
     message: "I'd like a quote for a milled aluminum bracket.",
   });
-
-  if (!result.ok) throw new Error("expected a valid message");
-  return result.value;
 }
 
 function stubValidEnv() {
@@ -110,7 +107,7 @@ describe("Given a message with an attachment", () => {
       stubValidEnv();
       sendMock.mockResolvedValue({ data: { id: "email_1" }, error: null });
       const mailer = new ResendContactMailer();
-      const messageResult = Message.create({
+      const message = Message.create({
         firstName: "Ada",
         lastName: "Lovelace",
         email: "ada@example.com",
@@ -123,9 +120,8 @@ describe("Given a message with an attachment", () => {
           content: new Uint8Array([1, 2, 3]),
         },
       });
-      if (!messageResult.ok) throw new Error("expected a valid message");
 
-      await mailer.send(messageResult.value);
+      await mailer.send(message);
 
       expect(sendMock).toHaveBeenCalledWith(
         expect.objectContaining({

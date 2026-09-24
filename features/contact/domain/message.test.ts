@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Message, type Attachment, type MessageInput } from "./message";
+import { InvalidFirstNameError } from "./errors/first-name-error";
+import { InvalidEmailAddressError } from "./errors/email-address-error";
 
 function validInput(overrides: Partial<MessageInput> = {}): MessageInput {
   return {
@@ -25,34 +27,28 @@ function validAttachment(overrides: Partial<Attachment> = {}): Attachment {
 describe("Given valid contact information", () => {
   describe("When a contact message is created", () => {
     it("Then it is accepted", () => {
-      const result = Message.create(validInput());
-
-      expect(result.ok).toBe(true);
+      expect(() => Message.create(validInput())).not.toThrow();
     });
 
     it("Then it is assigned a unique id", () => {
       const first = Message.create(validInput());
       const second = Message.create(validInput());
 
-      expect(first.ok && second.ok).toBe(true);
-      if (!first.ok || !second.ok) return;
-      expect(first.value.id).toEqual(expect.any(String));
-      expect(first.value.id).not.toBe(second.value.id);
+      expect(first.id).toEqual(expect.any(String));
+      expect(first.id).not.toBe(second.id);
     });
 
     it("Then the accepted value exposes the trimmed fields", () => {
-      const result = Message.create(
+      const message = Message.create(
         validInput({ firstName: "  Ada  ", lastName: "  Lovelace  ", message: "  Hello.  " }),
       );
 
-      expect(result.ok).toBe(true);
-      if (!result.ok) return;
-      expect(result.value.firstName).toBe("Ada");
-      expect(result.value.lastName).toBe("Lovelace");
-      expect(result.value.email).toBe("ada@example.com");
-      expect(result.value.phone).toBe("030 1234567");
-      expect(result.value.message).toBe("Hello.");
-      expect(result.value.attachment).toBeUndefined();
+      expect(message.firstName).toBe("Ada");
+      expect(message.lastName).toBe("Lovelace");
+      expect(message.email).toBe("ada@example.com");
+      expect(message.phone).toBe("030 1234567");
+      expect(message.message).toBe("Hello.");
+      expect(message.attachment).toBeUndefined();
     });
   });
 });
@@ -60,11 +56,9 @@ describe("Given valid contact information", () => {
 describe("Given no phone number", () => {
   describe("When a contact message is created", () => {
     it("Then it is accepted with a null phone number", () => {
-      const result = Message.create(validInput({ phone: null }));
+      const message = Message.create(validInput({ phone: null }));
 
-      expect(result.ok).toBe(true);
-      if (!result.ok) return;
-      expect(result.value.phone).toBeNull();
+      expect(message.phone).toBeNull();
     });
   });
 });
@@ -73,27 +67,33 @@ describe("Given valid contact information with a supported attachment", () => {
   describe("When a contact message is created", () => {
     it("Then the attachment is exposed on the accepted value", () => {
       const attachment = validAttachment();
-      const result = Message.create(validInput({ attachment }));
+      const message = Message.create(validInput({ attachment }));
 
-      expect(result.ok).toBe(true);
-      if (!result.ok) return;
-      expect(result.value.attachment).toEqual(attachment);
+      expect(message.attachment).toEqual(attachment);
+    });
+  });
+});
+
+describe("Given an invalid first name", () => {
+  describe("When a contact message is created", () => {
+    it("Then it throws the first name's domain error", () => {
+      expect(() => Message.create(validInput({ firstName: "" }))).toThrow(InvalidFirstNameError);
     });
   });
 });
 
 describe("Given multiple invalid fields", () => {
   describe("When a contact message is created", () => {
-    it("Then every violated field is reported", () => {
-      const result = Message.create(validInput({ firstName: "", email: "bad" }));
+    it("Then only the first violated field is reported", () => {
+      expect(() => Message.create(validInput({ firstName: "", email: "bad" }))).toThrow(
+        InvalidFirstNameError,
+      );
+    });
 
-      expect(result).toEqual({
-        ok: false,
-        errors: [
-          { field: "firstName", code: "required" },
-          { field: "email", code: "invalid_format" },
-        ],
-      });
+    it("Then a later field's error does not surface once an earlier one already threw", () => {
+      expect(() => Message.create(validInput({ firstName: "", email: "bad" }))).not.toThrow(
+        InvalidEmailAddressError,
+      );
     });
   });
 });
@@ -104,7 +104,7 @@ describe("Given two messages created from the same input", () => {
       const first = Message.create(validInput());
       const second = Message.create(validInput());
 
-      expect(first.ok && second.ok && first.value.equals(second.value)).toBe(true);
+      expect(first.equals(second)).toBe(true);
     });
   });
 });
@@ -115,7 +115,7 @@ describe("Given two messages with different content", () => {
       const first = Message.create(validInput());
       const second = Message.create(validInput({ message: "Different message." }));
 
-      expect(first.ok && second.ok && first.value.equals(second.value)).toBe(false);
+      expect(first.equals(second)).toBe(false);
     });
   });
 });

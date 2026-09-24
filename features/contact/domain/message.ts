@@ -1,21 +1,12 @@
 import { FirstName } from "./first-name";
-import { InvalidFirstNameError } from "./errors/first-name-error";
 import { LastName } from "./last-name";
-import { InvalidLastNameError } from "./errors/last-name-error";
 import { EmailAddress } from "./email-address";
-import { InvalidEmailAddressError } from "./errors/email-address-error";
 import { PhoneNumber } from "./phone-number";
 import { MessageBody } from "./message-body";
-import { InvalidMessageBodyError } from "./errors/message-body-error";
 import { ValidatedAttachment, type Attachment } from "./validated-attachment";
-import type { MessageFieldError } from "./errors/message-errors";
 
 export type { Attachment } from "./validated-attachment";
 export type { MessageFieldError } from "./errors/message-errors";
-
-export type MessageResult =
-  | { ok: true; value: Message }
-  | { ok: false; errors: MessageFieldError[] };
 
 export interface MessageInput {
   firstName: string;
@@ -36,6 +27,10 @@ export interface MessageInput {
  * (`FirstName`, `LastName`, `EmailAddress`, `PhoneNumber`, `MessageBody`, `ValidatedAttachment`);
  * there is no way to obtain a `Message` instance that violates them.
  *
+ * `create` throws the first violated value object's domain error rather
+ * than collecting every violation — callers that need the {field, code}
+ * shape map it with `toMessageFieldError`.
+ *
  * `id` is a UUID generated at creation time purely for tracing a
  * submission across logs and the outbound email — it is not a
  * persistence identity.
@@ -55,71 +50,15 @@ export class Message {
     this.id = id;
   }
 
-  static create(input: MessageInput): MessageResult {
-    let firstName: FirstName | undefined;
-    let firstNameError: MessageFieldError | undefined;
-    try {
-      firstName = FirstName.create(input.firstName);
-    } catch (error) {
-      if (!(error instanceof InvalidFirstNameError)) throw error;
-      firstNameError = { field: "firstName", code: error.code };
-    }
-
-    let lastName: LastName | undefined;
-    let lastNameError: MessageFieldError | undefined;
-    try {
-      lastName = LastName.create(input.lastName);
-    } catch (error) {
-      if (!(error instanceof InvalidLastNameError)) throw error;
-      lastNameError = { field: "lastName", code: error.code };
-    }
-
-    let email: EmailAddress | undefined;
-    let emailError: MessageFieldError | undefined;
-    try {
-      email = EmailAddress.create(input.email);
-    } catch (error) {
-      if (!(error instanceof InvalidEmailAddressError)) throw error;
-      emailError = { field: "email", code: error.code };
-    }
-
+  static create(input: MessageInput): Message {
+    const firstName = FirstName.create(input.firstName);
+    const lastName = LastName.create(input.lastName);
+    const email = EmailAddress.create(input.email);
     const phone = PhoneNumber.create(input.phone);
+    const body = MessageBody.create(input.message);
+    const attachment = input.attachment ? ValidatedAttachment.create(input.attachment).value : undefined;
 
-    let body: MessageBody | undefined;
-    let bodyError: MessageFieldError | undefined;
-    try {
-      body = MessageBody.create(input.message);
-    } catch (error) {
-      if (!(error instanceof InvalidMessageBodyError)) throw error;
-      bodyError = { field: "message", code: error.code };
-    }
-
-    const attachment = input.attachment ? ValidatedAttachment.create(input.attachment) : undefined;
-
-    const errors = [
-      firstNameError,
-      lastNameError,
-      emailError,
-      bodyError,
-      attachment?.error,
-    ].filter((error): error is MessageFieldError => error !== undefined);
-
-    if (errors.length > 0) {
-      return { ok: false, errors };
-    }
-
-    return {
-      ok: true,
-      value: new Message(
-        crypto.randomUUID(),
-        firstName!,
-        lastName!,
-        email!,
-        phone,
-        body!,
-        attachment?.value,
-      ),
-    };
+    return new Message(crypto.randomUUID(), firstName, lastName, email, phone, body, attachment);
   }
 
   get firstName(): string {

@@ -1,5 +1,6 @@
 import { Message, type MessageInput } from "../domain/message";
 import type { MessageFieldError } from "../domain/errors/message-errors";
+import { toMessageFieldError } from "../domain/errors/to-message-field-error";
 import type { ContactMailer } from "./contact-mailer";
 
 export type SubmitContactResult =
@@ -18,17 +19,20 @@ export class SubmitContact {
   constructor(private readonly mailer: ContactMailer) {}
 
   async execute(input: MessageInput): Promise<SubmitContactResult> {
-    const result = Message.create(input);
-
-    if (!result.ok) {
-      return { ok: false, error: "validation_failed", errors: result.errors };
+    let message: Message;
+    try {
+      message = Message.create(input);
+    } catch (error) {
+      const fieldError = toMessageFieldError(error);
+      if (!fieldError) throw error;
+      return { ok: false, error: "validation_failed", errors: [fieldError] };
     }
 
     try {
-      await this.mailer.send(result.value);
-      return { ok: true, messageId: result.value.id };
+      await this.mailer.send(message);
+      return { ok: true, messageId: message.id };
     } catch {
-      return { ok: false, error: "delivery_failed", messageId: result.value.id };
+      return { ok: false, error: "delivery_failed", messageId: message.id };
     }
   }
 }
