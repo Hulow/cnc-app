@@ -73,9 +73,9 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
 
   if (status === "success") {
     return (
-      <div id={formId} className="contact-form" role="status">
-        <p>Thanks for reaching out — your message has been sent.</p>
-        <button type="button" onClick={onClose}>
+      <div id={formId} className="contact-form contact-form-success" role="status">
+        <p>Thanks for reaching out! I will get back to you soon.</p>
+        <button type="button" className="contact-form-close-button" onClick={onClose}>
           Close
         </button>
       </div>
