@@ -1,6 +1,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Flat, opaque stand-in for the contact form fields' background. Unlike
+     the form panel itself (translucent over the full-bleed background
+     video), fields must resolve to a solid color: browser autofill can
+     only be overridden with an opaque paint (see the :-webkit-autofill
+     rule below), so this is the single value both the normal and
+     autofilled field states share — keeping them pixel-identical instead
+     of drifting whenever the video's brightness changes. */
+  --field-background: color-mix(in srgb, var(--background) 92%, white 8%);
   /* Matches the stroke/fill color baked into public/logo.svg. */
   --logo-color: #51f501;
 
@@ -507,7 +515,7 @@ h3 {
   padding: var(--space-xs);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 0.375rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--field-background);
   color: inherit;
 }
 
@@ -531,15 +539,19 @@ h3 {
 /* Autofill (e.g. iOS filling from saved Contacts info) paints its own
    opaque white background and dark text, ignoring the input's own
    background/color — only overridable via this inset box-shadow +
-   text-fill-color trick, not a plain `background`. */
+   text-fill-color trick, not a plain `background`. The shadow can only be
+   a flat, opaque fill (it has to fully mask the browser's native autofill
+   paint) — it's set to the same --field-background the fields use
+   normally (see above), so autofilled and non-autofilled fields are
+   always pixel-identical instead of a separately hardcoded guess. */
 .contact-form-field input:-webkit-autofill,
 .contact-form-field input:-webkit-autofill:hover,
 .contact-form-field input:-webkit-autofill:focus,
 .contact-form-field input:autofill {
-  -webkit-text-fill-color: #ededed;
-  -webkit-box-shadow: 0 0 0 1000px #141414 inset;
-  box-shadow: 0 0 0 1000px #141414 inset;
-  caret-color: #ededed;
+  -webkit-text-fill-color: var(--foreground);
+  -webkit-box-shadow: 0 0 0 1000px var(--field-background) inset;
+  box-shadow: 0 0 0 1000px var(--field-background) inset;
+  caret-color: var(--foreground);
   transition: background-color 9999s ease-in-out 0s;
 }
 
@@ -580,7 +592,7 @@ h3 {
   padding: var(--space-xs);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 0.375rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--field-background);
 }
 
 /* Invisible but on top and interactive, so clicks land on the real
