@@ -528,6 +528,21 @@ h3 {
   opacity: 0.6;
 }
 
+/* Autofill (e.g. iOS filling from saved Contacts info) paints its own
+   opaque white background and dark text, ignoring the input's own
+   background/color — only overridable via this inset box-shadow +
+   text-fill-color trick, not a plain `background`. */
+.contact-form-field input:-webkit-autofill,
+.contact-form-field input:-webkit-autofill:hover,
+.contact-form-field input:-webkit-autofill:focus,
+.contact-form-field input:autofill {
+  -webkit-text-fill-color: #ededed;
+  -webkit-box-shadow: 0 0 0 1000px #141414 inset;
+  box-shadow: 0 0 0 1000px #141414 inset;
+  caret-color: #ededed;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
 .contact-form-hint {
   font-size: var(--font-size-sm);
   opacity: 0.75;
