@@ -1,52 +1,19 @@
 "use client";
 
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 import { ALLOWED_ATTACHMENT_EXTENSIONS, MAX_ATTACHMENT_BYTES } from "@/shared/contact-attachment";
+import { useContactForm } from "./use-contact-form";
 
 interface ContactFormProps {
   formId: string;
   onClose: () => void;
 }
 
-type FieldName = "firstName" | "lastName" | "email" | "phone" | "companyName" | "message" | "attachment";
-type Status = "idle" | "submitting" | "success" | "error";
-
-interface FieldError {
-  field: string;
-  code: string;
-}
-
-// Human-readable copy for the domain's field/code error pairs. Codes
-// that the domain can no longer produce (e.g. attachment rejections)
-// are intentionally left unmapped and fall back to DEFAULT_ERROR_MESSAGE.
-const FIELD_ERROR_MESSAGES: Partial<Record<FieldName, Partial<Record<string, string>>>> = {
-  firstName: { required: "Enter your first name." },
-  lastName: { required: "Enter your last name." },
-  email: {
-    required: "Enter your email address.",
-    invalid_format: "Enter a valid email address.",
-  },
-  phone: {
-    invalid_format: "Enter a valid phone number.",
-  },
-};
-
-const DEFAULT_ERROR_MESSAGE = "Please check the form and try again.";
 const ACCEPT_ATTRIBUTE = ALLOWED_ATTACHMENT_EXTENSIONS.join(",");
 const MAX_ATTACHMENT_MB = Math.round(MAX_ATTACHMENT_BYTES / (1024 * 1024));
 
-function fieldErrorMessages(errors: FieldError[]): Partial<Record<FieldName, string>> {
-  const messages: Partial<Record<FieldName, string>> = {};
-  for (const { field, code } of errors) {
-    messages[field as FieldName] = FIELD_ERROR_MESSAGES[field as FieldName]?.[code] ?? DEFAULT_ERROR_MESSAGE;
-  }
-  return messages;
-}
-
 export function ContactForm({ formId, onClose }: ContactFormProps) {
-  const [status, setStatus] = useState<Status>("idle");
-  const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldName, string>>>({});
+  const { status, isSubmitting, formErrorMessage, fieldErrors, handleSubmit } = useContactForm();
   // The real filename, not just a boolean: the native input is fully
   // hidden (so the button can read "Upload" instead of the browser's
   // fixed label), so its own filename display is hidden too — this is
@@ -67,36 +34,6 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
     setAttachmentName(null);
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (status === "submitting") return;
-
-    const form = event.currentTarget;
-    setStatus("submitting");
-    setFormErrorMessage(null);
-    setFieldErrors({});
-
-    try {
-      const response = await fetch("/api/contact", { method: "POST", body: new FormData(form) });
-      const body: { ok: boolean; errors?: FieldError[]; error?: string } = await response.json();
-
-      if (body.ok) {
-        setStatus("success");
-        return;
-      }
-
-      if (body.errors) {
-        setFieldErrors(fieldErrorMessages(body.errors));
-      } else {
-        setFormErrorMessage(body.error ?? DEFAULT_ERROR_MESSAGE);
-      }
-      setStatus("error");
-    } catch {
-      setFormErrorMessage(DEFAULT_ERROR_MESSAGE);
-      setStatus("error");
-    }
-  }
-
   if (status === "success") {
     return (
       <div id={formId} className="contact-form" role="status">
@@ -107,8 +44,6 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
       </div>
     );
   }
-
-  const isSubmitting = status === "submitting";
 
   return (
     <form id={formId} className="contact-form" onSubmit={handleSubmit} noValidate>
