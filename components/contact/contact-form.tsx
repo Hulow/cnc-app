@@ -18,8 +18,16 @@ const ACCEPT_ATTRIBUTE = ALLOWED_ATTACHMENT_EXTENSIONS.join(",");
 const MAX_ATTACHMENT_MB = formatMegabytes(MAX_ATTACHMENT_BYTES);
 
 export function ContactForm({ formId, onClose }: ContactFormProps) {
-  const { status, isSubmitting, formErrorMessage, fieldErrors, handleSubmit, reset, clearFieldError } =
-    useContactForm();
+  const {
+    status,
+    isSubmitting,
+    formErrorMessage,
+    fieldErrors,
+    handleSubmit,
+    reset,
+    clearFieldError,
+    validateEmailOnBlur,
+  } = useContactForm();
   // The real filename, not just a boolean: the native input is fully
   // hidden (so the button can read "Upload" instead of the browser's
   // fixed label), so its own filename display is hidden too — this is
@@ -127,6 +135,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           required
           disabled={isSubmitting}
           onChange={() => clearFieldError("email")}
+          onBlur={(event) => validateEmailOnBlur(event.target.value)}
         />
         {fieldErrors.email && <p role="alert">{fieldErrors.email}</p>}
       </div>

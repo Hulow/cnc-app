@@ -1,8 +1,5 @@
+import { EMAIL_PATTERN } from "@/shared/contact-email";
 import { InvalidEmailAddressError } from "./errors/email-address-error";
-
-// Deliberately simple: good enough to reject obviously malformed input
-// without trying to fully validate the email spec.
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
  * Value object: the address the site owner should reply to.

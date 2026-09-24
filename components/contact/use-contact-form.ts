@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { ATTACHMENT_TOO_LARGE_MESSAGE } from "@/shared/contact-attachment";
+import { isValidEmailFormat } from "@/shared/contact-email";
 
 type FieldName = "firstName" | "lastName" | "email" | "phone" | "companyName" | "message" | "attachment";
 type Status = "idle" | "submitting" | "success" | "error";
@@ -111,6 +112,15 @@ export function useContactForm() {
     });
   }
 
+  // Called when the visitor leaves the email field, so a malformed
+  // address is flagged right away instead of waiting for submit. Empty
+  // input is left alone — that's covered by the required-field check on
+  // submit, not here.
+  function validateEmailOnBlur(value: string) {
+    if (value.trim().length === 0 || isValidEmailFormat(value)) return;
+    setFieldErrors((previous) => ({ ...previous, email: FIELD_ERROR_MESSAGES.email!.invalid_format! }));
+  }
+
   return {
     status,
     isSubmitting: status === "submitting",
@@ -119,5 +129,6 @@ export function useContactForm() {
     handleSubmit,
     reset,
     clearFieldError,
+    validateEmailOnBlur,
   };
 }
