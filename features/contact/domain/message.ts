@@ -6,6 +6,7 @@ import { EmailAddress } from "./email-address";
 import { InvalidEmailAddressError } from "./email-address-error";
 import { PhoneNumber } from "./phone-number";
 import { MessageBody } from "./message-body";
+import { InvalidMessageBodyError } from "./message-body-error";
 import { ValidatedAttachment, type Attachment } from "./validated-attachment";
 import type { MessageFieldError } from "./message-errors";
 
@@ -83,14 +84,23 @@ export class Message {
     }
 
     const phone = PhoneNumber.create(input.phone);
-    const body = MessageBody.create(input.message);
+
+    let body: MessageBody | undefined;
+    let bodyError: MessageFieldError | undefined;
+    try {
+      body = MessageBody.create(input.message);
+    } catch (error) {
+      if (!(error instanceof InvalidMessageBodyError)) throw error;
+      bodyError = { field: "message", code: error.code };
+    }
+
     const attachment = input.attachment ? ValidatedAttachment.create(input.attachment) : undefined;
 
     const errors = [
       firstNameError,
       lastNameError,
       emailError,
-      body.error,
+      bodyError,
       attachment?.error,
     ].filter((error): error is MessageFieldError => error !== undefined);
 
@@ -106,7 +116,7 @@ export class Message {
         lastName!,
         email!,
         phone,
-        body.value!,
+        body!,
         attachment?.value,
       ),
     };
@@ -148,7 +158,7 @@ export class Message {
       this.lastNameVO.value === other.lastNameVO.value &&
       this.emailVO.value === other.emailVO.value &&
       this.phoneVO.value === other.phoneVO.value &&
-      this.bodyVO.equals(other.bodyVO) &&
+      this.bodyVO.value === other.bodyVO.value &&
       sameAttachment
     );
   }

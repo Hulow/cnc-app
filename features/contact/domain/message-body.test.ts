@@ -1,19 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { MessageBody } from "./message-body";
+import { InvalidMessageBodyError } from "./message-body-error";
 
 describe("Given a valid message", () => {
   describe("When a contact message body is created", () => {
     it("Then it is accepted", () => {
-      const result = MessageBody.create("I'd like a quote for a milled aluminum bracket.");
+      const body = MessageBody.create("I'd like a quote for a milled aluminum bracket.");
 
-      expect(result.value?.value).toBe("I'd like a quote for a milled aluminum bracket.");
-      expect(result.error).toBeUndefined();
+      expect(body.value).toBe("I'd like a quote for a milled aluminum bracket.");
     });
 
     it("Then surrounding whitespace is trimmed", () => {
-      const result = MessageBody.create("  Hello.  ");
+      const body = MessageBody.create("  Hello.  ");
 
-      expect(result.value?.value).toBe("Hello.");
+      expect(body.value).toBe("Hello.");
     });
   });
 });
@@ -21,31 +21,25 @@ describe("Given a valid message", () => {
 describe("Given an empty message", () => {
   describe("When a contact message body is created", () => {
     it("Then it is accepted", () => {
-      const result = MessageBody.create("   ");
+      const body = MessageBody.create("   ");
 
-      expect(result.value?.value).toBe("");
-      expect(result.error).toBeUndefined();
+      expect(body.value).toBe("");
     });
   });
 });
 
 describe("Given an oversized message", () => {
   describe("When a contact message body is created", () => {
-    it("Then it is rejected", () => {
-      const result = MessageBody.create("a".repeat(5001));
+    it("Then it throws InvalidMessageBodyError", () => {
+      expect(() => MessageBody.create("a".repeat(5001))).toThrow(InvalidMessageBodyError);
 
-      expect(result.error).toEqual({ field: "message", code: "too_long" });
-    });
-  });
-});
-
-describe("Given two message bodies with the same value", () => {
-  describe("When they are compared", () => {
-    it("Then they are equal", () => {
-      const first = MessageBody.create("Hello.").value!;
-      const second = MessageBody.create("Hello.").value!;
-
-      expect(first.equals(second)).toBe(true);
+      try {
+        MessageBody.create("a".repeat(5001));
+        expect.unreachable();
+      } catch (error) {
+        expect(error).toBeInstanceOf(InvalidMessageBodyError);
+        expect((error as InvalidMessageBodyError).code).toBe("too_long");
+      }
     });
   });
 });
