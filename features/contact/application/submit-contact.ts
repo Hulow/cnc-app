@@ -1,5 +1,5 @@
 import { Message, type MessageInput } from "../domain/message";
-import type { MessageFieldError } from "../domain/message-errors";
+import type { MessageFieldError } from "../domain/errors/message-errors";
 import type { ContactMailer } from "./contact-mailer";
 
 export type SubmitContactResult =

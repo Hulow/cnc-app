@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { EmailAddress } from "./email-address";
-import { InvalidEmailAddressError } from "./email-address-error";
+import { InvalidEmailAddressError } from "./errors/email-address-error";
 
 describe("Given a valid email address", () => {
   describe("When a contact email address is created", () => {

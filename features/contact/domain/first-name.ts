@@ -1,4 +1,4 @@
-import { InvalidFirstNameError } from "./first-name-error";
+import { InvalidFirstNameError } from "./errors/first-name-error";
 
 const MAX_NAME_LENGTH = 100;
 

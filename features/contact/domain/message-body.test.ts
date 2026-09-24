@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { MessageBody } from "./message-body";
-import { InvalidMessageBodyError } from "./message-body-error";
+import { InvalidMessageBodyError } from "./errors/message-body-error";
 
 describe("Given a valid message", () => {
   describe("When a contact message body is created", () => {

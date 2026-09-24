@@ -1,4 +1,4 @@
-import { InvalidMessageBodyError } from "./message-body-error";
+import { InvalidMessageBodyError } from "./errors/message-body-error";
 
 const MAX_MESSAGE_LENGTH = 5000;
 

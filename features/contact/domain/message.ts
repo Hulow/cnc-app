@@ -1,17 +1,17 @@
 import { FirstName } from "./first-name";
-import { InvalidFirstNameError } from "./first-name-error";
+import { InvalidFirstNameError } from "./errors/first-name-error";
 import { LastName } from "./last-name";
-import { InvalidLastNameError } from "./last-name-error";
+import { InvalidLastNameError } from "./errors/last-name-error";
 import { EmailAddress } from "./email-address";
-import { InvalidEmailAddressError } from "./email-address-error";
+import { InvalidEmailAddressError } from "./errors/email-address-error";
 import { PhoneNumber } from "./phone-number";
 import { MessageBody } from "./message-body";
-import { InvalidMessageBodyError } from "./message-body-error";
+import { InvalidMessageBodyError } from "./errors/message-body-error";
 import { ValidatedAttachment, type Attachment } from "./validated-attachment";
-import type { MessageFieldError } from "./message-errors";
+import type { MessageFieldError } from "./errors/message-errors";
 
 export type { Attachment } from "./validated-attachment";
-export type { MessageFieldError } from "./message-errors";
+export type { MessageFieldError } from "./errors/message-errors";
 
 export type MessageResult =
   | { ok: true; value: Message }

@@ -1,4 +1,4 @@
-import type { FieldResult } from "./message-errors";
+import type { FieldResult } from "./errors/message-errors";
 
 export interface Attachment {
   filename: string;

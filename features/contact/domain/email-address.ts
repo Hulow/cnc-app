@@ -1,4 +1,4 @@
-import { InvalidEmailAddressError } from "./email-address-error";
+import { InvalidEmailAddressError } from "./errors/email-address-error";
 
 // Deliberately simple: good enough to reject obviously malformed input
 // without trying to fully validate the email spec.

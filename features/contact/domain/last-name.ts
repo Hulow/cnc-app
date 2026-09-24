@@ -1,4 +1,4 @@
-import { InvalidLastNameError } from "./last-name-error";
+import { InvalidLastNameError } from "./errors/last-name-error";
 
 const MAX_NAME_LENGTH = 100;
 
