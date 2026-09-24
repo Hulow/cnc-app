@@ -3,9 +3,9 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { ContactForm } from "./contact-form";
 import { MAX_ATTACHMENT_BYTES } from "@/shared/contact-attachment";
 
-function oversizedFile(): File {
+function oversizedFile(sizeBytes = MAX_ATTACHMENT_BYTES + 1): File {
   const file = new File(["content"], "big.pdf", { type: "application/pdf" });
-  Object.defineProperty(file, "size", { value: MAX_ATTACHMENT_BYTES + 1 });
+  Object.defineProperty(file, "size", { value: sizeBytes });
   return file;
 }
 
@@ -180,14 +180,14 @@ describe("Given the API reports a delivery failure", () => {
 
 describe("Given the visitor selects an attachment over the size limit", () => {
   describe("When it is selected", () => {
-    it("Then it is rejected with a message and not attached", () => {
+    it("Then it is rejected with a message naming its size and not attached", () => {
       vi.stubGlobal("fetch", vi.fn());
       render(<ContactForm formId="contact-form" onClose={() => {}} />);
 
       const fileInput = screen.getByLabelText("Attachment") as HTMLInputElement;
-      fireEvent.change(fileInput, { target: { files: [oversizedFile()] } });
+      fireEvent.change(fileInput, { target: { files: [oversizedFile(6 * 1024 * 1024)] } });
 
-      expect(screen.getByText("The attachment is too large.")).toBeInTheDocument();
+      expect(screen.getByText("The attachment is too large (6.0 MB).")).toBeInTheDocument();
       expect(screen.queryByRole("button", { name: "Remove attachment" })).not.toBeInTheDocument();
       expect(fileInput.value).toBe("");
     });

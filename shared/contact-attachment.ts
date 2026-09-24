@@ -40,6 +40,10 @@ export function isAttachmentTooLarge(sizeBytes: number): boolean {
   return sizeBytes > MAX_ATTACHMENT_BYTES;
 }
 
+export function formatMegabytes(sizeBytes: number): string {
+  return (sizeBytes / (1024 * 1024)).toFixed(1);
+}
+
 export function getAttachmentExtension(filename: string): string {
   const lastDot = filename.lastIndexOf(".");
   return lastDot === -1 ? "" : filename.slice(lastDot).toLowerCase();
