@@ -866,9 +866,13 @@ h3 {
   font-weight: bold;
 }
 
+/* pointer-events: none guarantees the hover style above never applies to
+   a disabled button — some browsers still match :hover on disabled
+   buttons otherwise. */
 .contact-form-actions button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* Visually hidden and out of tab order (tabIndex={-1} on the input), but

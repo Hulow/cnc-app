@@ -235,7 +235,10 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
       )}
 
       <div className="contact-form-actions">
-        <button type="submit" disabled={isSubmitting}>
+        <button
+          type="submit"
+          disabled={isSubmitting || Boolean(fieldErrors.firstName || fieldErrors.lastName || fieldErrors.email)}
+        >
           {isSubmitting ? "Sending…" : "Send"}
         </button>
         <button type="button" onClick={handleCancel} disabled={isSubmitting}>

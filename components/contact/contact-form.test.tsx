@@ -38,6 +38,7 @@ describe("Given every required field is left empty", () => {
 
       expect(screen.getByText("Enter your first name.")).toBeInTheDocument();
       expect(fetchMock).not.toHaveBeenCalled();
+      expect(screen.getByRole("button", { name: "Send" })).toBeDisabled();
     });
   });
 });
@@ -55,6 +56,7 @@ describe("Given only the email field is left empty", () => {
 
       expect(screen.getByText("Enter your email address.")).toBeInTheDocument();
       expect(fetchMock).not.toHaveBeenCalled();
+      expect(screen.getByRole("button", { name: "Send" })).toBeDisabled();
     });
   });
 });
@@ -73,6 +75,7 @@ describe("Given the email field has an invalid format", () => {
 
       expect(screen.getByText("Enter a valid email address.")).toBeInTheDocument();
       expect(fetchMock).not.toHaveBeenCalled();
+      expect(screen.getByRole("button", { name: "Send" })).toBeDisabled();
     });
   });
 });
@@ -148,10 +151,12 @@ describe("Given the API rejects the submission with a field error", () => {
       fillRequiredFields();
       fireEvent.click(screen.getByRole("button", { name: "Send" }));
       await screen.findByText("Enter a valid email address.");
+      expect(screen.getByRole("button", { name: "Send" })).toBeDisabled();
 
       fireEvent.change(screen.getByLabelText("Email"), { target: { value: "ada@example.org" } });
 
       expect(screen.queryByText("Enter a valid email address.")).not.toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Send" })).toBeEnabled();
     });
   });
 });
