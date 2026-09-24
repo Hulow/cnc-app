@@ -25,8 +25,19 @@ const FIELD_ERROR_MESSAGES: Partial<Record<FieldName, Partial<Record<string, str
 
 const DEFAULT_ERROR_MESSAGE = "Please check the form and try again.";
 
+// Kept in sync with the `required` attribute on these fields in ContactForm.
+const REQUIRED_FIELDS: readonly FieldName[] = ["firstName", "lastName", "email"];
+
 function fieldErrorMessage({ field, code }: FieldError): Partial<Record<FieldName, string>> {
   return { [field]: FIELD_ERROR_MESSAGES[field]?.[code] ?? DEFAULT_ERROR_MESSAGE };
+}
+
+function firstEmptyRequiredField(formData: FormData): FieldName | null {
+  for (const field of REQUIRED_FIELDS) {
+    const value = formData.get(field);
+    if (typeof value !== "string" || value.trim().length === 0) return field;
+  }
+  return null;
 }
 
 export function useContactForm() {
@@ -39,12 +50,21 @@ export function useContactForm() {
     if (status === "submitting") return;
 
     const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const emptyField = firstEmptyRequiredField(formData);
+    if (emptyField) {
+      setFormErrorMessage(null);
+      setFieldErrors({ [emptyField]: FIELD_ERROR_MESSAGES[emptyField]?.required ?? DEFAULT_ERROR_MESSAGE });
+      return;
+    }
+
     setStatus("submitting");
     setFormErrorMessage(null);
     setFieldErrors({});
 
     try {
-      const response = await fetch("/api/contact", { method: "POST", body: new FormData(form) });
+      const response = await fetch("/api/contact", { method: "POST", body: formData });
       const body: { ok: boolean; error?: FieldError | string } = await response.json();
 
       if (body.ok) {
