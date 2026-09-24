@@ -52,9 +52,11 @@ export async function POST(request: Request): Promise<Response> {
       if (submitResult.error === "validation_failed") {
         return Response.json({ ok: false, errors: submitResult.errors }, { status: 400 });
       }
+      console.log(`[contact] message ${submitResult.messageId} failed to send`);
       return Response.json({ ok: false, error: GENERIC_DELIVERY_ERROR_MESSAGE }, { status: 500 });
     }
 
+    console.log(`[contact] message ${submitResult.messageId} sent`);
     return Response.json({ ok: true }, { status: 200 });
   } catch {
     return Response.json({ ok: false, error: GENERIC_DELIVERY_ERROR_MESSAGE }, { status: 500 });

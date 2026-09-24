@@ -3,9 +3,9 @@ import type { MessageFieldError } from "../domain/message-errors";
 import type { ContactMailer } from "./contact-mailer";
 
 export type SubmitContactResult =
-  | { ok: true }
+  | { ok: true; messageId: string }
   | { ok: false; error: "validation_failed"; errors: MessageFieldError[] }
-  | { ok: false; error: "delivery_failed" };
+  | { ok: false; error: "delivery_failed"; messageId: string };
 
 /**
  * Use case: validate the raw contact input into a `Message` and hand it
@@ -26,9 +26,9 @@ export class SubmitContact {
 
     try {
       await this.mailer.send(result.value);
-      return { ok: true };
+      return { ok: true, messageId: result.value.id };
     } catch {
-      return { ok: false, error: "delivery_failed" };
+      return { ok: false, error: "delivery_failed", messageId: result.value.id };
     }
   }
 }
