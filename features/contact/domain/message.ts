@@ -41,7 +41,8 @@ export interface MessagePrimitives {
  *
  * `create` throws the first violated value object's domain error rather
  * than collecting every violation — callers that need the {field, code}
- * shape map it with `toMessageFieldError`.
+ * shape catch the specific error type (e.g. `InvalidFirstNameError`) and
+ * read its `code`.
  *
  * `id` is a UUID generated at creation time purely for tracing a
  * submission across logs and the outbound email — it is not a

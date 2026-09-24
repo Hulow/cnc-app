@@ -1,14 +1,20 @@
 import type { Attachment, MessageInput } from "@/features/contact/domain/message";
-import { toMessageFieldError } from "@/features/contact/domain/errors/to-message-field-error";
+import { InvalidFirstNameError } from "@/features/contact/domain/errors/first-name-error";
+import { InvalidLastNameError } from "@/features/contact/domain/errors/last-name-error";
+import { InvalidEmailAddressError } from "@/features/contact/domain/errors/email-address-error";
+import { InvalidMessageBodyError } from "@/features/contact/domain/errors/message-body-error";
 import { SubmitContact } from "@/features/contact/application/submit-contact";
 import { ResendContactMailer } from "@/features/contact/infrastructure/resend-contact-mailer";
+import { EmailDeliveryError } from "@/features/contact/application/email-delivery-error";
 
 // Hidden form field: real visitors never fill it in, bots typically do.
 // A non-empty value is treated as spam and silently dropped so as not
 // to signal detection back to the bot.
 const HONEYPOT_FIELD = "company";
 
-const GENERIC_DELIVERY_ERROR_MESSAGE = "We couldn't send your message. Please try again.";
+function isHoneypotTriggered(formData: FormData): boolean {
+  return readString(formData, HONEYPOT_FIELD).trim().length > 0;
+}
 
 function readString(formData: FormData, field: string): string {
   const value = formData.get(field);
@@ -48,21 +54,52 @@ async function readMessageInput(formData: FormData): Promise<MessageInput> {
 export async function POST(request: Request): Promise<Response> {
   const formData = await request.formData();
 
-  if (readString(formData, HONEYPOT_FIELD).trim().length > 0) {
+  if (isHoneypotTriggered(formData)) {
     return Response.json({ ok: true }, { status: 200 });
   }
 
   try {
     const submitContact = new SubmitContact(new ResendContactMailer());
-    await submitContact.execute(await readMessageInput(formData));
+    const message = await readMessageInput(formData);
+    await submitContact.execute(message);
 
     return Response.json({ ok: true }, { status: 200 });
   } catch (error) {
-    const fieldError = toMessageFieldError(error);
-    if (fieldError) {
-      return Response.json({ ok: false, errors: [fieldError] }, { status: 400 });
+    if (error instanceof InvalidFirstNameError) {
+      return Response.json(
+        { ok: false, errors: [{ field: "firstName", code: error.code }] },
+        { status: 400 }
+      );
     }
-    console.log("[contact] message failed to send");
-    return Response.json({ ok: false, error: GENERIC_DELIVERY_ERROR_MESSAGE }, { status: 500 });
+
+    if (error instanceof InvalidLastNameError) {
+      return Response.json(
+        { ok: false, errors: [{ field: "lastName", code: error.code }] },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof InvalidEmailAddressError) {
+      return Response.json(
+        { ok: false, errors: [{ field: "email", code: error.code }] },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof InvalidMessageBodyError) {
+      return Response.json(
+        { ok: false, errors: [{ field: "message", code: error.code }] },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof EmailDeliveryError) {
+      return Response.json(
+        { ok: false, error: 'Something went wrong with my Email delivery provider' },
+        { status: 500 }
+      );
+    }
+
+    return Response.json({ ok: false, error: 'Something went wrong' }, { status: 500 });
   }
 }
