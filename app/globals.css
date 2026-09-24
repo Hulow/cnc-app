@@ -441,13 +441,6 @@ h3 {
   color: var(--logo-color);
   text-decoration: none;
   text-shadow: none;
-  transform-origin: center;
-  transition: transform 150ms ease;
-}
-
-.site-nav-menu a:hover,
-.site-nav-menu a:focus-visible {
-  transform: scale(1.8);
 }
 
 .page-content main {
