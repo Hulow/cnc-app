@@ -30,6 +30,16 @@ describe("Given valid contact information", () => {
       expect(result.ok).toBe(true);
     });
 
+    it("Then it is assigned a unique id", () => {
+      const first = Message.create(validInput());
+      const second = Message.create(validInput());
+
+      expect(first.ok && second.ok).toBe(true);
+      if (!first.ok || !second.ok) return;
+      expect(first.value.id).toEqual(expect.any(String));
+      expect(first.value.id).not.toBe(second.value.id);
+    });
+
     it("Then the accepted value exposes the trimmed fields", () => {
       const result = Message.create(
         validInput({ firstName: "  Ada  ", lastName: "  Lovelace  ", message: "  Hello.  " }),

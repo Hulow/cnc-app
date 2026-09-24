@@ -26,21 +26,30 @@ export interface MessageInput {
  * Aggregate root of the contact feature's domain.
  *
  * Modeled as a Value Object rather than an Entity: a submitted contact
- * message carries no persisted identity and is never mutated after
- * creation — it is validated once, handed to the mailer, and discarded.
- * All invariants are enforced by the constituent value objects
+ * message is never mutated after creation — it is validated once, handed
+ * to the mailer, and discarded. All invariants are enforced by the
+ * constituent value objects
  * (`FirstName`, `LastName`, `EmailAddress`, `PhoneNumber`, `MessageBody`, `ValidatedAttachment`);
  * there is no way to obtain a `Message` instance that violates them.
+ *
+ * `id` is a UUID generated at creation time purely for tracing a
+ * submission across logs and the outbound email — it is not a
+ * persistence identity.
  */
 export class Message {
+  readonly id: string;
+
   private constructor(
+    id: string,
     private readonly firstNameVO: FirstName,
     private readonly lastNameVO: LastName,
     private readonly emailVO: EmailAddress,
     private readonly phoneVO: PhoneNumber,
     private readonly bodyVO: MessageBody,
     private readonly attachmentVO: ValidatedAttachment | undefined,
-  ) {}
+  ) {
+    this.id = id;
+  }
 
   static create(input: MessageInput): MessageResult {
     const firstName = FirstName.create(input.firstName);
@@ -66,6 +75,7 @@ export class Message {
     return {
       ok: true,
       value: new Message(
+        crypto.randomUUID(),
         firstName.value!,
         lastName.value!,
         email.value!,
