@@ -245,8 +245,8 @@ h3 {
   gap: var(--space-sm);
   padding: var(--space-md);
   background: rgba(255, 255, 255, 0.85);
-  border-top: 1px solid var(--logo-color);
-  border-bottom: 1px solid var(--logo-color);
+  border-top: 4px solid var(--logo-color);
+  border-bottom: 4px solid var(--logo-color);
 }
 
 .welcome-screen-content p {
@@ -254,6 +254,7 @@ h3 {
   margin-inline: auto;
   font-size: var(--font-size-sm);
   line-height: 1.4;
+  font-weight: bold;
   color: var(--logo-color);
 }
 
