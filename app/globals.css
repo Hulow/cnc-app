@@ -627,6 +627,14 @@ h3 {
   color: #ffffff;
 }
 
+.site-nav-menu a[aria-current="page"] {
+  color: rgb(235, 50, 110);
+}
+
+.site-nav-menu a[aria-current="page"]:hover {
+  color: #ffffff;
+}
+
 .project-description-text {
   display: flex;
   flex-direction: column;

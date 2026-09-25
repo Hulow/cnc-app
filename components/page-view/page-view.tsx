@@ -33,7 +33,7 @@ export function PageView({ logo, service, footer }: PageViewProps) {
   return (
     <div className="content-layer page-content">
       <header>
-        <Navbar onNavigate={navigate} />
+        <Navbar currentView={view} onNavigate={navigate} />
       </header>
       <main>
         <h1 className="sr-only">{siteConfig.name}</h1>

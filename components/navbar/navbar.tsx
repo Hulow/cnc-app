@@ -17,12 +17,13 @@ const NAV_LINKS = [
 ] as const;
 
 interface NavbarProps {
+  currentView?: string;
   onNavigate?: (view: string) => void;
 }
 
 // Rendering only: open/closed state and the mount-until-exit-animation-
 // finishes lifecycle live in useNavBar.
-export function Navbar({ onNavigate }: NavbarProps) {
+export function Navbar({ currentView, onNavigate }: NavbarProps) {
   const { isOpen, isRendered, toggle, close, handleAnimationEnd } = useNavBar({
     exitAnimationName: EXIT_ANIMATION_NAME,
   });
@@ -52,6 +53,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
             <li key={href}>
               <a
                 href={href}
+                aria-current={view === currentView ? "page" : undefined}
                 onClick={(event) => {
                   if (view) {
                     event.preventDefault();
