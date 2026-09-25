@@ -525,6 +525,16 @@ h3 {
   width: 100%;
 }
 
+/* ProjectDescription (service view) and the placeholder view's text both
+   render as direct/inherited children of main with no class of their own
+   to hook, so target main's own section child plus its bare <p> (the
+   placeholder) directly instead of .page-content's default black. */
+.page-content main > section,
+.page-content main > p {
+  color: var(--logo-color);
+  text-shadow: none;
+}
+
 .page-content footer {
   margin: 0 calc(var(--space-sm) * -1) calc(var(--space-sm) * -1);
   background: #ffffff;
