@@ -14,10 +14,10 @@ export function WelcomeScreen({ hidden, onContinue }: WelcomeScreenProps) {
       <div className="welcome-screen-content">
         <div className="welcome-screen-text">
           <p>
-          This website does not collect or track your personal data and does not use analytics, advertising or tracking cookies. No user account is required.
+          This website does not collect or track your personal data and does not use analytics, advertising or tracking cookies.
           </p>
           <p>
-          If you use the contact form, your message and any attachment are sent by email through Resend, an email delivery service, and are not kept in any database.
+          If you use the contact form, your message and attachments are sent via Resend, an email delivery service, and are not stored in any database.
           </p>
           <p>
           The website is hosted by Vercel and uses Cloudinary to deliver video content. These providers may process technical information, such as your IP address and browser information, to deliver the website and its content.
