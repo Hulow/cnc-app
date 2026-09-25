@@ -52,14 +52,22 @@
 
 html {
   height: 100%;
+  overflow-x: hidden;
 }
 
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
 }
 
+/* overflow-x: hidden lives on html only (above), not here too: giving
+   body its own non-visible overflow makes it a scroll container in its
+   own right — one that never actually scrolls, since it only ever grows
+   via min-height below rather than clipping its content. Any
+   position: sticky descendant (the nav header) would then resolve body
+   as its nearest scrolling ancestor instead of the real viewport and
+   never receive real scroll offset, so it'd just scroll away with the
+   page instead of sticking. */
 body {
   min-height: 100%;
   display: flex;
@@ -323,16 +331,26 @@ h3 {
    (negative margin equal to that padding, zero on bottom) so the nav
    toggle sits flush against .content-layer's real top/left/right edges
    instead of inset from them — every other child (main, footer) keeps
-   the normal padding. */
+   the normal padding. Sticky + top: 0 pins it to the top of the viewport
+   once scrolling would carry it past that point, so the toggle stays
+   reachable at all times instead of scrolling out of view. z-index above
+   .content-layer's own (see above) and everything in it (main, footer),
+   none of which set a z-index of their own, so this wins the stack and
+   scrolling content never paints over it. */
 .page-content header {
   margin: calc(var(--space-sm) * -1) calc(var(--space-sm) * -1) 0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
-/* Rendered as the first child of .content-layer (no longer fixed to the
-   viewport) — a normal-flow block the full width of .content-layer, with
-   the item list (see .site-nav-menu below) appearing directly beneath it
-   once open, instead of a floating widget overlaying the page. */
+/* Rendered as the first child of .content-layer, full width of it.
+   position: relative makes it the anchor for .site-nav-menu (see below),
+   which is taken out of flow and overlaid on top of the button instead
+   of pushing it down, so opening/closing the menu never moves anything
+   below it. */
 .site-nav {
+  position: relative;
   width: 100%;
 }
 
@@ -383,20 +401,30 @@ h3 {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-/* In-flow, directly below .site-nav-toggle (not a fixed overlay, no
-   margin from it) — width 100% matches .site-nav (and so .content-layer)
-   exactly, same as the toggle button above it. Items (see .site-nav-menu
-   li below) are flex: 1 with no gap, so they sit flush against each other
-   and grow to fill that full width evenly on their own, rather than
-   leaving ever-larger empty gaps (space-between's effect with only 4
-   items). The border lives here, once, around the whole group — items
-   only add internal dividers (see .site-nav-menu li a below), so two 2px
-   borders never sit flush against each other and read as one thick line.
-   No top border: this only ever renders directly below .site-nav-toggle,
-   which keeps its own full, unchanging border — doubling up here (and
-   dropping it there instead) would make the button's own rectangle
-   change shape every time the menu opens or closes. */
+/* Overlaid on top of the page instead of sitting in normal flow: absolute
+   + top: 100% of .site-nav (its positioned ancestor, see above) places it
+   directly below the toggle button without taking up any space of its
+   own, so opening it never pushes main/footer down and closing it never
+   pulls them back up — the content underneath never moves. z-index above
+   main content for the same reason .page-content header's is (see
+   above); no need to go higher since it's already inside that stacking
+   context. width 100% matches .site-nav (and so .content-layer) exactly,
+   same as the toggle button above it. Items (see .site-nav-menu li below)
+   are flex: 1 with no gap, so they sit flush against each other and grow
+   to fill that full width evenly on their own, rather than leaving
+   ever-larger empty gaps (space-between's effect with only 4 items). The
+   border lives here, once, around the whole group — items only add
+   internal dividers (see .site-nav-menu li a below), so two 2px borders
+   never sit flush against each other and read as one thick line. No top
+   border: this only ever renders directly below .site-nav-toggle, which
+   keeps its own full, unchanging border — doubling up here (and dropping
+   it there instead) would make the button's own rectangle change shape
+   every time the menu opens or closes. */
 .site-nav-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
   width: 100%;
   margin-top: 0;
   display: flex;
