@@ -355,16 +355,6 @@ h3 {
   cursor: pointer;
 }
 
-/* .site-nav-menu (mounted right after this button whenever open, or
-   still closing — see isRendered in use-navbar.ts) has its own top
-   border, so keeping this one too would double up the same way adjacent
-   items used to (see .site-nav-menu above). Dropped only while the menu
-   is actually there; the button keeps its full border when it's the only
-   thing rendered. */
-.site-nav-toggle:has(+ .site-nav-menu) {
-  border-bottom: none;
-}
-
 /* Two bars, centered within the button; on open they're re-centered and
    rotated 45deg opposite ways to form an "X". */
 .site-nav-toggle-bar {
@@ -401,7 +391,11 @@ h3 {
    leaving ever-larger empty gaps (space-between's effect with only 4
    items). The border lives here, once, around the whole group — items
    only add internal dividers (see .site-nav-menu li a below), so two 2px
-   borders never sit flush against each other and read as one thick line. */
+   borders never sit flush against each other and read as one thick line.
+   No top border: this only ever renders directly below .site-nav-toggle,
+   which keeps its own full, unchanging border — doubling up here (and
+   dropping it there instead) would make the button's own rectangle
+   change shape every time the menu opens or closes. */
 .site-nav-menu {
   width: 100%;
   margin-top: 0;
@@ -410,6 +404,7 @@ h3 {
   gap: 0;
   list-style: none;
   border: 2px solid var(--logo-color);
+  border-top: none;
 }
 
 @keyframes site-nav-item-in {
