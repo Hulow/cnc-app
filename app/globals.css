@@ -538,6 +538,11 @@ h3 {
   justify-content: flex-start;
   gap: var(--space-md);
   width: 100%;
+  /* Shrinks the flex gap to the footer from --space-lg down to
+     --space-sm, matching .page-content header's own margin-bottom trick
+     above — otherwise the bottom gap reads visibly larger than the top
+     gap and the side padding. */
+  margin-bottom: calc(var(--space-sm) - var(--space-lg));
 }
 
 /* ProjectDescription (service view) and the placeholder view's text both
@@ -717,8 +722,6 @@ h3 {
   gap: var(--space-sm);
   padding: var(--space-md);
   background: rgba(255, 255, 255, 0.6);
-  /* Matches .site-nav-toggle / .site-nav-menu li a's 2px border weight. */
-  border: 2px solid var(--logo-color);
   border-radius: 0.375rem;
 }
 
