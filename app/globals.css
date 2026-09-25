@@ -327,18 +327,28 @@ h3 {
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.85), 0 1px 12px rgba(255, 255, 255, 0.5);
 }
 
-/* Breaks .header out of .page-content's own padding on top and the sides
-   (negative margin equal to that padding, zero on bottom) so the nav
-   toggle sits flush against .content-layer's real top/left/right edges
-   instead of inset from them — every other child (main, footer) keeps
-   the normal padding. Sticky + top: 0 pins it to the top of the viewport
-   once scrolling would carry it past that point, so the toggle stays
-   reachable at all times instead of scrolling out of view. z-index above
-   .content-layer's own (see above) and everything in it (main, footer),
-   none of which set a z-index of their own, so this wins the stack and
-   scrolling content never paints over it. */
+/* Full-bleed: breaks .header out of .page-content's padding AND its
+   max-width: 75rem cap, so the nav toggle/menu (both width: 100% of
+   .site-nav, which is width: 100% of this header) span the actual
+   viewport instead of stopping at .content-layer's edges. width: 100vw
+   plus margin-left: calc(50% - 50vw) is the standard trick for this: the
+   50% is relative to .page-content's own (possibly narrower) width, and
+   subtracting 50vw pulls the left edge out to the viewport's left edge —
+   this only lands correctly because .page-content is itself horizontally
+   centered (margin-inline: auto), so its center coincides with the
+   viewport's center. margin-top keeps header flush against
+   .content-layer's real top edge (undoing .page-content's own padding);
+   every other child (main, footer) keeps the normal padding. Sticky +
+   top: 0 pins it to the top of the viewport once scrolling would carry
+   it past that point, so the toggle stays reachable at all times instead
+   of scrolling out of view. z-index above .content-layer's own (see
+   above) and everything in it (main, footer), none of which set a
+   z-index of their own, so this wins the stack and scrolling content
+   never paints over it. */
 .page-content header {
-  margin: calc(var(--space-sm) * -1) calc(var(--space-sm) * -1) 0;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: calc(var(--space-sm) * -1);
   position: sticky;
   top: 0;
   z-index: 2;
