@@ -1,14 +1,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  /* Flat, opaque stand-in for the contact form fields' background. Unlike
-     the form panel itself (translucent over the full-bleed background
-     video), fields must resolve to a solid color: browser autofill can
-     only be overridden with an opaque paint (see the :-webkit-autofill
-     rule below), so this is the single value both the normal and
-     autofilled field states share — keeping them pixel-identical instead
-     of drifting whenever the video's brightness changes. */
-  --field-background: color-mix(in srgb, var(--background) 92%, white 8%);
+  /* Flat, opaque white — fields must resolve to a solid color: browser
+     autofill can only be overridden with an opaque paint (see the
+     :-webkit-autofill rule below), so this is the single value both the
+     normal and autofilled field states share. Fixed white rather than
+     derived from --background so it doesn't follow --background into
+     dark mode. */
+  --field-background: #ffffff;
   /* Matches the stroke/fill color baked into public/logo.svg. */
   --logo-color: #0f2ba3;
 
@@ -615,9 +614,11 @@ h3 {
 
 /* Fills .content-layer's box (flex: 1 grows into main's available
    height, width: 100% takes its full width) instead of floating as a
-   separate ~30rem card. Its own darker background sits inset from
-   .content-layer's edges by .page-content's existing padding, rather
-   than butting flush against it. */
+   separate ~30rem card. Its own translucent white background sits inset
+   from .content-layer's edges by .page-content's existing padding,
+   rather than butting flush against it — .content-layer itself has no
+   background color (the video shows straight through), so this panel
+   reads as whiter/more opaque than the page around it. */
 .contact-form {
   display: flex;
   flex-direction: column;
@@ -625,7 +626,8 @@ h3 {
   width: 100%;
   gap: var(--space-sm);
   padding: var(--space-md);
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--logo-color);
   border-radius: 0.375rem;
 }
 
@@ -635,15 +637,16 @@ h3 {
 .contact-form-success {
   align-items: center;
   justify-content: center;
+  color: var(--logo-color);
   text-align: center;
 }
 
 .contact-form-close-button {
   padding: var(--space-sm) var(--space-lg);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--logo-color);
   border-radius: 0.375rem;
   background: transparent;
-  color: inherit;
+  color: var(--logo-color);
   font: inherit;
   font-size: var(--font-size-sm);
   cursor: pointer;
@@ -651,7 +654,7 @@ h3 {
 
 .contact-form-close-button:hover,
 .contact-form-close-button:focus-visible {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(15, 43, 163, 0.1);
   border-color: rgb(231, 39, 58);
   box-shadow: 0 0 0 1px rgb(231, 39, 58);
   color: rgb(231, 39, 58);
@@ -677,7 +680,7 @@ h3 {
   left: var(--space-xs);
   display: none;
   font-size: var(--font-size-sm);
-  color: inherit;
+  color: var(--logo-color);
   opacity: 0.6;
   white-space: nowrap;
   pointer-events: none;
@@ -722,7 +725,7 @@ h3 {
    the placeholder needs enough contrast to read as the field's name. */
 .contact-form-field input::placeholder,
 .contact-form-field textarea::placeholder {
-  color: inherit;
+  color: var(--logo-color);
   opacity: 0.6;
 }
 
@@ -743,14 +746,21 @@ h3 {
 .contact-form-field input:-webkit-autofill:hover,
 .contact-form-field input:-webkit-autofill:focus,
 .contact-form-field input:autofill {
-  -webkit-text-fill-color: var(--foreground);
+  /* Fixed black, not var(--foreground): --foreground switches to a
+     near-white #ededed in dark mode, which against the fields' always-
+     white --field-background made autofilled text unreadable. Fields sit
+     on their own fixed white regardless of color scheme, so their text
+     needs to be fixed black to match, same as .page-content's own
+     explicit (non-var) #171717 that normal typed text inherits. */
+  -webkit-text-fill-color: #171717;
   -webkit-box-shadow: 0 0 0 1000px var(--field-background) inset;
   box-shadow: 0 0 0 1000px var(--field-background) inset;
-  caret-color: var(--foreground);
+  caret-color: #171717;
   transition: background-color 9999s ease-in-out 0s;
 }
 
 .contact-form-hint {
+  color: var(--logo-color);
   font-size: var(--font-size-sm);
   opacity: 0.75;
 }
@@ -814,8 +824,9 @@ h3 {
 .contact-form-file-button {
   flex-shrink: 0;
   padding: 0.125rem 0.6rem;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--logo-color);
   border-radius: 0.25rem;
+  color: var(--logo-color);
   font-size: var(--font-size-sm);
   pointer-events: none;
 }
@@ -830,6 +841,7 @@ h3 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--logo-color);
   font-size: var(--font-size-sm);
   pointer-events: none;
 }
@@ -856,7 +868,7 @@ h3 {
   border: 1px solid var(--logo-color);
   border-radius: 0.375rem;
   background: none;
-  color: inherit;
+  color: var(--logo-color);
   cursor: pointer;
 }
 
@@ -884,10 +896,10 @@ h3 {
 
 .contact-form-actions button {
   padding: var(--space-xs) var(--space-md);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--logo-color);
   border-radius: 0.375rem;
   background: transparent;
-  color: inherit;
+  color: var(--logo-color);
   font: inherit;
   font-size: var(--font-size-sm);
   cursor: pointer;
@@ -895,7 +907,7 @@ h3 {
 
 .contact-form-actions button:hover,
 .contact-form-actions button:focus-visible {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(15, 43, 163, 0.1);
   border-color: rgb(231, 39, 58);
   box-shadow: 0 0 0 1px rgb(231, 39, 58);
   color: rgb(231, 39, 58);

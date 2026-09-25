@@ -242,7 +242,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           {isSubmitting ? "Sending…" : "Send"}
         </button>
         <button type="button" onClick={handleCancel} disabled={isSubmitting}>
-          Cancel
+          Clear
         </button>
       </div>
     </form>

@@ -304,14 +304,14 @@ describe("Given a submission is already in flight", () => {
 });
 
 describe("Given the visitor has filled in the form", () => {
-  describe("When they click Cancel", () => {
+  describe("When they click Clear", () => {
     it("Then the form stays open and its fields are cleared", () => {
       vi.stubGlobal("fetch", vi.fn());
       const onClose = vi.fn();
       render(<ContactForm formId="contact-form" onClose={onClose} />);
 
       fillRequiredFields();
-      fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      fireEvent.click(screen.getByRole("button", { name: "Clear" }));
 
       expect(onClose).not.toHaveBeenCalled();
       expect(screen.getByLabelText("First name")).toHaveValue("");
@@ -333,7 +333,7 @@ describe("Given the visitor has filled in the form", () => {
       fireEvent.click(screen.getByRole("button", { name: "Send" }));
       await screen.findByText("Enter a valid email address.");
 
-      fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      fireEvent.click(screen.getByRole("button", { name: "Clear" }));
 
       expect(screen.queryByText("Enter a valid email address.")).not.toBeInTheDocument();
     });
@@ -347,7 +347,7 @@ describe("Given the visitor has filled in the form", () => {
       fireEvent.change(fileInput, { target: { files: [file] } });
       expect(screen.getByRole("button", { name: "Remove attachment" })).toBeInTheDocument();
 
-      fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      fireEvent.click(screen.getByRole("button", { name: "Clear" }));
 
       expect(screen.queryByRole("button", { name: "Remove attachment" })).not.toBeInTheDocument();
     });
