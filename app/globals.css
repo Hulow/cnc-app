@@ -871,6 +871,19 @@ h3 {
   transition: background-color 9999s ease-in-out 0s;
 }
 
+/* The autofill rule above and the focus ring rule below match an
+   autofilled, focused field at equal specificity, so without this the
+   autofill rule's own (ring-less) box-shadow would win by source order
+   and silently swallow the focus ring. This layers both shadows —
+   autofill's inset mask plus the focus ring — into one declaration so
+   neither is lost. */
+.contact-form-field input:-webkit-autofill:focus-visible,
+.contact-form-field input:autofill:focus-visible {
+  border-color: var(--logo-color);
+  -webkit-box-shadow: 0 0 0 1000px var(--field-background) inset, 0 0 0 1px var(--logo-color);
+  box-shadow: 0 0 0 1000px var(--field-background) inset, 0 0 0 1px var(--logo-color);
+}
+
 .contact-form-hint {
   color: var(--logo-color);
   font-size: var(--font-size-sm);
