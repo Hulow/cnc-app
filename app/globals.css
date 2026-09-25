@@ -525,6 +525,13 @@ h3 {
   width: 100%;
 }
 
+.page-content footer {
+  margin: 0 calc(var(--space-sm) * -1) calc(var(--space-sm) * -1);
+  background: #ffffff;
+  color: var(--logo-color);
+  text-shadow: none;
+}
+
 .page-content address {
   font-style: normal;
 }
