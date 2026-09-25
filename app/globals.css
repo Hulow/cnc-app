@@ -277,6 +277,13 @@ h3 {
 .logo {
   width: clamp(26rem, 15rem + 40vw, 56rem);
   height: auto;
+  /* .page-content main is a column flex container with no align-items
+     set (default: stretch), which only stretches items with an auto
+     cross size — this item's explicit width falls back to flex-start
+     (left-aligned) instead. Center it explicitly, without touching
+     main's align-items, since sibling views (service/contact) rely on
+     stretch to fill the full width. */
+  align-self: center;
 }
 
 /* Visually hide content while keeping it in the accessibility tree and
