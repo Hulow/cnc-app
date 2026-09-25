@@ -380,7 +380,7 @@ h3 {
 }
 
 /* The whole rectangle is the button: width always matches .site-nav (and
-   so .content-layer) exactly, with a blue border and opaque white fill.
+   so .content-layer) exactly, with a blue border and blue fill.
    Square corners, flush against the edges — no border-radius. display:
    block overrides the default inline-block, which otherwise reserves a
    few px of baseline whitespace below the button — a phantom gap between
@@ -391,10 +391,10 @@ h3 {
   display: block;
   position: relative;
   width: 100%;
-  height: 3.5rem;
+  height: 1.75rem;
   padding: 0;
   border: 2px solid var(--logo-color);
-  background: #ffffff;
+  background: var(--logo-color);
   cursor: pointer;
 }
 
@@ -406,7 +406,7 @@ h3 {
   top: 50%;
   width: 1.5rem;
   height: 2px;
-  background: var(--logo-color);
+  background: #ffffff;
   transition: transform 200ms ease;
 }
 
@@ -570,8 +570,8 @@ h3 {
   margin-left: calc(50% - 50vw);
   margin-bottom: calc(var(--space-sm) * -1);
   padding-left: var(--space-sm);
-  background: #ffffff;
-  color: var(--logo-color);
+  background: var(--logo-color);
+  color: #ffffff;
   text-shadow: none;
   container-type: inline-size;
 }
