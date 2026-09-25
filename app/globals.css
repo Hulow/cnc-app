@@ -678,6 +678,7 @@ h3 {
   font: inherit;
   font-size: var(--font-size-sm);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .contact-button:focus-visible {
@@ -740,6 +741,7 @@ h3 {
   font: inherit;
   font-size: var(--font-size-sm);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .contact-form-close-button:focus-visible,
@@ -980,6 +982,7 @@ h3 {
   background: none;
   color: var(--logo-color);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .contact-form-attachment-remove:focus-visible {
@@ -1022,6 +1025,7 @@ h3 {
   font: inherit;
   font-size: var(--font-size-sm);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .contact-form-actions button:focus-visible,
