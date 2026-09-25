@@ -546,7 +546,7 @@ h3 {
   margin-bottom: calc(var(--space-sm) - var(--space-lg));
 }
 
-/* ProjectDescription (service view) and the placeholder view's text both
+/* Service and the placeholder view's text both
    render as direct/inherited children of main with no class of their own
    to hook, so target main's own section child plus its bare <p> (the
    placeholder) directly instead of .page-content's default black. */
@@ -662,7 +662,7 @@ h3 {
   }
 }
 
-.project-description-text {
+.service-text {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);

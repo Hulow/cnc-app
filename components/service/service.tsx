@@ -1,11 +1,11 @@
 // Server Component: the primary on-page copy, rendered as part of the
 // initial HTML response so it's readable independently of the video and
 // indexable without client-side JavaScript.
-export function ProjectDescription() {
+export function Service() {
   return (
     <section aria-labelledby="about-heading">
       <h2 id="about-heading">From concept and design to realisation</h2>
-      <div className="project-description-text">
+      <div className="service-text">
         <p>
           From prototyping and unique products to small production series, I can take care of as much or as little of the process as needed.
         </p>

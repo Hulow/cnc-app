@@ -1,7 +1,7 @@
 import { ExperienceGate } from "@/components/experience-gate/experience-gate";
 import { Logo } from "@/components/logo/logo";
 import { PageView } from "@/components/page-view/page-view";
-import { ProjectDescription } from "@/components/project-description/project-description";
+import { Service } from "@/components/service/service";
 import { StructuredData } from "@/components/structured-data/structured-data";
 import { siteConfig } from "@/shared/site-config";
 
@@ -12,7 +12,7 @@ export default function Home() {
       <ExperienceGate>
         <PageView
           logo={<Logo />}
-          service={<ProjectDescription />}
+          service={<Service />}
           footer={
             <footer>
               <p>
