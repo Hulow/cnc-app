@@ -434,17 +434,11 @@ h3 {
    main content for the same reason .page-content header's is (see
    above); no need to go higher since it's already inside that stacking
    context. width 100% matches .site-nav (and so .content-layer) exactly,
-   same as the toggle button above it. Items (see .site-nav-menu li below)
-   are flex: 1 with no gap, so they sit flush against each other and grow
-   to fill that full width evenly on their own, rather than leaving
-   ever-larger empty gaps (space-between's effect with only 4 items). The
-   border lives here, once, around the whole group — items only add
-   internal dividers (see .site-nav-menu li a below), so two 2px borders
-   never sit flush against each other and read as one thick line. No top
-   border: this only ever renders directly below .site-nav-toggle, which
-   keeps its own full, unchanging border — doubling up here (and dropping
-   it there instead) would make the button's own rectangle change shape
-   every time the menu opens or closes. */
+   same as the toggle button above it. flex-direction: column stacks items
+   one per line; align-items: stretch (the flex default) makes each one
+   span the full width on its own, no explicit width needed. No border of
+   its own — each item carries a single bottom border instead (see
+   .site-nav-menu li a below), so no side/top borders ever appear. */
 .site-nav-menu {
   position: absolute;
   top: 100%;
@@ -453,11 +447,9 @@ h3 {
   width: 100%;
   margin-top: 0;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 0;
   list-style: none;
-  border: 2px solid var(--logo-color);
-  border-top: none;
 }
 
 @keyframes site-nav-item-in {
@@ -478,64 +470,22 @@ h3 {
   }
 }
 
-/* Closed by default: an exit animation (all items together, no delay).
-   flex: 1 makes every item claim an equal share of .site-nav-menu's full
-   width, so they grow together as the row widens instead of leaving
-   growing empty space around fixed-size items. */
+/* Closed by default: an exit animation (all items together, no delay). */
 .site-nav-menu li {
-  flex: 1;
   animation: site-nav-item-out 200ms ease forwards;
 }
 
-/* .site-nav-menu itself (the group border) needs the same fade, not just
-   its items — otherwise the border stays fully opaque for the whole
-   200ms while the items underneath it fade away, then disappears all at
-   once on unmount instead of fading out with everything else. */
-.site-nav-menu {
-  animation: site-nav-item-out 200ms ease forwards;
+/* Every item gets exactly one border, on the bottom — including the
+   last, since .site-nav-menu has no border of its own to supply that
+   outer edge. */
+.site-nav-menu li a {
+  border-bottom: 2px solid var(--logo-color);
 }
 
-/* Single-row layout (4 items side by side): a divider between each pair,
-   never on the last item — that outer edge is already the group's own
-   border (see .site-nav-menu above). */
-.site-nav-menu li:not(:last-child) a {
-  border-right: 2px solid var(--logo-color);
-}
-
-/* Below 576px there isn't enough width for 4 items on one line without
-   squeezing each one down to near-unreadable — wrap into 2 rows of 2
-   instead. Comes after the flex: 1 rule above (same specificity, so
-   source order decides) so it actually wins at these widths. flex-basis
-   50% forces exactly two per row rather than however many happen to fit
-   (no gap to subtract — items sit flush against each other). */
-@media (max-width: 575px) {
-  .site-nav-menu {
-    flex-wrap: wrap;
-  }
-
-  .site-nav-menu li {
-    flex: 0 0 50%;
-  }
-
-  /* 2 columns x 2 rows now, not 1 row of 4 — the divider rule above
-     still applies (same specificity, this comes later) but needs
-     correcting: right-column items (2nd, 4th) sit on the group's own
-     right edge, so their right divider must come off. Top-row items
-     (1st, 2nd) get a new divider along their shared bottom edge with
-     row two. */
-  .site-nav-menu li:nth-child(even) a {
-    border-right: none;
-  }
-
-  .site-nav-menu li:nth-child(-n + 2) a {
-    border-bottom: 2px solid var(--logo-color);
-  }
-}
-
-/* All items (and the group border, see .site-nav-menu above) are mounted
-   together and share this animation, so they fade in from fully
-   transparent to normal at the same time — no stagger. */
-.site-nav-menu[data-open="true"],
+/* All items are mounted together and share this animation, so they fade
+   in from fully transparent to normal at the same time — no stagger.
+   .site-nav-menu itself has no visible box (no border/background) so it
+   doesn't need this animation — only its items do. */
 .site-nav-menu[data-open="true"] li {
   animation: site-nav-item-in 200ms ease forwards;
 }
@@ -611,6 +561,7 @@ h3 {
   text-shadow: none;
   text-align: center;
   font-weight: bold;
+  font-size: calc(var(--font-size-base) + 0.5rem);
 }
 
 .site-nav-menu a:hover {
