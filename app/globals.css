@@ -435,6 +435,7 @@ h3 {
   border: 2px solid var(--logo-color);
   background: var(--logo-color);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Two bars, centered within the button; on open they're re-centered and
@@ -634,6 +635,7 @@ h3 {
   text-align: center;
   font-weight: bold;
   font-size: calc(var(--font-size-base) + 0.5rem);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .site-nav-menu a[aria-current="page"] {
