@@ -445,7 +445,7 @@ h3 {
   left: 50%;
   top: 50%;
   width: 1.5rem;
-  height: 2px;
+  height: 3px;
   background: #ffffff;
   transition: transform 200ms ease;
 }
