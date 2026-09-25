@@ -343,11 +343,17 @@ h3 {
    of scrolling out of view. z-index above .content-layer's own (see
    above) and everything in it (main, footer), none of which set a
    z-index of their own, so this wins the stack and scrolling content
-   never paints over it. */
+   never paints over it. margin-bottom pulls main up: .page-content's
+   flex gap (--space-lg) is otherwise the same between every pair of
+   children, so header-to-main would be far larger than main's own
+   left/right inset (--space-sm, from .page-content's padding). Shrinking
+   just this gap down to --space-sm — main's own margin-bottom stays
+   untouched, so main-to-footer keeps the full --space-lg gap. */
 .page-content header {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-top: calc(var(--space-sm) * -1);
+  margin-bottom: calc(var(--space-sm) - var(--space-lg));
   position: sticky;
   top: 0;
   z-index: 2;
@@ -544,11 +550,34 @@ h3 {
   text-shadow: none;
 }
 
+/* Full-bleed, same trick as .page-content header above: width: 100vw +
+   margin-left: calc(50% - 50vw) spans the actual viewport instead of
+   stopping at .content-layer's max-width: 75rem edges. margin-bottom
+   keeps the footer flush against .content-layer's real bottom edge
+   (undoing .page-content's own padding), same as header's margin-top. */
 .page-content footer {
-  margin: 0 calc(var(--space-sm) * -1) calc(var(--space-sm) * -1);
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-bottom: calc(var(--space-sm) * -1);
+  padding-left: var(--space-sm);
   background: #ffffff;
   color: var(--logo-color);
   text-shadow: none;
+  container-type: inline-size;
+}
+
+/* Scales with the footer's own rendered width (via cqi, not vw) so the
+   copyright line keeps shrinking in lockstep with however much room a
+   narrow screen actually leaves it, instead of wrapping onto a second
+   line. 3cqi is calibrated for this specific ~55-character string (font-
+   size * ~0.5 average-char-width-ratio * 55 chars ≈ container width at
+   that ratio) with headroom for Arial's wider glyphs; --font-size-sm
+   caps it back down to the normal fluid size once there's plenty of
+   room to spare. 0.65rem is a legibility floor for pathological widths
+   — below that, wrapping to a second (smaller) line is the fallback
+   rather than shrinking further. */
+.page-content footer p {
+  font-size: clamp(0.65rem, 3cqi, var(--font-size-sm));
 }
 
 .page-content address {
