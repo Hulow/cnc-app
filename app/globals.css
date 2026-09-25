@@ -28,6 +28,17 @@
 
   /* Full-viewport sizing, preferring dvh/svh where supported. */
   --viewport-height: 100vh;
+
+  /* Target height for the nav toggle button and the footer bookend (see
+     .site-nav-toggle and .page-content footer below), derived from
+     .site-nav-menu a's own box model — 2x --space-xs padding, the menu
+     item's line-height (font-size-base + 0.5rem, at the inherited 1.5
+     line-height), plus its 2px bottom border — so all three stay the same
+     height as each other at every viewport width instead of drifting
+     whenever the spacing/type scale changes. */
+  --site-nav-height: calc(
+    2 * var(--space-xs) + 1.5 * (var(--font-size-base) + 0.5rem) + 2px
+  );
 }
 
 @supports (height: 100svh) {
@@ -387,12 +398,15 @@ h3 {
    few px of baseline whitespace below the button — a phantom gap between
    it and .site-nav-menu that margin-top: 0 on the menu can't remove. The
    two-bar/X icon (see .site-nav-toggle-bar below) is centered inside it
-   via this box's own relative positioning. */
+   via this box's own relative positioning. height: var(--site-nav-height)
+   (see :root) matches .site-nav-menu a's own rendered height, so the
+   closed toggle is the same size as each open menu item instead of a
+   fixed value that only happened to line up at one viewport width. */
 .site-nav-toggle {
   display: block;
   position: relative;
   width: 100%;
-  height: 2.625rem;
+  height: var(--site-nav-height);
   padding: 0;
   border: 2px solid var(--logo-color);
   background: var(--logo-color);
@@ -516,19 +530,19 @@ h3 {
    stopping at .content-layer's max-width: 75rem edges. margin-bottom
    keeps the footer flush against .content-layer's real bottom edge
    (undoing .page-content's own padding), same as header's margin-top.
-   height matches .site-nav-toggle's own fixed 2.625rem exactly, so header
-   and footer bookend the page at the same size; padding-top/bottom reset
-   to 0 (padding alone made this unreliable to size precisely) with
-   display: flex + align-items: center taking over vertical centering
-   instead. Sticky + bottom: 0 pins it to the bottom of the viewport once
-   scrolling would carry it past that point, same mechanism as header's
-   sticky top (see above) — body's own overflow is left alone (see body
-   comment above) specifically so this resolves against the real
-   viewport instead of some ancestor. Same z-index as header so both
-   bookends win the stack over scrolling content equally. */
+   height: var(--site-nav-height) (see :root) matches .site-nav-toggle's
+   own height exactly, so header and footer bookend the page at the same
+   size; padding-top/bottom reset to 0 (padding alone made this unreliable
+   to size precisely) with display: flex + align-items: center taking over
+   vertical centering instead. Sticky + bottom: 0 pins it to the bottom of
+   the viewport once scrolling would carry it past that point, same
+   mechanism as header's sticky top (see above) — body's own overflow is
+   left alone (see body comment above) specifically so this resolves
+   against the real viewport instead of some ancestor. Same z-index as
+   header so both bookends win the stack over scrolling content equally. */
 .page-content footer {
   width: 100vw;
-  height: 2.625rem;
+  height: var(--site-nav-height);
   margin-left: calc(50% - 50vw);
   margin-bottom: calc(var(--space-sm) * -1);
   padding-top: 0;
