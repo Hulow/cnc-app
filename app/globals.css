@@ -547,6 +547,7 @@ h3 {
    — below that, wrapping to a second (smaller) line is the fallback
    rather than shrinking further. */
 .page-content footer p {
+  font-weight: bold;
   font-size: clamp(0.65rem, 3cqi, var(--font-size-sm));
 }
 
