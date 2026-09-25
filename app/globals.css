@@ -237,7 +237,7 @@ h3 {
   align-items: center;
   justify-content: center;
   padding: var(--space-md);
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--logo-color);
   color: #171717;
 }
 
@@ -283,7 +283,7 @@ h3 {
   padding: var(--space-xs) var(--space-md);
   border: 1px solid var(--logo-color);
   border-radius: 0.375rem;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.85);
   color: var(--logo-color);
   font: inherit;
   font-size: var(--font-size-sm);
@@ -293,7 +293,7 @@ h3 {
 
 .welcome-screen-content button:focus-visible,
 .welcome-screen-content button:active {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.85);
   border-color: rgb(235, 50, 110);
   box-shadow: 0 0 0 1px rgb(235, 50, 110);
   color: rgb(235, 50, 110);
@@ -305,7 +305,7 @@ h3 {
    hover state to leave. */
 @media (hover: hover) {
   .welcome-screen-content button:hover {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.85);
     border-color: rgb(235, 50, 110);
     box-shadow: 0 0 0 1px rgb(235, 50, 110);
     color: rgb(235, 50, 110);
