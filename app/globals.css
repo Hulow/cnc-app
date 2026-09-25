@@ -319,6 +319,15 @@ h3 {
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.85), 0 1px 12px rgba(255, 255, 255, 0.5);
 }
 
+/* Breaks .header out of .page-content's own padding on top and the sides
+   (negative margin equal to that padding, zero on bottom) so the nav
+   toggle sits flush against .content-layer's real top/left/right edges
+   instead of inset from them — every other child (main, footer) keeps
+   the normal padding. */
+.page-content header {
+  margin: calc(var(--space-sm) * -1) calc(var(--space-sm) * -1) 0;
+}
+
 /* Rendered as the first child of .content-layer (no longer fixed to the
    viewport) — a normal-flow block the full width of .content-layer, with
    the item list (see .site-nav-menu below) appearing directly beneath it
@@ -329,15 +338,15 @@ h3 {
 
 /* The whole rectangle is the button: width always matches .site-nav (and
    so .content-layer) exactly, with a blue border and opaque white fill.
-   The two-bar/X icon (see .site-nav-toggle-bar below) is centered inside
-   it via this box's own relative positioning. */
+   Square corners, flush against the edges — no border-radius. The
+   two-bar/X icon (see .site-nav-toggle-bar below) is centered inside it
+   via this box's own relative positioning. */
 .site-nav-toggle {
   position: relative;
   width: 100%;
   height: 3.5rem;
   padding: 0;
   border: 2px solid var(--logo-color);
-  border-radius: 0.375rem;
   background: #ffffff;
   cursor: pointer;
 }
