@@ -266,8 +266,8 @@ h3 {
   gap: var(--space-sm);
   padding: var(--space-md);
   background: rgba(255, 255, 255, 0.85);
-  border-top: 4px solid var(--logo-color);
-  border-bottom: 4px solid var(--logo-color);
+  border-top: 2px solid var(--logo-color);
+  border-bottom: 2px solid var(--logo-color);
 }
 
 .welcome-screen-content p {
@@ -292,10 +292,10 @@ h3 {
 
 .welcome-screen-content button:hover,
 .welcome-screen-content button:focus-visible {
-  background: rgba(0, 0, 0, 0.15);
-  border-color: rgb(231, 39, 58);
-  box-shadow: 0 0 0 1px rgb(231, 39, 58);
-  color: rgb(231, 39, 58);
+  background: transparent;
+  border-color: rgb(235, 50, 110);
+  box-shadow: 0 0 0 1px rgb(235, 50, 110);
+  color: rgb(235, 50, 110);
   font-weight: bold;
 }
 
@@ -703,10 +703,10 @@ h3 {
 
 .contact-form-close-button:hover,
 .contact-form-close-button:focus-visible {
-  background: rgba(0, 48, 255, 0.1);
-  border-color: rgb(231, 39, 58);
-  box-shadow: 0 0 0 1px rgb(231, 39, 58);
-  color: rgb(231, 39, 58);
+  background: transparent;
+  border-color: rgb(235, 50, 110);
+  box-shadow: 0 0 0 1px rgb(235, 50, 110);
+  color: rgb(235, 50, 110);
   font-weight: bold;
 }
 
@@ -956,10 +956,10 @@ h3 {
 
 .contact-form-actions button:hover,
 .contact-form-actions button:focus-visible {
-  background: rgba(0, 48, 255, 0.1);
-  border-color: rgb(231, 39, 58);
-  box-shadow: 0 0 0 1px rgb(231, 39, 58);
-  color: rgb(231, 39, 58);
+  background: transparent;
+  border-color: rgb(235, 50, 110);
+  box-shadow: 0 0 0 1px rgb(235, 50, 110);
+  color: rgb(235, 50, 110);
   font-weight: bold;
 }
 
