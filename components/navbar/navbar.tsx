@@ -13,7 +13,7 @@ const NAV_LINKS = [
   { href: "#home", label: "Home", view: "logo" },
   { href: "#service", label: "Service", view: "service" },
   { href: "#contact", label: "Contact", view: "contact" },
-  { href: "#cnc", label: "CNC", view: "placeholder" },
+  { href: "#cnc", label: "Cutting Salon", view: "placeholder" },
 ] as const;
 
 interface NavbarProps {
