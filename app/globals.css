@@ -652,7 +652,7 @@ h3 {
   }
 
   .site-nav-menu a[aria-current="page"]:hover {
-    color: #ffffff;
+    color: rgb(235, 50, 110);
   }
 }
 
