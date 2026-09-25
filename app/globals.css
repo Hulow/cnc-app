@@ -778,6 +778,13 @@ h3 {
   resize: vertical;
 }
 
+.contact-form-field input:focus-visible,
+.contact-form-field textarea:focus-visible {
+  outline: none;
+  border-color: var(--logo-color);
+  box-shadow: 0 0 0 2px var(--logo-color);
+}
+
 /* Labels are visually hidden (.sr-only) in favor of placeholder text, so
    the placeholder needs enough contrast to read as the field's name. */
 .contact-form-field input::placeholder,
@@ -942,7 +949,7 @@ h3 {
 
 .contact-form-field [role="alert"],
 .contact-form-error {
-  color: rgb(231, 39, 58);
+  color: rgb(235, 50, 110);
   font-size: var(--font-size-sm);
 }
 
