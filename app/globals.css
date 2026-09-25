@@ -10,7 +10,7 @@
      of drifting whenever the video's brightness changes. */
   --field-background: color-mix(in srgb, var(--background) 92%, white 8%);
   /* Matches the stroke/fill color baked into public/logo.svg. */
-  --logo-color: #51f501;
+  --logo-color: #0f2ba3;
 
   /* Fluid spacing scale: clamp(min, preferred, max) between a 360px and
      a 1920px viewport, so layout adapts without media-query breakpoints. */
@@ -392,8 +392,8 @@ h3 {
 
 /* Below tablet, colors are inverted from the tablet+ scheme (see the
    media query below, which restores fill/background to their original
-   values): an opaque green bump with the bars/X in transparent black,
-   rather than a transparent-black bump with a green border/bars. */
+   values): an opaque logo-color bump with the bars/X in transparent black,
+   rather than a transparent-black bump with a logo-color border/bars. */
 .site-nav-toggle-shape path {
   fill: var(--logo-color);
   stroke: var(--logo-color);
