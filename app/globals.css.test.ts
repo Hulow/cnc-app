@@ -35,8 +35,8 @@ describe(".content-layer responsive width", () => {
     });
   }
 
-  it("stays black and transparent", () => {
+  it("stays white and transparent", () => {
     const rule = widthInRule(/\.content-layer\s*{([^}]*)}/);
-    expect(rule).toMatch(/background:\s*rgba\(10,\s*10,\s*10,\s*0\.6\)/);
+    expect(rule).toMatch(/background:\s*rgba\(255,\s*255,\s*255,\s*0\.6\)/);
   });
 });

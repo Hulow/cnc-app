@@ -319,195 +319,71 @@ h3 {
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.85), 0 1px 12px rgba(255, 255, 255, 0.5);
 }
 
-/* Fixed to the viewport, not the <header> landmark it sits in: .site-nav
-   is the only thing that needs a box here, and position:fixed takes it
-   out of flow entirely — <header> is left with no content-driven height,
-   so it reserves no layout space and .content-layer starts flush at the
-   top of the screen. */
+/* Rendered as the first child of .content-layer (no longer fixed to the
+   viewport) — a normal-flow block the full width of .content-layer, with
+   the item list (see .site-nav-menu below) appearing directly beneath it
+   once open, instead of a floating widget overlaying the page. */
 .site-nav {
-  /* Both the toggle's own size breakpoints (see .site-nav-toggle) and the
-     top offset below need this — hoisted here (rather than defined on
-     .site-nav-toggle itself) so this rule can read it too; custom
-     properties only cascade down to descendants, not up to ancestors. */
-  --toggle-size: 3.5rem;
-  position: fixed;
-  /* A bit above the viewport's vertical center (30%, not 50%) rather than
-     pinned near the top: half the shrink-wrapped box's own height
-     (--toggle-size) up from that 30% mark. Deliberately not
-     translateY(-50%) — a transform on .site-nav would make it the
-     containing block for its position: fixed children, including
-     .site-nav-menu, whose own top: 0 must stay resolved against the real
-     viewport. */
-  top: calc(30% - (var(--toggle-size) / 2));
-  /* 0, not --space-md: the toggle's shape (see .site-nav-toggle and
-     .site-nav-toggle-shape) must sit flush against the viewport's right
-     edge, so this box — which shrink-wraps to the toggle, the only
-     in-flow content since the menu list is fixed positioned independently
-     — has to start flush with that edge rather than inset from it. */
-  right: 0;
-  /* Must outrank .content-layer (z-index: 1): on narrow viewports
-     .content-layer is 90% wide and its box genuinely reaches the toggle's
-     corner position, so an equal z-index left .content-layer (later in
-     the DOM) painted on top and swallowed clicks meant for the toggle.
-     Tied with .welcome-screen (also 2) is fine — it always renders after
-     header in the DOM, so it still wins that tie and stays on top while
-     the gate hasn't been dismissed yet. */
-  z-index: 2;
+  width: 100%;
 }
 
-/* The button itself is just a hit target now — no border/background of
-   its own (that's all drawn by .site-nav-toggle-shape's <path>, see
-   below) — kept at the same width/height (--toggle-size) the plain
-   circle used to be, so the toggle's on-screen position doesn't shift.
-   The shape itself is taller than that (the fillets add height above/
-   below the bump) and is centered on this box rather than fitted inside
-   it — overflow: visible lets that extra height render past this box's
-   own top/bottom edges without being clipped. */
+/* The whole rectangle is the button: width always matches .site-nav (and
+   so .content-layer) exactly, with a blue border and opaque white fill.
+   The two-bar/X icon (see .site-nav-toggle-bar below) is centered inside
+   it via this box's own relative positioning. */
 .site-nav-toggle {
   position: relative;
-  width: calc(var(--toggle-size) / 2);
-  height: var(--toggle-size);
+  width: 100%;
+  height: 3.5rem;
   padding: 0;
-  border: none;
-  background: none;
+  border: 2px solid var(--logo-color);
+  border-radius: 0.375rem;
+  background: #ffffff;
   cursor: pointer;
-  overflow: visible;
 }
 
-/* One continuous shape (a single <path>, no stacked pieces) for the bump
-   coming out of the screen's right edge: a main arc (radius R =
-   --toggle-size / 2) plus a smaller concave fillet arc at the top and
-   bottom (radius r = 0.7R) that's tangent to both the main arc and the
-   screen edge, so the outline flows edge → fillet → bump → fillet → edge
-   with no corners. The path's own coordinates (in a -100..0 / R=100
-   space) bake in that 0.7 ratio via closed-form tangency math: a fillet
-   of radius r tangent to the main circle and to the same edge line sits
-   with its center offset R*sqrt(1+2r/R) from the main circle's center —
-   change the fillet ratio by recomputing these numbers, not by editing a
-   variable (SVG path data can't consume calc()/var()). Positioned
-   centered on the button (top: 50% + translateY(-50%)) rather than flush
-   to its top, since the shape is taller than the button's own box. */
-.site-nav-toggle-shape {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: calc(var(--toggle-size) / 2);
-  height: calc(var(--toggle-size) * 1.54919);
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-/* Below tablet, colors are inverted from the tablet+ scheme (see the
-   media query below, which restores fill/background to their original
-   values): an opaque logo-color bump with the bars/X in transparent black,
-   rather than a transparent-black bump with a logo-color border/bars. */
-.site-nav-toggle-shape path {
-  fill: var(--logo-color);
-  stroke: var(--logo-color);
-  stroke-width: 2px;
-  /* Keeps the stroke a constant 2px on screen as the shape scales
-     between breakpoints, instead of scaling with the viewBox. */
-  vector-effect: non-scaling-stroke;
-}
-
-/* Two bars, centered within the button (unlike the shape itself, they
-   don't need the fillets' extra height, so they stay anchored to the
-   button's own vertical center via top: 50%); on open they're re-centered
-   and rotated 45deg opposite ways to form an "X". Smaller here (below
-   tablet) than at the tablet+ breakpoint below. */
+/* Two bars, centered within the button; on open they're re-centered and
+   rotated 45deg opposite ways to form an "X". */
 .site-nav-toggle-bar {
   position: absolute;
-  left: 20%;
+  left: 50%;
   top: 50%;
-  width: 60%;
-  height: 3px;
-  /* Matches .contact-form's own background exactly, not an arbitrary
-     black. */
-  background: rgba(0, 0, 0, 0.6);
+  width: 1.5rem;
+  height: 2px;
+  background: var(--logo-color);
   transition: transform 200ms ease;
 }
 
 .site-nav-toggle-bar:first-of-type {
-  transform: translateY(calc(-50% - 8px));
+  transform: translate(-50%, calc(-50% - 6px));
 }
 
 .site-nav-toggle-bar:last-of-type {
-  transform: translateY(calc(-50% + 8px));
+  transform: translate(-50%, calc(-50% + 6px));
 }
 
 .site-nav-toggle[data-open="true"] .site-nav-toggle-bar:first-of-type {
-  transform: translateY(-50%) rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .site-nav-toggle[data-open="true"] .site-nav-toggle-bar:last-of-type {
-  transform: translateY(-50%) rotate(-45deg);
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-/* Tablet and up: enlarge the toggle's shape (see .site-nav-toggle and
-   .site-nav-toggle-shape above) and scale the bars' spacing to match, so
-   they stay centered within the bigger shape instead of clustering near
-   its middle. */
-@media (min-width: 768px) {
-  .site-nav {
-    --toggle-size: 6.5rem;
-    /* Much higher than the mobile 30% mark — closer to the top of the
-       screen instead of near its vertical center. */
-    top: calc(12% - (var(--toggle-size) / 2));
-  }
-
-  .site-nav-toggle-bar:first-of-type {
-    transform: translateY(calc(-50% - 14px));
-  }
-
-  .site-nav-toggle-bar:last-of-type {
-    transform: translateY(calc(-50% + 14px));
-  }
-
-  .site-nav-toggle-bar {
-    left: 30%;
-    width: 64%;
-    /* Original (non-inverted) scheme: the mobile rule above swaps this to
-       transparent black. */
-    background: var(--logo-color);
-  }
-
-  /* Original (non-inverted) scheme: the mobile rule above swaps this to
-     an opaque --logo-color fill. */
-  .site-nav-toggle-shape path {
-    fill: rgba(0, 0, 0, 0.35);
-  }
-}
-
-/* Fixed (not absolute-in-.site-nav), centered with left: 50% +
-   translateX(-50%): width (not max-width) matches .content-layer's own
-   width (90%/70%, capped at 75rem) exactly, so the menu's edges line up
-   with the dark panel underneath instead of shrink-wrapping its items.
-   Items (see .site-nav-menu li below) are flex: 1, so they grow to fill
-   that full width evenly on their own — the row needs only a small fixed
-   gap between them, not justify-content, and the items themselves get
-   bigger as the screen does rather than leaving ever-larger empty gaps
-   (space-between's effect with only 4 items). top: 0 lines it up with
-   .content-layer's own top edge (it starts flush at the top of the
-   screen — see the .site-nav comment above). */
+/* In-flow, directly below .site-nav-toggle (not a fixed overlay) — width
+   100% matches .site-nav (and so .content-layer) exactly, same as the
+   toggle button above it. Items (see .site-nav-menu li below) are flex:
+   1, so they grow to fill that full width evenly on their own — the row
+   needs only a small fixed gap between them, not justify-content, and the
+   items themselves get bigger as the screen does rather than leaving
+   ever-larger empty gaps (space-between's effect with only 4 items). */
 .site-nav-menu {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 75rem;
-  z-index: 1;
+  width: 100%;
+  margin-top: var(--space-sm);
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  padding: var(--space-sm);
   list-style: none;
-}
-
-@media (min-width: 576px) {
-  .site-nav-menu {
-    width: 70%;
-  }
 }
 
 @keyframes site-nav-item-in {
@@ -642,26 +518,6 @@ h3 {
   padding: var(--space-md);
   background: rgba(0, 0, 0, 0.6);
   border-radius: 0.375rem;
-  margin-top: 0;
-  transition: margin-top 200ms ease;
-}
-
-/* .site-nav-menu overlays .content-layer's top edge (position: fixed, so
-   it reserves no layout space of its own) — nudge the form down out of
-   its way while the menu is open, matching roughly the menu bar's own
-   height, and let it settle back once the menu closes. */
-.content-layer[data-menu-open="true"] .contact-form {
-  margin-top: 4rem;
-}
-
-/* Below 576px the menu wraps into 2 rows (see .site-nav-menu's own
-   max-width: 575px query), roughly doubling its height — the 4rem push
-   above only clears a single row, so it needs more room here or the
-   second row sits on top of the form. */
-@media (max-width: 575px) {
-  .content-layer[data-menu-open="true"] .contact-form {
-    margin-top: 7rem;
-  }
 }
 
 /* Success state reuses .contact-form's box but centers its (much
