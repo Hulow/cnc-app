@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { siteConfig } from "@/shared/site-config";
 // Grid + utilities only: no Reboot, so Bootstrap doesn't override the
 // existing global element styles/reset in globals.css.
@@ -31,6 +31,19 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+};
+
+// Without this, iOS Safari has no declared theme-color and falls back to
+// auto-tinting its own toolbar from whatever's flush against the top/bottom
+// viewport edge — here the blue header/footer — so the toolbar visually
+// fuses with them into one oversized blue bar. Pinning it to --background's
+// own light/dark values (see globals.css) keeps Safari's chrome matching
+// the page background instead.
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
