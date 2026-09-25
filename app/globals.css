@@ -830,7 +830,7 @@ h3 {
 .contact-form-field textarea:focus-visible {
   outline: none;
   border-color: var(--logo-color);
-  box-shadow: 0 0 0 2px var(--logo-color);
+  box-shadow: 0 0 0 1px var(--logo-color);
 }
 
 /* Labels are visually hidden (.sr-only) in favor of placeholder text, so
