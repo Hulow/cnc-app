@@ -290,7 +290,8 @@ h3 {
   cursor: pointer;
 }
 
-.welcome-screen-content button:focus-visible {
+.welcome-screen-content button:focus-visible,
+.welcome-screen-content button:active {
   background: transparent;
   border-color: rgb(235, 50, 110);
   box-shadow: 0 0 0 1px rgb(235, 50, 110);
@@ -738,7 +739,8 @@ h3 {
   cursor: pointer;
 }
 
-.contact-form-close-button:focus-visible {
+.contact-form-close-button:focus-visible,
+.contact-form-close-button:active {
   background: transparent;
   border-color: rgb(235, 50, 110);
   box-shadow: 0 0 0 1px rgb(235, 50, 110);
@@ -1019,7 +1021,8 @@ h3 {
   cursor: pointer;
 }
 
-.contact-form-actions button:focus-visible {
+.contact-form-actions button:focus-visible,
+.contact-form-actions button:active {
   background: transparent;
   border-color: rgb(235, 50, 110);
   box-shadow: 0 0 0 1px rgb(235, 50, 110);
