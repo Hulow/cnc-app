@@ -569,6 +569,20 @@ h3 {
   container-type: inline-size;
 }
 
+/* iOS Safari 26+ extends the footer's own blue fill into the safe area it
+   paints under its own bottom toolbar (see the body background comment
+   above), with no visible seam between the two, so the footer reads as
+   fused with — and much taller than — the browser chrome. This gives it a
+   real, crisp edge at the actual bottom of the page so it reads as its
+   own bar instead. -webkit-touch-callout is only implemented by WebKit on
+   iOS (not desktop Safari or any other browser), so @supports on it scopes
+   this line to iOS Safari without touching any other platform. */
+@supports (-webkit-touch-callout: none) {
+  .page-content footer {
+    border-bottom: 2px solid #ffffff;
+  }
+}
+
 /* Scales with the footer's own rendered width (via cqi, not vw) so the
    copyright line keeps shrinking in lockstep with however much room a
    narrow screen actually leaves it, instead of wrapping onto a second
