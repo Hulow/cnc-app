@@ -287,6 +287,7 @@ h3 {
   color: var(--logo-color);
   font: inherit;
   font-size: var(--font-size-sm);
+  font-weight: bold;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -737,12 +738,13 @@ h3 {
 
 .contact-form-close-button {
   padding: var(--space-sm) var(--space-lg);
-  border: 1px solid var(--logo-color);
+  border: 2px solid var(--logo-color);
   border-radius: 0.375rem;
   background: transparent;
   color: var(--logo-color);
   font: inherit;
   font-size: var(--font-size-sm);
+  font-weight: bold;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -1034,12 +1036,13 @@ h3 {
 
 .contact-form-actions button {
   padding: var(--space-xs) var(--space-md);
-  border: 1px solid var(--logo-color);
+  border: 2px solid var(--logo-color);
   border-radius: 0.375rem;
   background: transparent;
   color: var(--logo-color);
   font: inherit;
   font-size: var(--font-size-sm);
+  font-weight: bold;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
