@@ -439,6 +439,14 @@ h3 {
   animation: site-nav-item-out 200ms ease forwards;
 }
 
+/* .site-nav-menu itself (the group border) needs the same fade, not just
+   its items — otherwise the border stays fully opaque for the whole
+   200ms while the items underneath it fade away, then disappears all at
+   once on unmount instead of fading out with everything else. */
+.site-nav-menu {
+  animation: site-nav-item-out 200ms ease forwards;
+}
+
 /* Single-row layout (4 items side by side): a divider between each pair,
    never on the last item — that outer edge is already the group's own
    border (see .site-nav-menu above). */
@@ -476,8 +484,10 @@ h3 {
   }
 }
 
-/* All items are mounted together and share this animation, so they fade
-   in from fully transparent to normal at the same time — no stagger. */
+/* All items (and the group border, see .site-nav-menu above) are mounted
+   together and share this animation, so they fade in from fully
+   transparent to normal at the same time — no stagger. */
+.site-nav-menu[data-open="true"],
 .site-nav-menu[data-open="true"] li {
   animation: site-nav-item-in 200ms ease forwards;
 }
