@@ -288,6 +288,7 @@ h3 {
   font: inherit;
   font-size: var(--font-size-sm);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .welcome-screen-content button:focus-visible,
