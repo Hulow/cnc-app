@@ -9,7 +9,7 @@
      dark mode. */
   --field-background: #ffffff;
   /* Matches the stroke/fill color baked into public/logo.svg. */
-  --logo-color: #0f2ba3;
+  --logo-color: #1474f2;
 
   /* Fluid spacing scale: clamp(min, preferred, max) between a 360px and
      a 1920px viewport, so layout adapts without media-query breakpoints. */
@@ -690,7 +690,7 @@ h3 {
 
 .contact-form-close-button:hover,
 .contact-form-close-button:focus-visible {
-  background: rgba(15, 43, 163, 0.1);
+  background: rgba(20, 116, 242, 0.1);
   border-color: rgb(231, 39, 58);
   box-shadow: 0 0 0 1px rgb(231, 39, 58);
   color: rgb(231, 39, 58);
@@ -943,7 +943,7 @@ h3 {
 
 .contact-form-actions button:hover,
 .contact-form-actions button:focus-visible {
-  background: rgba(15, 43, 163, 0.1);
+  background: rgba(20, 116, 242, 0.1);
   border-color: rgb(231, 39, 58);
   box-shadow: 0 0 0 1px rgb(231, 39, 58);
   color: rgb(231, 39, 58);
