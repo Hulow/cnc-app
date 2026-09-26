@@ -606,18 +606,28 @@ h3 {
 }
 
 /* Below tablet width only (matches the .service-grid/.cutting-salon-grid
-   breakpoint above): stack the address as Coppistraße 17 / 10365 Berlin
-   on two explicit, full-width rows (grid rather than flex-column, so
-   each row is its own 100%-width track) with each span pinned to the
-   end of its own row — this keeps both lines ending flush at the same
-   right edge regardless of how much shorter one line's text is than the
-   other's. At tablet width and up there's enough room for the address
-   to sit on one line, so no override is needed there. */
+   breakpoint above): stack the address (Coppistraße 17 / 10365 Berlin)
+   and the copyright line (© year - Victor Le Fur / CNC Design &
+   fabrication) each on two explicit, full-width rows (grid rather than
+   flex-column, so each row is its own 100%-width track) with each span
+   pinned to the start or end of its own row — this keeps every line
+   flush against the same edge regardless of how much shorter one
+   line's text is than the other's. The address stays right-aligned,
+   the copyright left-aligned. At tablet width and up there's enough
+   room for both to sit on one line each, so no override is needed
+   there. */
 @media (max-width: 767px) {
-  .footer-address {
+  .footer-address,
+  .footer-copyright {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
+  }
+
+  .footer-copyright span {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
   }
 
   .footer-address span {

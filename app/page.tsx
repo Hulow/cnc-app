@@ -17,9 +17,11 @@ export default function Home() {
           cuttingSalon={<CuttingSalon />}
           footer={
             <footer>
-              <p>
-                &copy; {new Date().getFullYear()} -  Victor Le Fur -
-                CNC Design & fabrication
+              <p className="footer-copyright">
+                <span>
+                  &copy; {new Date().getFullYear()} -  Victor Le Fur
+                </span>{" "}
+                <span>CNC Design & fabrication</span>
               </p>
               <p className="footer-address">
                 <span>Coppistraße 17</span>{" "}
