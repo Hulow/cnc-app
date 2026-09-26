@@ -1,3 +1,7 @@
+/* ==========================================================================
+   Design Tokens
+   ========================================================================== */
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -59,6 +63,10 @@
     --foreground: #ededed;
   }
 }
+
+/* ==========================================================================
+   Base Reset & Typography
+   ========================================================================== */
 
 html {
   height: 100%;
@@ -149,6 +157,10 @@ h3 {
   }
 }
 
+/* ==========================================================================
+   Layout Primitives
+   ========================================================================== */
+
 /* Full-bleed layer, used by the background video and any element that
    must fill the viewport independently of document flow/content height. */
 .full-bleed {
@@ -163,6 +175,25 @@ h3 {
   height: 100%;
   object-fit: cover;
 }
+
+/* Visually hide content while keeping it in the accessibility tree and
+   the raw HTML (SEO) — used for the page's single h1, which must exist
+   but not appear as a separate text title next to the logo. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   Background Video
+   ========================================================================== */
 
 /* Stacking: the video sits at the base layer, page content is promoted
    above it. Deliberately avoids a negative z-index on the video, which
@@ -208,6 +239,10 @@ h3 {
   }
 }
 
+/* ==========================================================================
+   Content Layer
+   ========================================================================== */
+
 /* Width steps from 90% to 70% once past phone-portrait width (576px);
    Bootstrap's remaining breakpoints (md/lg/xl/xxl) used to repeat this
    same 70% and did nothing, so they've been dropped. */
@@ -223,6 +258,10 @@ h3 {
     width: 70%;
   }
 }
+
+/* ==========================================================================
+   Welcome Screen
+   ========================================================================== */
 
 /* The entry point to the whole app: a full-screen, light-transparent gate
    over everything else (video + page content), so the site is briefly
@@ -319,6 +358,10 @@ h3 {
   display: none;
 }
 
+/* ==========================================================================
+   Logo
+   ========================================================================== */
+
 .logo {
   width: clamp(26rem, 15rem + 40vw, 56rem);
   height: auto;
@@ -338,20 +381,14 @@ h3 {
   margin-block: auto;
 }
 
-/* Visually hide content while keeping it in the accessibility tree and
-   the raw HTML (SEO) — used for the page's single h1, which must exist
-   but not appear as a separate text title next to the logo. */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
+/* ==========================================================================
+   Page Shell & Navigation
+
+   .page-content a and .site-nav-menu a below tie on specificity (1 class +
+   1 element each) — .site-nav-menu a must stay after .page-content a in
+   source order to win the cascade, so this section is kept as one
+   physically contiguous block rather than split further.
+   ========================================================================== */
 
 /* Transparent content layer: the black-and-white video shows through
    directly, so legibility comes from text-shadow on the text itself
@@ -690,6 +727,10 @@ h3 {
   }
 }
 
+/* ==========================================================================
+   Service & Cutting Salon
+   ========================================================================== */
+
 .service-grid,
 .cutting-salon-grid {
   display: grid;
@@ -740,6 +781,10 @@ h3 {
   margin-top: var(--space-sm);
   filter: grayscale(100%);
 }
+
+/* ==========================================================================
+   Contact
+   ========================================================================== */
 
 .contact-widget {
   display: flex;
@@ -1192,6 +1237,10 @@ h3 {
   overflow: hidden;
   left: -9999px;
 }
+
+/* ==========================================================================
+   Motion Preferences
+   ========================================================================== */
 
 /* Respect the user's reduced-motion preference: disable non-essential
    animation/transition/smooth-scroll everywhere by default. Components
