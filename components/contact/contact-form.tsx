@@ -244,6 +244,9 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
         <button type="button" onClick={handleCancel} disabled={isSubmitting}>
           Clear
         </button>
+        <button type="button" className="contact-form-help" disabled={isSubmitting}>
+          Help
+        </button>
       </div>
     </form>
   );

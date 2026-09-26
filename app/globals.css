@@ -1127,6 +1127,12 @@ h3 {
   gap: var(--space-sm);
 }
 
+/* Pushes Help to the far end of the row while Send/Clear stay grouped at
+   the start, without needing a separate wrapper for those two. */
+.contact-form-help {
+  margin-left: auto;
+}
+
 .contact-form-actions button {
   padding: var(--space-xs) var(--space-md);
   border: 1px solid var(--logo-color);
