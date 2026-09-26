@@ -781,9 +781,9 @@ h3 {
 
 .contact-button:focus-visible {
   background: rgba(255, 255, 255, 0.15);
-  border-color: rgb(231, 39, 58);
-  box-shadow: 0 0 0 1px rgb(231, 39, 58);
-  color: rgb(231, 39, 58);
+  border-color: rgb(235, 50, 110);
+  box-shadow: 0 0 0 1px rgb(235, 50, 110);
+  color: rgb(235, 50, 110);
   font-weight: bold;
 }
 
@@ -793,9 +793,9 @@ h3 {
 @media (hover: hover) {
   .contact-button:hover {
     background: rgba(255, 255, 255, 0.15);
-    border-color: rgb(231, 39, 58);
-    box-shadow: 0 0 0 1px rgb(231, 39, 58);
-    color: rgb(231, 39, 58);
+    border-color: rgb(235, 50, 110);
+    box-shadow: 0 0 0 1px rgb(235, 50, 110);
+    color: rgb(235, 50, 110);
     font-weight: bold;
   }
 }
@@ -1116,8 +1116,8 @@ h3 {
 }
 
 .contact-form-attachment-remove:focus-visible {
-  color: rgb(231, 39, 58);
-  border-color: rgb(231, 39, 58);
+  color: rgb(235, 50, 110);
+  border-color: rgb(235, 50, 110);
 }
 
 /* hover: hover excludes touch devices — without it, iOS keeps :hover
@@ -1125,8 +1125,8 @@ h3 {
    hover state to leave. */
 @media (hover: hover) {
   .contact-form-attachment-remove:hover {
-    color: rgb(231, 39, 58);
-    border-color: rgb(231, 39, 58);
+    color: rgb(235, 50, 110);
+    border-color: rgb(235, 50, 110);
   }
 }
 
