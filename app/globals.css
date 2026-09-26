@@ -1127,6 +1127,12 @@ h3 {
   gap: var(--space-sm);
 }
 
+@media (max-width: 767px) {
+  .contact-form .contact-form-actions {
+    gap: var(--space-lg);
+  }
+}
+
 /* Pushes Help to the far end of the row while Send/Clear stay grouped at
    the start, without needing a separate wrapper for those two. */
 .contact-form-help {
