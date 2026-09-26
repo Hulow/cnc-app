@@ -6,39 +6,30 @@ export function Service() {
     <section aria-labelledby="about-heading">
       <div className="service-grid">
         <div className="service-card">
-          <h3>I offer CNC cutting for:</h3>
-          <ul>
-            <li>Prototypes</li>
-            <li>Unique products</li>
-            <li>Small production series</li>
-          </ul>
+          <h3>I offer CNC cutting for</h3>
+          <div className="service-item">Prototypes</div>
+          <div className="service-item">Unique products</div>
+          <div className="service-item">Small production series</div>
         </div>
 
         <div className="service-card">
-          <h3>I can support you with:</h3>
-          <ul>
-            <li>Concept & design</li>
-            <li>CAD</li>
-            <li>CNC machining</li>
-            <li>Assembly</li>
-          </ul>
+          <h3>I can support you with</h3>
+          <div className="service-item">CAD</div>
+          <div className="service-item">CNC machining</div>
+          <div className="service-item">Assembly</div>
         </div>
 
         <div className="service-card">
-          <h3>Pricing based on:</h3>
-          <ul>
-            <li>Volume</li>
-            <li>Material</li>
-            <li>Design complexity</li>
-          </ul>
+          <h3>Pricing based on</h3>
+          <div className="service-item">Volume</div>
+          <div className="service-item">Material</div>
+          <div className="service-item">Design complexity</div>
         </div>
 
         <div className="service-card">
           <h3>Delivery</h3>
-          <ul>
-            <li>Workshop pickup</li>
-            <li>Shipping</li>
-          </ul>
+          <div className="service-item">Workshop pickup</div>
+          <div className="service-item">Shipping</div>
         </div>
       </div>
       <p className="service-note">
