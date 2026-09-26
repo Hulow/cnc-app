@@ -21,7 +21,7 @@ export default function Home() {
                 <span>
                   &copy; {new Date().getFullYear()} -  Victor Le Fur
                 </span>{" "}
-                <span>CNC Design & fabrication</span>
+                <span>CNC cutting services</span>
               </p>
               <p className="footer-address">
                 <span>Coppistraße 17</span>{" "}

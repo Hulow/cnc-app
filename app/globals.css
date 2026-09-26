@@ -605,6 +605,17 @@ h3 {
   }
 }
 
+/* Tablet width and up: the address and copyright each render as a
+   single line (see the media query below, which only kicks in below
+   tablet width), so join their two spans with " - " here instead of
+   in the markup — putting the dash in JSX would make it its own text
+   node, which the two-row grid below would then place as an unwanted
+   third grid item. */
+.footer-copyright span:first-child::after,
+.footer-address span:first-child::after {
+  content: " - ";
+}
+
 /* Below tablet width only (matches the .service-grid/.cutting-salon-grid
    breakpoint above): stack the address (Coppistraße 17 / 10365 Berlin)
    and the copyright line (© year - Victor Le Fur / CNC Design &
@@ -634,6 +645,11 @@ h3 {
     width: 100%;
     display: flex;
     justify-content: flex-end;
+  }
+
+  .footer-copyright span:first-child::after,
+  .footer-address span:first-child::after {
+    content: none;
   }
 }
 

@@ -6,7 +6,7 @@ export function Service() {
     <section aria-labelledby="about-heading">
       <div className="service-grid">
         <div className="service-card">
-          <h3>CNC services</h3>
+          <h3>Cutting services</h3>
           <div className="service-item">Prototypes</div>
           <div className="service-item">Unique products</div>
           <div className="service-item">Small production series</div>
