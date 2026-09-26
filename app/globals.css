@@ -707,6 +707,7 @@ h3 {
 .cutting-salon-image {
   width: 100%;
   height: auto;
+  margin-top: var(--space-sm);
   filter: grayscale(100%);
 }
 
