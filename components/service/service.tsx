@@ -33,7 +33,7 @@ export function Service() {
         </div>
       </div>
       <p className="service-note">
-        <strong>Whether you come with a finished CAD file, a sketch or simply an idea, I can help you figure out how to make it.</strong>
+        <strong>Whether you come with a CAD file, a sketch or simply an idea, I can help you figure out how to make it.</strong>
       </p>
     </section>
   );
