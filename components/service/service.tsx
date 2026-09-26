@@ -6,28 +6,28 @@ export function Service() {
     <section aria-labelledby="about-heading">
       <div className="service-grid">
         <div className="service-card">
-          <h3>I offer CNC cutting for</h3>
+          <h3>CNC services</h3>
           <div className="service-item">Prototypes</div>
           <div className="service-item">Unique products</div>
           <div className="service-item">Small production series</div>
         </div>
 
         <div className="service-card">
-          <h3>I can support you with</h3>
-          <div className="service-item">CAD</div>
+          <h3>Services can include</h3>
+          <div className="service-item">CAD & design</div>
           <div className="service-item">CNC machining</div>
-          <div className="service-item">Assembly</div>
+          <div className="service-item">Assembly & finishing</div>
         </div>
 
         <div className="service-card">
-          <h3>Pricing based on</h3>
-          <div className="service-item">Volume</div>
+          <h3>Quotes are based on</h3>
           <div className="service-item">Material</div>
+          <div className="service-item">Size & quantity</div>
           <div className="service-item">Design complexity</div>
         </div>
 
         <div className="service-card">
-          <h3>Delivery</h3>
+          <h3>Delivery options</h3>
           <div className="service-item">Workshop pickup</div>
           <div className="service-item">Shipping</div>
         </div>
