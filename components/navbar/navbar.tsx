@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useNavBar } from "./use-navbar";
 
 const MENU_ID = "site-nav-menu";
@@ -26,9 +27,31 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
   const { isOpen, isRendered, toggle, close, handleAnimationEnd } = useNavBar({
     exitAnimationName: EXIT_ANIMATION_NAME,
   });
+  const navRef = useRef<HTMLElement>(null);
+
+  // pointerdown (not click): fires before the toggle button's own click
+  // handler would re-open a just-closed menu, and catching it on the way
+  // down means a drag that starts inside the menu and ends outside it
+  // doesn't count as an outside click.
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+      if (!navRef.current?.contains(event.target as Node)) {
+        close();
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, [isOpen, close]);
 
   return (
-    <nav className="site-nav" aria-label="Main">
+    <nav ref={navRef} className="site-nav" aria-label="Main">
       <button
         type="button"
         className="site-nav-toggle"
