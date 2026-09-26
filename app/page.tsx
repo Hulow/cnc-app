@@ -19,7 +19,11 @@ export default function Home() {
             <footer>
               <p>
                 &copy; {new Date().getFullYear()} -  Victor Le Fur -
-                Design & fabrication in {siteConfig.serviceArea}
+                CNC Design & fabrication
+              </p>
+              <p className="footer-address">
+                <span>Coppistraße 17</span>{" "}
+                <span>10365 Berlin</span>
               </p>
             </footer>
           }
