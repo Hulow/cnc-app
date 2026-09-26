@@ -7,8 +7,7 @@ export function CuttingSalon() {
       <div className="cutting-salon-grid">
         <div className="cutting-salon-card">
           <h3>Machine capabilities</h3>
-          <div className="cutting-salon-item">Working area: 2.2 m × 1.5 m</div>
-          <div className="cutting-salon-item">Material thickness: ≤ 100 mm</div>
+          <div className="cutting-salon-item">Working area: 2.2m × 1.5m</div>
           <div className="cutting-salon-item">3 axis CNC</div>
         </div>
 
