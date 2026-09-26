@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { useNavBar } from "./use-navbar";
 
 const MENU_ID = "site-nav-menu";
@@ -61,8 +62,14 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
         aria-label={isOpen ? "Close menu" : "Open menu"}
         onClick={toggle}
       >
-        <span className="site-nav-toggle-bar" />
-        <span className="site-nav-toggle-bar" />
+        <Image
+          src={isOpen ? "/close_menu.svg" : "/open_menu.svg"}
+          alt=""
+          width={32}
+          height={32}
+          unoptimized
+          className="site-nav-toggle-icon"
+        />
       </button>
       {isRendered && (
         <ul

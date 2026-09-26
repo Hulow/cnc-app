@@ -437,32 +437,13 @@ h3 {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Two bars, centered within the button; on open they're re-centered and
-   rotated 45deg opposite ways to form an "X". */
-.site-nav-toggle-bar {
+/* Icon swaps between open_menu.svg/close_menu.svg (see Navbar), centered
+   within the button. */
+.site-nav-toggle-icon {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 1.5rem;
-  height: 3px;
-  background: #ffffff;
-  transition: transform 200ms ease;
-}
-
-.site-nav-toggle-bar:first-of-type {
-  transform: translate(-50%, calc(-50% - 6px));
-}
-
-.site-nav-toggle-bar:last-of-type {
-  transform: translate(-50%, calc(-50% + 6px));
-}
-
-.site-nav-toggle[data-open="true"] .site-nav-toggle-bar:first-of-type {
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.site-nav-toggle[data-open="true"] .site-nav-toggle-bar:last-of-type {
-  transform: translate(-50%, -50%) rotate(-45deg);
+  transform: translate(-50%, -50%);
 }
 
 /* Overlaid on top of the page instead of sitting in normal flow: absolute
