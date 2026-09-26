@@ -8,6 +8,7 @@ import {
   isAttachmentTooLarge,
 } from "@/shared/contact-attachment";
 import { useContactForm } from "./use-contact-form";
+import { HelpOverlay } from "@/components/help-overlay/help-overlay";
 
 interface ContactFormProps {
   formId: string;
@@ -34,6 +35,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
   // rendered in its place ourselves.
   const [attachmentName, setAttachmentName] = useState<string | null>(null);
   const [oversizedAttachmentMb, setOversizedAttachmentMb] = useState<string | null>(null);
+  const [showHelp, setShowHelp] = useState(false);
   const attachmentInputRef = useRef<HTMLInputElement>(null);
 
   function handleAttachmentChange(event: ChangeEvent<HTMLInputElement>) {
@@ -83,171 +85,179 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
   }
 
   return (
-    <form id={formId} className="contact-form" onSubmit={handleSubmit} noValidate>
-      <div className="contact-form-field">
-        <label className="sr-only" htmlFor="contact-company-name">Company</label>
-        <input
-          id="contact-company-name"
-          name="companyName"
-          type="text"
-          placeholder="Company"
-          disabled={isSubmitting}
-          onChange={() => clearFieldError("companyName")}
-        />
-        {fieldErrors.companyName && <p role="alert">{fieldErrors.companyName}</p>}
-      </div>
+    <>
+      <form id={formId} className="contact-form" onSubmit={handleSubmit} noValidate>
+        <div className="contact-form-field">
+          <label className="sr-only" htmlFor="contact-company-name">Company</label>
+          <input
+            id="contact-company-name"
+            name="companyName"
+            type="text"
+            placeholder="Company"
+            disabled={isSubmitting}
+            onChange={() => clearFieldError("companyName")}
+          />
+          {fieldErrors.companyName && <p role="alert">{fieldErrors.companyName}</p>}
+        </div>
 
-      <div className="contact-form-field">
-        <label className="sr-only" htmlFor="contact-first-name">First name</label>
-        <input
-          id="contact-first-name"
-          name="firstName"
-          type="text"
-          placeholder="First name"
-          required
-          disabled={isSubmitting}
-          onChange={() => clearFieldError("firstName")}
-        />
-        <span className="contact-form-placeholder" aria-hidden="true">
-          First name<span className="contact-form-required"> *</span>
-        </span>
-        {fieldErrors.firstName && <p role="alert">{fieldErrors.firstName}</p>}
-      </div>
+        <div className="contact-form-field">
+          <label className="sr-only" htmlFor="contact-first-name">First name</label>
+          <input
+            id="contact-first-name"
+            name="firstName"
+            type="text"
+            placeholder="First name"
+            required
+            disabled={isSubmitting}
+            onChange={() => clearFieldError("firstName")}
+          />
+          <span className="contact-form-placeholder" aria-hidden="true">
+            First name<span className="contact-form-required"> *</span>
+          </span>
+          {fieldErrors.firstName && <p role="alert">{fieldErrors.firstName}</p>}
+        </div>
 
-      <div className="contact-form-field">
-        <label className="sr-only" htmlFor="contact-last-name">Last name</label>
-        <input
-          id="contact-last-name"
-          name="lastName"
-          type="text"
-          placeholder="Last name"
-          required
-          disabled={isSubmitting}
-          onChange={() => clearFieldError("lastName")}
-        />
-        <span className="contact-form-placeholder" aria-hidden="true">
-          Last name<span className="contact-form-required"> *</span>
-        </span>
-        {fieldErrors.lastName && <p role="alert">{fieldErrors.lastName}</p>}
-      </div>
+        <div className="contact-form-field">
+          <label className="sr-only" htmlFor="contact-last-name">Last name</label>
+          <input
+            id="contact-last-name"
+            name="lastName"
+            type="text"
+            placeholder="Last name"
+            required
+            disabled={isSubmitting}
+            onChange={() => clearFieldError("lastName")}
+          />
+          <span className="contact-form-placeholder" aria-hidden="true">
+            Last name<span className="contact-form-required"> *</span>
+          </span>
+          {fieldErrors.lastName && <p role="alert">{fieldErrors.lastName}</p>}
+        </div>
 
-      <div className="contact-form-field">
-        <label className="sr-only" htmlFor="contact-email">Email</label>
-        <input
-          id="contact-email"
-          name="email"
-          type="email"
-          placeholder="Email"
-          required
-          disabled={isSubmitting}
-          onChange={() => clearFieldError("email")}
-          onBlur={(event) => validateEmailOnBlur(event.target.value)}
-        />
-        <span className="contact-form-placeholder" aria-hidden="true">
-          Email<span className="contact-form-required"> *</span>
-        </span>
-        {fieldErrors.email && <p role="alert">{fieldErrors.email}</p>}
-      </div>
+        <div className="contact-form-field">
+          <label className="sr-only" htmlFor="contact-email">Email</label>
+          <input
+            id="contact-email"
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            disabled={isSubmitting}
+            onChange={() => clearFieldError("email")}
+            onBlur={(event) => validateEmailOnBlur(event.target.value)}
+          />
+          <span className="contact-form-placeholder" aria-hidden="true">
+            Email<span className="contact-form-required"> *</span>
+          </span>
+          {fieldErrors.email && <p role="alert">{fieldErrors.email}</p>}
+        </div>
 
-      <div className="contact-form-field">
-        <label className="sr-only" htmlFor="contact-phone">Phone</label>
-        <input
-          id="contact-phone"
-          name="phone"
-          type="tel"
-          placeholder="Phone"
-          disabled={isSubmitting}
-          onChange={() => clearFieldError("phone")}
-        />
-        {fieldErrors.phone && <p role="alert">{fieldErrors.phone}</p>}
-      </div>
+        <div className="contact-form-field">
+          <label className="sr-only" htmlFor="contact-phone">Phone</label>
+          <input
+            id="contact-phone"
+            name="phone"
+            type="tel"
+            placeholder="Phone"
+            disabled={isSubmitting}
+            onChange={() => clearFieldError("phone")}
+          />
+          {fieldErrors.phone && <p role="alert">{fieldErrors.phone}</p>}
+        </div>
 
-      <div className="contact-form-field">
-        <label className="sr-only" htmlFor="contact-message">Message</label>
-        <textarea
-          id="contact-message"
-          name="message"
-          placeholder="Message"
-          rows={5}
-          disabled={isSubmitting}
-          onChange={() => clearFieldError("message")}
-        />
-        {fieldErrors.message && <p role="alert">{fieldErrors.message}</p>}
-      </div>
+        <div className="contact-form-field">
+          <label className="sr-only" htmlFor="contact-message">Message</label>
+          <textarea
+            id="contact-message"
+            name="message"
+            placeholder="Message"
+            rows={5}
+            disabled={isSubmitting}
+            onChange={() => clearFieldError("message")}
+          />
+          {fieldErrors.message && <p role="alert">{fieldErrors.message}</p>}
+        </div>
 
-      <div className="contact-form-field">
-        <label className="sr-only" htmlFor="contact-attachment">Attachment</label>
-        <div className="contact-form-attachment-row">
-          <div className="contact-form-file">
-            {/* Custom "Upload" trigger + filename/placeholder text — the
-                real input has no native placeholder and its button label
-                can't be renamed, so it's fully hidden (opacity: 0,
-                stacked on top so clicks still reach it natively) and
-                these decorative elements stand in for it visually. */}
-            <span className="contact-form-file-button" aria-hidden="true">
-              Upload
-            </span>
-            {attachmentName ? (
-              <span className="contact-form-file-name">{attachmentName}</span>
-            ) : (
-              <span className="contact-form-file-placeholder">Attachment</span>
+        <div className="contact-form-field">
+          <label className="sr-only" htmlFor="contact-attachment">Attachment</label>
+          <div className="contact-form-attachment-row">
+            <div className="contact-form-file">
+              {/* Custom "Upload" trigger + filename/placeholder text — the
+                  real input has no native placeholder and its button label
+                  can't be renamed, so it's fully hidden (opacity: 0,
+                  stacked on top so clicks still reach it natively) and
+                  these decorative elements stand in for it visually. */}
+              <span className="contact-form-file-button" aria-hidden="true">
+                Upload
+              </span>
+              {attachmentName ? (
+                <span className="contact-form-file-name">{attachmentName}</span>
+              ) : (
+                <span className="contact-form-file-placeholder">Attachment</span>
+              )}
+              <input
+                ref={attachmentInputRef}
+                id="contact-attachment"
+                name="attachment"
+                type="file"
+                accept={ACCEPT_ATTRIBUTE}
+                disabled={isSubmitting}
+                onChange={handleAttachmentChange}
+              />
+            </div>
+            {attachmentName && (
+              <button
+                type="button"
+                className="contact-form-attachment-remove"
+                onClick={handleRemoveAttachment}
+                disabled={isSubmitting}
+                aria-label="Remove attachment"
+              >
+                ×
+              </button>
             )}
-            <input
-              ref={attachmentInputRef}
-              id="contact-attachment"
-              name="attachment"
-              type="file"
-              accept={ACCEPT_ATTRIBUTE}
-              disabled={isSubmitting}
-              onChange={handleAttachmentChange}
-            />
           </div>
-          {attachmentName && (
-            <button
-              type="button"
-              className="contact-form-attachment-remove"
-              onClick={handleRemoveAttachment}
-              disabled={isSubmitting}
-              aria-label="Remove attachment"
-            >
-              ×
-            </button>
+          <p className="contact-form-hint">Max {MAX_ATTACHMENT_MB} MB.</p>
+          {oversizedAttachmentMb && (
+            <p role="alert">The attachment is too large ({oversizedAttachmentMb} MB).</p>
           )}
         </div>
-        <p className="contact-form-hint">Max {MAX_ATTACHMENT_MB} MB.</p>
-        {oversizedAttachmentMb && (
-          <p role="alert">The attachment is too large ({oversizedAttachmentMb} MB).</p>
+
+        {/* Honeypot: invisible to real visitors (see .contact-form-honeypot),
+            skipped from tab order, left empty so genuine submissions never
+            trip the server's spam check in app/api/contact/route.ts. */}
+        <div className="contact-form-honeypot" aria-hidden="true">
+          <label htmlFor="contact-company">Company</label>
+          <input id="contact-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+        </div>
+
+        {formErrorMessage && (
+          <p className="contact-form-error" role="alert">
+            {formErrorMessage}
+          </p>
         )}
-      </div>
 
-      {/* Honeypot: invisible to real visitors (see .contact-form-honeypot),
-          skipped from tab order, left empty so genuine submissions never
-          trip the server's spam check in app/api/contact/route.ts. */}
-      <div className="contact-form-honeypot" aria-hidden="true">
-        <label htmlFor="contact-company">Company</label>
-        <input id="contact-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
-      </div>
-
-      {formErrorMessage && (
-        <p className="contact-form-error" role="alert">
-          {formErrorMessage}
-        </p>
-      )}
-
-      <div className="contact-form-actions">
-        <button
-          type="submit"
-          disabled={isSubmitting || Boolean(fieldErrors.firstName || fieldErrors.lastName || fieldErrors.email)}
-        >
-          {isSubmitting ? "Sending…" : "Send"}
-        </button>
-        <button type="button" onClick={handleCancel} disabled={isSubmitting}>
-          Clear
-        </button>
-        <button type="button" className="contact-form-help" disabled={isSubmitting}>
-          Help
-        </button>
-      </div>
-    </form>
+        <div className="contact-form-actions">
+          <button
+            type="submit"
+            disabled={isSubmitting || Boolean(fieldErrors.firstName || fieldErrors.lastName || fieldErrors.email)}
+          >
+            {isSubmitting ? "Sending…" : "Send"}
+          </button>
+          <button type="button" onClick={handleCancel} disabled={isSubmitting}>
+            Clear
+          </button>
+          <button
+            type="button"
+            className="contact-form-help"
+            disabled={isSubmitting}
+            onClick={() => setShowHelp(true)}
+          >
+            Help
+          </button>
+        </div>
+      </form>
+      {showHelp && <HelpOverlay onClose={() => setShowHelp(false)} />}
+    </>
   );
 }

@@ -1,3 +1,5 @@
+import { OverlayScreen } from "@/components/overlay-screen/overlay-screen";
+
 interface WelcomeScreenProps {
   hidden: boolean;
   onContinue: () => void;
@@ -10,25 +12,16 @@ interface WelcomeScreenProps {
 // `onContinue`.
 export function WelcomeScreen({ hidden, onContinue }: WelcomeScreenProps) {
   return (
-    <div className="welcome-screen" role="dialog" aria-modal="true" hidden={hidden}>
-      <div className="welcome-screen-content">
-        <div className="welcome-screen-text">
-          <p>
-          This website does not collect or track your personal data and does not use analytics, advertising or tracking cookies.
-          </p>
-          <p>
-          If you use the contact form, your message and attachments are sent via Resend, an email delivery service, and are not stored in any database.
-          </p>
-          <p>
-          The website is hosted by Vercel and uses Cloudinary to deliver video content. These providers may process technical information, such as your IP address and browser information, to deliver the website and its content.
-          </p>
-        </div>
-        <button type="button" onClick={onContinue}>
-          Continue
-        </button>
-      </div>
-    </div>
+    <OverlayScreen hidden={hidden} buttonLabel="Continue" onButtonClick={onContinue}>
+      <p>
+        This website does not collect or track your personal data and does not use analytics, advertising or tracking cookies.
+      </p>
+      <p>
+        If you use the contact form, your message and attachments are sent via Resend, an email delivery service, and are not stored in any database.
+      </p>
+      <p>
+        The website is hosted by Vercel and uses Cloudinary to deliver video content. These providers may process technical information, such as your IP address and browser information, to deliver the website and its content.
+      </p>
+    </OverlayScreen>
   );
 }
-
-
