@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
 import { siteConfig } from "@/shared/site-config";
 // Grid + utilities only: no Reboot, so Bootstrap doesn't override the
 // existing global element styles/reset in globals.css.
 import "bootstrap/dist/css/bootstrap-grid.css";
 import "bootstrap/dist/css/bootstrap-utilities.css";
 import "./globals.css";
+
+const courierPrime = localFont({
+  src: "../public/CourierPrime-Regular.ttf",
+  variable: "--font-courier-prime",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -48,7 +55,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en">
+    <html lang="en" className={courierPrime.variable}>
       <body>{children}</body>
     </html>
   );
