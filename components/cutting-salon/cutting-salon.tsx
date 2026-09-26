@@ -4,24 +4,35 @@ import Image from "next/image";
 export function CuttingSalon() {
   return (
     <section aria-labelledby="cutting-salon-heading">
-      <div className="cutting-salon-text">
-        <h3>CNC size</h3>
-          <p>2.2 × 1.5 m</p>
-        <h3>Materials used</h3>
-          <p>Wood</p>
-          <p>Aluminium</p>
-        <h3>Open to projects across</h3>
-          <p>Art</p>
-          <p>Acoustic</p>
-          <p>Design</p>
-          <p>Architecture</p>
-          <p>Furniture</p>
-          <p>Engineering</p>
-          <p>and beyond</p>
-        <h3>Hardware & Software</h3>
-        <p>ESP32 · Dual-core 32-bit</p>
-        <p>grblHAL G-code parser</p>
-        <p>Fusion 360</p>
+      <div className="cutting-salon-grid">
+        <div className="cutting-salon-card">
+          <h3>CNC size</h3>
+          <div className="cutting-salon-item">2.2 × 1.5 m</div>
+        </div>
+
+        <div className="cutting-salon-card">
+          <h3>Materials used</h3>
+          <div className="cutting-salon-item">Wood</div>
+          <div className="cutting-salon-item">Aluminium</div>
+        </div>
+
+        <div className="cutting-salon-card">
+          <h3>Open to projects across</h3>
+          <div className="cutting-salon-item">Art</div>
+          <div className="cutting-salon-item">Acoustic</div>
+          <div className="cutting-salon-item">Design</div>
+          <div className="cutting-salon-item">Architecture</div>
+          <div className="cutting-salon-item">Furniture</div>
+          <div className="cutting-salon-item">Engineering</div>
+          <div className="cutting-salon-item">and beyond</div>
+        </div>
+
+        <div className="cutting-salon-card">
+          <h3>Hardware & Software</h3>
+          <div className="cutting-salon-item">ESP32 · Dual-core 32-bit</div>
+          <div className="cutting-salon-item">grblHAL G-code parser</div>
+          <div className="cutting-salon-item">Fusion 360</div>
+        </div>
       </div>
       <Image
         src="/cnc.jpg"
