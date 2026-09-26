@@ -16,6 +16,7 @@ export function CuttingSalon() {
           <h3>Materials</h3>
           <div className="cutting-salon-item">Wood</div>
           <div className="cutting-salon-item">Aluminium</div>
+          <div className="cutting-salon-item">Plastics</div>
         </div>
 
         <div className="cutting-salon-card">
