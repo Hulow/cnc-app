@@ -4,19 +4,51 @@
 export function Service() {
   return (
     <section aria-labelledby="about-heading">
-      <h2 id="about-heading">From concept and design to realisation</h2>
       <div className="service-text">
+        <h3>I offer CNC cutting for:</h3>
         <p>
-          From prototyping and unique products to small production series, I can take care of as much or as little of the process as needed.
+          Prototypes
         </p>
         <p>
-          From concept and design to CAD, CNC machining and assembly, I can handle only the parts you need.
+        Unique products
         </p>
         <p>
-          I work primarily with wood and aluminium and am open to projects across art, audio, design, architecture, furniture, engineering and beyond.
+        Small production series
+        </p>
+
+        <h3>I can support you with:</h3>
+
+        <p>
+        Concept & design
         </p>
         <p>
-          Whether you come with a finished CAD file, a sketch or simply an idea, I can help you figure out how to make it.
+        CAD
+        </p>
+        <p>
+        CNC machining
+        </p>
+        <p>
+        Assembly
+        </p>
+
+        <h3>Pricing based on:</h3>
+        <p>
+        Volume
+        </p>
+        <p>
+        Material
+        </p>
+        <p>
+        Design complexity
+        </p>
+
+        <h3>Delivery</h3>
+        <p>Workshop pickup</p>
+        <p>
+        Shipping
+        </p>
+        <p>
+          <strong>Whether you come with a finished CAD file, a sketch or simply an idea, I can help you figure out how to make it.</strong>
         </p>
       </div>
     </section>

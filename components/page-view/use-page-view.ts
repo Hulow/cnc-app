@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-export type PageViewName = "logo" | "service" | "contact" | "placeholder";
+export type PageViewName = "logo" | "service" | "contact" | "cutting-salon";
 
 // Targets a nav item is allowed to switch to.
-const NAVIGABLE_VIEWS: readonly PageViewName[] = ["logo", "service", "contact", "placeholder"];
+const NAVIGABLE_VIEWS: readonly PageViewName[] = ["logo", "service", "contact", "cutting-salon"];
 
 const DEFAULT_VIEW: PageViewName = "logo";
 

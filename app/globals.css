@@ -546,12 +546,10 @@ h3 {
   margin-bottom: calc(var(--space-sm) - var(--space-lg));
 }
 
-/* Service and the placeholder view's text both
-   render as direct/inherited children of main with no class of their own
-   to hook, so target main's own section child plus its bare <p> (the
-   placeholder) directly instead of .page-content's default black. */
-.page-content main > section,
-.page-content main > p {
+/* Service and CuttingSalon render as direct children of main with no
+   class of their own to hook, so target main's own section child
+   directly instead of .page-content's default black. */
+.page-content main > section {
   color: var(--logo-color);
   text-shadow: none;
 }
@@ -662,10 +660,17 @@ h3 {
   }
 }
 
-.service-text {
+.service-text,
+.cutting-salon-text {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+}
+
+.cutting-salon-image {
+  width: 100%;
+  height: auto;
+  filter: grayscale(100%);
 }
 
 .contact-widget {

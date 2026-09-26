@@ -7,13 +7,12 @@ const EXIT_ANIMATION_NAME = "site-nav-item-out";
 
 // Plain <a> anchors, not next/link: these are same-page hash links, not
 // route navigation (matches the mailto: link pattern in Contact). `view`
-// is an opaque string PageView maps to a section — CNC doesn't have its
-// own content yet, so it uses the "placeholder" view.
+// is an opaque string PageView maps to a section.
 const NAV_LINKS = [
   { href: "#home", label: "Home", view: "logo" },
   { href: "#service", label: "Service", view: "service" },
   { href: "#contact", label: "Contact", view: "contact" },
-  { href: "#cnc", label: "Cutting Salon", view: "placeholder" },
+  { href: "#cnc", label: "Cutting Salon", view: "cutting-salon" },
 ] as const;
 
 interface NavbarProps {

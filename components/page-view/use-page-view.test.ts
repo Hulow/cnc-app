@@ -37,15 +37,15 @@ describe("Given the logo view is showing", () => {
     });
   });
 
-  describe('When navigate is called with "placeholder"', () => {
-    it("Then the placeholder view is shown", () => {
+  describe('When navigate is called with "cutting-salon"', () => {
+    it("Then the cutting-salon view is shown", () => {
       const { result } = renderHook(() => usePageView());
 
       act(() => {
-        result.current.navigate("placeholder");
+        result.current.navigate("cutting-salon");
       });
 
-      expect(result.current.view).toBe("placeholder");
+      expect(result.current.view).toBe("cutting-salon");
     });
   });
 

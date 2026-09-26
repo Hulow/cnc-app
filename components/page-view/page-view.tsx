@@ -16,6 +16,7 @@ interface PageViewProps {
   // onClose closure (a function, which can't cross that boundary) lives.
   logo: ReactNode;
   service: ReactNode;
+  cuttingSalon: ReactNode;
   footer: ReactNode;
 }
 
@@ -27,7 +28,7 @@ interface PageViewProps {
 // rather than a fixed-position widget, so it has to sit in the same
 // column flex as main/footer to get .content-layer's own width and
 // spacing instead of floating independently over the page.
-export function PageView({ logo, service, footer }: PageViewProps) {
+export function PageView({ logo, service, cuttingSalon, footer }: PageViewProps) {
   const { view, navigate, goHome } = usePageView();
 
   return (
@@ -40,7 +41,7 @@ export function PageView({ logo, service, footer }: PageViewProps) {
         {view === "logo" && logo}
         {view === "service" && service}
         {view === "contact" && <ContactForm formId={CONTACT_FORM_ID} onClose={goHome} />}
-        {view === "placeholder" && <p>No content yet.</p>}
+        {view === "cutting-salon" && cuttingSalon}
       </main>
       {footer}
     </div>
