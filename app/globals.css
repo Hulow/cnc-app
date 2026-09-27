@@ -541,13 +541,49 @@ h3 {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Icon swaps between open_menu.svg/close_menu.svg (see Navbar), centered
-   within the button. */
+/* Three icons (close_menu.svg + button-menu-default.svg/-active.svg —
+   see Navbar) are stacked and centered the same way (each at its own
+   natural size, not stretched to a shared box — they don't share an
+   aspect ratio), then swapped with opacity below instead of one being
+   conditionally rendered — the toggle is already permanently mounted,
+   so this is only about letting the closed-state pair crossfade on
+   hover. */
 .site-nav-toggle-icon {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  transition: opacity 150ms ease;
+}
+
+.site-nav-toggle-icon-close,
+.site-nav-toggle-icon-menu-hover {
+  opacity: 0;
+}
+
+/* data-open (see Navbar) picks close_menu.svg over the button-menu pair
+   when the menu is open; closed is the default (unconditional) case
+   above, so nothing else needs to change there. */
+.site-nav-toggle[data-open="true"] .site-nav-toggle-icon-close {
+  opacity: 1;
+}
+
+.site-nav-toggle[data-open="true"] .site-nav-toggle-icon-menu-default {
+  opacity: 0;
+}
+
+/* hover: excludes touch devices, same reasoning as .site-nav-menu
+   a:hover elsewhere. :not([data-open="true"]) scopes this to the closed
+   state only — the open state's close_menu.svg has no hover graphic of
+   its own. */
+@media (hover: hover) {
+  .site-nav-toggle:not([data-open="true"]):hover .site-nav-toggle-icon-menu-default {
+    opacity: 0;
+  }
+
+  .site-nav-toggle:not([data-open="true"]):hover .site-nav-toggle-icon-menu-hover {
+    opacity: 1;
+  }
 }
 
 /* Overlaid on top of the page instead of sitting in normal flow: absolute

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
-import Image from "next/image";
 import { useNavBar } from "./use-navbar";
 
 const MENU_ID = "site-nav-menu";
@@ -114,14 +113,40 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
         aria-label={isOpen ? "Close menu" : "Open menu"}
         onClick={toggle}
       >
-        <Image
-          src={isOpen ? "/close_menu.svg" : "/open_menu.svg"}
+        {/* All three stacked and swapped with opacity (see .site-nav-toggle-icon-*
+            in globals.css) instead of conditionally rendered, matching the
+            menu list's own always-rendered approach — the toggle is
+            already permanently mounted (unlike the old menu list), so
+            this is purely about the closed-state hover crossfade, not
+            server-rendering. close_menu.svg is unchanged (open/closed
+            still swaps by data-open, not by hover); button-menu-
+            default.svg/-active.svg are the new closed-state icon, with
+            -active.svg used as the hover graphic — see the nav icons for
+            why (its stroke is the same pink used elsewhere for hover,
+            not the "active" pink used for a persistent nav selection). */}
+        {/* eslint-disable @next/next/no-img-element */}
+        <img
+          src="/close_menu.svg"
           alt=""
-          width={32}
-          height={32}
-          unoptimized
-          className="site-nav-toggle-icon"
+          width={52}
+          height={52}
+          className="site-nav-toggle-icon site-nav-toggle-icon-close"
         />
+        <img
+          src="/menu/button-menu-default.svg"
+          alt=""
+          width={52}
+          height={36}
+          className="site-nav-toggle-icon site-nav-toggle-icon-menu-default"
+        />
+        <img
+          src="/menu/button-menu-active.svg"
+          alt=""
+          width={52}
+          height={36}
+          className="site-nav-toggle-icon site-nav-toggle-icon-menu-hover"
+        />
+        {/* eslint-enable @next/next/no-img-element */}
       </button>
       <ul
         id={MENU_ID}
