@@ -534,9 +534,14 @@ h3 {
   }
 }
 
-/* Closed by default: an exit animation (all items together, no delay). */
+/* Closed and hidden by default, statically (no animation) — the menu is
+   always rendered now (server-renderable, not mounted on open; see
+   Navbar), so an unconditional exit animation here would fire on every
+   page load, flashing the items visible before fading them out. The
+   exit animation below only kicks in once the menu has actually been
+   opened before. */
 .site-nav-menu li {
-  animation: site-nav-item-out 200ms ease forwards;
+  opacity: 0;
 }
 
 /* Every item gets exactly one border, on the bottom — including the
@@ -546,10 +551,21 @@ h3 {
   border-bottom: 2px solid var(--logo-color);
 }
 
-/* All items are mounted together and share this animation, so they fade
-   in from fully transparent to normal at the same time — no stagger.
-   .site-nav-menu itself has no visible box (no border/background) so it
-   doesn't need this animation — only its items do. */
+/* data-has-opened (see Navbar's useNavBar) is set once the menu has
+   opened at least once and never resets, so this only plays when
+   actually transitioning from open back to closed — never on first
+   mount. All items are animated together and share this animation, so
+   they fade out from normal to fully transparent at the same time — no
+   stagger. .site-nav-menu itself has no visible box (no border/
+   background) so it doesn't need this animation — only its items do.
+   Same specificity as the data-open rule below (class + attribute +
+   element), so when both match (open, and has opened before) source
+   order decides — data-open comes after, so opening always wins over a
+   stale has-opened match. */
+.site-nav-menu[data-has-opened="true"] li {
+  animation: site-nav-item-out 200ms ease forwards;
+}
+
 .site-nav-menu[data-open="true"] li {
   animation: site-nav-item-in 200ms ease forwards;
 }

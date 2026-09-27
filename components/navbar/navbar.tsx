@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useNavBar } from "./use-navbar";
 
 const MENU_ID = "site-nav-menu";
-const EXIT_ANIMATION_NAME = "site-nav-item-out";
 
 // Plain <a> anchors, not next/link: these are same-page hash links, not
 // route navigation (matches the mailto: link pattern in Contact). `view`
@@ -75,12 +74,12 @@ interface NavbarProps {
   onNavigate?: (view: string) => void;
 }
 
-// Rendering only: open/closed state and the mount-until-exit-animation-
-// finishes lifecycle live in useNavBar.
+// Rendering only: open/closed state lives in useNavBar. The menu markup
+// itself is always rendered (server-renderable — see .site-nav-menu
+// below) rather than mounted on open, so it ships in the initial HTML
+// and doesn't pay a mount/unmount cost on every toggle.
 export function Navbar({ currentView, onNavigate }: NavbarProps) {
-  const { isOpen, isRendered, toggle, close, handleAnimationEnd } = useNavBar({
-    exitAnimationName: EXIT_ANIMATION_NAME,
-  });
+  const { isOpen, hasOpened, toggle, close } = useNavBar();
   const navRef = useRef<HTMLElement>(null);
 
   // pointerdown (not click): fires before the toggle button's own click
@@ -124,73 +123,75 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
           className="site-nav-toggle-icon"
         />
       </button>
-      {isRendered && (
-        <ul
-          id={MENU_ID}
-          className="site-nav-menu"
-          data-open={isOpen}
-          style={
-            {
-              "--site-nav-icon-max-ratio": MAX_ICON_ASPECT_RATIO,
-            } as CSSProperties
-          }
-          onAnimationEnd={(event) => handleAnimationEnd(event.animationName)}
-        >
-          {NAV_LINKS.map(({ href, label, view, icon }) => (
-            <li key={href}>
-              <a
-                href={href}
-                className="site-nav-icon-link"
-                aria-current={view === currentView ? "page" : undefined}
-                onClick={(event) => {
-                  if (view) {
-                    event.preventDefault();
-                    onNavigate?.(view);
-                  }
-                  close();
-                }}
+      <ul
+        id={MENU_ID}
+        className="site-nav-menu"
+        data-open={isOpen}
+        data-has-opened={hasOpened}
+        // Excludes the (visually hidden while closed) links from focus
+        // and the accessibility tree without unmounting them — the exit
+        // animation can still play while inert, since inert doesn't
+        // affect painting, only interaction/focus/AT exposure.
+        inert={!isOpen}
+        style={
+          {
+            "--site-nav-icon-max-ratio": MAX_ICON_ASPECT_RATIO,
+          } as CSSProperties
+        }
+      >
+        {NAV_LINKS.map(({ href, label, view, icon }) => (
+          <li key={href}>
+            <a
+              href={href}
+              className="site-nav-icon-link"
+              aria-current={view === currentView ? "page" : undefined}
+              onClick={(event) => {
+                if (view) {
+                  event.preventDefault();
+                  onNavigate?.(view);
+                }
+                close();
+              }}
+            >
+              <span
+                className="site-nav-icon-wrap"
+                style={{ aspectRatio: `${icon.width} / ${icon.height}` }}
               >
-                <span
-                  className="site-nav-icon-wrap"
-                  style={{ aspectRatio: `${icon.width} / ${icon.height}` }}
-                >
-                  {/* Plain <img>, not next/image: these are already
-                      unoptimized SVGs, so Image buys nothing here, and
-                      its per-mount IntersectionObserver/wrapper overhead
-                      (x12 — 4 items x 3 states) got expensive since the
-                      whole menu unmounts and remounts on every open/close
-                      (see useNavBar's isRendered). */}
-                  {/* eslint-disable @next/next/no-img-element */}
-                  <img
-                    src={icon.src}
-                    alt={label}
-                    width={icon.width}
-                    height={icon.height}
-                    className="site-nav-icon site-nav-icon-default"
-                  />
-                  <img
-                    src={icon.hoverSrc}
-                    alt=""
-                    aria-hidden="true"
-                    width={icon.width}
-                    height={icon.height}
-                    className="site-nav-icon site-nav-icon-hover"
-                  />
-                  <img
-                    src={icon.activeSrc}
-                    alt=""
-                    aria-hidden="true"
-                    width={icon.width}
-                    height={icon.height}
-                    className="site-nav-icon site-nav-icon-active"
-                  />
-                  {/* eslint-enable @next/next/no-img-element */}
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+                {/* Plain <img>, not next/image: these are already
+                    unoptimized SVGs, so Image buys nothing here, and its
+                    IntersectionObserver/wrapper overhead isn't worth
+                    paying x12 (4 items x 3 states) now that they're
+                    always mounted (see the menu's data-has-opened). */}
+                {/* eslint-disable @next/next/no-img-element */}
+                <img
+                  src={icon.src}
+                  alt={label}
+                  width={icon.width}
+                  height={icon.height}
+                  className="site-nav-icon site-nav-icon-default"
+                />
+                <img
+                  src={icon.hoverSrc}
+                  alt=""
+                  aria-hidden="true"
+                  width={icon.width}
+                  height={icon.height}
+                  className="site-nav-icon site-nav-icon-hover"
+                />
+                <img
+                  src={icon.activeSrc}
+                  alt=""
+                  aria-hidden="true"
+                  width={icon.width}
+                  height={icon.height}
+                  className="site-nav-icon site-nav-icon-active"
+                />
+                {/* eslint-enable @next/next/no-img-element */}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </nav>
   );
 }
