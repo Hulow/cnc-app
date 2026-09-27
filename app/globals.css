@@ -541,13 +541,12 @@ h3 {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Three icons (close_menu.svg + button-menu-default.svg/-active.svg —
-   see Navbar) are stacked and centered the same way (each at its own
-   natural size, not stretched to a shared box — they don't share an
-   aspect ratio), then swapped with opacity below instead of one being
-   conditionally rendered — the toggle is already permanently mounted,
-   so this is only about letting the closed-state pair crossfade on
-   hover. */
+/* Four icons — button-menu-close-default.svg/-hover.svg (open state) and
+   button-menu-default.svg/-active.svg (closed state, see Navbar) — share
+   the same aspect ratio and are stacked/centered the same way, then
+   swapped with opacity below instead of being conditionally rendered —
+   the toggle is already permanently mounted, so this is only about
+   letting each state's own pair crossfade on hover. */
 .site-nav-toggle-icon {
   position: absolute;
   left: 50%;
@@ -556,32 +555,41 @@ h3 {
   transition: opacity 150ms ease;
 }
 
-.site-nav-toggle-icon-close,
+.site-nav-toggle-icon-close-default,
+.site-nav-toggle-icon-close-hover,
 .site-nav-toggle-icon-menu-hover {
   opacity: 0;
 }
 
-/* data-open (see Navbar) picks close_menu.svg over the button-menu pair
-   when the menu is open; closed is the default (unconditional) case
-   above, so nothing else needs to change there. */
-.site-nav-toggle[data-open="true"] .site-nav-toggle-icon-close {
-  opacity: 1;
-}
-
+/* data-open (see Navbar) picks the close pair over the menu pair when
+   the menu is open; closed is the default (unconditional) case above,
+   so only the menu-default icon needs hiding here. */
 .site-nav-toggle[data-open="true"] .site-nav-toggle-icon-menu-default {
   opacity: 0;
 }
 
+.site-nav-toggle[data-open="true"] .site-nav-toggle-icon-close-default {
+  opacity: 1;
+}
+
 /* hover: excludes touch devices, same reasoning as .site-nav-menu
-   a:hover elsewhere. :not([data-open="true"]) scopes this to the closed
-   state only — the open state's close_menu.svg has no hover graphic of
-   its own. */
+   a:hover elsewhere. Each pair's hover rule is scoped to its own state
+   ([data-open="true"] for close, :not([data-open="true"]) for menu) so
+   hovering one state's icon never affects the other's. */
 @media (hover: hover) {
   .site-nav-toggle:not([data-open="true"]):hover .site-nav-toggle-icon-menu-default {
     opacity: 0;
   }
 
   .site-nav-toggle:not([data-open="true"]):hover .site-nav-toggle-icon-menu-hover {
+    opacity: 1;
+  }
+
+  .site-nav-toggle[data-open="true"]:hover .site-nav-toggle-icon-close-default {
+    opacity: 0;
+  }
+
+  .site-nav-toggle[data-open="true"]:hover .site-nav-toggle-icon-close-hover {
     opacity: 1;
   }
 }

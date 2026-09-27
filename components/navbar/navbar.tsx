@@ -113,24 +113,31 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
         aria-label={isOpen ? "Close menu" : "Open menu"}
         onClick={toggle}
       >
-        {/* All three stacked and swapped with opacity (see .site-nav-toggle-icon-*
-            in globals.css) instead of conditionally rendered, matching the
-            menu list's own always-rendered approach — the toggle is
-            already permanently mounted (unlike the old menu list), so
-            this is purely about the closed-state hover crossfade, not
-            server-rendering. close_menu.svg is unchanged (open/closed
-            still swaps by data-open, not by hover); button-menu-
-            default.svg/-active.svg are the new closed-state icon, with
-            -active.svg used as the hover graphic — see the nav icons for
-            why (its stroke is the same pink used elsewhere for hover,
-            not the "active" pink used for a persistent nav selection). */}
+        {/* All four stacked and swapped with opacity (see
+            .site-nav-toggle-icon-* in globals.css) instead of
+            conditionally rendered, matching the menu list's own
+            always-rendered approach — the toggle is already permanently
+            mounted (unlike the old menu list), so this is purely about
+            each state's own hover crossfade, not server-rendering.
+            data-open picks the close pair (button-menu-close-
+            default.svg/-hover.svg) over the menu pair (button-menu-
+            default.svg/-active.svg — no separate -hover.svg for that
+            one, so -active.svg, which is the same hover pink, stands in
+            — see the nav icons for the same situation there). */}
         {/* eslint-disable @next/next/no-img-element */}
         <img
-          src="/close_menu.svg"
+          src="/menu/button-menu-close-default.svg"
           alt=""
           width={52}
-          height={52}
-          className="site-nav-toggle-icon site-nav-toggle-icon-close"
+          height={36}
+          className="site-nav-toggle-icon site-nav-toggle-icon-close-default"
+        />
+        <img
+          src="/menu/button-menu-close-hover.svg"
+          alt=""
+          width={52}
+          height={36}
+          className="site-nav-toggle-icon site-nav-toggle-icon-close-hover"
         />
         <img
           src="/menu/button-menu-default.svg"
