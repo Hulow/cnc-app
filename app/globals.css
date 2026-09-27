@@ -1055,6 +1055,66 @@ h3 {
   }
 }
 
+/* Close is an image button (see contact-form.tsx): button-close-*.svg
+   already draws its own pill border and label, so the generic chrome
+   above (border, padding, border-radius) is cancelled here — each
+   selector repeats the pseudo-class alongside .contact-form-close-button
+   so it's strictly more specific than the rules above (extra
+   pseudo-class repetition doesn't add a class here since the button
+   already carries no other class, so :focus-visible/:active/:hover on
+   .contact-form-close-button are already the most specific selectors
+   for this element — restated here only to keep padding/border/radius
+   consistent across all of this button's states). */
+.contact-form-close-button,
+.contact-form-close-button:focus-visible,
+.contact-form-close-button:active {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+}
+
+@media (hover: hover) {
+  .contact-form-close-button:hover {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+  }
+}
+
+/* button-close-default.svg/-active.svg (used as the hover graphic — see
+   contact-form.tsx) are stacked at the same position (absolute inset: 0)
+   and swapped with opacity on hover, same mechanism as Send/Clear/Help
+   above. No active/current-section state here — this is a one-off
+   dismiss action, not a persistent selection. */
+.contact-form-close-icon-wrap {
+  position: relative;
+  display: block;
+  width: 8.6rem;
+  aspect-ratio: 137.39 / 43.90;
+}
+
+.contact-form-close-icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 150ms ease;
+}
+
+.contact-form-close-icon-hover {
+  opacity: 0;
+}
+
+@media (hover: hover) {
+  .contact-form-close-button:hover .contact-form-close-icon-default {
+    opacity: 0;
+  }
+
+  .contact-form-close-button:hover .contact-form-close-icon-hover {
+    opacity: 1;
+  }
+}
+
 .contact-form-field {
   position: relative;
   display: flex;

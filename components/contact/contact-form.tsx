@@ -78,7 +78,30 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
       <div id={formId} className="contact-form contact-form-success" role="status">
         <p>Thanks for reaching out! I will get back to you soon.</p>
         <button type="button" className="contact-form-close-button" onClick={onClose}>
-          Close
+          <span className="contact-form-close-icon-wrap">
+            {/* eslint-disable @next/next/no-img-element */}
+            <img
+              src="/form/button-close-default.svg"
+              alt="Close"
+              width={137}
+              height={44}
+              className="contact-form-close-icon contact-form-close-icon-default"
+            />
+            {/* button-close-active.svg is the pink asset for this set
+                (its stroke matches the *-hover.svg pink used elsewhere,
+                not the "active" pink used for a persistent nav
+                selection) — there's no separate button-close-hover.svg,
+                so this is the hover graphic. */}
+            <img
+              src="/form/button-close-active.svg"
+              alt=""
+              aria-hidden="true"
+              width={137}
+              height={44}
+              className="contact-form-close-icon contact-form-close-icon-hover"
+            />
+            {/* eslint-enable @next/next/no-img-element */}
+          </span>
         </button>
       </div>
     );
