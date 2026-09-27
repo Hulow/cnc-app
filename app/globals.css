@@ -1277,17 +1277,16 @@ h3 {
 
 .contact-form-actions {
   display: flex;
+  align-items: flex-end;
   gap: var(--space-sm);
 }
 
-@media (max-width: 767px) {
-  .contact-form .contact-form-actions {
-    gap: var(--space-lg);
-  }
-}
-
 /* Pushes Help to the far end of the row while Send/Clear stay grouped at
-   the start, without needing a separate wrapper for those two. */
+   the start, without needing a separate wrapper for those two — combined
+   with align-items: flex-end above, both groups sit on the row's bottom
+   edge even if one button ends up shorter than the others (e.g. once
+   they start shrinking to fit a narrow form — see the flex-basis rules
+   below). */
 .contact-form-help {
   margin-left: auto;
 }
@@ -1332,6 +1331,128 @@ h3 {
   opacity: 0.6;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+/* Send, Clear and Help are image buttons (see contact-form.tsx):
+   button-{send,clear,help}-*.svg already draw their own pill border and
+   label, so the generic button chrome above (border, padding,
+   border-radius) is cancelled here for all three. Each selector repeats
+   the :hover/:focus-visible/:active pseudo-class alongside the button's
+   own class so it's strictly more specific than the generic rules above
+   (extra class), winning regardless of source order — background was
+   already transparent in every one of those states, so it doesn't need
+   repeating. */
+/* flex-basis is each button's own full-size target width (the same
+   width its icon-wrap's aspect-ratio produces at the 3.66rem target
+   height below); flex-shrink: 1 with equal factors on all three, plus
+   min-width: 0 to lift the default min-width: auto floor that would
+   otherwise refuse to shrink below the images' intrinsic size, means
+   the flexbox shrink algorithm scales every button's rendered width down
+   by the *same fraction* of its own basis when the row doesn't fit
+   .contact-form-actions's width — never overflowing the form, and never
+   distorting one button's proportions relative to the others (each
+   icon-wrap's own aspect-ratio then derives a proportionally smaller
+   height from that same fraction — see below — so the three stay the
+   same height as each other at any width). flex-grow: 0 keeps them from
+   stretching past their target size when there's room to spare. */
+.contact-form-actions button.contact-form-submit,
+.contact-form-actions button.contact-form-submit:focus-visible,
+.contact-form-actions button.contact-form-submit:active,
+.contact-form-actions button.contact-form-clear,
+.contact-form-actions button.contact-form-clear:focus-visible,
+.contact-form-actions button.contact-form-clear:active,
+.contact-form-actions button.contact-form-help,
+.contact-form-actions button.contact-form-help:focus-visible,
+.contact-form-actions button.contact-form-help:active {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  flex-grow: 0;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.contact-form-actions button.contact-form-submit {
+  flex-basis: 7.51rem;
+}
+
+.contact-form-actions button.contact-form-clear {
+  flex-basis: 8.68rem;
+}
+
+.contact-form-actions button.contact-form-help {
+  flex-basis: 7.35rem;
+}
+
+@media (hover: hover) {
+  .contact-form-actions button.contact-form-submit:hover,
+  .contact-form-actions button.contact-form-clear:hover,
+  .contact-form-actions button.contact-form-help:hover {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+  }
+}
+
+/* button-{send,clear,help}-default.svg/-hover.svg are stacked at the
+   same position (absolute inset: 0) and swapped with opacity on hover,
+   same mechanism as the nav icons in Navbar/globals.css. No active/
+   current-section state here (unlike the nav) — these are one-off form
+   actions, not a persistent selection (button-help-active.svg is used
+   as Help's hover graphic — see contact-form.tsx for why). width: 100%
+   fills whatever width the button's own flex-basis/shrink resolved to
+   (see above — the buttons, not these wraps, are the flex items); height
+   is left to each wrap's own aspect-ratio to derive from that width, so
+   shrinking the row's width also shrinks height proportionally instead
+   of distorting or overflowing vertically. */
+.contact-form-submit-icon-wrap,
+.contact-form-clear-icon-wrap,
+.contact-form-help-icon-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.contact-form-submit-icon-wrap {
+  aspect-ratio: 120.11 / 43.90;
+}
+
+.contact-form-clear-icon-wrap {
+  aspect-ratio: 138.83 / 43.90;
+}
+
+.contact-form-help-icon-wrap {
+  aspect-ratio: 117.59 / 43.90;
+}
+
+.contact-form-submit-icon,
+.contact-form-clear-icon,
+.contact-form-help-icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 150ms ease;
+}
+
+.contact-form-submit-icon-hover,
+.contact-form-clear-icon-hover,
+.contact-form-help-icon-hover {
+  opacity: 0;
+}
+
+@media (hover: hover) {
+  .contact-form-actions button.contact-form-submit:hover .contact-form-submit-icon-default,
+  .contact-form-actions button.contact-form-clear:hover .contact-form-clear-icon-default,
+  .contact-form-actions button.contact-form-help:hover .contact-form-help-icon-default {
+    opacity: 0;
+  }
+
+  .contact-form-actions button.contact-form-submit:hover .contact-form-submit-icon-hover,
+  .contact-form-actions button.contact-form-clear:hover .contact-form-clear-icon-hover,
+  .contact-form-actions button.contact-form-help:hover .contact-form-help-icon-hover {
+    opacity: 1;
+  }
 }
 
 /* Visually hidden and out of tab order (tabIndex={-1} on the input), but

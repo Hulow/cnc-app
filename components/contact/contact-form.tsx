@@ -240,12 +240,61 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
         <div className="contact-form-actions">
           <button
             type="submit"
+            className="contact-form-submit"
             disabled={isSubmitting || Boolean(fieldErrors.firstName || fieldErrors.lastName || fieldErrors.email)}
+            // The image swap below doesn't reflect the submitting state,
+            // so the accessible name still has to — aria-label overrides
+            // the default (hidden) icon's alt text as the button's name.
+            aria-label={isSubmitting ? "Sending…" : undefined}
           >
-            {isSubmitting ? "Sending…" : "Send"}
+            <span className="contact-form-submit-icon-wrap">
+              {/* Plain <img>, not next/image — see the nav icons in
+                  Navbar for why: these are already unoptimized SVGs, so
+                  Image buys nothing here. */}
+              {/* eslint-disable @next/next/no-img-element */}
+              <img
+                src="/button-send-default.svg"
+                alt="Send"
+                width={120}
+                height={44}
+                className="contact-form-submit-icon contact-form-submit-icon-default"
+              />
+              <img
+                src="/button-send-hover.svg"
+                alt=""
+                aria-hidden="true"
+                width={120}
+                height={44}
+                className="contact-form-submit-icon contact-form-submit-icon-hover"
+              />
+              {/* eslint-enable @next/next/no-img-element */}
+            </span>
           </button>
-          <button type="button" onClick={handleCancel} disabled={isSubmitting}>
-            Clear
+          <button
+            type="button"
+            className="contact-form-clear"
+            onClick={handleCancel}
+            disabled={isSubmitting}
+          >
+            <span className="contact-form-clear-icon-wrap">
+              {/* eslint-disable @next/next/no-img-element */}
+              <img
+                src="/button-clear-default.svg"
+                alt="Clear"
+                width={139}
+                height={44}
+                className="contact-form-clear-icon contact-form-clear-icon-default"
+              />
+              <img
+                src="/button-clear-hover.svg"
+                alt=""
+                aria-hidden="true"
+                width={139}
+                height={44}
+                className="contact-form-clear-icon contact-form-clear-icon-hover"
+              />
+              {/* eslint-enable @next/next/no-img-element */}
+            </span>
           </button>
           <button
             type="button"
@@ -253,7 +302,30 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
             disabled={isSubmitting}
             onClick={() => setShowHelp(true)}
           >
-            Help
+            <span className="contact-form-help-icon-wrap">
+              {/* eslint-disable @next/next/no-img-element */}
+              <img
+                src="/button-help-default.svg"
+                alt="Help"
+                width={118}
+                height={44}
+                className="contact-form-help-icon contact-form-help-icon-default"
+              />
+              {/* button-help-active.svg is the pink asset for this set
+                  (its stroke matches button-send-hover.svg/button-clear-
+                  hover.svg's pink, not the "active" pink used for a
+                  persistent nav selection) — there's no separate
+                  button-help-hover.svg, so this is the hover graphic. */}
+              <img
+                src="/button-help-active.svg"
+                alt=""
+                aria-hidden="true"
+                width={118}
+                height={44}
+                className="contact-form-help-icon contact-form-help-icon-hover"
+              />
+              {/* eslint-enable @next/next/no-img-element */}
+            </span>
           </button>
         </div>
       </form>
