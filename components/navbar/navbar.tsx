@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import Image from "next/image";
 import { useNavBar } from "./use-navbar";
 
@@ -61,6 +61,15 @@ const NAV_LINKS = [
   },
 ] as const;
 
+// The widest item's own ratio (Cutting Salon) — used as a single shared
+// scale for every item's height (see .site-nav-icon-wrap in globals.css),
+// so if the widest logo has to shrink to fit a narrow screen, every item
+// shrinks by that same factor instead of just the one that would
+// otherwise overflow.
+const MAX_ICON_ASPECT_RATIO = Math.max(
+  ...NAV_LINKS.map(({ icon }) => icon.width / icon.height),
+);
+
 interface NavbarProps {
   currentView?: string;
   onNavigate?: (view: string) => void;
@@ -120,6 +129,11 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
           id={MENU_ID}
           className="site-nav-menu"
           data-open={isOpen}
+          style={
+            {
+              "--site-nav-icon-max-ratio": MAX_ICON_ASPECT_RATIO,
+            } as CSSProperties
+          }
           onAnimationEnd={(event) => handleAnimationEnd(event.animationName)}
         >
           {NAV_LINKS.map(({ href, label, view, icon }) => (

@@ -43,6 +43,16 @@
   --site-nav-height: calc(
     2 * var(--space-xs) + 1.5 * (var(--font-size-base) + 0.5rem) + 2px
   );
+
+  /* Target height for a nav item's logo graphic (see .site-nav-icon-wrap
+     below): 1.3x the text items' own content height (the same
+     1.5 * (font-size-base + 0.5rem) that --site-nav-height above is
+     built from), so the logo reads clearly without an exact match to the
+     text items' size. A target, not a guarantee — the wrap's width is
+     capped at 100% of its container (see below), so on a narrow screen a
+     wide logo (e.g. Cutting Salon) shrinks below this height rather than
+     overflowing horizontally. */
+  --site-nav-icon-height: calc(1.5 * (var(--font-size-base) + 0.5rem) * 1.3);
 }
 
 @supports (height: 100svh) {
@@ -727,26 +737,43 @@ h3 {
 /* Nav items (see NAV_LINKS' icon field in Navbar): every item's label
    text is replaced with three SVGs (default/hover/active) stacked at the
    same position via absolute inset: 0, and swapped with opacity
-   depending on state. Wrap height is the same across items — 1.3x the
-   original text items' own content height (--site-nav-height in :root:
-   1.5 * (font-size-base + 0.5rem) is that height minus its
-   padding/border) — bigger than an exact match so each logo reads
-   clearly, while the anchor's padding still keeps it short of the item's
-   full box height; each icon's own aspect-ratio is set inline per item
-   (Navbar), since their pill widths differ. .site-nav-icon-link turns
-   the anchor into a flex container (overriding .site-nav-menu a's own
-   display: block/text-align: center above by specificity) so the icon is
-   centered on both axes instead of just horizontally, which text-align
-   alone can leave slightly off due to inline-block baseline alignment. */
+   depending on state. .site-nav-icon-link turns the anchor into a flex
+   container (overriding .site-nav-menu a's own display: block/
+   text-align: center above by specificity) so the icon is centered on
+   both axes instead of just horizontally, which text-align alone can
+   leave slightly off due to inline-block baseline alignment.
+   container-type: inline-size makes the anchor's own available width
+   (content-box, so its padding is already excluded) queryable as cqw
+   units below — every item has the same available width, so a single
+   cqw-based formula stays correct for all of them. */
 .site-nav-menu a.site-nav-icon-link {
   display: flex;
   align-items: center;
   justify-content: center;
+  container-type: inline-size;
 }
 
+/* All items share one height (this rule, unparameterized) rather than
+   each picking its own — so if the widest item (Cutting Salon) would
+   overflow, every item shrinks by the same factor instead of leaving
+   the others at full size while only the wide one shrinks, which would
+   make the row heights drift apart. --site-nav-icon-max-ratio (set once
+   on .site-nav-menu in Navbar, from the widest item's own
+   width/height) stands in for that widest item here: min() picks
+   --site-nav-icon-height (the target) on a wide-enough screen, or
+   however much shorter the widest item needs to be to fit 100cqw once
+   the screen is too narrow for it. Each item's own width is left to
+   aspect-ratio (set inline per item in Navbar, from its own
+   icon.width/icon.height) to derive from this shared height, so it
+   never exceeds 100cqw — a ratio smaller than the max can only produce
+   a narrower box at the same height, never a wider one. */
 .site-nav-icon-wrap {
   position: relative;
-  height: calc(1.5 * (var(--font-size-base) + 0.5rem) * 1.3);
+  width: auto;
+  height: min(
+    var(--site-nav-icon-height),
+    calc(100cqw / var(--site-nav-icon-max-ratio))
+  );
 }
 
 .site-nav-icon {
