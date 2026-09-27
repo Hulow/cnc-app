@@ -211,7 +211,20 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
                   stacked on top so clicks still reach it natively) and
                   these decorative elements stand in for it visually. */}
               <span className="contact-form-file-button" aria-hidden="true">
-                Upload
+                {/* No button-upload-hover.svg exists yet (unlike Send/
+                    Clear/Help/Close/Continue), and this element already
+                    has pointer-events: none (see .contact-form-file-
+                    button below — the real input on top handles clicks),
+                    so there's no hover state to build here regardless. */}
+                {/* eslint-disable @next/next/no-img-element */}
+                <img
+                  src="/form/button-upload-default.svg"
+                  alt=""
+                  width={160}
+                  height={44}
+                  className="contact-form-file-button-icon"
+                />
+                {/* eslint-enable @next/next/no-img-element */}
               </span>
               {attachmentName ? (
                 <span className="contact-form-file-name">{attachmentName}</span>

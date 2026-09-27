@@ -671,7 +671,7 @@ h3 {
 }
 
 .site-nav-menu[data-open="true"] li {
-  animation: site-nav-item-in 200ms ease forwards;
+  animation: site-nav-item-in 300ms ease forwards;
 }
 
 
@@ -1361,14 +1361,19 @@ h3 {
   opacity: 0;
 }
 
+/* button-upload-default.svg already draws its own pill border and
+   label, so the old text-button chrome (border, padding, border-radius,
+   color, font-size) is dropped in favor of just sizing the image. */
 .contact-form-file-button {
   flex-shrink: 0;
-  padding: 0.125rem 0.6rem;
-  border: 1px solid var(--logo-color);
-  border-radius: 0.25rem;
-  color: var(--logo-color);
-  font-size: var(--font-size-sm);
+  display: block;
   pointer-events: none;
+}
+
+.contact-form-file-button-icon {
+  height: 1.8rem;
+  width: auto;
+  aspect-ratio: 160.07 / 43.90;
 }
 
 /* Sits right after .contact-form-file-button in normal flow — no
