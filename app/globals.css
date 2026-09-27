@@ -724,35 +724,32 @@ h3 {
   }
 }
 
-/* Home nav item (see NAV_LINKS' icon field in Navbar): the label text is
-   replaced with three SVGs (default/hover/active) stacked at the same
-   position via absolute inset: 0, and swapped with opacity depending on
-   state. Sized to the same content height as the text items (see
-   --site-nav-height in :root: 1.5 * (font-size-base + 0.5rem) is that
-   height minus its padding/border) rather than the full-width box, so
-   the logo reads as one menu item among equals instead of towering over
-   them; aspect-ratio derives the width from that height. .site-nav-home-link
-   turns the anchor into a flex container (overriding .site-nav-menu a's
-   own display: block/text-align: center above by specificity) so the
-   icon is centered on both axes instead of just horizontally, which
-   text-align alone can leave slightly off due to inline-block baseline
-   alignment. */
-.site-nav-menu a.site-nav-home-link {
+/* Nav items (see NAV_LINKS' icon field in Navbar): every item's label
+   text is replaced with three SVGs (default/hover/active) stacked at the
+   same position via absolute inset: 0, and swapped with opacity
+   depending on state. Wrap height is the same across items — 1.3x the
+   original text items' own content height (--site-nav-height in :root:
+   1.5 * (font-size-base + 0.5rem) is that height minus its
+   padding/border) — bigger than an exact match so each logo reads
+   clearly, while the anchor's padding still keeps it short of the item's
+   full box height; each icon's own aspect-ratio is set inline per item
+   (Navbar), since their pill widths differ. .site-nav-icon-link turns
+   the anchor into a flex container (overriding .site-nav-menu a's own
+   display: block/text-align: center above by specificity) so the icon is
+   centered on both axes instead of just horizontally, which text-align
+   alone can leave slightly off due to inline-block baseline alignment. */
+.site-nav-menu a.site-nav-icon-link {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.site-nav-home-icon-wrap {
+.site-nav-icon-wrap {
   position: relative;
-  /* 1.3x the text items' own content height (see comment above) — bigger
-     than an exact match so the logo reads clearly, while the anchor's
-     padding still keeps it short of the item's full box height. */
   height: calc(1.5 * (var(--font-size-base) + 0.5rem) * 1.3);
-  aspect-ratio: 121.06 / 41.50;
 }
 
-.site-nav-home-icon {
+.site-nav-icon {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -760,37 +757,37 @@ h3 {
   transition: opacity 150ms ease;
 }
 
-.site-nav-home-icon-hover,
-.site-nav-home-icon-active {
+.site-nav-icon-hover,
+.site-nav-icon-active {
   opacity: 0;
 }
 
-/* Clicking Home sets currentView to its "logo" view (see Navbar), which
+/* Clicking a nav item sets currentView to its view (see Navbar), which
    this link already surfaces as aria-current="page" for the text items
-   above — reused here to swap in the active graphic once Home is the
+   above — reused here to swap in the active graphic once an item is the
    current section. */
-.site-nav-menu a.site-nav-home-link[aria-current="page"] .site-nav-home-icon-default {
+.site-nav-menu a.site-nav-icon-link[aria-current="page"] .site-nav-icon-default {
   opacity: 0;
 }
 
-.site-nav-menu a.site-nav-home-link[aria-current="page"] .site-nav-home-icon-active {
+.site-nav-menu a.site-nav-icon-link[aria-current="page"] .site-nav-icon-active {
   opacity: 1;
 }
 
 /* hover: excludes touch devices, same reasoning as .site-nav-menu a:hover
    above. The generic .site-nav-menu a:hover background/color swap above
-   still applies to this link (not cancelled here), so the item's box
-   goes blue on hover same as the text items regardless of active state.
-   :not([aria-current="page"]) scopes the graphic swap to the non-active
-   case only, so hovering an already-active Home item keeps showing the
-   active graphic (set by the block above) instead of switching to the
-   hover graphic — only the background goes blue. */
+   still applies to these links (not cancelled here), so each item's box
+   goes blue on hover same as plain text items would. :not([aria-current=
+   "page"]) scopes the graphic swap to the non-active case only, so
+   hovering an already-active item keeps showing the active graphic (set
+   by the block above) instead of switching to the hover graphic — only
+   the background goes blue. */
 @media (hover: hover) {
-  .site-nav-menu a.site-nav-home-link:not([aria-current="page"]):hover .site-nav-home-icon-default {
+  .site-nav-menu a.site-nav-icon-link:not([aria-current="page"]):hover .site-nav-icon-default {
     opacity: 0;
   }
 
-  .site-nav-menu a.site-nav-home-link:not([aria-current="page"]):hover .site-nav-home-icon-hover {
+  .site-nav-menu a.site-nav-icon-link:not([aria-current="page"]):hover .site-nav-icon-hover {
     opacity: 1;
   }
 }

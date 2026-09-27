@@ -19,11 +19,46 @@ const NAV_LINKS = [
       src: "/button-home-default.svg",
       hoverSrc: "/button-home-hover.svg",
       activeSrc: "/button-home-active.svg",
+      width: 91,
+      height: 21,
     },
   },
-  { href: "#service", label: "Service", view: "service", icon: null },
-  { href: "#contact", label: "Contact", view: "contact", icon: null },
-  { href: "#cnc", label: "Cutting Salon", view: "cutting-salon", icon: null },
+  {
+    href: "#service",
+    label: "Service",
+    view: "service",
+    icon: {
+      src: "/button-service-default.svg",
+      hoverSrc: "/button-service-hover.svg",
+      activeSrc: "/button-service-active.svg",
+      width: 133,
+      height: 21,
+    },
+  },
+  {
+    href: "#contact",
+    label: "Contact",
+    view: "contact",
+    icon: {
+      src: "/button-contact-default.svg",
+      hoverSrc: "/button-contact-hover.svg",
+      activeSrc: "/button-contact-active.svg",
+      width: 149,
+      height: 21,
+    },
+  },
+  {
+    href: "#cnc",
+    label: "Cutting Salon",
+    view: "cutting-salon",
+    icon: {
+      src: "/button-cutting-salon-default.svg",
+      hoverSrc: "/button-cutting-salon-hover.svg",
+      activeSrc: "/button-cutting-salon-active.svg",
+      width: 243,
+      height: 21,
+    },
+  },
 ] as const;
 
 interface NavbarProps {
@@ -91,7 +126,7 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
             <li key={href}>
               <a
                 href={href}
-                className={icon ? "site-nav-home-link" : undefined}
+                className="site-nav-icon-link"
                 aria-current={view === currentView ? "page" : undefined}
                 onClick={(event) => {
                   if (view) {
@@ -101,38 +136,37 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
                   close();
                 }}
               >
-                {icon ? (
-                  <span className="site-nav-home-icon-wrap">
-                    <Image
-                      src={icon.src}
-                      alt={label}
-                      width={121}
-                      height={42}
-                      unoptimized
-                      className="site-nav-home-icon site-nav-home-icon-default"
-                    />
-                    <Image
-                      src={icon.hoverSrc}
-                      alt=""
-                      aria-hidden="true"
-                      width={121}
-                      height={42}
-                      unoptimized
-                      className="site-nav-home-icon site-nav-home-icon-hover"
-                    />
-                    <Image
-                      src={icon.activeSrc}
-                      alt=""
-                      aria-hidden="true"
-                      width={121}
-                      height={42}
-                      unoptimized
-                      className="site-nav-home-icon site-nav-home-icon-active"
-                    />
-                  </span>
-                ) : (
-                  label
-                )}
+                <span
+                  className="site-nav-icon-wrap"
+                  style={{ aspectRatio: `${icon.width} / ${icon.height}` }}
+                >
+                  <Image
+                    src={icon.src}
+                    alt={label}
+                    width={icon.width}
+                    height={icon.height}
+                    unoptimized
+                    className="site-nav-icon site-nav-icon-default"
+                  />
+                  <Image
+                    src={icon.hoverSrc}
+                    alt=""
+                    aria-hidden="true"
+                    width={icon.width}
+                    height={icon.height}
+                    unoptimized
+                    className="site-nav-icon site-nav-icon-hover"
+                  />
+                  <Image
+                    src={icon.activeSrc}
+                    alt=""
+                    aria-hidden="true"
+                    width={icon.width}
+                    height={icon.height}
+                    unoptimized
+                    className="site-nav-icon site-nav-icon-active"
+                  />
+                </span>
               </a>
             </li>
           ))}
