@@ -980,8 +980,8 @@ h3 {
 /* Sized off the h3's own fluid font-size (em, not a fixed unit) so the
    logo scales the same way the text heading it replaces used to;
    inline-block so the parent's text-align: center above still centers
-   it. */
-.service-heading-logo {
+   it. Shared by both .service-card and .cutting-salon-card headings. */
+.card-heading-logo {
   display: inline-block;
   height: 1.4em;
   width: auto;

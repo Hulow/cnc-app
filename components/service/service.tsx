@@ -13,7 +13,7 @@ export function Service() {
               alt="Cutting Services"
               width={289}
               height={23}
-              className="service-heading-logo"
+              className="card-heading-logo"
             />
           </h3>
           <div className="service-item">Prototypes</div>
@@ -22,21 +22,48 @@ export function Service() {
         </div>
 
         <div className="service-card">
-          <h3>Services can include</h3>
+          <h3>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/service/services-can-include.svg"
+              alt="Services Can Include"
+              width={354}
+              height={23}
+              className="card-heading-logo"
+            />
+          </h3>
           <div className="service-item">CAD & design</div>
           <div className="service-item">CNC machining</div>
           <div className="service-item">Assembly & finishing</div>
         </div>
 
         <div className="service-card">
-          <h3>Quotes are based on</h3>
+          <h3>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/service/quotes-are-based-on.svg"
+              alt="Quotes Are Based On"
+              width={355}
+              height={23}
+              className="card-heading-logo"
+            />
+          </h3>
           <div className="service-item">Material</div>
           <div className="service-item">Size & quantity</div>
           <div className="service-item">Design complexity</div>
         </div>
 
         <div className="service-card">
-          <h3>Delivery options</h3>
+          <h3>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/service/delivery-options.svg"
+              alt="Delivery Options"
+              width={287}
+              height={23}
+              className="card-heading-logo"
+            />
+          </h3>
           <div className="service-item">Workshop pickup</div>
           <div className="service-item">Shipping</div>
         </div>

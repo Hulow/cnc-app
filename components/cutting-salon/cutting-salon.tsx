@@ -6,20 +6,47 @@ export function CuttingSalon() {
     <section aria-labelledby="cutting-salon-heading">
       <div className="cutting-salon-grid">
         <div className="cutting-salon-card">
-          <h3>Machine capabilities</h3>
+          <h3>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/salon/machine-capabilities.svg"
+              alt="Machine Capabilities"
+              width={348}
+              height={23}
+              className="card-heading-logo"
+            />
+          </h3>
           <div className="cutting-salon-item">Working area: 2.2m × 1.5m</div>
           <div className="cutting-salon-item">3 axis CNC</div>
         </div>
 
         <div className="cutting-salon-card">
-          <h3>Materials</h3>
+          <h3>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/salon/materials.svg"
+              alt="Materials"
+              width={179}
+              height={23}
+              className="card-heading-logo"
+            />
+          </h3>
           <div className="cutting-salon-item">Wood</div>
           <div className="cutting-salon-item">Aluminium</div>
           <div className="cutting-salon-item">Plastics</div>
         </div>
 
         <div className="cutting-salon-card">
-          <h3>Applications</h3>
+          <h3>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/salon/applications.svg"
+              alt="Applications"
+              width={224}
+              height={23}
+              className="card-heading-logo"
+            />
+          </h3>
           <div className="cutting-salon-item">Art</div>
           <div className="cutting-salon-item">Acoustics</div>
           <div className="cutting-salon-item">Design</div>
@@ -30,7 +57,16 @@ export function CuttingSalon() {
         </div>
 
         <div className="cutting-salon-card">
-          <h3>Technology</h3>
+          <h3>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/salon/technology.svg"
+              alt="Technology"
+              width={199}
+              height={23}
+              className="card-heading-logo"
+            />
+          </h3>
           <div className="cutting-salon-item">ESP32 · Dual-core 32-bit</div>
           <div className="cutting-salon-item">grblHAL</div>
           <div className="cutting-salon-item">Universal Gcode Sender</div>
