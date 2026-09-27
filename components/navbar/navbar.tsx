@@ -11,10 +11,19 @@ const EXIT_ANIMATION_NAME = "site-nav-item-out";
 // route navigation (matches the mailto: link pattern in Contact). `view`
 // is an opaque string PageView maps to a section.
 const NAV_LINKS = [
-  { href: "#home", label: "Home", view: "logo" },
-  { href: "#service", label: "Service", view: "service" },
-  { href: "#contact", label: "Contact", view: "contact" },
-  { href: "#cnc", label: "Cutting Salon", view: "cutting-salon" },
+  {
+    href: "#home",
+    label: "Home",
+    view: "logo",
+    icon: {
+      src: "/button-home-default.svg",
+      hoverSrc: "/button-home-hover.svg",
+      activeSrc: "/button-home-active.svg",
+    },
+  },
+  { href: "#service", label: "Service", view: "service", icon: null },
+  { href: "#contact", label: "Contact", view: "contact", icon: null },
+  { href: "#cnc", label: "Cutting Salon", view: "cutting-salon", icon: null },
 ] as const;
 
 interface NavbarProps {
@@ -78,10 +87,11 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
           data-open={isOpen}
           onAnimationEnd={(event) => handleAnimationEnd(event.animationName)}
         >
-          {NAV_LINKS.map(({ href, label, view }) => (
+          {NAV_LINKS.map(({ href, label, view, icon }) => (
             <li key={href}>
               <a
                 href={href}
+                className={icon ? "site-nav-home-link" : undefined}
                 aria-current={view === currentView ? "page" : undefined}
                 onClick={(event) => {
                   if (view) {
@@ -91,7 +101,38 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
                   close();
                 }}
               >
-                {label}
+                {icon ? (
+                  <span className="site-nav-home-icon-wrap">
+                    <Image
+                      src={icon.src}
+                      alt={label}
+                      width={121}
+                      height={42}
+                      unoptimized
+                      className="site-nav-home-icon site-nav-home-icon-default"
+                    />
+                    <Image
+                      src={icon.hoverSrc}
+                      alt=""
+                      aria-hidden="true"
+                      width={121}
+                      height={42}
+                      unoptimized
+                      className="site-nav-home-icon site-nav-home-icon-hover"
+                    />
+                    <Image
+                      src={icon.activeSrc}
+                      alt=""
+                      aria-hidden="true"
+                      width={121}
+                      height={42}
+                      unoptimized
+                      className="site-nav-home-icon site-nav-home-icon-active"
+                    />
+                  </span>
+                ) : (
+                  label
+                )}
               </a>
             </li>
           ))}
