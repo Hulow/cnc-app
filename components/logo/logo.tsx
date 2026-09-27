@@ -11,7 +11,7 @@ export function Logo() {
       src="/logo.svg"
       alt={`${siteConfig.name} logo`}
       width={640}
-      height={396}
+      height={223}
       priority
       unoptimized
       className="logo"
