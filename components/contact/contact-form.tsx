@@ -253,14 +253,14 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
                   Image buys nothing here. */}
               {/* eslint-disable @next/next/no-img-element */}
               <img
-                src="/button-send-default.svg"
+                src="/form/button-send-default.svg"
                 alt="Send"
                 width={120}
                 height={44}
                 className="contact-form-submit-icon contact-form-submit-icon-default"
               />
               <img
-                src="/button-send-hover.svg"
+                src="/form/button-send-hover.svg"
                 alt=""
                 aria-hidden="true"
                 width={120}
@@ -279,14 +279,14 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
             <span className="contact-form-clear-icon-wrap">
               {/* eslint-disable @next/next/no-img-element */}
               <img
-                src="/button-clear-default.svg"
+                src="/form/button-clear-default.svg"
                 alt="Clear"
                 width={139}
                 height={44}
                 className="contact-form-clear-icon contact-form-clear-icon-default"
               />
               <img
-                src="/button-clear-hover.svg"
+                src="/form/button-clear-hover.svg"
                 alt=""
                 aria-hidden="true"
                 width={139}
@@ -305,7 +305,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
             <span className="contact-form-help-icon-wrap">
               {/* eslint-disable @next/next/no-img-element */}
               <img
-                src="/button-help-default.svg"
+                src="/form/button-help-default.svg"
                 alt="Help"
                 width={118}
                 height={44}
@@ -317,7 +317,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
                   persistent nav selection) — there's no separate
                   button-help-hover.svg, so this is the hover graphic. */}
               <img
-                src="/button-help-active.svg"
+                src="/form/button-help-active.svg"
                 alt=""
                 aria-hidden="true"
                 width={118}

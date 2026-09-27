@@ -361,6 +361,66 @@ h3 {
   }
 }
 
+/* Continue (see overlay-screen.tsx — shared by WelcomeScreen and
+   HelpOverlay) is an image button: button-continue-*.svg already draws
+   its own pill border and label, so the generic button chrome above
+   (border, padding, background, border-radius) is cancelled here. Each
+   selector repeats the pseudo-class alongside .welcome-screen-continue
+   so it's strictly more specific than the generic rules above (extra
+   class), winning regardless of source order. */
+.welcome-screen-content button.welcome-screen-continue,
+.welcome-screen-content button.welcome-screen-continue:focus-visible,
+.welcome-screen-content button.welcome-screen-continue:active {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+}
+
+@media (hover: hover) {
+  .welcome-screen-content button.welcome-screen-continue:hover {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+  }
+}
+
+/* button-continue-default.svg/-active.svg (used as the hover graphic —
+   see overlay-screen.tsx) are stacked at the same position (absolute
+   inset: 0) and swapped with opacity on hover, same mechanism as the
+   nav icons in Navbar/globals.css and Send/Clear/Help in the contact
+   form. No active/current-section state here — this is a one-off
+   dismiss action, not a persistent selection. */
+.welcome-screen-continue-icon-wrap {
+  position: relative;
+  display: block;
+  width: 12rem;
+  aspect-ratio: 187.43 / 43.90;
+}
+
+.welcome-screen-continue-icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 150ms ease;
+}
+
+.welcome-screen-continue-icon-hover {
+  opacity: 0;
+}
+
+@media (hover: hover) {
+  .welcome-screen-content button.welcome-screen-continue:hover .welcome-screen-continue-icon-default {
+    opacity: 0;
+  }
+
+  .welcome-screen-content button.welcome-screen-continue:hover .welcome-screen-continue-icon-hover {
+    opacity: 1;
+  }
+}
+
 /* The `hidden` attribute is UA-default `display: none`, but our own
    `display: flex` above has equal specificity and, as an author style,
    wins over that default — so it must be restated explicitly here. */
