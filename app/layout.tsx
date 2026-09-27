@@ -7,9 +7,9 @@ import "bootstrap/dist/css/bootstrap-grid.css";
 import "bootstrap/dist/css/bootstrap-utilities.css";
 import "./globals.css";
 
-const courierPrime = localFont({
-  src: "../public/CourierPrime-Regular.ttf",
-  variable: "--font-courier-prime",
+const russoOne = localFont({
+  src: "../public/RussoOne-Regular.ttf",
+  variable: "--font-russo-one",
   display: "swap",
 });
 
@@ -55,7 +55,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={courierPrime.variable}>
+    <html lang="en" className={russoOne.variable}>
       <body>{children}</body>
     </html>
   );

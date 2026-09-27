@@ -112,7 +112,7 @@ body {
   flex-direction: column;
   color: var(--foreground);
   background: var(--logo-color);
-  font-family: var(--font-courier-prime), Arial, Helvetica, sans-serif;
+  font-family: var(--font-russo-one), Arial, Helvetica, sans-serif;
   font-size: var(--font-size-base);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -975,6 +975,16 @@ h3 {
 .service-card h3,
 .cutting-salon-card h3 {
   text-align: center;
+}
+
+/* Sized off the h3's own fluid font-size (em, not a fixed unit) so the
+   logo scales the same way the text heading it replaces used to;
+   inline-block so the parent's text-align: center above still centers
+   it. */
+.service-heading-logo {
+  display: inline-block;
+  height: 1.4em;
+  width: auto;
 }
 
 .service-item,

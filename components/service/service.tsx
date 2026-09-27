@@ -6,7 +6,16 @@ export function Service() {
     <section aria-labelledby="about-heading">
       <div className="service-grid">
         <div className="service-card">
-          <h3>Cutting services</h3>
+          <h3>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/service/cutting-services.svg"
+              alt="Cutting Services"
+              width={289}
+              height={23}
+              className="service-heading-logo"
+            />
+          </h3>
           <div className="service-item">Prototypes</div>
           <div className="service-item">Unique products</div>
           <div className="service-item">Small production series</div>
