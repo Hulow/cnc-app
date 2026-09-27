@@ -154,32 +154,37 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
                   className="site-nav-icon-wrap"
                   style={{ aspectRatio: `${icon.width} / ${icon.height}` }}
                 >
-                  <Image
+                  {/* Plain <img>, not next/image: these are already
+                      unoptimized SVGs, so Image buys nothing here, and
+                      its per-mount IntersectionObserver/wrapper overhead
+                      (x12 — 4 items x 3 states) got expensive since the
+                      whole menu unmounts and remounts on every open/close
+                      (see useNavBar's isRendered). */}
+                  {/* eslint-disable @next/next/no-img-element */}
+                  <img
                     src={icon.src}
                     alt={label}
                     width={icon.width}
                     height={icon.height}
-                    unoptimized
                     className="site-nav-icon site-nav-icon-default"
                   />
-                  <Image
+                  <img
                     src={icon.hoverSrc}
                     alt=""
                     aria-hidden="true"
                     width={icon.width}
                     height={icon.height}
-                    unoptimized
                     className="site-nav-icon site-nav-icon-hover"
                   />
-                  <Image
+                  <img
                     src={icon.activeSrc}
                     alt=""
                     aria-hidden="true"
                     width={icon.width}
                     height={icon.height}
-                    unoptimized
                     className="site-nav-icon site-nav-icon-active"
                   />
+                  {/* eslint-enable @next/next/no-img-element */}
                 </span>
               </a>
             </li>
