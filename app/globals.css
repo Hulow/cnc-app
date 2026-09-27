@@ -363,15 +363,12 @@ h3 {
    ========================================================================== */
 
 .logo {
-  width: clamp(26rem, 15rem + 40vw, 56rem);
+  /* Fill main's full width (itself 100% of .content-layer/.page-content's
+     padded content box) instead of an absolute rem cap, so the logo scales
+     with the container — .page-content's own padding (--space-sm) is the
+     margin — rather than plateauing at a fixed size on wide screens. */
+  width: 100%;
   height: auto;
-  /* .page-content main is a column flex container with no align-items
-     set (default: stretch), which only stretches items with an auto
-     cross size — this item's explicit width falls back to flex-start
-     (left-aligned) instead. Center it explicitly, without touching
-     main's align-items, since sibling views (service/contact) rely on
-     stretch to fill the full width. */
-  align-self: center;
   /* main itself is justify-content: flex-start now, so every other view
      starts flush at the top — but the logo alone should stay vertically
      centered. margin-block: auto on a single flex item overrides the
