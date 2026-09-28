@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 import { en } from "@/dictionaries/en";
 
 // Widest heading logo below (quotes-are-based-on.svg, 355x23) — feeds
@@ -14,9 +15,11 @@ const MAX_LOGO_ASPECT_RATIO = 355 / 23;
 export function Service() {
   return (
     <section aria-labelledby="about-heading">
-      <h1 id="about-heading">{en.pages.services.title}</h1>
-      {/* TODO: owner copy — see dictionaries/en.ts's intro.services comment */}
-      <p className="page-intro">{en.intro.services}</p>
+      <div className="page-heading-row">
+        <h1 id="about-heading">{en.pages.services.title}</h1>
+        {/* TODO: owner copy — see dictionaries/en.ts's intro.services comment */}
+        <ReadMoreButton text={en.intro.services} />
+      </div>
       <div
         className="service-grid"
         style={

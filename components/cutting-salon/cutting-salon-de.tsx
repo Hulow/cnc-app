@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Dictionary } from "@/dictionaries/en";
+import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 
 interface CuttingSalonDeProps {
   dict: Pick<Dictionary, "workshop" | "pages" | "intro">;
@@ -14,9 +15,11 @@ export function CuttingSalonDe({ dict }: CuttingSalonDeProps) {
 
   return (
     <section aria-labelledby="cutting-salon-heading">
-      <h1 id="cutting-salon-heading">{dict.pages.workshop.title}</h1>
-      {/* TODO: owner copy — see dictionaries/de.ts's intro.workshop comment */}
-      <p className="page-intro">{dict.intro.workshop}</p>
+      <div className="page-heading-row">
+        <h1 id="cutting-salon-heading">{dict.pages.workshop.title}</h1>
+        {/* TODO: owner copy — see dictionaries/de.ts's intro.workshop comment */}
+        <ReadMoreButton text={dict.intro.workshop} />
+      </div>
       <div className="cutting-salon-grid">
         {Object.values(cards).map(({ heading, items }) => (
           <div className="cutting-salon-card" key={heading}>

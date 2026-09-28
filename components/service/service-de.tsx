@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/dictionaries/en";
+import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 
 interface ServiceDeProps {
   dict: Pick<Dictionary, "services" | "pages" | "intro">;
@@ -17,9 +18,11 @@ export function ServiceDe({ dict }: ServiceDeProps) {
 
   return (
     <section aria-labelledby="about-heading">
-      <h1 id="about-heading">{dict.pages.services.title}</h1>
-      {/* TODO: owner copy — see dictionaries/de.ts's intro.services comment */}
-      <p className="page-intro">{dict.intro.services}</p>
+      <div className="page-heading-row">
+        <h1 id="about-heading">{dict.pages.services.title}</h1>
+        {/* TODO: owner copy — see dictionaries/de.ts's intro.services comment */}
+        <ReadMoreButton text={dict.intro.services} />
+      </div>
       <div className="service-grid">
         {Object.values(cards).map(({ heading, items }) => (
           <div className="service-card" key={heading}>

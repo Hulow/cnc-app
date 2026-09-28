@@ -573,22 +573,29 @@ h3 {
   margin: 0;
 }
 
-/* Per-page descriptive paragraph under the h1 (see P1.4 in
-   SEO-SPEC.md). Capped and centered as a block, same pattern as
-   .welcome-screen-content p, so a full paragraph of body text stays a
-   comfortable reading width instead of stretching edge to edge. Left
-   (not justified, unlike the global `p` default) — justify text reads
-   raggedly at this width. */
-.page-intro {
-  max-width: 40rem;
-  margin-inline: auto;
-  text-align: left;
+/* Services, Cutting Salon and Contact: wraps each page's own h1 with its
+   READ MORE button so the button sits on the same line as the heading,
+   right-aligned, instead of stacked below it like home's own h1 +
+   .read-more (home keeps .home-content's centered column layout). The
+   h1's own margin-bottom (see the global h1 rule above) still applies
+   inside this row — since it's a flex item, that margin extends the
+   row's own box, so the gap to whatever follows (card grid, contact
+   form, ...) stays the same as when .page-intro rendered there. wrap
+   lets the button drop under the heading on narrow viewports instead of
+   squeezing both onto one cramped line. */
+.page-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
 }
 
-/* READ MORE (home only): opens .intro.home in an OverlayScreen instead of
-   rendering the paragraph inline — see read-more-button.tsx. Reset +
-   hover-swap mechanics mirror .welcome-screen-continue* above (default/
-   hover SVGs stacked with absolute inset: 0, swapped via opacity). */
+/* READ MORE (home, and now .page-heading-row above): opens the page's
+   own intro copy in an OverlayScreen instead of rendering the paragraph
+   inline — see read-more-button.tsx. Reset + hover-swap mechanics mirror
+   .welcome-screen-continue* above (default/hover SVGs stacked with
+   absolute inset: 0, swapped via opacity). */
 .read-more {
   display: inline-block;
   padding: 0;

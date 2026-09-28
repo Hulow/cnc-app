@@ -16,32 +16,6 @@ add logo in tab
 
 
 
-2) Service
+perfect. however, the title and the readmore button should always be omn the same line. if they are too big compared by the size of the screen, they have to both component be smaller (title + button)
 
-in service
-
-Instead of rendering the page intro here, i want to add a button READ MORE.
-
-The readmore button is the logo is just added in public:
-- public/text-reading/read_more_default.svg
-- public/text-reading/read_more_hover.svg
-
-the button will render OverlayScreen component. and the text will be inside. 
-
-The button should be on the same line than id="about-heading" but on the right.
-
-in OverlayScreen, when the user click on continue, it comes back to the home screen
-
-This logic is the same for the german translation
-
-
-To request a quote, send me your project by email or through the form below. It helps if you include:
-
-a CAD file (DXF, DWG or STEP) or a sketch as PDF or image
-the dimensions
-the material you'd like
-the quantity
-
-The more detail you share, the faster I can get back to you. Not sure about everything yet? A rough sketch and a short description are enough to start the conversation.
-
-Not sure about everything yet? Even if you only have a rough idea, or nothing at all, just get in touch and we'll figure it out together.
+Also: a contact, the title is black. it should follow the blue

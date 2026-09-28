@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 import { en } from "@/dictionaries/en";
 
 // Widest heading logo below (machine-capabilities.svg, 348x23) — feeds
@@ -13,9 +14,11 @@ const MAX_LOGO_ASPECT_RATIO = 348 / 23;
 export function CuttingSalon() {
   return (
     <section aria-labelledby="cutting-salon-heading">
-      <h1 id="cutting-salon-heading">{en.pages.workshop.title}</h1>
-      {/* TODO: owner copy — see dictionaries/en.ts's intro.workshop comment */}
-      <p className="page-intro">{en.intro.workshop}</p>
+      <div className="page-heading-row">
+        <h1 id="cutting-salon-heading">{en.pages.workshop.title}</h1>
+        {/* TODO: owner copy — see dictionaries/en.ts's intro.workshop comment */}
+        <ReadMoreButton text={en.intro.workshop} />
+      </div>
       <div
         className="cutting-salon-grid"
         style={
