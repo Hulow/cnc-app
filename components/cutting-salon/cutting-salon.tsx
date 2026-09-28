@@ -114,8 +114,14 @@ export function CuttingSalon() {
       <Image
         src="/cnc.jpg"
         alt="CNC machine cutting material"
-        width={4032}
-        height={3024}
+        width={2400}
+        height={1800}
+        // Matches .cutting-salon-image's own width: 100% within
+        // .content-layer's responsive width steps (see globals.css) —
+        // 90% of viewport below 576px, 70% (capped at the 75rem/1200px
+        // container max-width) from 576px up — so next/image requests
+        // an appropriately-sized variant instead of always the largest.
+        sizes="(min-width: 576px) 70vw, 90vw"
         className="cutting-salon-image"
       />
     </section>

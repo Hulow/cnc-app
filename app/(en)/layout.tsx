@@ -16,7 +16,7 @@ import "bootstrap/dist/css/bootstrap-utilities.css";
 import "../globals.css";
 
 const russoOne = localFont({
-  src: "../../public/RussoOne-Regular.ttf",
+  src: "../../public/RussoOne-Regular.woff2",
   variable: "--font-russo-one",
   display: "swap",
 });

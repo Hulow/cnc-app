@@ -34,8 +34,10 @@ export function CuttingSalonDe({ dict }: CuttingSalonDeProps) {
       <Image
         src="/cnc.jpg"
         alt={imageAlt}
-        width={4032}
-        height={3024}
+        width={2400}
+        height={1800}
+        // See cutting-salon.tsx's own comment on this value.
+        sizes="(min-width: 576px) 70vw, 90vw"
         className="cutting-salon-image"
       />
     </section>
