@@ -1247,7 +1247,9 @@ h3 {
 .contact-form-field input,
 .contact-form-field textarea {
   font: inherit;
-  font-size: var(--font-size-sm);
+  /* iOS Safari auto-zooms the page on focus for any field under 16px;
+     never let this drop below that threshold. */
+  font-size: max(16px, var(--font-size-sm));
   padding: var(--space-xs);
   /* 3px transparent, not 1px: hover/focus only swap border-color below,
      never border-width — inputs have no fixed height, so a width change
