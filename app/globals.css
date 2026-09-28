@@ -448,6 +448,18 @@ h3 {
   margin-block: auto;
 }
 
+/* On phone/tablet (below the laptop/desktop breakpoint used for the
+   background video crop above), vertical centering leaves the logo
+   awkwardly low under the header on tall, narrow viewports — pin it
+   near the top instead, with a bit of breathing room below the header.
+   margin-bottom: auto still soaks up the leftover space below it so it
+   doesn't stretch to fill main. */
+@media (max-width: 1023px) {
+  .logo {
+    margin-block: var(--space-xl) auto;
+  }
+}
+
 /* ==========================================================================
    Page Shell & Navigation
 
