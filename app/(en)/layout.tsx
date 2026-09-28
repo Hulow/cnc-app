@@ -27,9 +27,16 @@ const russoOne = localFont({
 // is layered on top by each page via shared/page-metadata.ts.
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
+  // Every page sets its own full, already-branded title via
+  // shared/page-metadata.ts (not a title.template here — that has a
+  // documented gap for a page.tsx in the same folder as the layout
+  // defining it, which is exactly our home route; see that file's own
+  // comment). This is just the fallback for the rare case nothing below
+  // defines one. No `keywords` — the meta tag is ignored by Google (see
+  // P1.2 in SEO-SPEC.md); siteConfig.keywords stays as internal
+  // copywriting reference only.
   title: siteConfig.name,
   description: en.meta.description,
-  keywords: [...siteConfig.keywords],
   alternates: {
     canonical: routes.home.en,
   },

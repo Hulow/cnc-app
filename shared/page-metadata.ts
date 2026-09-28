@@ -3,24 +3,36 @@ import type { Dictionary } from "@/dictionaries/en";
 import { siteConfig } from "./site-config";
 import { languageAlternates, routes, type Lang, type RouteKey } from "./routes";
 
-// Per-page metadata: self-referencing canonical, a complete hreflang set
-// (en/de/x-default) and a correct openGraph.locale/alternateLocale — see
-// P1.1 in SEO-SPEC.md. openGraph is set here in full (not just
-// locale/url) because Next.js metadata merging replaces the *whole*
-// openGraph object when a page defines one, rather than deep-merging it
-// with the layout's — see the Metadata API's "Merging" docs.
+// Per-page metadata: a unique title/description (see P1.2 in
+// SEO-SPEC.md), self-referencing canonical, a complete hreflang set
+// (en/de/x-default) and a correct openGraph.locale/alternateLocale (see
+// P1.1). openGraph is set here in full (not just locale/url) because
+// Next.js metadata merging replaces the *whole* openGraph object when a
+// page defines one, rather than deep-merging it with the layout's — see
+// the Metadata API's "Merging" docs.
+//
+// The brand suffix is appended here rather than via the root layout's
+// title.template: template application has a documented gap — it does
+// NOT apply to a title set by a page.tsx in the *same* folder as the
+// layout.tsx that defines the template, which is exactly our home route
+// in both trees (app/(en)/page.tsx next to app/(en)/layout.tsx, and
+// app/[lang]/page.tsx next to app/[lang]/layout.tsx). Building the full
+// title here sidesteps that gap for every route uniformly.
 export function pageMetadata(key: RouteKey, lang: Lang, dict: Dictionary): Metadata {
   const path = routes[key][lang];
+  const { title: pageTitle, description } = dict.pages[key];
+  const title = `${pageTitle} · ${siteConfig.name}`;
 
   return {
-    description: dict.meta.description,
+    title,
+    description,
     alternates: {
       canonical: path,
       languages: languageAlternates(key),
     },
     openGraph: {
-      title: siteConfig.name,
-      description: dict.meta.description,
+      title,
+      description,
       siteName: siteConfig.name,
       url: path,
       locale: dict.meta.ogLocale,

@@ -13,6 +13,33 @@ export const de: Dictionary = {
     ogLocale: "de_DE",
     ogAlternateLocale: "en_US",
   },
+  pages: {
+    home: {
+      title: "CNC-Designobjekte & Prototypen aus Berlin",
+      description:
+        "Atelier Cut entwirft und fertigt Prototypen, Einzelstücke und Kleinserien per CNC in Berlin — von der CAD-Datei, Skizze oder Idee bis zum fertigen Teil.",
+    },
+    services: {
+      title: "Prototypen, Unikate & Kleinserien in Berlin",
+      description:
+        "CNC-Fertigungsleistungen in Berlin: Prototypen, Einzelstücke und Kleinserien, von CAD-Design über CNC-Bearbeitung bis Montage und Veredelung.",
+    },
+    workshop: {
+      title: "3-Achs-CNC-Werkstatt in Berlin — 2,2 × 1,5 m",
+      description:
+        "Die CNC-Werkstatt in Berlin: eine 3-Achs-Maschine mit 2,2 × 1,5 m Arbeitsbereich, für Holz, Aluminium und Kunststoffe — für Akustik, Möbel und Kunst.",
+    },
+    contact: {
+      title: "Anfrage & Angebot — CNC-Werkstatt Berlin",
+      description:
+        "CNC-Fertigungsanfrage in Berlin: CAD-Datei, Skizze, Maße, Material und gewünschte Menge senden — Abholung in der Werkstatt oder Versand möglich.",
+    },
+    privacy: {
+      title: "Datenschutzerklärung",
+      description:
+        "Wie Atelier Cut mit Daten umgeht: keine Analyse- oder Tracking-Cookies, Kontaktformular-Nachrichten werden über Resend versendet, gehostet auf Vercel.",
+    },
+  },
   nav: {
     home: "Start",
     services: "Leistungen",

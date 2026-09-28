@@ -39,9 +39,9 @@ export const dynamicParams = false;
 // <html lang>.
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
+  // See app/(en)/layout.tsx's own comment on this title/no-keywords setup.
   title: siteConfig.name,
   description: de.meta.description,
-  keywords: [...siteConfig.keywords],
   alternates: {
     canonical: routes.home.de,
   },

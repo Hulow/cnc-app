@@ -10,3 +10,4 @@ do email address with domain
 add new cloudinary account with domain email account
 add logos for DE version
 add menu DE in header right side
+add metadata for instagram

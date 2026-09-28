@@ -3,11 +3,30 @@
 // Dictionary type below) so a missing German key is a type error, not a
 // silent English fallback in a German page.
 
+interface PageMeta {
+  // Page portion only — the root layout's title.template appends
+  // " · Atelier Cut" automatically. Keep title + " · Atelier Cut" under
+  // 60 characters total, and description between 140-160 characters —
+  // see P1.2 in SEO-SPEC.md.
+  title: string;
+  description: string;
+}
+
 export interface Dictionary {
   meta: {
     description: string;
     ogLocale: string;
     ogAlternateLocale: string;
+  };
+  // Per-page <title>/<meta description> — unique per page, each (except
+  // privacy, a utility page with no search intent of its own) containing
+  // its main term and "Berlin".
+  pages: {
+    home: PageMeta;
+    services: PageMeta;
+    workshop: PageMeta;
+    contact: PageMeta;
+    privacy: PageMeta;
   };
   nav: {
     home: string;
@@ -78,6 +97,33 @@ export const en: Dictionary = {
       "Custom CNC fabrication in Berlin: CNC milling, CNC cutting and CNC woodworking for your projects.",
     ogLocale: "en_US",
     ogAlternateLocale: "de_DE",
+  },
+  pages: {
+    home: {
+      title: "CNC-made design objects & prototypes in Berlin",
+      description:
+        "Atelier Cut designs and CNC-machines prototypes, unique objects and small production series in Berlin — from a CAD file, sketch or idea to finished part.",
+    },
+    services: {
+      title: "Prototypes, one-offs & small series in Berlin",
+      description:
+        "CNC machining services in Berlin: prototypes, one-off products and small production series, from CAD design to CNC machining, assembly and finishing.",
+    },
+    workshop: {
+      title: "3-axis CNC workshop in Berlin — 2.2 × 1.5 m",
+      description:
+        "Inside the CNC workshop in Berlin: a 3-axis machine with a 2.2 × 1.5 m working area, machining wood, aluminium and plastics for acoustics, furniture and art.",
+    },
+    contact: {
+      title: "Request a quote — CNC workshop Berlin",
+      description:
+        "Request a CNC machining quote in Berlin: send your CAD file, sketch, dimensions, material and quantity — get workshop pickup or shipping options.",
+    },
+    privacy: {
+      title: "Privacy Policy",
+      description:
+        "How Atelier Cut handles data: no analytics or tracking cookies, contact form messages are sent via Resend, and the site is hosted on Vercel.",
+    },
   },
   nav: {
     home: "Home",
