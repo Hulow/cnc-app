@@ -880,6 +880,20 @@ h3 {
   font-size: clamp(0.65rem, 3cqi, var(--font-size-sm));
 }
 
+/* The language switcher sits as a third flex child of .page-content
+   footer, between .footer-copyright and .footer-address — space-between
+   (see .page-content footer above) then reads as
+   copyright (start) / switcher (center) / address (end). Matches the
+   other two footer paragraphs' own sizing/weight (not a <p>, so it
+   doesn't pick up .page-content footer p above) and never wraps onto a
+   second line, however tight the middle slot gets. */
+.language-switcher {
+  font-weight: bold;
+  font-size: clamp(0.65rem, 3cqi, var(--font-size-sm));
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .page-content address {
   font-style: normal;
 }

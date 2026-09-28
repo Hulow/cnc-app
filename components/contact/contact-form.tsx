@@ -7,18 +7,24 @@ import {
   formatMegabytes,
   isAttachmentTooLarge,
 } from "@/shared/contact-attachment";
+import { en, type Dictionary } from "@/dictionaries/en";
 import { useContactForm } from "./use-contact-form";
 import { HelpOverlay } from "@/components/help-overlay/help-overlay";
 
 interface ContactFormProps {
   formId: string;
   onClose: () => void;
+  // Field labels/placeholders/messages only — the Send/Clear/Help/Upload
+  // buttons stay the English image assets regardless of language (no
+  // German artwork exists yet — see P1.1 in SEO-SPEC.md), so their alt
+  // text is intentionally not part of this dictionary.
+  dict?: Dictionary["contact"];
 }
 
 const ACCEPT_ATTRIBUTE = ALLOWED_ATTACHMENT_EXTENSIONS.join(",");
 const MAX_ATTACHMENT_MB = formatMegabytes(MAX_ATTACHMENT_BYTES);
 
-export function ContactForm({ formId, onClose }: ContactFormProps) {
+export function ContactForm({ formId, onClose, dict = en.contact }: ContactFormProps) {
   const {
     status,
     isSubmitting,
@@ -76,7 +82,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
   if (status === "success") {
     return (
       <div id={formId} className="contact-form contact-form-success" role="status">
-        <p>Thanks for reaching out! I will get back to you soon.</p>
+        <p>{dict.success}</p>
         <button type="button" className="contact-form-close-button" onClick={onClose}>
           <span className="contact-form-close-icon-wrap">
             {/* eslint-disable @next/next/no-img-element */}
@@ -111,12 +117,12 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
     <>
       <form id={formId} className="contact-form" onSubmit={handleSubmit} noValidate>
         <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-company-name">Company</label>
+          <label className="sr-only" htmlFor="contact-company-name">{dict.fields.company}</label>
           <input
             id="contact-company-name"
             name="companyName"
             type="text"
-            placeholder="Company"
+            placeholder={dict.fields.company}
             disabled={isSubmitting}
             onChange={() => clearFieldError("companyName")}
           />
@@ -124,64 +130,64 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
         </div>
 
         <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-first-name">First name</label>
+          <label className="sr-only" htmlFor="contact-first-name">{dict.fields.firstName}</label>
           <input
             id="contact-first-name"
             name="firstName"
             type="text"
-            placeholder="First name"
+            placeholder={dict.fields.firstName}
             required
             disabled={isSubmitting}
             onChange={() => clearFieldError("firstName")}
           />
           <span className="contact-form-placeholder" aria-hidden="true">
-            First name<span className="contact-form-required"> *</span>
+            {dict.fields.firstName}<span className="contact-form-required"> *</span>
           </span>
           {fieldErrors.firstName && <p role="alert">{fieldErrors.firstName}</p>}
         </div>
 
         <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-last-name">Last name</label>
+          <label className="sr-only" htmlFor="contact-last-name">{dict.fields.lastName}</label>
           <input
             id="contact-last-name"
             name="lastName"
             type="text"
-            placeholder="Last name"
+            placeholder={dict.fields.lastName}
             required
             disabled={isSubmitting}
             onChange={() => clearFieldError("lastName")}
           />
           <span className="contact-form-placeholder" aria-hidden="true">
-            Last name<span className="contact-form-required"> *</span>
+            {dict.fields.lastName}<span className="contact-form-required"> *</span>
           </span>
           {fieldErrors.lastName && <p role="alert">{fieldErrors.lastName}</p>}
         </div>
 
         <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-email">Email</label>
+          <label className="sr-only" htmlFor="contact-email">{dict.fields.email}</label>
           <input
             id="contact-email"
             name="email"
             type="email"
-            placeholder="Email"
+            placeholder={dict.fields.email}
             required
             disabled={isSubmitting}
             onChange={() => clearFieldError("email")}
             onBlur={(event) => validateEmailOnBlur(event.target.value)}
           />
           <span className="contact-form-placeholder" aria-hidden="true">
-            Email<span className="contact-form-required"> *</span>
+            {dict.fields.email}<span className="contact-form-required"> *</span>
           </span>
           {fieldErrors.email && <p role="alert">{fieldErrors.email}</p>}
         </div>
 
         <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-phone">Phone</label>
+          <label className="sr-only" htmlFor="contact-phone">{dict.fields.phone}</label>
           <input
             id="contact-phone"
             name="phone"
             type="tel"
-            placeholder="Phone"
+            placeholder={dict.fields.phone}
             disabled={isSubmitting}
             onChange={() => clearFieldError("phone")}
           />
@@ -189,11 +195,11 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
         </div>
 
         <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-message">Message</label>
+          <label className="sr-only" htmlFor="contact-message">{dict.fields.message}</label>
           <textarea
             id="contact-message"
             name="message"
-            placeholder="Message"
+            placeholder={dict.fields.message}
             rows={5}
             disabled={isSubmitting}
             onChange={() => clearFieldError("message")}
@@ -202,7 +208,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
         </div>
 
         <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-attachment">Attachment</label>
+          <label className="sr-only" htmlFor="contact-attachment">{dict.fields.attachment}</label>
           <div className="contact-form-attachment-row">
             <div className="contact-form-file">
               {/* Custom "Upload" trigger + filename/placeholder text — the
@@ -229,7 +235,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
               {attachmentName ? (
                 <span className="contact-form-file-name">{attachmentName}</span>
               ) : (
-                <span className="contact-form-file-placeholder">Attachment</span>
+                <span className="contact-form-file-placeholder">{dict.fields.attachment}</span>
               )}
               <input
                 ref={attachmentInputRef}
@@ -247,15 +253,15 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
                 className="contact-form-attachment-remove"
                 onClick={handleRemoveAttachment}
                 disabled={isSubmitting}
-                aria-label="Remove attachment"
+                aria-label={dict.removeAttachment}
               >
                 ×
               </button>
             )}
           </div>
-          <p className="contact-form-hint">Max {MAX_ATTACHMENT_MB} MB.</p>
+          <p className="contact-form-hint">{dict.attachmentHint(MAX_ATTACHMENT_MB)}</p>
           {oversizedAttachmentMb && (
-            <p role="alert">The attachment is too large ({oversizedAttachmentMb} MB).</p>
+            <p role="alert">{dict.attachmentTooLarge(oversizedAttachmentMb)}</p>
           )}
         </div>
 
@@ -281,7 +287,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
             // The image swap below doesn't reflect the submitting state,
             // so the accessible name still has to — aria-label overrides
             // the default (hidden) icon's alt text as the button's name.
-            aria-label={isSubmitting ? "Sending…" : undefined}
+            aria-label={isSubmitting ? dict.sending : undefined}
           >
             <span className="contact-form-submit-icon-wrap">
               {/* Plain <img>, not next/image — see the nav icons in
@@ -365,7 +371,7 @@ export function ContactForm({ formId, onClose }: ContactFormProps) {
           </button>
         </div>
       </form>
-      {showHelp && <HelpOverlay onClose={() => setShowHelp(false)} />}
+      {showHelp && <HelpOverlay onClose={() => setShowHelp(false)} text={dict.help} />}
     </>
   );
 }

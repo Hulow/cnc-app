@@ -2,41 +2,50 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import Link from "next/link";
 import { BackgroundVideo } from "@/components/background-video/background-video";
+import { LanguageSwitcher } from "@/components/language-switcher/language-switcher";
 import { Navbar } from "@/components/navbar/navbar";
 import { StructuredData } from "@/components/structured-data/structured-data";
+import { en } from "@/dictionaries/en";
 import { siteConfig } from "@/shared/site-config";
+import { routes } from "@/shared/routes";
 // Grid + utilities only: no Reboot, so Bootstrap doesn't override the
 // existing global element styles/reset in globals.css.
 import "bootstrap/dist/css/bootstrap-grid.css";
 import "bootstrap/dist/css/bootstrap-utilities.css";
-import "./globals.css";
+import "../globals.css";
 
 const russoOne = localFont({
-  src: "../public/RussoOne-Regular.ttf",
+  src: "../../public/RussoOne-Regular.ttf",
   variable: "--font-russo-one",
   display: "swap",
 });
 
+// This is one of two independent root layouts (the other is
+// app/[lang]/layout.tsx, for German) — see the "multiple root layouts"
+// pattern in the Next.js layout docs. Each sets its own <html lang> and
+// metadataBase; per-page metadata (canonical/hreflang/openGraph.locale)
+// is layered on top by each page via shared/page-metadata.ts.
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
   title: siteConfig.name,
-  description: siteConfig.description,
+  description: en.meta.description,
   keywords: [...siteConfig.keywords],
   alternates: {
-    canonical: "/",
+    canonical: routes.home.en,
   },
   openGraph: {
     title: siteConfig.name,
-    description: siteConfig.description,
-    url: siteConfig.siteUrl,
+    description: en.meta.description,
+    url: routes.home.en,
     siteName: siteConfig.name,
-    locale: "de_DE",
+    locale: en.meta.ogLocale,
+    alternateLocale: en.meta.ogAlternateLocale,
     type: "website",
   },
   twitter: {
     card: "summary",
     title: siteConfig.name,
-    description: siteConfig.description,
+    description: en.meta.description,
   },
   robots: {
     index: true,
@@ -68,13 +77,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <BackgroundVideo />
         <div className="content-layer page-content">
           <header>
-            <Navbar />
+            <Navbar lang="en" dict={{ nav: en.nav }} />
           </header>
           <main>{children}</main>
           <footer>
             <p className="footer-copyright">
-              <Link href="/privacy">Privacy</Link>
+              <Link href={routes.privacy.en}>{en.footer.privacy}</Link>
             </p>
+            <LanguageSwitcher lang="en" label={en.languageSwitcher.label} />
             <p className="footer-address">
               {siteConfig.contact.address.split(", ").map((line) => (
                 <span key={line}>{line}</span>

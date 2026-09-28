@@ -3,14 +3,17 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { Dictionary } from "@/dictionaries/en";
+import { routes, type Lang } from "@/shared/routes";
 import { useNavBar } from "./use-navbar";
 
 const MENU_ID = "site-nav-menu";
 
-const NAV_LINKS = [
+// Icon assets are shared across languages — only the href (per-language
+// route) and label (dictionary) vary.
+const NAV_ICONS = [
   {
-    href: "/",
-    label: "Home",
+    routeKey: "home",
     icon: {
       src: "/menu/button-home-default.svg",
       hoverSrc: "/menu/button-home-hover.svg",
@@ -20,8 +23,7 @@ const NAV_LINKS = [
     },
   },
   {
-    href: "/services",
-    label: "Service",
+    routeKey: "services",
     icon: {
       src: "/menu/button-service-default.svg",
       hoverSrc: "/menu/button-service-hover.svg",
@@ -31,8 +33,7 @@ const NAV_LINKS = [
     },
   },
   {
-    href: "/contact",
-    label: "Contact",
+    routeKey: "contact",
     icon: {
       src: "/menu/button-contact-default.svg",
       hoverSrc: "/menu/button-contact-hover.svg",
@@ -42,8 +43,7 @@ const NAV_LINKS = [
     },
   },
   {
-    href: "/workshop",
-    label: "Cutting Salon",
+    routeKey: "workshop",
     icon: {
       src: "/menu/button-cutting-salon-default.svg",
       hoverSrc: "/menu/button-cutting-salon-hover.svg",
@@ -60,17 +60,28 @@ const NAV_LINKS = [
 // shrinks by that same factor instead of just the one that would
 // otherwise overflow.
 const MAX_ICON_ASPECT_RATIO = Math.max(
-  ...NAV_LINKS.map(({ icon }) => icon.width / icon.height),
+  ...NAV_ICONS.map(({ icon }) => icon.width / icon.height),
 );
+
+interface NavbarProps {
+  lang: Lang;
+  dict: Pick<Dictionary, "nav">;
+}
 
 // Rendering only: open/closed state lives in useNavBar. The menu markup
 // itself is always rendered (server-renderable — see .site-nav-menu
 // below) rather than mounted on open, so it ships in the initial HTML
 // and doesn't pay a mount/unmount cost on every toggle.
-export function Navbar() {
+export function Navbar({ lang, dict }: NavbarProps) {
   const { isOpen, hasOpened, toggle, close } = useNavBar();
   const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
+
+  const navLinks = NAV_ICONS.map(({ routeKey, icon }) => ({
+    href: routes[routeKey][lang],
+    label: dict.nav[routeKey],
+    icon,
+  }));
 
   // pointerdown (not click): fires before the toggle button's own click
   // handler would re-open a just-closed menu, and catching it on the way
@@ -162,7 +173,7 @@ export function Navbar() {
           } as CSSProperties
         }
       >
-        {NAV_LINKS.map(({ href, label, icon }) => (
+        {navLinks.map(({ href, label, icon }) => (
           <li key={href}>
             <Link
               href={href}
