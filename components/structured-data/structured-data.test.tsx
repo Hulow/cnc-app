@@ -1,38 +1,40 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, render } from "@testing-library/react";
-import { siteConfig } from "@/shared/site-config";
 import { StructuredData } from "./structured-data";
 
 afterEach(() => {
   cleanup();
 });
 
-function renderJsonLd() {
-  const { container } = render(<StructuredData />);
-  const script = container.querySelector('script[type="application/ld+json"]');
-  return JSON.parse(script?.innerHTML ?? "{}");
+function renderScripts(data: object | object[]) {
+  const { container } = render(<StructuredData data={data} />);
+  return [...container.querySelectorAll('script[type="application/ld+json"]')].map((script) =>
+    JSON.parse(script.innerHTML),
+  );
 }
 
-describe("Given the structured data script", () => {
+describe("Given a single JSON-LD object", () => {
   describe("When it renders", () => {
-    it("Then it is a LocalBusiness with the site's name and url", () => {
-      const data = renderJsonLd();
+    it("Then it is a single script tag with that object's content", () => {
+      const parsed = renderScripts({ "@type": "WebSite", name: "Example" });
 
-      expect(data["@type"]).toBe("LocalBusiness");
-      expect(data.name).toBe(siteConfig.name);
-      expect(data.url).toBe(siteConfig.siteUrl);
+      expect(parsed).toHaveLength(1);
+      expect(parsed[0]).toEqual({ "@type": "WebSite", name: "Example" });
     });
+  });
+});
 
-    it("Then it includes a public postal address matching site-config", () => {
-      const data = renderJsonLd();
+describe("Given an array of JSON-LD objects", () => {
+  describe("When it renders", () => {
+    it("Then each renders as its own script tag, in order", () => {
+      const parsed = renderScripts([
+        { "@type": "WebSite", name: "Example" },
+        { "@type": "LocalBusiness", name: "Example Business" },
+      ]);
 
-      expect(data.address).toEqual({
-        "@type": "PostalAddress",
-        streetAddress: "Coppistraße 17",
-        postalCode: "10365",
-        addressLocality: siteConfig.serviceArea,
-        addressCountry: "DE",
-      });
+      expect(parsed).toHaveLength(2);
+      expect(parsed[0]["@type"]).toBe("WebSite");
+      expect(parsed[1]["@type"]).toBe("LocalBusiness");
     });
   });
 });

@@ -11,3 +11,4 @@ add new cloudinary account with domain email account
 add logos for DE version
 add menu DE in header right side
 add metadata for instagram
+add picture machine on server side

@@ -8,6 +8,7 @@ import { StructuredData } from "@/components/structured-data/structured-data";
 import { de } from "@/dictionaries/de";
 import { siteConfig } from "@/shared/site-config";
 import { routes } from "@/shared/routes";
+import { buildLocalBusiness, buildWebSite } from "@/shared/structured-data";
 // Grid + utilities only: no Reboot, so Bootstrap doesn't override the
 // existing global element styles/reset in globals.css.
 import "bootstrap/dist/css/bootstrap-grid.css";
@@ -85,7 +86,7 @@ export default async function LangRootLayout({
   return (
     <html lang={lang} className={russoOne.variable}>
       <body>
-        <StructuredData />
+        <StructuredData data={[buildLocalBusiness(de), buildWebSite("de")]} />
         <BackgroundVideo />
         <div className="content-layer page-content">
           <header>

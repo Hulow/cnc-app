@@ -25,4 +25,8 @@ export const siteConfig = {
     "CNC Zuschnitt",
     "individuelle CNC-Fertigung",
   ],
+  // Social profile URLs for structured data's `sameAs` (see P1.5 in
+  // SEO-SPEC.md). Empty until the owner provides real profiles — an
+  // invented URL would be worse than no sameAs claim at all.
+  social: [] as readonly string[],
 } as const;

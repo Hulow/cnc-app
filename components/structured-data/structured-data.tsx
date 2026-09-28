@@ -1,32 +1,26 @@
-import { siteConfig } from "@/shared/site-config";
+interface StructuredDataProps {
+  // One JSON-LD object, or several — each renders as its own
+  // <script type="application/ld+json"> block (multiple blocks per page
+  // is standard; see P1.5 in SEO-SPEC.md). Untyped: schema.org shapes
+  // vary per @type, and the builders in shared/structured-data.ts are
+  // the source of truth for what's actually in each one.
+  data: object | object[];
+}
 
-// Schema.org LocalBusiness structured data.
-export function StructuredData() {
-  const data = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: siteConfig.name,
-    description: siteConfig.description,
-    url: siteConfig.siteUrl,
-    email: siteConfig.contact.email,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: siteConfig.contact.address.split(", ")[0],
-      postalCode: siteConfig.contact.address.match(/\d{5}/)?.[0],
-      addressLocality: siteConfig.serviceArea,
-      addressCountry: "DE",
-    },
-    areaServed: {
-      "@type": "City",
-      name: siteConfig.serviceArea,
-    },
-  };
+export function StructuredData({ data }: StructuredDataProps) {
+  const items = Array.isArray(data) ? data : [data];
 
   return (
-    <script
-      type="application/ld+json"
-      // Static, build-time JSON derived from siteConfig — not user input.
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
+    <>
+      {items.map((item, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          // Static, build-time JSON derived from siteConfig/dictionaries
+          // — not user input.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(item) }}
+        />
+      ))}
+    </>
   );
 }

@@ -1,7 +1,10 @@
 // Canonical route map: every public page's path in each language. Single
 // source of truth for hreflang/canonical alternates (per-page metadata,
-// sitemap.ts) and for the language switcher's reverse lookup — keep this
-// in sync whenever a route is added, removed or its slug changes.
+// sitemap.ts, structured-data.ts) and for the language switcher's
+// reverse lookup — keep this in sync whenever a route is added, removed
+// or its slug changes.
+
+import { siteConfig } from "./site-config";
 
 export const SUPPORTED_LANGS = ["en", "de"] as const;
 export type Lang = (typeof SUPPORTED_LANGS)[number];
@@ -35,4 +38,12 @@ export function alternateLanguagePath(pathname: string, currentLang: Lang): stri
   const targetLang: Lang = currentLang === "en" ? "de" : "en";
   const entry = Object.values(routes).find((route) => route[currentLang] === pathname);
   return entry ? entry[targetLang] : routes.home[targetLang];
+}
+
+// Resolves a site-relative path ("/", "/de/leistungen", …) to its full
+// https://atelier-cut.com/... URL — sitemap.ts and structured-data.ts
+// both need this (sitemap URLs and JSON-LD `url`/`item` values must be
+// absolute; unlike page metadata, neither goes through metadataBase).
+export function absoluteUrl(path: string): string {
+  return path === "/" ? siteConfig.siteUrl : `${siteConfig.siteUrl}${path}`;
 }
