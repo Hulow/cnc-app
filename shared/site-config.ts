@@ -9,6 +9,11 @@ export const siteConfig = {
     "Individuelle CNC-Fertigung in Berlin: CNC Fräsen, CNC Zuschnitt und CNC Holzfräsen für Ihre Projekte.",
   siteUrl: rawSiteUrl.replace(/\/+$/, ""),
   serviceArea: "Berlin",
+  // The natural person the footer copyright already names — reused here
+  // (not invented) as the Impressum's operator name. See P1.7 in
+  // SEO-SPEC.md: flagged there for the owner to confirm, since an
+  // Impressum is a legal document, not just a credit line.
+  legalName: "Victor Le Fur",
   contact: {
     email: "viq.hlw@gmail.com",
     address: "Coppistraße 17, 10365 Berlin",

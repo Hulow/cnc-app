@@ -59,10 +59,12 @@ export function buildWebSite(lang: Lang) {
 }
 
 // Short label for a route in breadcrumbs — the nav's own short labels
-// ("Service", not the full <title>), except privacy, which isn't in the
-// nav; its footer label doubles as the breadcrumb label there.
+// ("Service", not the full <title>), except privacy/impressum, which
+// aren't in the nav (footer-only — see P1.7 in SEO-SPEC.md); their
+// footer labels double as the breadcrumb label there.
 function breadcrumbLabel(key: Exclude<RouteKey, "home">, dict: Dictionary): string {
-  return key === "privacy" ? dict.footer.privacy : dict.nav[key];
+  if (key === "privacy" || key === "impressum") return dict.footer[key];
+  return dict.nav[key];
 }
 
 // Subpages only — never called for "home", which needs no breadcrumb

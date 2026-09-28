@@ -90,7 +90,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <main>{children}</main>
           <footer>
             <p className="footer-copyright">
-              <Link href={routes.privacy.en}>{en.footer.privacy}</Link>
+              <Link href={routes.privacy.en}>{en.footer.privacy}</Link> ·{" "}
+              <Link href={routes.impressum.en}>{en.footer.impressum}</Link>
             </p>
             <LanguageSwitcher lang="en" label={en.languageSwitcher.label} />
             <p className="footer-address">

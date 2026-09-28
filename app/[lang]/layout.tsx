@@ -95,7 +95,8 @@ export default async function LangRootLayout({
           <main>{children}</main>
           <footer>
             <p className="footer-copyright">
-              <Link href={routes.privacy.de}>{de.footer.privacy}</Link>
+              <Link href={routes.privacy.de}>{de.footer.privacy}</Link> ·{" "}
+              <Link href={routes.impressum.de}>{de.footer.impressum}</Link>
             </p>
             <LanguageSwitcher lang="de" label={de.languageSwitcher.label} />
             <p className="footer-address">

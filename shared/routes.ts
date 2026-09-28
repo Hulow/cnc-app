@@ -15,6 +15,7 @@ export const routes = {
   workshop: { en: "/workshop", de: "/de/werkstatt" },
   contact: { en: "/contact", de: "/de/kontakt" },
   privacy: { en: "/privacy", de: "/de/datenschutz" },
+  impressum: { en: "/impressum", de: "/de/impressum" },
 } as const;
 
 export type RouteKey = keyof typeof routes;

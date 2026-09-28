@@ -39,6 +39,10 @@ export const de: Dictionary = {
       description:
         "Wie Atelier Cut mit Daten umgeht: keine Analyse- oder Tracking-Cookies, Kontaktformular-Nachrichten werden über Resend versendet, gehostet auf Vercel.",
     },
+    impressum: {
+      title: "Impressum",
+      description: "Impressum für Atelier Cut gemäß § 5 TMG.",
+    },
   },
   intro: {
     home: "Atelier Cut ist eine CNC-Werkstatt in Berlin, geführt von Victor Le Fur, die Objekte, Prototypen und Kleinserien aus Holz, Aluminium und Kunststoff entwirft und fertigt. Die Arbeiten reichen von einzelnen Designobjekten und Kunstwerken bis zu funktionalen Teilen für Möbel, Architekturmodelle und Akustik — etwa Lautsprechergehäuse und Akustikpaneele. Jedes Projekt beginnt mit einer CAD-Datei, einer Skizze oder einfach einer Idee und wird selbst auf einer 3-Achs-CNC-Maschine gefertigt, bevor es in Berlin abgeholt oder verschickt wird.",
@@ -54,6 +58,7 @@ export const de: Dictionary = {
   },
   footer: {
     privacy: "Datenschutz",
+    impressum: "Impressum",
   },
   languageSwitcher: {
     label: "English",
@@ -127,6 +132,19 @@ export const de: Dictionary = {
       "Wenn Sie das Kontaktformular verwenden, werden Ihre Nachricht und Anhänge über Resend, einen E-Mail-Zustelldienst, versendet und nicht in einer Datenbank gespeichert.",
       "Die Website wird von Vercel gehostet und nutzt Cloudinary zur Auslieferung von Videoinhalten. Diese Anbieter verarbeiten möglicherweise technische Informationen wie Ihre IP-Adresse und Browserinformationen, um die Website und ihre Inhalte bereitzustellen.",
     ],
+  },
+  impressum: {
+    title: "Impressum",
+    fields: {
+      name: "Name",
+      address: "Anschrift",
+      email: "E-Mail",
+      phone: "Telefon",
+      vatId: "USt-IdNr.",
+      responsibleContent: "Verantwortlich für den Inhalt (§ 18 Abs. 2 MStV)",
+    },
+    placeholder: "TODO — vom Betreiber zu ergänzen",
+    homeLinkLabel: "Zurück zur Startseite",
   },
   notFound: {
     heading: "Seite nicht gefunden",

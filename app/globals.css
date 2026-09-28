@@ -883,8 +883,9 @@ h3 {
    its two spans with " - " here instead of in the markup — putting the
    dash in JSX would make it its own text node, which the two-row grid
    below would then place as an unwanted third grid item.
-   .footer-copyright is just the Privacy link now — a single node, no
-   spans to join. */
+   .footer-copyright (Privacy · Legal Notice) doesn't need this: its
+   " · " separator is a literal JSX text node between two plain <a>
+   links, not spans, so it isn't part of the grid below either. */
 .footer-address span:first-child::after {
   content: " - ";
 }

@@ -4,7 +4,7 @@ import { absoluteUrl, routes, type RouteKey } from "@/shared/routes";
 // Every public, indexable route key. Keep in sync with app/(en)/*/page.tsx
 // and app/[lang]/*/page.tsx — update this list whenever a route is added
 // or removed.
-const ROUTE_KEYS: RouteKey[] = ["home", "services", "workshop", "contact", "privacy"];
+const ROUTE_KEYS: RouteKey[] = ["home", "services", "workshop", "contact", "privacy", "impressum"];
 
 // One entry per route per language, each carrying the full hreflang set
 // (including itself and x-default) via `alternates.languages` — see the

@@ -18,6 +18,8 @@ describe("Given the sitemap is generated", () => {
         `${siteConfig.siteUrl}/de/kontakt`,
         `${siteConfig.siteUrl}/privacy`,
         `${siteConfig.siteUrl}/de/datenschutz`,
+        `${siteConfig.siteUrl}/impressum`,
+        `${siteConfig.siteUrl}/de/impressum`,
       ]);
     });
 

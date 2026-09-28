@@ -122,4 +122,17 @@ describe("Given buildBreadcrumbs", () => {
       });
     });
   });
+
+  describe("When called for the English impressum page", () => {
+    it("Then it uses the footer's Legal Notice label (impressum isn't in the nav either)", () => {
+      const data = buildBreadcrumbs("impressum", "en", en);
+
+      expect(data.itemListElement[1]).toEqual({
+        "@type": "ListItem",
+        position: 2,
+        name: "Legal Notice",
+        item: `${siteConfig.siteUrl}/impressum`,
+      });
+    });
+  });
 });

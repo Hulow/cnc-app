@@ -27,6 +27,7 @@ export interface Dictionary {
     workshop: PageMeta;
     contact: PageMeta;
     privacy: PageMeta;
+    impressum: PageMeta;
   };
   // TODO: owner copy — one 60-150 word paragraph per page, rendered
   // under the h1 (see P1.4 in SEO-SPEC.md). Drafted from facts already
@@ -49,6 +50,7 @@ export interface Dictionary {
   };
   footer: {
     privacy: string;
+    impressum: string;
   };
   languageSwitcher: {
     // Label for the link to the OTHER language's equivalent page — e.g.
@@ -98,6 +100,26 @@ export interface Dictionary {
     // image asset kept as-is on both languages), so this is translated.
     homeLinkLabel: string;
   };
+  // TODO: owner content — real German Impressum facts (§ 5 TMG), not
+  // drafted by the agent (see P1.7 in SEO-SPEC.md). Only `name`,
+  // `email` and `address` are filled in, because those are already
+  // public elsewhere on the site (footer, contact page) — not new
+  // facts. Everything else the law actually requires (phone,
+  // VAT ID/Kleinunternehmer note, register entry if any) is `placeholder`
+  // because it doesn't exist anywhere in this codebase to reuse.
+  impressum: {
+    title: string;
+    fields: {
+      name: string;
+      address: string;
+      email: string;
+      phone: string;
+      vatId: string;
+      responsibleContent: string;
+    };
+    placeholder: string;
+    homeLinkLabel: string;
+  };
   notFound: {
     heading: string;
     body: string;
@@ -137,6 +159,10 @@ export const en: Dictionary = {
       description:
         "How Atelier Cut handles data: no analytics or tracking cookies, contact form messages are sent via Resend, and the site is hosted on Vercel.",
     },
+    impressum: {
+      title: "Legal Notice",
+      description: "Legal notice (Impressum) for Atelier Cut, required under German law.",
+    },
   },
   intro: {
     home: "Atelier Cut is a CNC workshop in Berlin run by Victor Le Fur, designing and machining objects, prototypes and small production series from wood, aluminium and plastics. Work ranges from one-off design pieces and art objects to functional parts for furniture, architecture models and acoustics — including loudspeaker cabinets and acoustic panels. Every project starts from a CAD file, a sketch or just an idea, and is machined in-house on a 3-axis CNC machine before pickup in Berlin or shipping further afield.",
@@ -152,6 +178,7 @@ export const en: Dictionary = {
   },
   footer: {
     privacy: "Privacy",
+    impressum: "Legal Notice",
   },
   languageSwitcher: {
     label: "Deutsch",
@@ -223,6 +250,19 @@ export const en: Dictionary = {
       "If you use the contact form, your message and attachments are sent via Resend, an email delivery service, and are not stored in any database.",
       "The website is hosted by Vercel and uses Cloudinary to deliver video content. These providers may process technical information, such as your IP address and browser information, to deliver the website and its content.",
     ],
+  },
+  impressum: {
+    title: "Legal Notice",
+    fields: {
+      name: "Name",
+      address: "Address",
+      email: "Email",
+      phone: "Phone",
+      vatId: "VAT ID",
+      responsibleContent: "Responsible for content (§ 18 (2) MStV)",
+    },
+    placeholder: "TODO — to be confirmed by the owner",
+    homeLinkLabel: "Back to Home",
   },
   notFound: {
     heading: "Page not found",
