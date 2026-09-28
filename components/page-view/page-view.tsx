@@ -37,7 +37,6 @@ export function PageView({ logo, service, cuttingSalon, footer }: PageViewProps)
         <Navbar currentView={view} onNavigate={navigate} />
       </header>
       <main>
-        <h1 className="sr-only">{siteConfig.name}</h1>
         {view === "logo" && logo}
         {view === "service" && service}
         {view === "contact" && <ContactForm formId={CONTACT_FORM_ID} onClose={goHome} />}

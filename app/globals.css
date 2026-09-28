@@ -196,7 +196,13 @@ h3 {
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  /* clip-path only, not the legacy clip: rect() — Safari has a repaint
+     bug where keeping both properties on the same element makes it
+     briefly flash visible (falls back to the clip() box) during any
+     nearby repaint: elastic overscroll, or a hover transition elsewhere
+     on the page (e.g. the sticky header's nav icons). clip-path alone
+     is well supported and doesn't trigger this. */
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
