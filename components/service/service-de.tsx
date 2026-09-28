@@ -1,7 +1,7 @@
 import type { Dictionary } from "@/dictionaries/en";
 
 interface ServiceDeProps {
-  dict: Pick<Dictionary, "services" | "pages">;
+  dict: Pick<Dictionary, "services" | "pages" | "intro">;
 }
 
 // German equivalent of Service (components/service/service.tsx). The
@@ -18,6 +18,8 @@ export function ServiceDe({ dict }: ServiceDeProps) {
   return (
     <section aria-labelledby="about-heading">
       <h1 id="about-heading">{dict.pages.services.title}</h1>
+      {/* TODO: owner copy — see dictionaries/de.ts's intro.services comment */}
+      <p className="page-intro">{dict.intro.services}</p>
       <div className="service-grid">
         {Object.values(cards).map(({ heading, items }) => (
           <div className="service-card" key={heading}>

@@ -9,6 +9,8 @@ export default function ContactPage() {
   return (
     <>
       <h1>{en.pages.contact.title}</h1>
+      {/* TODO: owner copy — see dictionaries/en.ts's intro.contact comment */}
+      <p className="page-intro">{en.intro.contact}</p>
       <ContactRoute lang="en" />
     </>
   );

@@ -15,6 +15,8 @@ export function Service() {
   return (
     <section aria-labelledby="about-heading">
       <h1 id="about-heading">{en.pages.services.title}</h1>
+      {/* TODO: owner copy — see dictionaries/en.ts's intro.services comment */}
+      <p className="page-intro">{en.intro.services}</p>
       <div
         className="service-grid"
         style={

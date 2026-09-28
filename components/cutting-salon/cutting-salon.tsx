@@ -14,6 +14,8 @@ export function CuttingSalon() {
   return (
     <section aria-labelledby="cutting-salon-heading">
       <h1 id="cutting-salon-heading">{en.pages.workshop.title}</h1>
+      {/* TODO: owner copy — see dictionaries/en.ts's intro.workshop comment */}
+      <p className="page-intro">{en.intro.workshop}</p>
       <div
         className="cutting-salon-grid"
         style={

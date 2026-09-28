@@ -28,6 +28,19 @@ export interface Dictionary {
     contact: PageMeta;
     privacy: PageMeta;
   };
+  // TODO: owner copy — one 60-150 word paragraph per page, rendered
+  // under the h1 (see P1.4 in SEO-SPEC.md). Drafted from facts already
+  // established elsewhere in the site (materials, machine specs,
+  // application categories, delivery options, accepted file formats) —
+  // no invented tolerances, prices, delivery times or client names.
+  // Needs the owner's review before it's final; see the open questions
+  // in the P1.4 hand-over.
+  intro: {
+    home: string;
+    services: string;
+    workshop: string;
+    contact: string;
+  };
   nav: {
     home: string;
     services: string;
@@ -124,6 +137,12 @@ export const en: Dictionary = {
       description:
         "How Atelier Cut handles data: no analytics or tracking cookies, contact form messages are sent via Resend, and the site is hosted on Vercel.",
     },
+  },
+  intro: {
+    home: "Atelier Cut is a CNC workshop in Berlin run by Victor Le Fur, designing and machining objects, prototypes and small production series from wood, aluminium and plastics. Work ranges from one-off design pieces and art objects to functional parts for furniture, architecture models and acoustics — including loudspeaker cabinets and acoustic panels. Every project starts from a CAD file, a sketch or just an idea, and is machined in-house on a 3-axis CNC machine before pickup in Berlin or shipping further afield.",
+    services: "Every project starts wherever you are: a finished CAD file, a rough sketch, or simply an idea to work out together. From there, Atelier Cut machines one-off pieces, prototypes and small production series in Berlin, matching the process to what you need — a single unique object or a short run of identical parts. Quotes are based on material, size, quantity and design complexity. Once a part is finished, you can pick it up at the workshop in Berlin or have it shipped to you.",
+    workshop: "The workshop runs a 3-axis CNC machine with a 2.2 × 1.5 m working area, cutting wood, aluminium and plastics, programmed with grblHAL, Universal Gcode Sender and designed in Fusion 360. It's the machine behind a wide range of projects: loudspeaker cabinets and acoustic panels or diffusers, furniture parts, art pieces and architecture models, alongside prototypes and small production series for design and engineering work.",
+    contact: "To request a quote, send a CAD file (DXF, DWG, STEP or STP) or a PDF/image sketch of what you need, along with the dimensions, the material you'd like it made from, and the quantity. The more detail you can share up front, the faster a quote can come back — but if you're not sure yet, a rough sketch and a description are enough to start the conversation.",
   },
   nav: {
     home: "Home",

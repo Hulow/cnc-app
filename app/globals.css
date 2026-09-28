@@ -566,6 +566,18 @@ h3 {
   margin: 0;
 }
 
+/* Per-page descriptive paragraph under the h1 (see P1.4 in
+   SEO-SPEC.md). Capped and centered as a block, same pattern as
+   .welcome-screen-content p, so a full paragraph of body text stays a
+   comfortable reading width instead of stretching edge to edge. Left
+   (not justified, unlike the global `p` default) — justify text reads
+   raggedly at this width. */
+.page-intro {
+  max-width: 40rem;
+  margin-inline: auto;
+  text-align: left;
+}
+
 /* ==========================================================================
    Page Shell & Navigation
 

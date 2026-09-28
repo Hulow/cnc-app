@@ -10,6 +10,8 @@ export default function GermanHome() {
     <div className="home-content">
       <Logo />
       <h1 className="home-heading">{de.pages.home.title}</h1>
+      {/* TODO: owner copy — see dictionaries/de.ts's intro.home comment */}
+      <p className="page-intro">{de.intro.home}</p>
     </div>
   );
 }

@@ -10,6 +10,8 @@ export default function Home() {
     <div className="home-content">
       <Logo />
       <h1 className="home-heading">{en.pages.home.title}</h1>
+      {/* TODO: owner copy — see dictionaries/en.ts's intro.home comment */}
+      <p className="page-intro">{en.intro.home}</p>
     </div>
   );
 }
