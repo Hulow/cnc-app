@@ -234,9 +234,9 @@ h3 {
    whenever autoplay is blocked (e.g. Low Power Mode) — even without a
    `controls` attribute — and there's no standard way to opt out of it.
    This decorative background video should never show that affordance;
-   WelcomeScreen's mandatory "Continue" button already recovers playback
-   via BackgroundVideo's exposed play(), so hiding the button doesn't lose
-   the recovery path, just WebKit's visual for it. */
+   BackgroundVideo's own .background-video-play button (below) already
+   recovers playback, so hiding the native one doesn't lose the recovery
+   path, just WebKit's visual for it. */
 .background-video::-webkit-media-controls,
 .background-video::-webkit-media-controls-start-playback-button {
   display: none !important;
@@ -253,6 +253,33 @@ h3 {
   .background-video {
     object-position: center 65%;
   }
+}
+
+/* Small, unobtrusive recovery affordance for the rare case the browser
+   blocks autoplay outright (see BackgroundVideo/useBackgroundVideo's
+   onBlocked) — never a full-screen gate. Fixed above the sticky footer
+   (--site-nav-height + a gap) so the two never overlap; z-index above
+   .content-layer's so it stays clickable even where the two boxes
+   intersect. */
+.background-video-play {
+  position: fixed;
+  right: var(--space-sm);
+  bottom: calc(var(--site-nav-height) + var(--space-md));
+  z-index: 2;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--logo-color);
+  font-size: var(--font-size-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Optical centering for the ▶ glyph, whose visual weight sits slightly
+     left of its character box. */
+  padding-left: 0.2em;
+  cursor: pointer;
 }
 
 /* ==========================================================================
@@ -276,14 +303,39 @@ h3 {
 }
 
 /* ==========================================================================
-   Welcome Screen
+   Privacy Page
    ========================================================================== */
 
-/* The entry point to the whole app: a full-screen, light-transparent gate
-   over everything else (video + page content), so the site is briefly
-   visible behind it. Also doubles as the genuine user gesture Safari needs
-   before it will allow the background video to autoplay. Sits above the
-   content layer so it's always on top. */
+/* Reuses the exact look the old full-screen welcome-screen modal had
+   (.welcome-screen-content/.welcome-screen-text below), but as normal,
+   crawlable page content instead of a gate: fills the space between the
+   sticky header and footer — flex: 1, same mechanism .page-content main
+   itself uses to fill the page — rather than covering them. Full-bleed
+   (same width: 100vw + negative left margin trick as .page-content
+   header/footer) so the blue background reaches the real viewport edges
+   horizontally, matching the old modal. Negative top/bottom margins
+   cancel out the residual --space-sm gap .page-content header/main
+   still leave above/below main (see their own margin comments), so the
+   blue reaches flush against the header and footer too, with no gap. */
+.privacy-panel {
+  flex: 1;
+  width: 100vw;
+  margin: calc(var(--space-sm) * -1) calc(50% - 50vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  background: var(--logo-color);
+}
+
+/* ==========================================================================
+   Overlay Screen (used by HelpOverlay and the privacy page's link back to
+   Home; class name predates the removal of the mandatory welcome/consent
+   gate that used to share it — see P0.4 in SEO-SPEC.md)
+   ========================================================================== */
+
+/* A full-screen, light-transparent dialog over everything else (video +
+   page content). Sits above the content layer so it's always on top. */
 .welcome-screen {
   position: fixed;
   inset: 0;
@@ -367,16 +419,23 @@ h3 {
   }
 }
 
-/* Continue (see overlay-screen.tsx — shared by WelcomeScreen and
-   HelpOverlay) is an image button: button-continue-*.svg already draws
-   its own pill border and label, so the generic button chrome above
-   (border, padding, background, border-radius) is cancelled here. Each
+/* Continue (see overlay-screen.tsx, used by HelpOverlay, and the privacy
+   page's own link back to Home) is an image button: button-continue-
+   *.svg already draws its own pill border and label, so the generic
+   button chrome above (border, padding, background, border-radius) is
+   cancelled here. .welcome-screen-continue is shared by a real <button>
+   (HelpOverlay's dismiss action) and a <Link> (the privacy page's
+   navigation back to "/"), hence both element selectors below. Each
    selector repeats the pseudo-class alongside .welcome-screen-continue
    so it's strictly more specific than the generic rules above (extra
    class), winning regardless of source order. */
 .welcome-screen-content button.welcome-screen-continue,
 .welcome-screen-content button.welcome-screen-continue:focus-visible,
-.welcome-screen-content button.welcome-screen-continue:active {
+.welcome-screen-content button.welcome-screen-continue:active,
+.welcome-screen-content a.welcome-screen-continue,
+.welcome-screen-content a.welcome-screen-continue:focus-visible,
+.welcome-screen-content a.welcome-screen-continue:active {
+  display: inline-block;
   padding: 0;
   border: none;
   border-radius: 0;
@@ -384,7 +443,8 @@ h3 {
 }
 
 @media (hover: hover) {
-  .welcome-screen-content button.welcome-screen-continue:hover {
+  .welcome-screen-content button.welcome-screen-continue:hover,
+  .welcome-screen-content a.welcome-screen-continue:hover {
     padding: 0;
     border: none;
     border-radius: 0;
@@ -418,11 +478,13 @@ h3 {
 }
 
 @media (hover: hover) {
-  .welcome-screen-content button.welcome-screen-continue:hover .welcome-screen-continue-icon-default {
+  .welcome-screen-content button.welcome-screen-continue:hover .welcome-screen-continue-icon-default,
+  .welcome-screen-content a.welcome-screen-continue:hover .welcome-screen-continue-icon-default {
     opacity: 0;
   }
 
-  .welcome-screen-content button.welcome-screen-continue:hover .welcome-screen-continue-icon-hover {
+  .welcome-screen-content button.welcome-screen-continue:hover .welcome-screen-continue-icon-hover,
+  .welcome-screen-content a.welcome-screen-continue:hover .welcome-screen-continue-icon-hover {
     opacity: 1;
   }
 }
@@ -766,40 +828,30 @@ h3 {
   }
 }
 
-/* Tablet width and up: the address and copyright each render as a
-   single line (see the media query below, which only kicks in below
-   tablet width), so join their two spans with " - " here instead of
-   in the markup — putting the dash in JSX would make it its own text
-   node, which the two-row grid below would then place as an unwanted
-   third grid item. */
-.footer-copyright span:first-child::after,
+/* Tablet width and up: the address renders as a single line (see the
+   media query below, which only kicks in below tablet width), so join
+   its two spans with " - " here instead of in the markup — putting the
+   dash in JSX would make it its own text node, which the two-row grid
+   below would then place as an unwanted third grid item.
+   .footer-copyright is just the Privacy link now — a single node, no
+   spans to join. */
 .footer-address span:first-child::after {
   content: " - ";
 }
 
 /* Below tablet width only (matches the .service-grid/.cutting-salon-grid
    breakpoint above): stack the address (Coppistraße 17 / 10365 Berlin)
-   and the copyright line (© year - Victor Le Fur / CNC Design &
-   fabrication) each on two explicit, full-width rows (grid rather than
-   flex-column, so each row is its own 100%-width track) with each span
-   pinned to the start or end of its own row — this keeps every line
-   flush against the same edge regardless of how much shorter one
-   line's text is than the other's. The address stays right-aligned,
-   the copyright left-aligned. At tablet width and up there's enough
-   room for both to sit on one line each, so no override is needed
-   there. */
+   on two explicit, full-width rows (grid rather than flex-column, so
+   each row is its own 100%-width track) with each span pinned to the
+   end of its own row — this keeps every line flush against the same
+   edge regardless of how much shorter one line's text is than the
+   other's. At tablet width and up there's enough room for both spans to
+   sit on one line, so no override is needed there. */
 @media (max-width: 767px) {
-  .footer-address,
-  .footer-copyright {
+  .footer-address {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
-  }
-
-  .footer-copyright span {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
   }
 
   .footer-address span {
@@ -808,22 +860,21 @@ h3 {
     justify-content: flex-end;
   }
 
-  .footer-copyright span:first-child::after,
   .footer-address span:first-child::after {
     content: none;
   }
 }
 
 /* Scales with the footer's own rendered width (via cqi, not vw) so the
-   copyright line keeps shrinking in lockstep with however much room a
+   address line keeps shrinking in lockstep with however much room a
    narrow screen actually leaves it, instead of wrapping onto a second
-   line. 3cqi is calibrated for this specific ~55-character string (font-
-   size * ~0.5 average-char-width-ratio * 55 chars ≈ container width at
-   that ratio) with headroom for Arial's wider glyphs; --font-size-sm
-   caps it back down to the normal fluid size once there's plenty of
-   room to spare. 0.65rem is a legibility floor for pathological widths
-   — below that, wrapping to a second (smaller) line is the fallback
-   rather than shrinking further. */
+   line — originally calibrated against the old, much longer copyright
+   string; the address ("Coppistraße 17 - 10365 Berlin") is shorter, so
+   this now has headroom to spare rather than being a tight fit.
+   --font-size-sm caps it back down to the normal fluid size once
+   there's plenty of room. 0.65rem is a legibility floor for
+   pathological widths — below that, wrapping to a second (smaller) line
+   is the fallback rather than shrinking further. */
 .page-content footer p {
   font-weight: bold;
   font-size: clamp(0.65rem, 3cqi, var(--font-size-sm));

@@ -7,13 +7,13 @@ interface OverlayScreenProps {
   children: ReactNode;
 }
 
-// Shared shell behind WelcomeScreen and HelpOverlay: a full-screen, centered
-// dialog over the .welcome-screen backdrop, with a text block and a single
-// action button. Callers own their own copy and button behavior. Both
-// callers currently pass buttonLabel="Continue", which is also the image's
-// alt text (see below) — a different label would still work visually
-// (the graphic doesn't change), but would read oddly to screen readers,
-// since button-continue-*.svg is baked in either way.
+// Shell behind HelpOverlay: a full-screen, centered dialog over the
+// .welcome-screen backdrop, with a text block and a single action button.
+// The caller owns its own copy and button behavior. HelpOverlay passes
+// buttonLabel="Continue", which is also the image's alt text (see below) —
+// a different label would still work visually (the graphic doesn't
+// change), but would read oddly to screen readers, since
+// button-continue-*.svg is baked in either way.
 export function OverlayScreen({ hidden = false, buttonLabel, onButtonClick, children }: OverlayScreenProps) {
   return (
     <div className="welcome-screen" role="dialog" aria-modal="true" hidden={hidden}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/shared/site-config";
 import { useBackgroundVideo } from "./use-background-video";
 import { Video } from "./video";
@@ -8,24 +8,21 @@ import { Video } from "./video";
 // Orchestrates the full-screen background video: owns the video ref and
 // playback/failure state, and wires the (presentational) <Video> together
 // with the autoplay hook. Content elsewhere on the page must remain fully
-// usable if this never loads or plays. Renders no overlay of its own —
-// callers that need a gesture to unblock playback (e.g. ExperienceGate's
-// WelcomeScreen) do so via the `play()` exposed on `ref`.
+// usable if this never loads or plays. Fully self-contained: when the
+// browser blocks autoplay (no user gesture yet), it renders its own small
+// "Play" button rather than depending on some other gesture elsewhere on
+// the page (there's no mandatory welcome/consent gate to piggyback on
+// anymore — see P0.4 in SEO-SPEC.md).
 
-export interface BackgroundVideoHandle {
-  play: () => void;
-}
-
-interface BackgroundVideoProps {
-  ref?: Ref<BackgroundVideoHandle | null>;
-}
-
-export function BackgroundVideo({ ref }: BackgroundVideoProps) {
+export function BackgroundVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const [blocked, setBlocked] = useState(false);
 
-  useBackgroundVideo(videoRef, { enabled: !failed });
+  const handleBlocked = useCallback(() => setBlocked(true), []);
+
+  useBackgroundVideo(videoRef, { enabled: !failed, onBlocked: handleBlocked });
 
   // The <video autoPlay> tag is in the server-rendered HTML, so the browser
   // can start playing it before this component finishes hydrating and
@@ -44,19 +41,13 @@ export function BackgroundVideo({ ref }: BackgroundVideoProps) {
     }
   }, []);
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      play: () => {
-        // Callers must invoke this synchronously within a real user
-        // gesture (e.g. first statement in a click handler) — Safari only
-        // treats play() as genuine if there's no await/state-update
-        // between the trusted event and this call.
-        videoRef.current?.play().catch(() => {});
-      },
-    }),
-    [],
-  );
+  function handlePlayClick() {
+    // Must call play() synchronously within the trusted click event, not
+    // after an await or a state update — Safari only treats it as a
+    // genuine user gesture otherwise.
+    videoRef.current?.play().catch(() => {});
+    setBlocked(false);
+  }
 
   if (failed) {
     // Fall back to the plain page background rather than a broken player.
@@ -64,21 +55,36 @@ export function BackgroundVideo({ ref }: BackgroundVideoProps) {
   }
 
   return (
-    <Video
-      ref={videoRef}
-      src={siteConfig.video.src}
-      poster={siteConfig.video.poster}
-      playing={playing}
-      onPlaying={() => setPlaying(true)}
-      onPause={() => setPlaying(false)}
-      onEmptied={() => setPlaying(false)}
-      onError={(error) => {
-        console.error("[BackgroundVideo] React onError fired", {
-          error: error ? { code: error.code, message: error.message } : null,
-        });
+    <>
+      <Video
+        ref={videoRef}
+        src={siteConfig.video.src}
+        poster={siteConfig.video.poster}
+        playing={playing}
+        onPlaying={() => {
+          setPlaying(true);
+          setBlocked(false);
+        }}
+        onPause={() => setPlaying(false)}
+        onEmptied={() => setPlaying(false)}
+        onError={(error) => {
+          console.error("[BackgroundVideo] React onError fired", {
+            error: error ? { code: error.code, message: error.message } : null,
+          });
 
-        setFailed(true);
-      }}
-    />
+          setFailed(true);
+        }}
+      />
+      {blocked && !playing && (
+        <button
+          type="button"
+          className="background-video-play"
+          onClick={handlePlayClick}
+          aria-label="Play background video"
+        >
+          ▶
+        </button>
+      )}
+    </>
   );
 }

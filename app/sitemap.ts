@@ -5,7 +5,7 @@ import { siteConfig } from "@/shared/site-config";
 // page). Keep in sync with app/*/page.tsx — update this list whenever a
 // route is added or removed. Language alternates land here once P1.1
 // ships.
-const PUBLIC_PATHS = ["", "/services", "/workshop", "/contact"];
+const PUBLIC_PATHS = ["", "/services", "/workshop", "/contact", "/privacy"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

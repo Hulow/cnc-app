@@ -1,16 +1,12 @@
-import { createRef } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { act, cleanup, fireEvent, render } from "@testing-library/react";
-import { BackgroundVideo, type BackgroundVideoHandle } from "./background-video";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { BackgroundVideo } from "./background-video";
 import { siteConfig } from "@/shared/site-config";
 
 // These are composition-level tests: they check that BackgroundVideo wires
-// the video element, the autoplay hook, and its imperative `play()` handle
-// together correctly. The autoplay retry logic itself is covered in
-// use-background-video.test.ts. BackgroundVideo no longer owns any
-// overlay — that's WelcomeScreen/ExperienceGate's job now
-// (components/welcome-screen/welcome-screen.test.tsx,
-// components/experience-gate/experience-gate.test.tsx).
+// the video element, the autoplay hook, and its own "blocked" recovery
+// button together correctly. The autoplay retry logic itself is covered in
+// use-background-video.test.ts.
 
 function getVideo(container: HTMLElement) {
   return container.querySelector("video") as HTMLVideoElement;
@@ -43,11 +39,10 @@ describe("Given the background video is rendered", () => {
       expect(video.tabIndex).toBe(-1);
     });
 
-    it("Then it renders no overlay of its own", () => {
-      const { container } = render(<BackgroundVideo />);
+    it("Then it renders no Play button while autoplay hasn't been blocked", () => {
+      render(<BackgroundVideo />);
 
-      expect(container.querySelector(".video-overlay")).not.toBeInTheDocument();
-      expect(container.querySelector(".welcome-screen")).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Play background video" })).not.toBeInTheDocument();
     });
   });
 
@@ -104,18 +99,45 @@ describe("Given the background video is rendered", () => {
   });
 });
 
-describe("Given a caller holds a ref to the background video", () => {
-  describe("When the ref's play() is called", () => {
-    it("Then the underlying video element's play() is invoked", () => {
-      const ref = createRef<BackgroundVideoHandle>();
-      const { container } = render(<BackgroundVideo ref={ref} />);
-      const video = getVideo(container);
+describe("Given the browser blocks autoplay (no user gesture yet)", () => {
+  beforeEach(() => {
+    vi.spyOn(HTMLMediaElement.prototype, "play").mockRejectedValue(
+      Object.assign(new Error("not allowed"), { name: "NotAllowedError" }),
+    );
+  });
 
-      act(() => {
-        ref.current?.play();
-      });
+  describe("When autoplay is rejected", () => {
+    it("Then a small Play button appears", async () => {
+      render(<BackgroundVideo />);
+
+      expect(
+        await screen.findByRole("button", { name: "Play background video" }),
+      ).toBeInTheDocument();
+    });
+
+    it("Then nothing is logged to console.error (this rejection is expected)", async () => {
+      render(<BackgroundVideo />);
+
+      await screen.findByRole("button", { name: "Play background video" });
+      expect(console.error).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("When the visitor clicks the Play button", () => {
+    it("Then the video's play() is invoked again and the button disappears", async () => {
+      const { container } = render(<BackgroundVideo />);
+      const video = getVideo(container);
+      const playButton = await screen.findByRole("button", { name: "Play background video" });
+
+      vi.mocked(video.play).mockClear().mockResolvedValue(undefined);
+      fireEvent.click(playButton);
 
       expect(video.play).toHaveBeenCalled();
+      await waitFor(() =>
+        expect(
+          screen.queryByRole("button", { name: "Play background video" }),
+        ).not.toBeInTheDocument(),
+      );
     });
   });
 });

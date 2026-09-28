@@ -12,6 +12,7 @@ describe("Given the sitemap is generated", () => {
         `${siteConfig.siteUrl}/services`,
         `${siteConfig.siteUrl}/workshop`,
         `${siteConfig.siteUrl}/contact`,
+        `${siteConfig.siteUrl}/privacy`,
       ]);
     });
 

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { ExperienceGate } from "@/components/experience-gate/experience-gate";
+import Link from "next/link";
+import { BackgroundVideo } from "@/components/background-video/background-video";
 import { Navbar } from "@/components/navbar/navbar";
 import { StructuredData } from "@/components/structured-data/structured-data";
 import { siteConfig } from "@/shared/site-config";
@@ -64,27 +65,23 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={russoOne.variable}>
       <body>
         <StructuredData />
-        <ExperienceGate>
-          <div className="content-layer page-content">
-            <header>
-              <Navbar />
-            </header>
-            <main>{children}</main>
-            <footer>
-              <p className="footer-copyright">
-                <span>
-                  &copy; {new Date().getFullYear()} -  Victor Le Fur
-                </span>{" "}
-                <span>CNC cutting services</span>
-              </p>
-              <p className="footer-address">
-                {siteConfig.contact.address.split(", ").map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
-              </p>
-            </footer>
-          </div>
-        </ExperienceGate>
+        <BackgroundVideo />
+        <div className="content-layer page-content">
+          <header>
+            <Navbar />
+          </header>
+          <main>{children}</main>
+          <footer>
+            <p className="footer-copyright">
+              <Link href="/privacy">Privacy</Link>
+            </p>
+            <p className="footer-address">
+              {siteConfig.contact.address.split(", ").map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </p>
+          </footer>
+        </div>
       </body>
     </html>
   );
