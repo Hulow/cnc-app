@@ -3,6 +3,9 @@ import type { Ref } from "react";
 interface VideoProps {
   ref: Ref<HTMLVideoElement | null>;
   src: string;
+  // Narrower encode for phones/small tablets (see P2.1 in SEO-SPEC.md) —
+  // optional so callers without one just get the single `src`.
+  narrowSrc?: string;
   poster?: string;
   playing: boolean;
   onPlaying: () => void;
@@ -16,6 +19,7 @@ interface VideoProps {
 export function Video({
   ref,
   src,
+  narrowSrc,
   poster,
   playing,
   onPlaying,
@@ -27,13 +31,16 @@ export function Video({
     <video
       ref={ref}
       className="full-bleed object-cover background-video"
-      src={src}
       poster={poster}
       autoPlay
       muted
       loop
       playsInline
-      preload="auto"
+      // "metadata" (not "auto"): fetches just enough to get dimensions
+      // and start playback promptly, instead of eagerly downloading the
+      // whole file before the browser even knows if/when it'll play —
+      // see P2.1 in SEO-SPEC.md.
+      preload="metadata"
       aria-hidden="true"
       tabIndex={-1}
       data-playing={playing}
@@ -41,6 +48,14 @@ export function Video({
       onPause={onPause}
       onEmptied={onEmptied}
       onError={(event) => onError(event.currentTarget.error)}
-    />
+    >
+      {/* The browser picks the first matching <source> at load time, no
+          JS needed — same mobile breakpoint the rest of the site's
+          layout uses (see globals.css). Must come before the
+          unconditional wide `src` below: <source> election is
+          first-match, not most-specific. */}
+      {narrowSrc && <source src={narrowSrc} media="(max-width: 767px)" />}
+      <source src={src} />
+    </video>
   );
 }

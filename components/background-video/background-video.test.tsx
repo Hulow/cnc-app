@@ -30,7 +30,12 @@ describe("Given the background video is rendered", () => {
       const video = getVideo(container);
 
       expect(video).toBeInTheDocument();
-      expect(video.getAttribute("src")).toBe(siteConfig.video.src);
+      const sources = [...video.querySelectorAll("source")];
+      expect(sources.map((source) => source.getAttribute("src"))).toEqual([
+        siteConfig.video.narrowSrc,
+        siteConfig.video.src,
+      ]);
+      expect(video.getAttribute("poster")).toBe(siteConfig.video.poster);
       expect(video.autoplay).toBe(true);
       expect(video.muted).toBe(true);
       expect(video.loop).toBe(true);
@@ -77,7 +82,7 @@ describe("Given the background video is rendered", () => {
   });
 
   describe("When the video errors", () => {
-    it("Then it logs the media error and falls back to rendering nothing", () => {
+    it("Then it logs the media error and falls back to the poster image", () => {
       const { container } = render(<BackgroundVideo />);
       const video = getVideo(container);
 
@@ -94,7 +99,10 @@ describe("Given the background video is rendered", () => {
         "[BackgroundVideo] React onError fired",
         expect.objectContaining({ error: { code: 4, message: "MEDIA_ELEMENT_ERROR" } }),
       );
-      expect(container).toBeEmptyDOMElement();
+      expect(container.querySelector("video")).not.toBeInTheDocument();
+      const fallbackImg = container.querySelector("img");
+      expect(fallbackImg).toHaveAttribute("src", siteConfig.video.poster);
+      expect(fallbackImg).toHaveClass("full-bleed", "object-cover", "background-video");
     });
   });
 });

@@ -50,8 +50,21 @@ export function BackgroundVideo() {
   }
 
   if (failed) {
-    // Fall back to the plain page background rather than a broken player.
-    return null;
+    // Cloudinary quota/outage fallback (see P2.1 in SEO-SPEC.md and
+    // note.md): show the poster image rather than an empty background.
+    // Only falls through to a truly blank background if no poster is
+    // configured at all.
+    if (!siteConfig.video.poster) return null;
+
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={siteConfig.video.poster}
+        alt=""
+        aria-hidden="true"
+        className="full-bleed object-cover background-video"
+      />
+    );
   }
 
   return (
@@ -59,6 +72,7 @@ export function BackgroundVideo() {
       <Video
         ref={videoRef}
         src={siteConfig.video.src}
+        narrowSrc={siteConfig.video.narrowSrc}
         poster={siteConfig.video.poster}
         playing={playing}
         onPlaying={() => {

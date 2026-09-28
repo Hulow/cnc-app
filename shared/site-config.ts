@@ -18,10 +18,17 @@ export const siteConfig = {
     email: "viq.hlw@gmail.com",
     address: "Coppistraße 17, 10365 Berlin",
   },
+  // Cloudinary transformations (see P2.1 in SEO-SPEC.md): f_auto/q_auto
+  // let Cloudinary pick the best format/quality per browser; w_1920/w_960
+  // cap delivered resolution so a phone isn't served desktop-size video.
+  // poster reuses the same public ID with so_0 (frame at 0s) and a .jpg
+  // extension — Cloudinary's video-thumbnail convention — so there's no
+  // separate asset to keep in sync with the video itself.
   video: {
-    src: "https://res.cloudinary.com/wkjycihi/video/upload/v1789982751/cnc.mp4",
-    // TODO: add a Cloudinary-hosted poster image once available.
-    poster: undefined as string | undefined,
+    src: "https://res.cloudinary.com/wkjycihi/video/upload/f_auto,q_auto,w_1920/v1789982751/cnc.mp4",
+    narrowSrc: "https://res.cloudinary.com/wkjycihi/video/upload/f_auto,q_auto,w_960/v1789982751/cnc.mp4",
+    poster:
+      "https://res.cloudinary.com/wkjycihi/video/upload/so_0,f_auto,q_auto,w_1920/v1789982751/cnc.jpg",
   },
   keywords: [
     "CNC Fräsen Berlin",
