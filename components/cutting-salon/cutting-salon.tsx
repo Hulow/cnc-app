@@ -1,10 +1,25 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
+
+// Widest heading logo below (machine-capabilities.svg, 348x23) — feeds
+// .card-heading-logo's shrink formula in globals.css so every heading in
+// this grid shrinks by the same factor if the grid gets too narrow for
+// this one, instead of only this one shrinking. Keep in sync with the
+// img width/height attributes below.
+const MAX_LOGO_ASPECT_RATIO = 348 / 23;
 
 // Server Component: same rendering rationale as Service — see that file.
 export function CuttingSalon() {
   return (
     <section aria-labelledby="cutting-salon-heading">
-      <div className="cutting-salon-grid">
+      <div
+        className="cutting-salon-grid"
+        style={
+          {
+            "--card-heading-logo-max-ratio": MAX_LOGO_ASPECT_RATIO,
+          } as CSSProperties
+        }
+      >
         <div className="cutting-salon-card">
           <h3>
             {/* eslint-disable-next-line @next/next/no-img-element */}

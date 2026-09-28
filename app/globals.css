@@ -970,6 +970,11 @@ h3 {
   padding: var(--space-md);
   background: rgba(255, 255, 255, 0.6);
   border-radius: 0.375rem;
+  /* Makes this card's own content-box width queryable as cqw below —
+     every card in a grid shares the same width (see .service-grid/
+     .cutting-salon-grid's equal grid-template-columns), so a single
+     cqw-based formula stays correct for all of them. */
+  container-type: inline-size;
 }
 
 .service-card h3,
@@ -978,13 +983,21 @@ h3 {
 }
 
 /* Sized off the h3's own fluid font-size (em, not a fixed unit) so the
-   logo scales the same way the text heading it replaces used to;
-   inline-block so the parent's text-align: center above still centers
-   it. Shared by both .service-card and .cutting-salon-card headings. */
+   logo scales the same way the text heading it replaces used to. Capped
+   by calc(100cqw / --card-heading-logo-max-ratio) so that when the
+   widest logo in a grid (--card-heading-logo-max-ratio, set in
+   Service/CuttingSalon from that grid's widest logo) would otherwise
+   overflow the card and get shrunk by the global `img { max-width:
+   100% }` reset, every logo in that grid shrinks by the same factor —
+   same technique as .site-nav-icon-wrap above, see its comment.
+   Without this, only the wide logo would shrink, leaving the row's
+   logos at visibly different heights. inline-block so the parent's
+   text-align: center above still centers it. Shared by both
+   .service-card and .cutting-salon-card headings. */
 .card-heading-logo {
   display: inline-block;
-  height: 1.4em;
   width: auto;
+  height: min(1.4em, calc(100cqw / var(--card-heading-logo-max-ratio, 16)));
 }
 
 .service-item,
