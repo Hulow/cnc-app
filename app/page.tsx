@@ -24,8 +24,9 @@ export default function Home() {
                 <span>CNC cutting services</span>
               </p>
               <p className="footer-address">
-                <span>Coppistraße 17</span>{" "}
-                <span>10365 Berlin</span>
+                {siteConfig.contact.address.split(", ").map((line) => (
+                  <span key={line}>{line}</span>
+                ))}
               </p>
             </footer>
           }

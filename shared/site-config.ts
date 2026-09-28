@@ -1,17 +1,17 @@
 // Single source of truth for site-wide content used across metadata,
-// structured data, and page components. Replace placeholder values
-// (siteUrl, contact) with real production values before launch.
+// structured data, and page components.
+
+const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://atelier-cut.com";
 
 export const siteConfig = {
-  name: "CNC Berlin",
+  name: "Atelier Cut",
   description:
     "Individuelle CNC-Fertigung in Berlin: CNC Fräsen, CNC Zuschnitt und CNC Holzfräsen für Ihre Projekte.",
-  // TODO: replace with the real production domain before launch.
-  siteUrl: "https://example.com",
+  siteUrl: rawSiteUrl.replace(/\/+$/, ""),
   serviceArea: "Berlin",
   contact: {
     email: "viq.hlw@gmail.com",
-    address: "Coppistraße 17, 10963 Berlin",
+    address: "Coppistraße 17, 10365 Berlin",
   },
   video: {
     src: "https://res.cloudinary.com/wkjycihi/video/upload/v1789982751/cnc.mp4",
