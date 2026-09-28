@@ -1,18 +1,16 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useNavBar } from "./use-navbar";
 
 const MENU_ID = "site-nav-menu";
 
-// Plain <a> anchors, not next/link: these are same-page hash links, not
-// route navigation (matches the mailto: link pattern in Contact). `view`
-// is an opaque string PageView maps to a section.
 const NAV_LINKS = [
   {
-    href: "#home",
+    href: "/",
     label: "Home",
-    view: "logo",
     icon: {
       src: "/menu/button-home-default.svg",
       hoverSrc: "/menu/button-home-hover.svg",
@@ -22,9 +20,8 @@ const NAV_LINKS = [
     },
   },
   {
-    href: "#service",
+    href: "/services",
     label: "Service",
-    view: "service",
     icon: {
       src: "/menu/button-service-default.svg",
       hoverSrc: "/menu/button-service-hover.svg",
@@ -34,9 +31,8 @@ const NAV_LINKS = [
     },
   },
   {
-    href: "#contact",
+    href: "/contact",
     label: "Contact",
-    view: "contact",
     icon: {
       src: "/menu/button-contact-default.svg",
       hoverSrc: "/menu/button-contact-hover.svg",
@@ -46,9 +42,8 @@ const NAV_LINKS = [
     },
   },
   {
-    href: "#cnc",
+    href: "/workshop",
     label: "Cutting Salon",
-    view: "cutting-salon",
     icon: {
       src: "/menu/button-cutting-salon-default.svg",
       hoverSrc: "/menu/button-cutting-salon-hover.svg",
@@ -68,18 +63,14 @@ const MAX_ICON_ASPECT_RATIO = Math.max(
   ...NAV_LINKS.map(({ icon }) => icon.width / icon.height),
 );
 
-interface NavbarProps {
-  currentView?: string;
-  onNavigate?: (view: string) => void;
-}
-
 // Rendering only: open/closed state lives in useNavBar. The menu markup
 // itself is always rendered (server-renderable — see .site-nav-menu
 // below) rather than mounted on open, so it ships in the initial HTML
 // and doesn't pay a mount/unmount cost on every toggle.
-export function Navbar({ currentView, onNavigate }: NavbarProps) {
+export function Navbar() {
   const { isOpen, hasOpened, toggle, close } = useNavBar();
   const navRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
 
   // pointerdown (not click): fires before the toggle button's own click
   // handler would re-open a just-closed menu, and catching it on the way
@@ -171,19 +162,13 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
           } as CSSProperties
         }
       >
-        {NAV_LINKS.map(({ href, label, view, icon }) => (
+        {NAV_LINKS.map(({ href, label, icon }) => (
           <li key={href}>
-            <a
+            <Link
               href={href}
               className="site-nav-icon-link"
-              aria-current={view === currentView ? "page" : undefined}
-              onClick={(event) => {
-                if (view) {
-                  event.preventDefault();
-                  onNavigate?.(view);
-                }
-                close();
-              }}
+              aria-current={href === pathname ? "page" : undefined}
+              onClick={close}
             >
               <span
                 className="site-nav-icon-wrap"
@@ -220,7 +205,7 @@ export function Navbar({ currentView, onNavigate }: NavbarProps) {
                 />
                 {/* eslint-enable @next/next/no-img-element */}
               </span>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

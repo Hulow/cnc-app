@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { ExperienceGate } from "@/components/experience-gate/experience-gate";
+import { Navbar } from "@/components/navbar/navbar";
+import { StructuredData } from "@/components/structured-data/structured-data";
 import { siteConfig } from "@/shared/site-config";
 // Grid + utilities only: no Reboot, so Bootstrap doesn't override the
 // existing global element styles/reset in globals.css.
@@ -53,10 +56,36 @@ export const viewport: Viewport = {
   ],
 };
 
+// The video, nav and footer live here (not per-route) so they persist
+// across navigations instead of remounting — only <main>'s content
+// (the `children` App Router passes in) changes per route.
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={russoOne.variable}>
-      <body>{children}</body>
+      <body>
+        <StructuredData />
+        <ExperienceGate>
+          <div className="content-layer page-content">
+            <header>
+              <Navbar />
+            </header>
+            <main>{children}</main>
+            <footer>
+              <p className="footer-copyright">
+                <span>
+                  &copy; {new Date().getFullYear()} -  Victor Le Fur
+                </span>{" "}
+                <span>CNC cutting services</span>
+              </p>
+              <p className="footer-address">
+                {siteConfig.contact.address.split(", ").map((line) => (
+                  <span key={line}>{line}</span>
+                ))}
+              </p>
+            </footer>
+          </div>
+        </ExperienceGate>
+      </body>
     </html>
   );
 }
