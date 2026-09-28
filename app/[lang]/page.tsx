@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Logo } from "@/components/logo/logo";
+import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 import { de } from "@/dictionaries/de";
 import { pageMetadata } from "@/shared/page-metadata";
 
@@ -11,7 +12,7 @@ export default function GermanHome() {
       <Logo />
       <h1 className="home-heading">{de.pages.home.title}</h1>
       {/* TODO: owner copy — see dictionaries/de.ts's intro.home comment */}
-      <p className="page-intro">{de.intro.home}</p>
+      <ReadMoreButton text={de.intro.home} />
     </div>
   );
 }

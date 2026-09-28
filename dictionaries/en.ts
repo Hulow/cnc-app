@@ -130,22 +130,22 @@ export const en: Dictionary = {
   },
   pages: {
     home: {
-      title: "CNC-made design objects & prototypes in Berlin",
+      title: "CNC cutting services in Berlin",
       description:
         "Atelier Cut designs and CNC-machines prototypes, unique objects and small production series in Berlin — from a CAD file, sketch or idea to finished part.",
     },
     services: {
-      title: "Prototypes, one-offs & small series in Berlin",
+      title: "What I Offer",
       description:
         "CNC machining services in Berlin: prototypes, one-off products and small production series, from CAD design to CNC machining, assembly and finishing.",
     },
     workshop: {
-      title: "3-axis CNC workshop in Berlin — 2.2 × 1.5 m",
+      title: "Inside the Atelier",
       description:
         "Inside the CNC workshop in Berlin: a 3-axis machine with a 2.2 × 1.5 m working area, machining wood, aluminium and plastics for acoustics, furniture and art.",
     },
     contact: {
-      title: "Request a quote — CNC workshop Berlin",
+      title: "Request a quote",
       description:
         "Request a CNC machining quote in Berlin: send your CAD file, sketch, dimensions, material and quantity — get workshop pickup or shipping options.",
     },
@@ -160,10 +160,11 @@ export const en: Dictionary = {
     },
   },
   intro: {
-    home: "Atelier Cut is a CNC workshop in Berlin run by Victor Le Fur, designing and machining objects, prototypes and small production series from wood, aluminium and plastics. Work ranges from one-off design pieces and art objects to functional parts for furniture, architecture models and acoustics — including loudspeaker cabinets and acoustic panels. Every project starts from a CAD file, a sketch or just an idea, and is machined in-house on a 3-axis CNC machine before pickup in Berlin or shipping further afield.",
-    services: "Every project starts wherever you are: a finished CAD file, a rough sketch, or simply an idea to work out together. From there, Atelier Cut machines one-off pieces, prototypes and small production series in Berlin, matching the process to what you need — a single unique object or a short run of identical parts. Quotes are based on material, size, quantity and design complexity. Once a part is finished, you can pick it up at the workshop in Berlin or have it shipped to you.",
-    workshop: "The workshop runs a 3-axis CNC machine with a 2.2 × 1.5 m working area, cutting wood, aluminium and plastics, programmed with grblHAL, Universal Gcode Sender and designed in Fusion 360. It's the machine behind a wide range of projects: loudspeaker cabinets and acoustic panels or diffusers, furniture parts, art pieces and architecture models, alongside prototypes and small production series for design and engineering work.",
-    contact: "To request a quote, send a CAD file (DXF, DWG, STEP or STP) or a PDF/image sketch of what you need, along with the dimensions, the material you'd like it made from, and the quantity. The more detail you can share up front, the faster a quote can come back — but if you're not sure yet, a rough sketch and a description are enough to start the conversation.",
+    home: "I run a CNC workshop in Berlin, next to Ostkreuz, inside the Coppi community. I help companies, designers, and individuals turn ideas into real objects: precise cuts, complex designs, and consistent quality, thanks to automated machining. \n\n Whether you have a finished file or just a sketch, you can talk to me directly. No minimum order, flexible on timing, and I reply fast. One prototype or a small series, I'll help you get it done quickly. \n\n Send me your project, or come by the workshop.",
+    services: "From a single prototype to a small production run, I cut your designs precisely and reliably. Whether you come with a CAD file, a sketch or simply an idea, I can help you figure out how to make it, from design and machining to assembly and finishing. Every project is different, so I quote each one individually. Pick up your parts at the workshop or have them shipped to you.",
+    workshop: "The machine runs on 3 axes over a 2.2 × 1.5 m working area. With full control over spindle speed, feed rate and tooling, I can cut a wide variety of woods, aluminium and plastics. I'm open to projects of all kinds, for clients all across Berlin.",
+    contact:
+      "To request a quote, send me your project by email or through the form below. It helps if you include:\n\na CAD file (DXF, DWG or STEP) or a sketch as PDF or image\nthe dimensions\nthe material you'd like\nthe quantity\n\nThe more detail you share, the faster I can get back to you.\n\nNot sure about everything yet? Even if you only have a rough idea, or nothing at all, just get in touch and we'll figure it out together.",
   },
   nav: {
     home: "Home",
@@ -232,7 +233,7 @@ export const en: Dictionary = {
     removeAttachment: "Remove attachment",
     sending: "Sending…",
     success: "Thanks for reaching out! I will get back to you soon.",
-    help: "If you are experiencing any issues while filling out the form, please email me at victor@gmail.com.",
+    help: "If you are experiencing any issues while filling out the form, please email me at victor@atelier-cut.com.",
   },
   privacy: {
     title: "Privacy",

@@ -384,6 +384,10 @@ h3 {
   line-height: 1.4;
   font-weight: bold;
   color: var(--logo-color);
+  /* Dictionary intro strings use literal \n\n between paragraphs;
+     pre-line renders those as line breaks while still collapsing
+     normal spaces. */
+  white-space: pre-line;
 }
 
 /* The privacy page's real, visible h1 (see P1.3 in SEO-SPEC.md — this
@@ -560,6 +564,9 @@ h3 {
   font-size: var(--font-size-sm);
   font-weight: normal;
   text-align: center;
+  /* Matches the logo/READ MORE button's blue instead of the default
+     body text color. */
+  color: var(--logo-color);
   /* .home-content's own gap already spaces this from the logo above —
      the global h1 { margin-bottom } rule would otherwise add trailing
      space nothing else here needs. */
@@ -576,6 +583,49 @@ h3 {
   max-width: 40rem;
   margin-inline: auto;
   text-align: left;
+}
+
+/* READ MORE (home only): opens .intro.home in an OverlayScreen instead of
+   rendering the paragraph inline — see read-more-button.tsx. Reset +
+   hover-swap mechanics mirror .welcome-screen-continue* above (default/
+   hover SVGs stacked with absolute inset: 0, swapped via opacity). */
+.read-more {
+  display: inline-block;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.read-more-icon-wrap {
+  position: relative;
+  display: block;
+  width: 13rem;
+  aspect-ratio: 212.63 / 43.90;
+}
+
+.read-more-icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 150ms ease;
+}
+
+.read-more-icon-hover {
+  opacity: 0;
+}
+
+@media (hover: hover) {
+  .read-more:hover .read-more-icon-default {
+    opacity: 0;
+  }
+
+  .read-more:hover .read-more-icon-hover {
+    opacity: 1;
+  }
 }
 
 /* ==========================================================================
