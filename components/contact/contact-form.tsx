@@ -122,6 +122,7 @@ export function ContactForm({ formId, onClose, dict = en.contact }: ContactFormP
             id="contact-company-name"
             name="companyName"
             type="text"
+            autoComplete="organization"
             placeholder={dict.fields.company}
             disabled={isSubmitting}
             onChange={() => clearFieldError("companyName")}
@@ -135,6 +136,7 @@ export function ContactForm({ formId, onClose, dict = en.contact }: ContactFormP
             id="contact-first-name"
             name="firstName"
             type="text"
+            autoComplete="given-name"
             placeholder={dict.fields.firstName}
             required
             disabled={isSubmitting}
@@ -152,6 +154,7 @@ export function ContactForm({ formId, onClose, dict = en.contact }: ContactFormP
             id="contact-last-name"
             name="lastName"
             type="text"
+            autoComplete="family-name"
             placeholder={dict.fields.lastName}
             required
             disabled={isSubmitting}
@@ -169,6 +172,7 @@ export function ContactForm({ formId, onClose, dict = en.contact }: ContactFormP
             id="contact-email"
             name="email"
             type="email"
+            autoComplete="email"
             placeholder={dict.fields.email}
             required
             disabled={isSubmitting}
@@ -187,6 +191,7 @@ export function ContactForm({ formId, onClose, dict = en.contact }: ContactFormP
             id="contact-phone"
             name="phone"
             type="tel"
+            autoComplete="tel"
             placeholder={dict.fields.phone}
             disabled={isSubmitting}
             onChange={() => clearFieldError("phone")}
