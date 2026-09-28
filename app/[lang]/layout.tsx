@@ -91,6 +91,7 @@ export default async function LangRootLayout({
         <div className="content-layer page-content">
           <header>
             <Navbar lang="de" dict={{ nav: de.nav }} />
+            <LanguageSwitcher lang="de" />
           </header>
           <main>{children}</main>
           <footer>
@@ -98,7 +99,6 @@ export default async function LangRootLayout({
               <Link href={routes.privacy.de}>{de.footer.privacy}</Link> ·{" "}
               <Link href={routes.impressum.de}>{de.footer.impressum}</Link>
             </p>
-            <LanguageSwitcher lang="de" label={de.languageSwitcher.label} />
             <p className="footer-address">
               {siteConfig.contact.address.split(", ").map((line) => (
                 <span key={line}>{line}</span>

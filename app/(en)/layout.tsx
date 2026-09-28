@@ -86,6 +86,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div className="content-layer page-content">
           <header>
             <Navbar lang="en" dict={{ nav: en.nav }} />
+            <LanguageSwitcher lang="en" />
           </header>
           <main>{children}</main>
           <footer>
@@ -93,7 +94,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <Link href={routes.privacy.en}>{en.footer.privacy}</Link> ·{" "}
               <Link href={routes.impressum.en}>{en.footer.impressum}</Link>
             </p>
-            <LanguageSwitcher lang="en" label={en.languageSwitcher.label} />
             <p className="footer-address">
               {siteConfig.contact.address.split(", ").map((line) => (
                 <span key={line}>{line}</span>

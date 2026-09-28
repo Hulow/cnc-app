@@ -638,6 +638,74 @@ h3 {
   z-index: 2;
 }
 
+/* Anchored to .page-content header itself (already position: sticky,
+   which — like any position other than static — is a containing block
+   for this) rather than laid out as a flex sibling of .site-nav, so it
+   never affects .site-nav's own width: 100%. That matters because
+   .site-nav-toggle centers its icon at left: 50% of that same width
+   (see .site-nav-toggle-icon below) — shrinking .site-nav to make room
+   for this would drag the toggle's true center away from the actual
+   viewport middle. top: 50% + translateY(-50%) centers it on the
+   header's own row height (--site-nav-height); right matches
+   .page-content's own inline padding (--space-sm) for a flush edge.
+   z-index above .site-nav-menu's own (1) so the open dropdown — which
+   starts flush below the header row, at .site-nav's own bottom edge —
+   can never paint over it, though normally it wouldn't overlap anyway.
+   The logos themselves (white fill, blue/pink stroke — see
+   public/translation/*.svg) are drawn to read against .site-nav-toggle's
+   own blue fill, the same way that button's own menu/close icons do, so
+   this only reads correctly layered on top of the toggle — never beside
+   it on the transparent video background. */
+.language-switcher {
+  position: absolute;
+  top: 50%;
+  right: var(--space-sm);
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.language-switcher-link {
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ratio from the logos' own viewBox (see public/translation/*.svg) —
+   both logos share it, so unlike .site-nav-icon-wrap this doesn't need
+   a per-item value. */
+.language-switcher-logo-wrap {
+  position: relative;
+  display: block;
+  height: calc(var(--font-size-base) + 0.25rem);
+  aspect-ratio: 48.25 / 22.6;
+}
+
+.language-switcher-logo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 150ms ease;
+}
+
+.language-switcher-logo-hover {
+  opacity: 0;
+}
+
+/* hover: excludes touch devices, same reasoning as .site-nav-menu
+   a:hover. */
+@media (hover: hover) {
+  .language-switcher-link:hover .language-switcher-logo-default {
+    opacity: 0;
+  }
+
+  .language-switcher-link:hover .language-switcher-logo-hover {
+    opacity: 1;
+  }
+}
+
 /* Rendered as the first child of .content-layer, full width of it.
    position: relative makes it the anchor for .site-nav-menu (see below),
    which is taken out of flow and overlaid on top of the button instead
@@ -929,20 +997,6 @@ h3 {
 .page-content footer p {
   font-weight: bold;
   font-size: clamp(0.65rem, 3cqi, var(--font-size-sm));
-}
-
-/* The language switcher sits as a third flex child of .page-content
-   footer, between .footer-copyright and .footer-address — space-between
-   (see .page-content footer above) then reads as
-   copyright (start) / switcher (center) / address (end). Matches the
-   other two footer paragraphs' own sizing/weight (not a <p>, so it
-   doesn't pick up .page-content footer p above) and never wraps onto a
-   second line, however tight the middle slot gets. */
-.language-switcher {
-  font-weight: bold;
-  font-size: clamp(0.65rem, 3cqi, var(--font-size-sm));
-  white-space: nowrap;
-  flex-shrink: 0;
 }
 
 .page-content address {

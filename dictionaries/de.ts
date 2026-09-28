@@ -60,9 +60,6 @@ export const de: Dictionary = {
     privacy: "Datenschutz",
     impressum: "Impressum",
   },
-  languageSwitcher: {
-    label: "English",
-  },
   services: {
     cards: {
       cuttingServices: {

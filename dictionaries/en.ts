@@ -52,11 +52,6 @@ export interface Dictionary {
     privacy: string;
     impressum: string;
   };
-  languageSwitcher: {
-    // Label for the link to the OTHER language's equivalent page — e.g.
-    // on an English page this reads "Deutsch", linking to /de/...
-    label: string;
-  };
   services: {
     cards: {
       cuttingServices: { heading: string; items: string[] };
@@ -179,9 +174,6 @@ export const en: Dictionary = {
   footer: {
     privacy: "Privacy",
     impressum: "Legal Notice",
-  },
-  languageSwitcher: {
-    label: "Deutsch",
   },
   services: {
     cards: {
