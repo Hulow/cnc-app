@@ -386,6 +386,21 @@ h3 {
   color: var(--logo-color);
 }
 
+/* The privacy page's real, visible h1 (see P1.3 in SEO-SPEC.md — this
+   used to be sr-only, matching the old welcome-screen modal it reused
+   the look of, which never showed a heading at all). Sits inside
+   .welcome-screen-text (white background) rather than directly in
+   .privacy-panel (solid blue) — .page-content main > section's own
+   color: var(--logo-color) rule would otherwise paint it blue-on-blue.
+   margin: 0 — .welcome-screen-text's own flex gap already spaces it
+   from the first paragraph below. */
+.welcome-screen-text h1 {
+  font-size: var(--font-size-lg);
+  color: var(--logo-color);
+  text-align: center;
+  margin: 0;
+}
+
 .welcome-screen-content button {
   padding: var(--space-xs) var(--space-md);
   border: 1px solid var(--logo-color);
@@ -500,6 +515,35 @@ h3 {
    Logo
    ========================================================================== */
 
+/* Wraps the logo image and the (real, visible — see P1.3 in
+   SEO-SPEC.md) page h1 as one centered unit. main itself is
+   justify-content: flex-start now, so every other view starts flush at
+   the top — but this group alone should stay vertically centered.
+   margin-block: auto on a single flex item overrides the container's
+   justify-content for just that item, soaking up the leftover main-axis
+   space evenly above and below it instead of leaving it pinned to the
+   top like the others. (Previously this margin sat on .logo directly,
+   back when the logo was main's only child.) */
+.home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-block: auto;
+}
+
+/* On phone/tablet (below the laptop/desktop breakpoint used for the
+   background video crop above), vertical centering leaves this group
+   awkwardly low under the header on tall, narrow viewports — pin it
+   near the top instead, with a bit of breathing room below the header.
+   margin-bottom: auto still soaks up the leftover space below it so it
+   doesn't stretch to fill main. */
+@media (max-width: 1023px) {
+  .home-content {
+    margin-block: var(--space-xl) auto;
+  }
+}
+
 .logo {
   /* Fill main's full width (itself 100% of .content-layer/.page-content's
      padded content box) instead of an absolute rem cap, so the logo scales
@@ -507,25 +551,19 @@ h3 {
      margin — rather than plateauing at a fixed size on wide screens. */
   width: 100%;
   height: auto;
-  /* main itself is justify-content: flex-start now, so every other view
-     starts flush at the top — but the logo alone should stay vertically
-     centered. margin-block: auto on a single flex item overrides the
-     container's justify-content for just that item, soaking up the
-     leftover main-axis space evenly above and below it instead of
-     leaving it pinned to the top like the others. */
-  margin-block: auto;
 }
 
-/* On phone/tablet (below the laptop/desktop breakpoint used for the
-   background video crop above), vertical centering leaves the logo
-   awkwardly low under the header on tall, narrow viewports — pin it
-   near the top instead, with a bit of breathing room below the header.
-   margin-bottom: auto still soaks up the leftover space below it so it
-   doesn't stretch to fill main. */
-@media (max-width: 1023px) {
-  .logo {
-    margin-block: var(--space-xl) auto;
-  }
+/* Small type under the logo, per P1.3's own note that this is fine for
+   "/" specifically. Muted/small rather than a normal loud h1 — the logo
+   graphic is still the page's real visual title. */
+.home-heading {
+  font-size: var(--font-size-sm);
+  font-weight: normal;
+  text-align: center;
+  /* .home-content's own gap already spaces this from the logo above —
+     the global h1 { margin-bottom } rule would otherwise add trailing
+     space nothing else here needs. */
+  margin: 0;
 }
 
 /* ==========================================================================
@@ -1060,15 +1098,22 @@ h3 {
   container-type: inline-size;
 }
 
-.service-card h3,
-.cutting-salon-card h3 {
+/* h2 now (was h3 — see P1.3 in SEO-SPEC.md: card headings need to be
+   real heading text for crawlers, one level below the page's own h1).
+   font-size pinned back to the old h3 default (h2's own global default,
+   --font-size-xl, is a full step larger) so .card-heading-logo below —
+   sized in em off this element's font-size — keeps rendering at exactly
+   its old visual size. */
+.service-card h2,
+.cutting-salon-card h2 {
+  font-size: var(--font-size-lg);
   text-align: center;
 }
 
-/* Sized off the h3's own fluid font-size (em, not a fixed unit) so the
-   logo scales the same way the text heading it replaces used to. Capped
-   by calc(100cqw / --card-heading-logo-max-ratio) so that when the
-   widest logo in a grid (--card-heading-logo-max-ratio, set in
+/* Sized off the heading's own fluid font-size (em, not a fixed unit) so
+   the logo scales the same way the text heading it decorates does.
+   Capped by calc(100cqw / --card-heading-logo-max-ratio) so that when
+   the widest logo in a grid (--card-heading-logo-max-ratio, set in
    Service/CuttingSalon from that grid's widest logo) would otherwise
    overflow the card and get shrunk by the global `img { max-width:
    100% }` reset, every logo in that grid shrinks by the same factor —
@@ -1081,6 +1126,22 @@ h3 {
   display: inline-block;
   width: auto;
   height: min(1.4em, calc(100cqw / var(--card-heading-logo-max-ratio, 16)));
+}
+
+/* service-item/cutting-salon-item are <li> now, inside a <ul> — see
+   P1.3 in SEO-SPEC.md. The <ul> takes over the flex column + gap that
+   used to sit directly on .service-card/.cutting-salon-card around
+   each item div, and drops the browser's default list box model, so
+   the visual rhythm (heading, then each item stacked with the same
+   gap) stays exactly as it was. */
+.service-card ul,
+.cutting-salon-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .service-item,

@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { en } from "@/dictionaries/en";
 
 // Widest heading logo below (quotes-are-based-on.svg, 355x23) — feeds
 // .card-heading-logo's shrink formula in globals.css so every heading in
@@ -13,6 +14,7 @@ const MAX_LOGO_ASPECT_RATIO = 355 / 23;
 export function Service() {
   return (
     <section aria-labelledby="about-heading">
+      <h1 id="about-heading">{en.pages.services.title}</h1>
       <div
         className="service-grid"
         style={
@@ -22,66 +24,85 @@ export function Service() {
         }
       >
         <div className="service-card">
-          <h3>
+          <h2>
+            {/* Real text node for crawlers/SEO (see P1.3 in SEO-SPEC.md);
+                the SVG stays the visible heading — same technique on
+                every card below. */}
+            <span className="sr-only">Cutting Services</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/service/cutting-services.svg"
-              alt="Cutting Services"
+              alt=""
+              aria-hidden="true"
               width={289}
               height={23}
               className="card-heading-logo"
             />
-          </h3>
-          <div className="service-item">Prototypes</div>
-          <div className="service-item">Unique products</div>
-          <div className="service-item">Small production series</div>
+          </h2>
+          <ul>
+            <li className="service-item">Prototypes</li>
+            <li className="service-item">Unique products</li>
+            <li className="service-item">Small production series</li>
+          </ul>
         </div>
 
         <div className="service-card">
-          <h3>
+          <h2>
+            <span className="sr-only">Services Can Include</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/service/services-can-include.svg"
-              alt="Services Can Include"
+              alt=""
+              aria-hidden="true"
               width={354}
               height={23}
               className="card-heading-logo"
             />
-          </h3>
-          <div className="service-item">CAD & design</div>
-          <div className="service-item">CNC machining</div>
-          <div className="service-item">Assembly & finishing</div>
+          </h2>
+          <ul>
+            <li className="service-item">CAD & design</li>
+            <li className="service-item">CNC machining</li>
+            <li className="service-item">Assembly & finishing</li>
+          </ul>
         </div>
 
         <div className="service-card">
-          <h3>
+          <h2>
+            <span className="sr-only">Quotes Are Based On</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/service/quotes-are-based-on.svg"
-              alt="Quotes Are Based On"
+              alt=""
+              aria-hidden="true"
               width={355}
               height={23}
               className="card-heading-logo"
             />
-          </h3>
-          <div className="service-item">Material</div>
-          <div className="service-item">Size & quantity</div>
-          <div className="service-item">Design complexity</div>
+          </h2>
+          <ul>
+            <li className="service-item">Material</li>
+            <li className="service-item">Size & quantity</li>
+            <li className="service-item">Design complexity</li>
+          </ul>
         </div>
 
         <div className="service-card">
-          <h3>
+          <h2>
+            <span className="sr-only">Delivery Options</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/service/delivery-options.svg"
-              alt="Delivery Options"
+              alt=""
+              aria-hidden="true"
               width={287}
               height={23}
               className="card-heading-logo"
             />
-          </h3>
-          <div className="service-item">Workshop pickup</div>
-          <div className="service-item">Shipping</div>
+          </h2>
+          <ul>
+            <li className="service-item">Workshop pickup</li>
+            <li className="service-item">Shipping</li>
+          </ul>
         </div>
       </div>
       <p className="service-note">

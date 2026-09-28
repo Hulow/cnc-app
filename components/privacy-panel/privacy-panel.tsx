@@ -13,12 +13,9 @@ interface PrivacyPanelProps {
 export function PrivacyPanel({ dict, homeHref }: PrivacyPanelProps) {
   return (
     <section className="privacy-panel">
-      {/* Visually hidden: the panel below never showed a heading of its
-          own in the old modal — this exists only so the page has a
-          real, accessible/indexable title. */}
-      <h1 className="sr-only">{dict.privacy.title}</h1>
       <div className="welcome-screen-content">
         <div className="welcome-screen-text">
+          <h1>{dict.privacy.title}</h1>
           {dict.privacy.paragraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}

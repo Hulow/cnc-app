@@ -6,5 +6,10 @@ import { pageMetadata } from "@/shared/page-metadata";
 export const metadata: Metadata = pageMetadata("home", "en", en);
 
 export default function Home() {
-  return <Logo />;
+  return (
+    <div className="home-content">
+      <Logo />
+      <h1 className="home-heading">{en.pages.home.title}</h1>
+    </div>
+  );
 }

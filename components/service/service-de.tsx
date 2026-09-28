@@ -1,7 +1,7 @@
 import type { Dictionary } from "@/dictionaries/en";
 
 interface ServiceDeProps {
-  dict: Pick<Dictionary, "services">;
+  dict: Pick<Dictionary, "services" | "pages">;
 }
 
 // German equivalent of Service (components/service/service.tsx). The
@@ -9,23 +9,26 @@ interface ServiceDeProps {
 // in SEO-SPEC.md); rather than block on new German artwork, this renders
 // real text headings instead, per the spec's own recommended option. No
 // --card-heading-logo-max-ratio var needed here: unlike the image
-// headings it replaces, a text h3 already uses the page's normal fluid
-// font-size (see .service-card h3 in globals.css) with nothing to scale
+// headings it replaces, a text h2 already uses the page's normal fluid
+// font-size (see .service-card h2 in globals.css) with nothing to scale
 // or overflow.
 export function ServiceDe({ dict }: ServiceDeProps) {
   const { cards, note } = dict.services;
 
   return (
     <section aria-labelledby="about-heading">
+      <h1 id="about-heading">{dict.pages.services.title}</h1>
       <div className="service-grid">
         {Object.values(cards).map(({ heading, items }) => (
           <div className="service-card" key={heading}>
-            <h3>{heading}</h3>
-            {items.map((item) => (
-              <div className="service-item" key={item}>
-                {item}
-              </div>
-            ))}
+            <h2>{heading}</h2>
+            <ul>
+              {items.map((item) => (
+                <li className="service-item" key={item}>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>

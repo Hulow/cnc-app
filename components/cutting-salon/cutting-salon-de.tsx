@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { Dictionary } from "@/dictionaries/en";
 
 interface CuttingSalonDeProps {
-  dict: Pick<Dictionary, "workshop">;
+  dict: Pick<Dictionary, "workshop" | "pages">;
 }
 
 // German equivalent of CuttingSalon (components/cutting-salon/cutting-salon.tsx)
@@ -14,15 +14,18 @@ export function CuttingSalonDe({ dict }: CuttingSalonDeProps) {
 
   return (
     <section aria-labelledby="cutting-salon-heading">
+      <h1 id="cutting-salon-heading">{dict.pages.workshop.title}</h1>
       <div className="cutting-salon-grid">
         {Object.values(cards).map(({ heading, items }) => (
           <div className="cutting-salon-card" key={heading}>
-            <h3>{heading}</h3>
-            {items.map((item) => (
-              <div className="cutting-salon-item" key={item}>
-                {item}
-              </div>
-            ))}
+            <h2>{heading}</h2>
+            <ul>
+              {items.map((item) => (
+                <li className="cutting-salon-item" key={item}>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>

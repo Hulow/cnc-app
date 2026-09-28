@@ -6,5 +6,10 @@ import { pageMetadata } from "@/shared/page-metadata";
 export const metadata: Metadata = pageMetadata("contact", "en", en);
 
 export default function ContactPage() {
-  return <ContactRoute lang="en" />;
+  return (
+    <>
+      <h1>{en.pages.contact.title}</h1>
+      <ContactRoute lang="en" />
+    </>
+  );
 }

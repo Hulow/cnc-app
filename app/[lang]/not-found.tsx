@@ -5,7 +5,7 @@ import { routes } from "@/shared/routes";
 export default function GermanNotFound() {
   return (
     <div>
-      <h2>{de.notFound.heading}</h2>
+      <h1>{de.notFound.heading}</h1>
       <p>{de.notFound.body}</p>
       <nav aria-label="Hauptseiten">
         <ul>
