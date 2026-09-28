@@ -219,16 +219,16 @@ h3 {
   background-color: var(--background);
   object-position: center;
   filter: grayscale(1);
-  transition: opacity 300ms ease;
 }
 
-/* Keep the page background showing until the video is actually playing
-   (onPlaying), not merely loaded — there's no poster image configured
-   yet, so without this a loaded-but-paused frame could otherwise be
-   mistaken for a stalled/working video. */
-.background-video[data-playing="false"] {
-  opacity: 0;
-}
+/* No opacity:0 gate on [data-playing="false"] here: the <video>'s poster
+   (siteConfig.video.poster, the video's own frame at 0s) shows from first
+   paint, so a loaded-but-paused frame reads as the intended poster rather
+   than a stalled video — unlike before this had a poster configured, when
+   hiding the element until onPlaying was the only way to avoid showing a
+   random/blank frame. Leaves body's own --logo-color background (see
+   globals.css's body rule) exposed only for the brief gap before the
+   poster image itself has loaded. */
 
 /* iOS Safari overlays its own "tap to start" play button on a <video>
    whenever autoplay is blocked (e.g. Low Power Mode) — even without a
