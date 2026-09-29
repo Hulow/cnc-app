@@ -1,21 +1,11 @@
 
-if cloudinary is full, i have to render a picture
-check if i have to use services or service
-check if it is clear the cutting service and service include
-do the style for not found page
-change logo for the tab
-check metadata google probably
+
 do google maps thing
-do email address with domain
-add new cloudinary account with domain email account
-add logos for DE version
-add menu DE in header right side
-add metadata for instagram
-add picture machine on server side
-add logo in tab
 
+ok so now i have 2 problems:
+- When a phone is on low battery mode or something like this, we can see the play button of the video. i dont want this at all. is it possible?
 
+- When the phone is on low power mode or something similar. the video does not start. so i would like that when someone log in my website, the privacy page (english by default) show up. 
+Then the user will trigger a user action, and the video will start. 
 
-perfect. however, the title and the readmore button should always be omn the same line. if they are too big compared by the size of the screen, they have to both component be smaller (title + button)
-
-Also: a contact, the title is black. it should follow the blue
+is it a good idea?

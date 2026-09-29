@@ -98,5 +98,41 @@ describe("useBackgroundVideo", () => {
 
     expect(docRemoveSpy).toHaveBeenCalledWith("visibilitychange", expect.any(Function));
     expect(winRemoveSpy).toHaveBeenCalledWith("pageshow", expect.any(Function));
+    expect(docRemoveSpy).toHaveBeenCalledWith("pointerdown", expect.any(Function));
+  });
+
+  describe("Given autoplay was blocked (e.g. iOS Low Power Mode)", () => {
+    beforeEach(() => {
+      vi.spyOn(HTMLMediaElement.prototype, "play").mockRejectedValue(
+        Object.assign(new Error("not allowed"), { name: "NotAllowedError" }),
+      );
+    });
+
+    it("retries play() on the visitor's first pointerdown anywhere on the page", async () => {
+      const { video } = renderBackgroundVideo();
+
+      await waitFor(() => expect(video.play).toHaveBeenCalledTimes(1));
+      vi.mocked(video.play).mockClear().mockResolvedValue(undefined);
+
+      act(() => {
+        document.dispatchEvent(new Event("pointerdown"));
+      });
+
+      await waitFor(() => expect(video.play).toHaveBeenCalledTimes(1));
+    });
+
+    it("only retries once, even across repeated pointerdowns", async () => {
+      const { video } = renderBackgroundVideo();
+
+      await waitFor(() => expect(video.play).toHaveBeenCalledTimes(1));
+      vi.mocked(video.play).mockClear().mockResolvedValue(undefined);
+
+      act(() => {
+        document.dispatchEvent(new Event("pointerdown"));
+        document.dispatchEvent(new Event("pointerdown"));
+      });
+
+      await waitFor(() => expect(video.play).toHaveBeenCalledTimes(1));
+    });
   });
 });

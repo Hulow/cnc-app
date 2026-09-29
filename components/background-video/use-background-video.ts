@@ -49,6 +49,23 @@ export function useBackgroundVideo(
       );
     };
 
+    // Recovery path for a blocked autoplay (e.g. iOS Low Power Mode): the
+    // video sits at z-index: 0 with .content-layer's translucent panel
+    // covering the centered part of the screen above it (z-index: 1, see
+    // globals.css), so WebKit's own "tap to start" affordance renders on
+    // top of the video but is visually unreachable — taps there land on
+    // .content-layer instead and never reach the video element. Rather
+    // than fight that stacking, treat the visitor's first interaction
+    // *anywhere* on the page as the trusted gesture: a click/touchend
+    // still satisfies the browser's user-activation requirement even
+    // though it didn't land on the video itself. { once: true } means
+    // this is a no-op after the first tap, and syncPlayback's own
+    // `!video.paused` guard makes it a cheap no-op if the video was
+    // already playing by then anyway.
+    const handleFirstGesture = () => {
+      void syncPlayback("first-gesture");
+    };
+
     void syncPlayback("initial");
 
     // iOS Safari pauses autoplaying video when the tab is backgrounded
@@ -60,6 +77,9 @@ export function useBackgroundVideo(
     // frozen on whatever frame it was paused at.
     document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("pageshow", handlePageShow);
+    document.addEventListener("pointerdown", handleFirstGesture, {
+      once: true,
+    });
 
     return () => {
       document.removeEventListener(
@@ -68,6 +88,7 @@ export function useBackgroundVideo(
       );
 
       window.removeEventListener("pageshow", handlePageShow);
+      document.removeEventListener("pointerdown", handleFirstGesture);
     };
   }, [enabled, videoRef]);
 }

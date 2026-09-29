@@ -230,23 +230,18 @@ h3 {
    globals.css's body rule) exposed only for the brief gap before the
    poster image itself has loaded. */
 
-/* WebKit/Blink overlay their own "tap to start" play button on a <video>
-   whenever autoplay is blocked (e.g. iOS Low Power Mode) — even without a
+/* iOS Safari overlays its own "tap to start" play button on a <video>
+   whenever autoplay is blocked (e.g. Low Power Mode) — even without a
    `controls` attribute — and there's no standard way to opt out of it.
-   Two different pseudo-elements cover it depending on engine: iOS Safari
-   uses -start-playback-button, Chrome/Android uses -overlay-play-button.
    This decorative background video should never show that affordance:
    when autoplay is blocked, the video just stays paused on its poster
    frame (see the [data-playing="false"] note above) with no play
-   affordance at all. pointer-events: none as a fallback in case a given
-   browser version still paints it despite the display/opacity hiding. */
+   affordance at all. */
 .background-video::-webkit-media-controls,
-.background-video::-webkit-media-controls-start-playback-button,
-.background-video::-webkit-media-controls-overlay-play-button {
+.background-video::-webkit-media-controls-start-playback-button {
   display: none !important;
   -webkit-appearance: none;
   opacity: 0 !important;
-  pointer-events: none !important;
 }
 
 /* Mobile framing (object-position: center, above) is already correct and
