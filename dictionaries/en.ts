@@ -227,7 +227,7 @@ export const en: Dictionary = {
       message: "Message",
       attachment: "Attachment",
     },
-    attachmentHint: (maxMb) => `Max ${maxMb} MB.`,
+    attachmentHint: (maxMb) => `Max ${maxMb} MB`,
     attachmentTooLarge: (mb) => `The attachment is too large (${mb} MB).`,
     removeAttachment: "Remove attachment",
     sending: "Sending…",

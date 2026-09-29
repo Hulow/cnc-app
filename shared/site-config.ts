@@ -15,7 +15,7 @@ export const siteConfig = {
   // Impressum is a legal document, not just a credit line.
   legalName: "Victor Le Fur",
   contact: {
-    email: "viq.hlw@gmail.com",
+    email: "victor@atelier-cut.com",
     address: "Coppistraße 17, 10365 Berlin",
   },
   // Cloudinary transformations (see P2.1 in SEO-SPEC.md): f_auto/q_auto

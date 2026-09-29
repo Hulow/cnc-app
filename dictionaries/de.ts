@@ -113,7 +113,7 @@ export const de: Dictionary = {
       message: "Nachricht",
       attachment: "Anhang",
     },
-    attachmentHint: (maxMb) => `Max. ${maxMb} MB.`,
+    attachmentHint: (maxMb) => `Max. ${maxMb} MB`,
     attachmentTooLarge: (mb) => `Der Anhang ist zu groß (${mb} MB).`,
     removeAttachment: "Anhang entfernen",
     sending: "Wird gesendet…",
