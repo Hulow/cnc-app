@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { StructuredData } from "@/components/structured-data/structured-data";
 import { ContactRoute } from "@/components/contact/contact-route";
-import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 import { de } from "@/dictionaries/de";
 import { pageMetadata } from "@/shared/page-metadata";
 import { buildBreadcrumbs } from "@/shared/structured-data";
@@ -13,12 +12,8 @@ export default function KontaktPage() {
     <>
       <StructuredData data={buildBreadcrumbs("contact", "de", de)} />
       <div className="contact-layout">
-        <h1 className="page-title contact-heading">{de.pages.contact.title}</h1>
-        <ContactRoute lang="de" />
-        <div className="read-more-end">
-          {/* TODO: owner copy — see dictionaries/de.ts's intro.contact comment */}
-          <ReadMoreButton text={de.intro.contact} />
-        </div>
+        {/* TODO: owner copy — see dictionaries/de.ts's intro.contact comment */}
+        <ContactRoute lang="de" title={de.pages.contact.title} introText={de.intro.contact} />
       </div>
     </>
   );

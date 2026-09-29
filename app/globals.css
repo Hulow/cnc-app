@@ -630,6 +630,16 @@ h3 {
 .contact-layout {
   display: flex;
   flex-direction: column;
+  /* Stretches to fill main's available height so .contact-form's own
+     flex: 1 (see .contact-form below) has actual leftover space to grow
+     into instead of just hugging its own content — otherwise the form
+     stops short of the footer rather than reaching it. min-height: 0
+     overrides flex's default min-height: auto, which would otherwise
+     floor this at its content's height and cancel flex: 1 out whenever
+     that content (e.g. the form's fields) is taller than main's
+     available space. */
+  flex: 1;
+  min-height: 0;
   gap: var(--space-sm);
 }
 

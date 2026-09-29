@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ChangeEvent, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type MouseEvent } from "react";
 import {
   ALLOWED_ATTACHMENT_EXTENSIONS,
   MAX_ATTACHMENT_BYTES,
@@ -19,12 +19,16 @@ interface ContactFormProps {
   // German artwork exists yet — see P1.1 in SEO-SPEC.md), so their alt
   // text is intentionally not part of this dictionary.
   dict?: Dictionary["contact"];
+  // Lets a page-level wrapper (ContactRoute) hide its own title/read-more
+  // button once the form succeeds, since the success view replaces the
+  // whole form rather than sitting alongside it.
+  onSuccessChange?: (success: boolean) => void;
 }
 
 const ACCEPT_ATTRIBUTE = ALLOWED_ATTACHMENT_EXTENSIONS.join(",");
 const MAX_ATTACHMENT_MB = formatMegabytes(MAX_ATTACHMENT_BYTES);
 
-export function ContactForm({ formId, onClose, dict = en.contact }: ContactFormProps) {
+export function ContactForm({ formId, onClose, dict = en.contact, onSuccessChange }: ContactFormProps) {
   const {
     status,
     isSubmitting,
@@ -43,6 +47,10 @@ export function ContactForm({ formId, onClose, dict = en.contact }: ContactFormP
   const [oversizedAttachmentMb, setOversizedAttachmentMb] = useState<string | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const attachmentInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    onSuccessChange?.(status === "success");
+  }, [status, onSuccessChange]);
 
   function handleAttachmentChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
