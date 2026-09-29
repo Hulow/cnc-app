@@ -2,14 +2,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, renderHook, waitFor } from "@testing-library/react";
 import { useBackgroundVideo } from "./use-background-video";
 
-function renderBackgroundVideo(
-  options: { enabled?: boolean; onBlocked?: () => void } = {},
-) {
+function renderBackgroundVideo(options: { enabled?: boolean } = {}) {
   const video = document.createElement("video");
   const ref = { current: video };
 
   const hook = renderHook(() =>
-    useBackgroundVideo(ref, { enabled: options.enabled ?? true, onBlocked: options.onBlocked }),
+    useBackgroundVideo(ref, { enabled: options.enabled ?? true }),
   );
 
   return { video, ...hook };
@@ -75,26 +73,6 @@ describe("useBackgroundVideo", () => {
 
     await waitFor(() => expect(HTMLMediaElement.prototype.play).toHaveBeenCalled());
     expect(console.error).not.toHaveBeenCalled();
-  });
-
-  it("calls onBlocked when play() rejects with NotAllowedError", async () => {
-    vi.spyOn(HTMLMediaElement.prototype, "play").mockRejectedValue(
-      Object.assign(new Error("not allowed"), { name: "NotAllowedError" }),
-    );
-    const onBlocked = vi.fn();
-
-    renderBackgroundVideo({ onBlocked });
-
-    await waitFor(() => expect(onBlocked).toHaveBeenCalled());
-  });
-
-  it("does not call onBlocked when play() succeeds", async () => {
-    const onBlocked = vi.fn();
-
-    renderBackgroundVideo({ onBlocked });
-
-    await waitFor(() => expect(HTMLMediaElement.prototype.play).toHaveBeenCalled());
-    expect(onBlocked).not.toHaveBeenCalled();
   });
 
   it("logs unexpected play() failures with the triggering reason", async () => {

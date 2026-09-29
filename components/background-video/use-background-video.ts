@@ -4,10 +4,6 @@ interface UseBackgroundVideoOptions {
   // Set false (e.g. once the video has errored) to stop trying to sync
   // playback entirely.
   enabled: boolean;
-  // Called whenever play() rejects with the expected autoplay-policy
-  // NotAllowedError, so the caller can offer a manual "Play" affordance —
-  // the only gesture that can recover playback at that point.
-  onBlocked?: () => void;
 }
 
 // Keeps a background <video> playing across the situations a plain
@@ -16,7 +12,7 @@ interface UseBackgroundVideoOptions {
 // autoplay-policy rejection.
 export function useBackgroundVideo(
   videoRef: RefObject<HTMLVideoElement | null>,
-  { enabled, onBlocked }: UseBackgroundVideoOptions,
+  { enabled }: UseBackgroundVideoOptions,
 ) {
   useEffect(() => {
     const video = videoRef.current;
@@ -29,10 +25,10 @@ export function useBackgroundVideo(
         await video.play();
       } catch (error) {
         // NotAllowedError is the expected rejection when there's no
-        // genuine user gesture yet — only surface anything else, since
-        // that would indicate a real media problem.
+        // genuine user gesture yet (or a power-saving mode like iOS Low
+        // Power Mode blocks autoplay outright) — only surface anything
+        // else, since that would indicate a real media problem.
         if (error instanceof Error && error.name === "NotAllowedError") {
-          onBlocked?.();
           return;
         }
 
@@ -73,5 +69,5 @@ export function useBackgroundVideo(
 
       window.removeEventListener("pageshow", handlePageShow);
     };
-  }, [enabled, videoRef, onBlocked]);
+  }, [enabled, videoRef]);
 }

@@ -1,12 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import { BackgroundVideo } from "./background-video";
 import { siteConfig } from "@/shared/site-config";
 
 // These are composition-level tests: they check that BackgroundVideo wires
-// the video element, the autoplay hook, and its own "blocked" recovery
-// button together correctly. The autoplay retry logic itself is covered in
-// use-background-video.test.ts.
+// the video element together with the autoplay hook correctly. The autoplay
+// retry logic itself is covered in use-background-video.test.ts.
 
 function getVideo(container: HTMLElement) {
   return container.querySelector("video") as HTMLVideoElement;
@@ -42,12 +41,6 @@ describe("Given the background video is rendered", () => {
       expect(video.playsInline).toBe(true);
       expect(video).toHaveAttribute("aria-hidden", "true");
       expect(video.tabIndex).toBe(-1);
-    });
-
-    it("Then it renders no Play button while autoplay hasn't been blocked", () => {
-      render(<BackgroundVideo />);
-
-      expect(screen.queryByRole("button", { name: "Play background video" })).not.toBeInTheDocument();
     });
   });
 
@@ -107,7 +100,7 @@ describe("Given the background video is rendered", () => {
   });
 });
 
-describe("Given the browser blocks autoplay (no user gesture yet)", () => {
+describe("Given the browser blocks autoplay (e.g. no user gesture yet, or iOS Low Power Mode)", () => {
   beforeEach(() => {
     vi.spyOn(HTMLMediaElement.prototype, "play").mockRejectedValue(
       Object.assign(new Error("not allowed"), { name: "NotAllowedError" }),
@@ -115,37 +108,18 @@ describe("Given the browser blocks autoplay (no user gesture yet)", () => {
   });
 
   describe("When autoplay is rejected", () => {
-    it("Then a small Play button appears", async () => {
-      render(<BackgroundVideo />);
+    it("Then it renders no Play button or other recovery affordance", async () => {
+      const { container } = render(<BackgroundVideo />);
 
-      expect(
-        await screen.findByRole("button", { name: "Play background video" }),
-      ).toBeInTheDocument();
+      await waitFor(() => expect(HTMLMediaElement.prototype.play).toHaveBeenCalled());
+      expect(container.querySelector("button")).not.toBeInTheDocument();
     });
 
     it("Then nothing is logged to console.error (this rejection is expected)", async () => {
       render(<BackgroundVideo />);
 
-      await screen.findByRole("button", { name: "Play background video" });
+      await waitFor(() => expect(HTMLMediaElement.prototype.play).toHaveBeenCalled());
       expect(console.error).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("When the visitor clicks the Play button", () => {
-    it("Then the video's play() is invoked again and the button disappears", async () => {
-      const { container } = render(<BackgroundVideo />);
-      const video = getVideo(container);
-      const playButton = await screen.findByRole("button", { name: "Play background video" });
-
-      vi.mocked(video.play).mockClear().mockResolvedValue(undefined);
-      fireEvent.click(playButton);
-
-      expect(video.play).toHaveBeenCalled();
-      await waitFor(() =>
-        expect(
-          screen.queryByRole("button", { name: "Play background video" }),
-        ).not.toBeInTheDocument(),
-      );
     });
   });
 });

@@ -233,10 +233,10 @@ h3 {
 /* iOS Safari overlays its own "tap to start" play button on a <video>
    whenever autoplay is blocked (e.g. Low Power Mode) — even without a
    `controls` attribute — and there's no standard way to opt out of it.
-   This decorative background video should never show that affordance;
-   BackgroundVideo's own .background-video-play button (below) already
-   recovers playback, so hiding the native one doesn't lose the recovery
-   path, just WebKit's visual for it. */
+   This decorative background video should never show that affordance:
+   when autoplay is blocked, the video just stays paused on its poster
+   frame (see the [data-playing="false"] note above) with no play
+   affordance at all. */
 .background-video::-webkit-media-controls,
 .background-video::-webkit-media-controls-start-playback-button {
   display: none !important;
@@ -253,33 +253,6 @@ h3 {
   .background-video {
     object-position: center 65%;
   }
-}
-
-/* Small, unobtrusive recovery affordance for the rare case the browser
-   blocks autoplay outright (see BackgroundVideo/useBackgroundVideo's
-   onBlocked) — never a full-screen gate. Fixed above the sticky footer
-   (--site-nav-height + a gap) so the two never overlap; z-index above
-   .content-layer's so it stays clickable even where the two boxes
-   intersect. */
-.background-video-play {
-  position: fixed;
-  right: var(--space-sm);
-  bottom: calc(var(--site-nav-height) + var(--space-md));
-  z-index: 2;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.85);
-  color: var(--logo-color);
-  font-size: var(--font-size-base);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Optical centering for the ▶ glyph, whose visual weight sits slightly
-     left of its character box. */
-  padding-left: 0.2em;
-  cursor: pointer;
 }
 
 /* ==========================================================================
