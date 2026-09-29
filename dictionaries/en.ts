@@ -117,6 +117,7 @@ export interface Dictionary {
   notFound: {
     heading: string;
     body: string;
+    homeLinkLabel: string;
   };
 }
 
@@ -258,5 +259,6 @@ export const en: Dictionary = {
   notFound: {
     heading: "Page not found",
     body: "The page you are looking for does not exist.",
+    homeLinkLabel: "Continue",
   },
 };

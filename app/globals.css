@@ -405,6 +405,17 @@ h3 {
   margin: 0;
 }
 
+/* 404 page's logo (see NotFoundPanel): stands in for the h1's text
+   visually, centered above the Continue button inside
+   .welcome-screen-text like PrivacyPanel/ImpressumPanel's own h1 does. */
+.not-found-logo {
+  display: block;
+  width: 100%;
+  max-width: 18rem;
+  height: auto;
+  margin-inline: auto;
+}
+
 .welcome-screen-content button {
   padding: var(--space-xs) var(--space-md);
   border: 1px solid var(--logo-color);

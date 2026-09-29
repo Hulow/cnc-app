@@ -145,5 +145,6 @@ export const de: Dictionary = {
   notFound: {
     heading: "Seite nicht gefunden",
     body: "Die gesuchte Seite existiert nicht.",
+    homeLinkLabel: "Weiter",
   },
 };
