@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Logo } from "@/components/logo/logo";
 import { en } from "@/dictionaries/en";
+import { isBotUserAgent } from "@/shared/bot-user-agent";
 import { pageMetadata } from "@/shared/page-metadata";
 import { PRIVACY_ACK_COOKIE } from "@/shared/privacy-gate";
 import { routes } from "@/shared/routes";
@@ -14,9 +15,12 @@ export default async function Home() {
   // page ever renders: its Continue link is what supplies the user
   // gesture the background video needs to autoplay under iOS Low Power
   // Mode (see use-background-video.ts). The Continue link sets this
-  // cookie itself before navigating back here.
-  const cookieStore = await cookies();
-  if (!cookieStore.has(PRIVACY_ACK_COOKIE)) {
+  // cookie itself before navigating back here. Bots are exempted (see
+  // isBotUserAgent) so link previews (WhatsApp, etc.) and search results
+  // show this page's own metadata instead of the privacy page's.
+  const [cookieStore, headersList] = await Promise.all([cookies(), headers()]);
+  const isBot = isBotUserAgent(headersList.get("user-agent"));
+  if (!isBot && !cookieStore.has(PRIVACY_ACK_COOKIE)) {
     redirect(routes.privacy.en);
   }
 
