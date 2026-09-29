@@ -25,9 +25,9 @@ const NAV_ICONS = [
   {
     routeKey: "services",
     icon: {
-      src: "/menu/button-service-default.svg",
-      hoverSrc: "/menu/button-service-hover.svg",
-      activeSrc: "/menu/button-service-active.svg",
+      src: "/menu/button-services-default.svg",
+      hoverSrc: "/menu/button-services-hover.svg",
+      activeSrc: "/menu/button-services-active.svg",
       width: 133,
       height: 21,
     },
