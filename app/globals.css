@@ -545,6 +545,10 @@ h3 {
   align-items: center;
   gap: var(--space-xs);
   margin-block: auto;
+  /* Lets .home-heading below size itself off this element's own rendered
+     width (cqi), not the viewport, so the heading shrinks in lockstep
+     with whatever room a narrow screen actually leaves it. */
+  container-type: inline-size;
 }
 
 /* On phone/tablet (below the laptop/desktop breakpoint used for the
@@ -573,7 +577,14 @@ h3 {
    still the page's real visual title — but bumped up a step from
    --font-size-sm so it reads clearly on its own. */
 .home-heading {
-  font-size: var(--font-size-lg);
+  /* cqi (not vw) ties this to .home-content's own rendered width, so the
+     English title ("CNC cutting services in Berlin" — the longest of the
+     two languages) keeps shrinking to fit on one line as the screen
+     narrows, instead of wrapping once var(--font-size-lg)'s vw-based
+     floor is still too big for the available width. 0.9rem is a
+     legibility floor for pathological widths — below that, wrapping is
+     the fallback rather than shrinking further. */
+  font-size: clamp(0.9rem, 5.5cqi, var(--font-size-lg));
   font-weight: normal;
   text-align: center;
   /* Matches the logo/READ MORE button's blue instead of the default
