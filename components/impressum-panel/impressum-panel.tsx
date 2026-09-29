@@ -5,6 +5,9 @@ import { siteConfig } from "@/shared/site-config";
 interface ImpressumPanelProps {
   dict: Pick<Dictionary, "impressum">;
   homeHref: string;
+  logoSrc: string;
+  logoWidth: number;
+  logoHeight: number;
 }
 
 // Shared between the English (/impressum) and German (/de/impressum)
@@ -19,14 +22,32 @@ interface ImpressumPanelProps {
 // (and ideally a legal source's) review before it's final — an
 // incorrect or incomplete Impressum is a real legal liability in
 // Germany (Abmahnung risk), not just a copy nit.
-export function ImpressumPanel({ dict, homeHref }: ImpressumPanelProps) {
+export function ImpressumPanel({
+  dict,
+  homeHref,
+  logoSrc,
+  logoWidth,
+  logoHeight,
+}: ImpressumPanelProps) {
   const { fields, placeholder } = dict.impressum;
 
   return (
     <section className="privacy-panel">
       <div className="welcome-screen-content">
         <div className="welcome-screen-text">
-          <h1>{dict.impressum.title}</h1>
+          {/* Real text node for crawlers/screen readers; the logo stays
+              the visible content, same sr-only + decorative-img split
+              NotFoundPanel uses for its own wordmark. */}
+          <h1 className="sr-only">{dict.impressum.title}</h1>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logoSrc}
+            alt=""
+            aria-hidden="true"
+            width={logoWidth}
+            height={logoHeight}
+            className="legal-panel-logo"
+          />
           <p>
             <strong>{fields.name}:</strong> {siteConfig.legalName}
           </p>

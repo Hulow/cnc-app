@@ -12,7 +12,13 @@ export default function ImpressumPageDe() {
   return (
     <>
       <StructuredData data={buildBreadcrumbs("impressum", "de", de)} />
-      <ImpressumPanel dict={de} homeHref={routes.home.de} />
+      <ImpressumPanel
+        dict={de}
+        homeHref={routes.home.de}
+        logoSrc="/footer/impressum.svg"
+        logoWidth={188}
+        logoHeight={23}
+      />
     </>
   );
 }

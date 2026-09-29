@@ -12,7 +12,13 @@ export default function PrivacyPage() {
   return (
     <>
       <StructuredData data={buildBreadcrumbs("privacy", "en", en)} />
-      <PrivacyPanel dict={en} homeHref={routes.home.en} />
+      <PrivacyPanel
+        dict={en}
+        homeHref={routes.home.en}
+        logoSrc="/footer/privacy.svg"
+        logoWidth={141}
+        logoHeight={23}
+      />
     </>
   );
 }

@@ -416,6 +416,27 @@ h3 {
   margin-inline: auto;
 }
 
+/* PrivacyPanel/ImpressumPanel's logo: same stand-in-for-the-h1 treatment
+   as .not-found-logo above, centered above the paragraphs/fields inside
+   .welcome-screen-text. max-width is sized to fit the widest wordmark
+   (Datenschutz) at a comfortable size on desktop; width: 100% + height:
+   auto already shrinks it with the panel on narrower screens, and the
+   767px query shrinks the cap further so wider wordmarks (Datenschutz,
+   Legal Notice) stay clear of the panel's edges on phones. */
+.legal-panel-logo {
+  display: block;
+  width: 100%;
+  max-width: 20rem;
+  height: auto;
+  margin-inline: auto;
+}
+
+@media (max-width: 767px) {
+  .legal-panel-logo {
+    max-width: 14rem;
+  }
+}
+
 .welcome-screen-content button {
   padding: var(--space-xs) var(--space-md);
   border: 1px solid var(--logo-color);
