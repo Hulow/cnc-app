@@ -29,33 +29,13 @@ export function Service() {
             {/* Real text node for crawlers/SEO (see P1.3 in SEO-SPEC.md);
                 the SVG stays the visible heading — same technique on
                 every card below. */}
-            <span className="sr-only">Cutting Services</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/service/cutting-services.svg"
-              alt=""
-              aria-hidden="true"
-              width={289}
-              height={23}
-              className="card-heading-logo"
-            />
-          </h2>
-          <ul>
-            <li className="service-item">Prototypes</li>
-            <li className="service-item">Unique products</li>
-            <li className="service-item">Small production series</li>
-          </ul>
-        </div>
-
-        <div className="service-card">
-          <h2>
             <span className="sr-only">Services Can Include</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/service/services-can-include.svg"
+              src="/service/services.svg"
               alt=""
               aria-hidden="true"
-              width={354}
+              width={154}
               height={23}
               className="card-heading-logo"
             />
@@ -64,6 +44,26 @@ export function Service() {
             <li className="service-item">CAD & design</li>
             <li className="service-item">CNC machining</li>
             <li className="service-item">Assembly & finishing</li>
+          </ul>
+        </div>
+
+        <div className="service-card">
+          <h2>
+            <span className="sr-only">Cutting Services</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/service/project_size.svg"
+              alt=""
+              aria-hidden="true"
+              width={222}
+              height={23}
+              className="card-heading-logo"
+            />
+          </h2>
+          <ul>
+            <li className="service-item">Prototypes</li>
+            <li className="service-item">Unique products</li>
+            <li className="service-item">Small production series</li>
           </ul>
         </div>
 

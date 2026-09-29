@@ -35,19 +35,19 @@ export function ServiceDe({ dict }: ServiceDeProps) {
             {/* Real text node for crawlers/SEO (see P1.3 in SEO-SPEC.md);
                 the SVG stays the visible heading — same technique on
                 every card below. */}
-            <span className="sr-only">{cards.cuttingServices.heading}</span>
+            <span className="sr-only">{cards.servicesCanInclude.heading}</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/service/cnc-zuschnitt.svg"
+              src="/service/leistungen.svg"
               alt=""
               aria-hidden="true"
-              width={246}
+              width={190}
               height={23}
               className="card-heading-logo"
             />
           </h2>
           <ul>
-            {cards.cuttingServices.items.map((item) => (
+            {cards.servicesCanInclude.items.map((item) => (
               <li className="service-item" key={item}>
                 {item}
               </li>
@@ -57,19 +57,19 @@ export function ServiceDe({ dict }: ServiceDeProps) {
 
         <div className="service-card">
           <h2>
-            <span className="sr-only">{cards.servicesCanInclude.heading}</span>
+            <span className="sr-only">{cards.cuttingServices.heading}</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/service/mogliche-leistungen.svg"
+              src="/service/projektumfang.svg"
               alt=""
               aria-hidden="true"
-              width={345}
+              width={270}
               height={23}
               className="card-heading-logo"
             />
           </h2>
           <ul>
-            {cards.servicesCanInclude.items.map((item) => (
+            {cards.cuttingServices.items.map((item) => (
               <li className="service-item" key={item}>
                 {item}
               </li>
