@@ -66,12 +66,13 @@ export const metadata: Metadata = {
   },
 };
 
-// See app/(en)/layout.tsx's own themeColor comment.
+// See app/(en)/layout.tsx's own themeColor and interactiveWidget comments.
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
   ],
+  interactiveWidget: "resizes-content",
 };
 
 // The video, nav and footer live here (not per-route) so they persist

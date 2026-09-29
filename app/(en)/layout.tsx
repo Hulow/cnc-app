@@ -72,6 +72,18 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
   ],
+  // Default ("resizes-visual") leaves the layout viewport's own height
+  // untouched when the on-screen keyboard opens on iOS — only the visual
+  // viewport shrinks. globals.css's sticky footer (.page-content footer,
+  // bottom: 0) resolves "bottom" against that unchanged layout viewport,
+  // so once a form field is focused and the page is scrolled, the footer
+  // sticks to where the bottom edge would be with the keyboard closed —
+  // now hidden behind the keyboard — instead of the real visible bottom
+  // edge. resizes-content makes the layout viewport (and dvh, which
+  // --viewport-height in globals.css is keyed to) shrink to match the
+  // visual one, so sticky/dvh-based layout reflows around the keyboard
+  // like any other viewport resize.
+  interactiveWidget: "resizes-content",
 };
 
 // The video, nav and footer live here (not per-route) so they persist
