@@ -15,11 +15,7 @@ export function CuttingSalonDe({ dict }: CuttingSalonDeProps) {
 
   return (
     <section aria-labelledby="cutting-salon-heading">
-      <div className="page-heading-row">
-        <h1 id="cutting-salon-heading">{dict.pages.workshop.title}</h1>
-        {/* TODO: owner copy — see dictionaries/de.ts's intro.workshop comment */}
-        <ReadMoreButton text={dict.intro.workshop} />
-      </div>
+      <h1 id="cutting-salon-heading" className="page-title">{dict.pages.workshop.title}</h1>
       <div className="cutting-salon-grid">
         {Object.values(cards).map(({ heading, items }) => (
           <div className="cutting-salon-card" key={heading}>
@@ -43,6 +39,10 @@ export function CuttingSalonDe({ dict }: CuttingSalonDeProps) {
         sizes="(min-width: 576px) 70vw, 90vw"
         className="cutting-salon-image"
       />
+      <div className="read-more-end">
+        {/* TODO: owner copy — see dictionaries/de.ts's intro.workshop comment */}
+        <ReadMoreButton text={dict.intro.workshop} />
+      </div>
     </section>
   );
 }

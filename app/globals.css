@@ -557,11 +557,12 @@ h3 {
   height: auto;
 }
 
-/* Small type under the logo, per P1.3's own note that this is fine for
-   "/" specifically. Muted/small rather than a normal loud h1 — the logo
-   graphic is still the page's real visual title. */
+/* Type under the logo, per P1.3's own note that this is fine for "/"
+   specifically. Kept smaller than a normal loud h1 — the logo graphic is
+   still the page's real visual title — but bumped up a step from
+   --font-size-sm so it reads clearly on its own. */
 .home-heading {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-lg);
   font-weight: normal;
   text-align: center;
   /* Matches the logo/READ MORE button's blue instead of the default
@@ -573,27 +574,32 @@ h3 {
   margin: 0;
 }
 
-/* Services, Cutting Salon and Contact: wraps each page's own h1 with its
-   READ MORE button so the button sits on the same line as the heading,
-   right-aligned, instead of stacked below it like home's own h1 +
-   .read-more (home keeps .home-content's centered column layout). The
-   h1's own margin-bottom (see the global h1 rule above) still applies
-   inside this row — since it's a flex item, that margin extends the
-   row's own box, so the gap to whatever follows (card grid, contact
-   form, ...) stays the same as when .page-intro rendered there. wrap
-   lets the button drop under the heading on narrow viewports instead of
-   squeezing both onto one cramped line. */
-.page-heading-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--space-xs) var(--space-md);
+/* Services, Cutting Salon and Contact: their own h1 is a step smaller
+   than the global default so it reads as a section title sitting above
+   the card grid/form rather than a full hero heading. */
+.page-title {
+  font-size: var(--font-size-xl);
 }
 
-/* READ MORE (home, and now .page-heading-row above): opens the page's
-   own intro copy in an OverlayScreen instead of rendering the paragraph
-   inline — see read-more-button.tsx. Reset + hover-swap mechanics mirror
+/* Contact's own h1: the site's signature blue instead of the default
+   foreground color, matching the logo/READ MORE button elsewhere. */
+.contact-heading {
+  color: var(--logo-color);
+}
+
+/* Services, Cutting Salon and Contact: sits at the bottom of the page,
+   after the card grid/form, right-aligned (flex-end) instead of beside
+   the heading. */
+.read-more-end {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-md);
+}
+
+/* READ MORE (sits inside .read-more-end above, on Services, Cutting
+   Salon and Contact): opens the page's own intro copy in an
+   OverlayScreen instead of rendering the paragraph inline — see
+   read-more-button.tsx. Reset + hover-swap mechanics mirror
    .welcome-screen-continue* above (default/hover SVGs stacked with
    absolute inset: 0, swapped via opacity). */
 .read-more {
@@ -1273,13 +1279,6 @@ h3 {
   background: #ffffff;
   color: var(--logo-color);
   padding: var(--space-xs);
-  border-radius: 0.375rem;
-}
-
-.service-note {
-  margin-top: var(--space-md);
-  padding: var(--space-md);
-  background: rgba(255, 255, 255, 0.6);
   border-radius: 0.375rem;
 }
 

@@ -14,15 +14,11 @@ interface ServiceDeProps {
 // font-size (see .service-card h2 in globals.css) with nothing to scale
 // or overflow.
 export function ServiceDe({ dict }: ServiceDeProps) {
-  const { cards, note } = dict.services;
+  const { cards } = dict.services;
 
   return (
     <section aria-labelledby="about-heading">
-      <div className="page-heading-row">
-        <h1 id="about-heading">{dict.pages.services.title}</h1>
-        {/* TODO: owner copy — see dictionaries/de.ts's intro.services comment */}
-        <ReadMoreButton text={dict.intro.services} />
-      </div>
+      <h1 id="about-heading" className="page-title">{dict.pages.services.title}</h1>
       <div className="service-grid">
         {Object.values(cards).map(({ heading, items }) => (
           <div className="service-card" key={heading}>
@@ -37,9 +33,10 @@ export function ServiceDe({ dict }: ServiceDeProps) {
           </div>
         ))}
       </div>
-      <p className="service-note">
-        <strong>{note}</strong>
-      </p>
+      <div className="read-more-end">
+        {/* TODO: owner copy — see dictionaries/de.ts's intro.services comment */}
+        <ReadMoreButton text={dict.intro.services} />
+      </div>
     </section>
   );
 }

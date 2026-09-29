@@ -79,7 +79,6 @@ export const de: Dictionary = {
         items: ["Abholung in der Werkstatt", "Versand"],
       },
     },
-    note: "Ob Sie mit einer CAD-Datei, einer Skizze oder einfach nur einer Idee kommen – ich helfe Ihnen herauszufinden, wie sie umgesetzt werden kann.",
   },
   workshop: {
     cards: {

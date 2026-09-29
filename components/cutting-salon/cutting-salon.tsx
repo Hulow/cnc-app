@@ -14,11 +14,7 @@ const MAX_LOGO_ASPECT_RATIO = 348 / 23;
 export function CuttingSalon() {
   return (
     <section aria-labelledby="cutting-salon-heading">
-      <div className="page-heading-row">
-        <h1 id="cutting-salon-heading">{en.pages.workshop.title}</h1>
-        {/* TODO: owner copy — see dictionaries/en.ts's intro.workshop comment */}
-        <ReadMoreButton text={en.intro.workshop} />
-      </div>
+      <h1 id="cutting-salon-heading" className="page-title">{en.pages.workshop.title}</h1>
       <div
         className="cutting-salon-grid"
         style={
@@ -127,6 +123,10 @@ export function CuttingSalon() {
         sizes="(min-width: 576px) 70vw, 90vw"
         className="cutting-salon-image"
       />
+      <div className="read-more-end">
+        {/* TODO: owner copy — see dictionaries/en.ts's intro.workshop comment */}
+        <ReadMoreButton text={en.intro.workshop} />
+      </div>
     </section>
   );
 }

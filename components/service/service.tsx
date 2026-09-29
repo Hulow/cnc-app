@@ -15,11 +15,7 @@ const MAX_LOGO_ASPECT_RATIO = 355 / 23;
 export function Service() {
   return (
     <section aria-labelledby="about-heading">
-      <div className="page-heading-row">
-        <h1 id="about-heading">{en.pages.services.title}</h1>
-        {/* TODO: owner copy — see dictionaries/en.ts's intro.services comment */}
-        <ReadMoreButton text={en.intro.services} />
-      </div>
+      <h1 id="about-heading" className="page-title">{en.pages.services.title}</h1>
       <div
         className="service-grid"
         style={
@@ -110,9 +106,10 @@ export function Service() {
           </ul>
         </div>
       </div>
-      <p className="service-note">
-        <strong>Whether you come with a CAD file, a sketch or simply an idea, I can help you figure out how to make it.</strong>
-      </p>
+      <div className="read-more-end">
+        {/* TODO: owner copy — see dictionaries/en.ts's intro.services comment */}
+        <ReadMoreButton text={en.intro.services} />
+      </div>
     </section>
   );
 }

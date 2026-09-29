@@ -59,7 +59,6 @@ export interface Dictionary {
       quotesAreBasedOn: { heading: string; items: string[] };
       deliveryOptions: { heading: string; items: string[] };
     };
-    note: string;
   };
   workshop: {
     cards: {
@@ -195,7 +194,6 @@ export const en: Dictionary = {
         items: ["Workshop pickup", "Shipping"],
       },
     },
-    note: "Whether you come with a CAD file, a sketch or simply an idea, I can help you figure out how to make it.",
   },
   workshop: {
     cards: {
