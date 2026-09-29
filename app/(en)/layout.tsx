@@ -91,8 +91,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <main>{children}</main>
           <footer>
             <p className="footer-copyright">
-              <Link href={routes.privacy.en}>{en.footer.privacy}</Link> ·{" "}
-              <Link href={routes.impressum.en}>{en.footer.impressum}</Link>
+              <Link href={routes.privacy.en}>{en.footer.privacy}</Link>
+              {/* Impressum link hidden for the moment */}
             </p>
             <p className="footer-address">
               {siteConfig.contact.address.split(", ").map((line) => (
