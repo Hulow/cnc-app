@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { Dictionary } from "@/dictionaries/en";
+import { ContinueLink } from "./continue-link";
 
 interface PrivacyPanelProps {
   dict: Pick<Dictionary, "privacy">;
@@ -44,27 +44,7 @@ export function PrivacyPanel({
         {/* Same Continue graphic the old modal used to dismiss itself —
             here it's a real navigation link back to the site instead,
             since there's nothing to dismiss on a standalone page. */}
-        <Link href={homeHref} className="welcome-screen-continue">
-          <span className="welcome-screen-continue-icon-wrap">
-            {/* eslint-disable @next/next/no-img-element */}
-            <img
-              src="/welcome/button-continue-default.svg"
-              alt={dict.privacy.homeLinkLabel}
-              width={187}
-              height={44}
-              className="welcome-screen-continue-icon welcome-screen-continue-icon-default"
-            />
-            <img
-              src="/welcome/button-continue-active.svg"
-              alt=""
-              aria-hidden="true"
-              width={187}
-              height={44}
-              className="welcome-screen-continue-icon welcome-screen-continue-icon-hover"
-            />
-            {/* eslint-enable @next/next/no-img-element */}
-          </span>
-        </Link>
+        <ContinueLink href={homeHref} label={dict.privacy.homeLinkLabel} />
       </div>
     </section>
   );
