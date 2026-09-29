@@ -581,6 +581,14 @@ h3 {
   font-size: var(--font-size-xl);
 }
 
+/* Services and Cutting Salon: their own h1 sits at the left edge of the
+   section instead of centered. Scoped to these two ids (not .page-title
+   itself) so Contact's h1 — also .page-title — keeps its own alignment. */
+#about-heading,
+#cutting-salon-heading {
+  text-align: left;
+}
+
 /* Contact's own h1: the site's signature blue instead of the default
    foreground color, matching the logo/READ MORE button elsewhere. */
 .contact-heading {
@@ -1237,7 +1245,7 @@ h3 {
 .service-card h2,
 .cutting-salon-card h2 {
   font-size: var(--font-size-lg);
-  text-align: center;
+  text-align: left;
 }
 
 /* Sized off the heading's own fluid font-size (em, not a fixed unit) so
@@ -1249,8 +1257,9 @@ h3 {
    100% }` reset, every logo in that grid shrinks by the same factor —
    same technique as .site-nav-icon-wrap above, see its comment.
    Without this, only the wide logo would shrink, leaving the row's
-   logos at visibly different heights. inline-block so the parent's
-   text-align: center above still centers it. Shared by both
+   logos at visibly different heights. inline-block so it doesn't
+   stretch to the parent's full width — the parent's own text-align:
+   left above then keeps it flush left instead. Shared by both
    .service-card and .cutting-salon-card headings. */
 .card-heading-logo {
   display: inline-block;
