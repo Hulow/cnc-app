@@ -142,7 +142,7 @@ export const en: Dictionary = {
     workshop: {
       title: "Inside the Atelier",
       description:
-        "Inside the CNC workshop in Berlin: a 3-axis machine with a 2.2 × 1.5 m working area, machining wood, aluminium and plastics for acoustics, furniture and art.",
+        "Inside the CNC workshop in Berlin: a 3-axis machine with a 2.2 × 1.5 m working area, machining wood, aluminium and plastics for acoustics, furniture art, architecture, engineering and beyond.",
     },
     contact: {
       title: "Request a quote",
@@ -161,10 +161,10 @@ export const en: Dictionary = {
   },
   intro: {
     home: "I run a CNC workshop in Berlin, next to Ostkreuz, inside the Coppi community. I help companies, designers, and individuals turn ideas into real objects: precise cuts, complex designs, and consistent quality, thanks to automated machining. \n\n Whether you have a finished file or just a sketch, you can talk to me directly. No minimum order, flexible on timing, and I reply fast. One prototype or a small series, I'll help you get it done quickly. \n\n Send me your project, or come by the workshop.",
-    services: "From a single prototype to a small production run, I cut your designs precisely and reliably. Whether you come with a CAD file, a sketch or simply an idea, I can help you figure out how to make it, from design and machining to assembly and finishing. Every project is different, so I quote each one individually. Pick up your parts at the workshop or have them shipped to you.",
-    workshop: "The machine runs on 3 axes over a 2.2 × 1.5 m working area. With full control over spindle speed, feed rate and tooling, I can cut a wide variety of woods, aluminium and plastics. I'm open to projects of all kinds, for clients all across Berlin.",
+    services: "I help turn ideas into real objects, from precise cuts and complex designs to consistent, repeatable parts.\n\nWhether you have a CAD file, a sketch, or simply an idea, I can help you figure out how to make it, from design and CNC machining to assembly and finishing.\n\nEvery project is different, so I quote each one individually.\n\nPick up your parts at the workshop or have them shipped to you.",
+    workshop: "The machine has 3 axes and a 2.2 × 1.5 m working area.\n\nWith full control over spindle speed, feed rate and tooling, I can machine a wide variety of woods, aluminium and plastics.\n\nI'm open to projects of all kinds, for clients across Berlin and Germany.",
     contact:
-      "To request a quote, send me your project by email or through the form below. It helps if you include:\n\na CAD file (DXF, DWG or STEP) or a sketch as PDF or image\nthe dimensions\nthe material you'd like\nthe quantity\n\nThe more detail you share, the faster I can get back to you.\n\nNot sure about everything yet? Even if you only have a rough idea, or nothing at all, just get in touch and we'll figure it out together.",
+      "To request a quote, send me your project by email or through the form below. It helps to include:\n\n- A CAD file (DXF, DWG or STEP) or a sketch as a PDF or image\n- The dimensions\n- The material you'd like to use\n- The quantity.\n\nThe more details you share, the faster I can get back to you.\n\nNot sure about everything yet? Even if you only have a rough idea, or nothing at all, just get in touch and we'll figure it out together.",
   },
   nav: {
     home: "Home",
