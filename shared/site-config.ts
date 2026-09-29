@@ -21,14 +21,15 @@ export const siteConfig = {
   // Cloudinary transformations (see P2.1 in SEO-SPEC.md): f_auto/q_auto
   // let Cloudinary pick the best format/quality per browser; w_1920/w_960
   // cap delivered resolution so a phone isn't served desktop-size video.
-  // poster reuses the same public ID with so_0 (frame at 0s) and a .jpg
-  // extension — Cloudinary's video-thumbnail convention — so there's no
-  // separate asset to keep in sync with the video itself.
+  // poster is a local copy (public/cnc-poster.jpg, the same so_0 frame at
+  // 0s) rather than a Cloudinary URL: it's the fallback BackgroundVideo
+  // shows when Cloudinary delivery fails (quota/outage), so it must not
+  // depend on Cloudinary itself to load. Re-download from Cloudinary if
+  // the source video ever changes.
   video: {
     src: "https://res.cloudinary.com/wkjycihi/video/upload/f_auto,q_auto,w_1920/v1789982751/cnc.mp4",
     narrowSrc: "https://res.cloudinary.com/wkjycihi/video/upload/f_auto,q_auto,w_960/v1789982751/cnc.mp4",
-    poster:
-      "https://res.cloudinary.com/wkjycihi/video/upload/so_0,f_auto,q_auto,w_1920/v1789982751/cnc.jpg",
+    poster: "/cnc-poster.jpg",
   },
   keywords: [
     "CNC Fräsen Berlin",
