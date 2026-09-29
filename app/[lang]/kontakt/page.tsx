@@ -12,11 +12,13 @@ export default function KontaktPage() {
   return (
     <>
       <StructuredData data={buildBreadcrumbs("contact", "de", de)} />
-      <h1 className="page-title contact-heading">{de.pages.contact.title}</h1>
-      <ContactRoute lang="de" />
-      <div className="read-more-end">
-        {/* TODO: owner copy — see dictionaries/de.ts's intro.contact comment */}
-        <ReadMoreButton text={de.intro.contact} />
+      <div className="contact-layout">
+        <h1 className="page-title contact-heading">{de.pages.contact.title}</h1>
+        <ContactRoute lang="de" />
+        <div className="read-more-end">
+          {/* TODO: owner copy — see dictionaries/de.ts's intro.contact comment */}
+          <ReadMoreButton text={de.intro.contact} />
+        </div>
       </div>
     </>
   );

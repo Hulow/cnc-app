@@ -601,7 +601,24 @@ h3 {
 .read-more-end {
   display: flex;
   justify-content: flex-end;
-  margin-top: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+/* Contact only: h1/form/.read-more-end are wrapped in .contact-layout
+   (see contact/page.tsx) instead of sitting directly in main, so this
+   tighter gap governs their spacing instead of .page-content main's own
+   flex gap (--space-md) — Contact's title/form/button were sitting
+   noticeably further apart than Services/Cutting Salon's. .read-more-end
+   keeps its margin-top for the Services/Cutting Salon case above, so it
+   has to be zeroed here to avoid stacking on top of this gap too. */
+.contact-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.contact-layout > .read-more-end {
+  margin-top: 0;
 }
 
 /* READ MORE (sits inside .read-more-end above, on Services, Cutting
