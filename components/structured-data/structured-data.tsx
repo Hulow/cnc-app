@@ -1,8 +1,8 @@
 interface StructuredDataProps {
   // One JSON-LD object, or several — each renders as its own
   // <script type="application/ld+json"> block (multiple blocks per page
-  // is standard; see P1.5 in SEO-SPEC.md). Untyped: schema.org shapes
-  // vary per @type, and the builders in shared/structured-data.ts are
+  // is standard). Untyped: schema.org shapes vary per @type, and the
+  // builders in shared/structured-data.ts are
   // the source of truth for what's actually in each one.
   data: object | object[];
 }

@@ -22,7 +22,7 @@ const russoOne = localFont({
 });
 
 // Only "de" today; generateStaticParams is where a future locale (e.g.
-// "fr", per D6 in SEO-SPEC.md if the owner confirms) gets added.
+// "fr", if the owner confirms) gets added.
 export function generateStaticParams() {
   return [{ lang: "de" }];
 }

@@ -3,13 +3,13 @@ import type { Dictionary } from "@/dictionaries/en";
 import { siteConfig } from "./site-config";
 import { languageAlternates, routes, type Lang, type RouteKey } from "./routes";
 
-// Per-page metadata: a unique title/description (see P1.2 in
-// SEO-SPEC.md), self-referencing canonical, a complete hreflang set
-// (en/de/x-default) and a correct openGraph.locale/alternateLocale (see
-// P1.1). openGraph is set here in full (not just locale/url) because
-// Next.js metadata merging replaces the *whole* openGraph object when a
-// page defines one, rather than deep-merging it with the layout's — see
-// the Metadata API's "Merging" docs.
+// Per-page metadata: a unique title/description, self-referencing
+// canonical, a complete hreflang set (en/de/x-default) and a correct
+// openGraph.locale/alternateLocale. openGraph is set here in full
+// (not just locale/url) because Next.js metadata merging replaces the
+// *whole* openGraph object when a page defines one, rather than
+// deep-merging it with the layout's — see the Metadata API's
+// "Merging" docs.
 //
 // The brand suffix is appended here rather than via the root layout's
 // title.template: template application has a documented gap — it does

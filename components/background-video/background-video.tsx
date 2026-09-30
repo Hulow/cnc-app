@@ -11,7 +11,7 @@ import { Video } from "./video";
 // usable if this never loads or plays. When the browser blocks autoplay
 // (no user gesture yet, or a power-saving mode like iOS Low Power Mode),
 // it just leaves the video paused on its poster frame — no "Play"
-// affordance (see P0.4 in SEO-SPEC.md).
+// affordance.
 
 export function BackgroundVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -41,8 +41,8 @@ export function BackgroundVideo() {
   // avoids streaming the remote video on every reload while iterating
   // locally. Reuses the same fallback path as a Cloudinary failure.
   if (failed || process.env.NODE_ENV === "development") {
-    // Cloudinary quota/outage fallback (see P2.1 in SEO-SPEC.md and
-    // note.md): show the poster image rather than an empty background.
+    // Cloudinary quota/outage fallback (see note.md): show the poster
+    // image rather than an empty background.
     // Only falls through to a truly blank background if no poster is
     // configured at all.
     if (!siteConfig.video.poster) return null;

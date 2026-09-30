@@ -3,8 +3,8 @@ import type { Ref } from "react";
 interface VideoProps {
   ref: Ref<HTMLVideoElement | null>;
   src: string;
-  // Narrower encode for phones/small tablets (see P2.1 in SEO-SPEC.md) —
-  // optional so callers without one just get the single `src`.
+  // Narrower encode for phones/small tablets — optional so callers
+  // without one just get the single `src`.
   narrowSrc?: string;
   poster?: string;
   playing: boolean;
@@ -38,8 +38,7 @@ export function Video({
       playsInline
       // "metadata" (not "auto"): fetches just enough to get dimensions
       // and start playback promptly, instead of eagerly downloading the
-      // whole file before the browser even knows if/when it'll play —
-      // see P2.1 in SEO-SPEC.md.
+      // whole file before the browser even knows if/when it'll play.
       preload="metadata"
       aria-hidden="true"
       tabIndex={-1}

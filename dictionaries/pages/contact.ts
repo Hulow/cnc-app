@@ -7,7 +7,7 @@ export const contactPage = {
     metaTitle: "Request a quote",
     metaDescription:
       "Request a CNC machining quote in Berlin: send your CAD file, sketch, dimensions, material and quantity — get workshop pickup or shipping options.",
-    // TODO: owner copy — see P1.4 in SEO-SPEC.md.
+    // TODO: owner copy.
     readMore:
       "To request a quote, send me your project by email or through the form below. It helps to include:\n\n- A CAD file (DXF, DWG or STEP) or a sketch as a PDF or image\n- The dimensions\n- The material you'd like to use\n- The quantity.\n\nThe more details you share, the faster I can get back to you.\n\nNot sure about everything yet? Even if you only have a rough idea, or nothing at all, just get in touch and we'll figure it out together.",
     fields: {

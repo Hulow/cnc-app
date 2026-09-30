@@ -25,9 +25,8 @@ export function CuttingSalon() {
       >
         <div className="cutting-salon-card">
           <h2>
-            {/* Real text node for crawlers/SEO (see P1.3 in
-                SEO-SPEC.md); the SVG stays the visible heading — same
-                technique on every card below. */}
+            {/* Real text node for crawlers/SEO; the SVG stays the
+                visible heading — same technique on every card below. */}
             <span className="sr-only">Machine Capabilities</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

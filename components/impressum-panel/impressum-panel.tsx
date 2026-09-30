@@ -18,10 +18,10 @@ interface ImpressumPanelProps {
 // public elsewhere on the site, not new facts. Phone and VAT ID are
 // real German legal requirements (§ 5 TMG) this codebase has no source
 // for, so they render the dictionary's placeholder text instead of a
-// guess. See P1.7 in SEO-SPEC.md: this whole page needs the owner's
-// (and ideally a legal source's) review before it's final — an
-// incorrect or incomplete Impressum is a real legal liability in
-// Germany (Abmahnung risk), not just a copy nit.
+// guess. This whole page needs the owner's (and ideally a legal
+// source's) review before it's final — an incorrect or incomplete
+// Impressum is a real legal liability in Germany (Abmahnung risk), not
+// just a copy nit.
 export function ImpressumPanel({
   dict,
   homeHref,

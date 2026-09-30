@@ -2,9 +2,9 @@ import type { Dictionary } from "@/dictionaries/en";
 import { siteConfig } from "./site-config";
 import { absoluteUrl, routes, SUPPORTED_LANGS, type Lang, type RouteKey } from "./routes";
 
-// JSON-LD builders — see P1.5 in SEO-SPEC.md. Every value comes from
-// siteConfig + the per-language dictionary, so English and German pages
-// stay consistent with each other and with the visible page content.
+// JSON-LD builders. Every value comes from siteConfig + the
+// per-language dictionary, so English and German pages stay
+// consistent with each other and with the visible page content.
 
 export function buildLocalBusiness(dict: Dictionary) {
   return {
@@ -31,8 +31,8 @@ export function buildLocalBusiness(dict: Dictionary) {
       { "@type": "City", name: siteConfig.serviceArea },
       { "@type": "Country", name: "Germany" },
     ],
-    // "fr" only if the owner confirms (see D6/P1.5 in SEO-SPEC.md) — not
-    // claimed here since nothing on the site is actually in French yet.
+    // "fr" only if the owner confirms — not claimed here since nothing
+    // on the site is actually in French yet.
     knowsLanguage: [...SUPPORTED_LANGS],
     // Populated once the owner provides real profile URLs — see
     // siteConfig.social's own comment.
@@ -68,8 +68,8 @@ export function buildWebSite(lang: Lang) {
 
 // Short label for a route in breadcrumbs — the nav's own short labels
 // ("Service", not the full <title>), except privacy/impressum, which
-// aren't in the nav (footer-only — see P1.7 in SEO-SPEC.md); their
-// footer labels double as the breadcrumb label there.
+// aren't in the nav (footer-only); their footer labels double as the
+// breadcrumb label there.
 function breadcrumbLabel(key: Exclude<RouteKey, "home">, dict: Dictionary): string {
   if (key === "privacy" || key === "impressum") return dict.footer[key];
   return dict.nav[key];

@@ -15,8 +15,7 @@ interface CuttingSalonDeProps {
 const MAX_LOGO_ASPECT_RATIO = 322 / 23;
 
 // German equivalent of CuttingSalon (components/cutting-salon/cutting-salon.tsx),
-// now that German heading logos exist (public/salon/*.svg) — see P1.1 in
-// SEO-SPEC.md.
+// now that German heading logos exist (public/salon/*.svg).
 export function CuttingSalonDe({ dict }: CuttingSalonDeProps) {
   const { cards, imageAlt } = dict.workshop;
 
@@ -33,9 +32,8 @@ export function CuttingSalonDe({ dict }: CuttingSalonDeProps) {
       >
         <div className="cutting-salon-card">
           <h2>
-            {/* Real text node for crawlers/SEO (see P1.3 in
-                SEO-SPEC.md); the SVG stays the visible heading — same
-                technique on every card below. */}
+            {/* Real text node for crawlers/SEO; the SVG stays the
+                visible heading — same technique on every card below. */}
             <span className="sr-only">{cards.machineCapabilities.heading}</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

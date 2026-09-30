@@ -304,7 +304,7 @@ h3 {
 /* ==========================================================================
    Overlay Screen (used by HelpOverlay and the privacy page's link back to
    Home; class name predates the removal of the mandatory welcome/consent
-   gate that used to share it — see P0.4 in SEO-SPEC.md)
+   gate that used to share it)
    ========================================================================== */
 
 /* A full-screen, light-transparent dialog over everything else (video +
@@ -363,9 +363,9 @@ h3 {
   white-space: pre-line;
 }
 
-/* The privacy page's real, visible h1 (see P1.3 in SEO-SPEC.md — this
-   used to be sr-only, matching the old welcome-screen modal it reused
-   the look of, which never showed a heading at all). Sits inside
+/* The privacy page's real, visible h1 (used to be sr-only, matching
+   the old welcome-screen modal it reused the look of, which never
+   showed a heading at all). Sits inside
    .welcome-screen-text (white background) rather than directly in
    .privacy-panel (solid blue) — .page-content main > section's own
    color: var(--logo-color) rule would otherwise paint it blue-on-blue.
@@ -524,8 +524,8 @@ h3 {
    Logo
    ========================================================================== */
 
-/* Wraps the logo image and the (real, visible — see P1.3 in
-   SEO-SPEC.md) page h1 as one centered unit. main itself is
+/* Wraps the logo image and the (real, visible) page h1 as one
+   centered unit. main itself is
    justify-content: flex-start now, so every other view starts flush at
    the top — but this group alone should stay vertically centered.
    margin-block: auto on a single flex item overrides the container's
@@ -1279,8 +1279,8 @@ h3 {
   container-type: inline-size;
 }
 
-/* h2 now (was h3 — see P1.3 in SEO-SPEC.md: card headings need to be
-   real heading text for crawlers, one level below the page's own h1).
+/* h2 now (was h3: card headings need to be real heading text for
+   crawlers, one level below the page's own h1).
    font-size pinned back to the old h3 default (h2's own global default,
    --font-size-xl, is a full step larger) so .card-heading-logo below —
    sized in em off this element's font-size — keeps rendering at exactly
@@ -1310,8 +1310,8 @@ h3 {
   height: min(1.4em, calc(100cqw / var(--card-heading-logo-max-ratio, 16)));
 }
 
-/* service-item/cutting-salon-item are <li> now, inside a <ul> — see
-   P1.3 in SEO-SPEC.md. The <ul> takes over the flex column + gap that
+/* service-item/cutting-salon-item are <li> now, inside a <ul>. The
+   <ul> takes over the flex column + gap that
    used to sit directly on .service-card/.cutting-salon-card around
    each item div, and drops the browser's default list box model, so
    the visual rhythm (heading, then each item stacked with the same

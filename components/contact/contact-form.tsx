@@ -16,8 +16,8 @@ interface ContactFormProps {
   onClose: () => void;
   // Field labels/placeholders/messages only — the Send/Clear/Help/Upload
   // buttons stay the English image assets regardless of language (no
-  // German artwork exists yet — see P1.1 in SEO-SPEC.md), so their alt
-  // text is intentionally not part of this dictionary.
+  // German artwork exists yet), so their alt text is intentionally not
+  // part of this dictionary.
   dict?: Dictionary["contact"];
   // Lets a page-level wrapper (ContactRoute) hide its own title/read-more
   // button once the form succeeds, since the success view replaces the

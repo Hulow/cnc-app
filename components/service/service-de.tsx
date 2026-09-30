@@ -26,8 +26,7 @@ const CARD_LOGOS = {
 const CARD_ORDER = ["services", "cuttingServices", "quotesAreBasedOn", "deliveryOptions"] as const;
 
 // German equivalent of Service (components/service/service.tsx), now
-// that German heading logos exist (public/service/*.svg) — see P1.1 in
-// SEO-SPEC.md.
+// that German heading logos exist (public/service/*.svg).
 export function ServiceDe({ dict }: ServiceDeProps) {
   const { cards } = dict.services;
 
@@ -48,9 +47,8 @@ export function ServiceDe({ dict }: ServiceDeProps) {
           return (
             <div className="service-card" key={key}>
               <h2>
-                {/* Real text node for crawlers/SEO (see P1.3 in SEO-SPEC.md);
-                    the SVG stays the visible heading — same technique on
-                    every card below. */}
+                {/* Real text node for crawlers/SEO; the SVG stays the
+                    visible heading — same technique on every card below. */}
                 <span className="sr-only">{heading}</span>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img

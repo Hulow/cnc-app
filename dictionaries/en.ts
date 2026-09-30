@@ -23,8 +23,7 @@ import { workshopPage } from "./pages/workshop";
 interface PageMeta {
   // Page portion only — the root layout's title.template appends
   // " · Atelier Cut" automatically. Keep title + " · Atelier Cut" under
-  // 60 characters total, and description between 140-160 characters —
-  // see P1.2 in SEO-SPEC.md.
+  // 60 characters total, and description between 140-160 characters.
   title: string;
   description: string;
 }

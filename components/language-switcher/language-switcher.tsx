@@ -26,8 +26,8 @@ const LANGUAGE_LOGOS: Record<Lang, { default: string; hover: string; label: stri
 // never as a page showing its own current language. Links to that
 // language's equivalent page (not just its home page), so switching
 // mid-browse keeps the visitor on the same topic. Does not auto-redirect
-// by Accept-Language — per P1.1 in SEO-SPEC.md, that would hide the
-// English version from crawlers that don't send the header.
+// by Accept-Language — that would hide the English version from
+// crawlers that don't send the header.
 export function LanguageSwitcher({ lang }: LanguageSwitcherProps) {
   const pathname = usePathname();
   const otherLang: Lang = lang === "en" ? "de" : "en";

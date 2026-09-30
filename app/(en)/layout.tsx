@@ -33,9 +33,8 @@ export const metadata: Metadata = {
   // documented gap for a page.tsx in the same folder as the layout
   // defining it, which is exactly our home route; see that file's own
   // comment). This is just the fallback for the rare case nothing below
-  // defines one. No `keywords` — the meta tag is ignored by Google (see
-  // P1.2 in SEO-SPEC.md); siteConfig.keywords stays as internal
-  // copywriting reference only.
+  // defines one. No `keywords` — the meta tag is ignored by Google;
+  // siteConfig.keywords stays as internal copywriting reference only.
   title: siteConfig.name,
   description: en.meta.description,
   alternates: {

@@ -7,7 +7,7 @@ export const servicesPage = {
     metaTitle: "What I Offer",
     metaDescription:
       "CNC machining services in Berlin: prototypes, one-off products and small production series, from CAD design to CNC machining, assembly and finishing.",
-    // TODO: owner copy — see P1.4 in SEO-SPEC.md.
+    // TODO: owner copy.
     readMore:
       "I help turn ideas into real objects, from precise cuts and complex designs to consistent, repeatable parts.\n\nWhether you have a CAD file, a sketch, or simply an idea, I can help you figure out how to make it, from design and CNC machining to assembly and finishing.\n\nEvery project is different, so I quote each one individually.\n\nPick up your parts at the workshop or have them shipped to you.",
     cards: {

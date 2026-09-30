@@ -2,8 +2,7 @@
 // next/og's Satori-based renderer can draw them directly (Satori doesn't
 // reliably rasterize <img src="data:image/svg+xml...">, but does support
 // inline <svg>/<path> in the tree it's given). This does not edit
-// public/logo.svg itself (see D5 in SEO-SPEC.md: the agent must not
-// edit the logo artwork) — same path data, copied verbatim, just
+// public/logo.svg itself — same path data, copied verbatim, just
 // reused for a second, derived rendering target (OG images, the apple
 // touch icon). If the logo is ever redesigned, update both this file
 // and public/logo.svg together.

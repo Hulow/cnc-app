@@ -4,8 +4,7 @@
 // in a German page.
 //
 // TODO: review — machine-drafted translation throughout. Needs a native
-// speaker's review before this copy is treated as final (see P1.1 in
-// SEO-SPEC.md).
+// speaker's review before this copy is treated as final.
 //
 // Content lives in one file per page (./pages/*) plus the site-wide
 // chrome (./meta, ./nav, ./footer, ./not-found), each holding English

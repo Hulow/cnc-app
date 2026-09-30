@@ -1,8 +1,8 @@
 import { ImageResponse } from "next/og";
 import { LogoMark } from "./logo-mark";
 
-// Shared by every route's opengraph-image.tsx (see P1.6 in SEO-SPEC.md).
-// One file has to exist per leaf route segment — a single shared
+// Shared by every route's opengraph-image.tsx. One file has to exist
+// per leaf route segment — a single shared
 // opengraph-image.tsx higher up the tree does not reliably cascade down
 // to nested routes in this project's build (confirmed: /services had no
 // og:image meta tag at all until a copy was added directly in

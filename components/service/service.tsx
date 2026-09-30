@@ -44,9 +44,8 @@ export function Service() {
           return (
             <div className="service-card" key={key}>
               <h2>
-                {/* Real text node for crawlers/SEO (see P1.3 in SEO-SPEC.md);
-                    the SVG stays the visible heading — same technique on
-                    every card below. */}
+                {/* Real text node for crawlers/SEO; the SVG stays the
+                    visible heading — same technique on every card below. */}
                 <span className="sr-only">{heading}</span>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img

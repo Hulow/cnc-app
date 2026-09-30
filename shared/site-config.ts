@@ -8,17 +8,17 @@ export const siteConfig = {
   siteUrl: rawSiteUrl.replace(/\/+$/, ""),
   serviceArea: "Berlin",
   // The natural person the footer copyright already names — reused here
-  // (not invented) as the Impressum's operator name. See P1.7 in
-  // SEO-SPEC.md: flagged there for the owner to confirm, since an
-  // Impressum is a legal document, not just a credit line.
+  // (not invented) as the Impressum's operator name, flagged for the
+  // owner to confirm, since an Impressum is a legal document, not just
+  // a credit line.
   legalName: "Victor Le Fur",
   contact: {
     email: "victor@atelier-cut.com",
     address: "Coppistraße 17, 10365 Berlin",
   },
-  // Cloudinary transformations (see P2.1 in SEO-SPEC.md): f_auto/q_auto
-  // let Cloudinary pick the best format/quality per browser; w_1920/w_960
-  // cap delivered resolution so a phone isn't served desktop-size video.
+  // Cloudinary transformations: f_auto/q_auto let Cloudinary pick the
+  // best format/quality per browser; w_1920/w_960 cap delivered
+  // resolution so a phone isn't served desktop-size video.
   // poster is a local copy (public/cnc-poster.jpg, the same so_0 frame at
   // 0s) rather than a Cloudinary URL: it's the fallback BackgroundVideo
   // shows when Cloudinary delivery fails (quota/outage), so it must not
@@ -36,8 +36,8 @@ export const siteConfig = {
     "CNC Zuschnitt",
     "individuelle CNC-Fertigung",
   ],
-  // Social profile URLs for structured data's `sameAs` (see P1.5 in
-  // SEO-SPEC.md). Empty until the owner provides real profiles — an
-  // invented URL would be worse than no sameAs claim at all.
+  // Social profile URLs for structured data's `sameAs`. Empty until
+  // the owner provides real profiles — an invented URL would be worse
+  // than no sameAs claim at all.
   social: [] as readonly string[],
 } as const;
