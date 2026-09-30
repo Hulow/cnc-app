@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { de } from "@/dictionaries/de";
 import { en } from "@/dictionaries/en";
-import { siteConfig } from "./site-config";
-import { routes } from "./routes";
-import { buildBreadcrumbs, buildLocalBusiness, buildWebSite } from "./structured-data";
+import { siteConfig } from "../site-config";
+import { routes } from "../routes";
+import { buildBreadcrumbs, buildLocalBusiness, buildWebSite } from "./schema-org";
 
 describe("Given buildLocalBusiness", () => {
   describe("When called with the English dictionary", () => {

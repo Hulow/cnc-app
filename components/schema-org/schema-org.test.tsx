@@ -1,13 +1,13 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, render } from "@testing-library/react";
-import { StructuredData } from "./structured-data";
+import { SchemaOrg } from "./schema-org";
 
 afterEach(() => {
   cleanup();
 });
 
 function renderScripts(data: object | object[]) {
-  const { container } = render(<StructuredData data={data} />);
+  const { container } = render(<SchemaOrg data={data} />);
   return [...container.querySelectorAll('script[type="application/ld+json"]')].map((script) =>
     JSON.parse(script.innerHTML),
   );

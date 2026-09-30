@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
-import { ATTACHMENT_TOO_LARGE_MESSAGE } from "@/shared/contact-attachment";
-import { isValidEmailFormat } from "@/shared/contact-email";
+import { ATTACHMENT_TOO_LARGE_MESSAGE } from "@/shared/contact/contact-attachment";
+import { isValidEmailFormat } from "@/shared/contact/contact-email";
 
 type FieldName = "firstName" | "lastName" | "email" | "phone" | "companyName" | "message" | "attachment";
 type Status = "idle" | "submitting" | "success" | "error";

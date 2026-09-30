@@ -1,6 +1,6 @@
 import type { Dictionary } from "@/dictionaries/en";
-import { siteConfig } from "./site-config";
-import { absoluteUrl, routes, SUPPORTED_LANGS, type Lang, type RouteKey } from "./routes";
+import { siteConfig } from "../site-config";
+import { absoluteUrl, routes, SUPPORTED_LANGS, type Lang, type RouteKey } from "../routes";
 
 // JSON-LD builders. Every value comes from siteConfig + the
 // per-language dictionary, so English and German pages stay

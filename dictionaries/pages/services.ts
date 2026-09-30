@@ -1,6 +1,6 @@
 // Services page (app/(en)/services/page.tsx, app/[lang]/leistungen/page.tsx)
 // — also feeds components/service/service.tsx's card grid and
-// shared/structured-data.ts's itemList. Both languages live here side by
+// shared/seo/schema-org.ts's itemList. Both languages live here side by
 // side so they stay easy to compare and keep in sync.
 export const servicesPage = {
   en: {

@@ -3,9 +3,9 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Logo } from "@/components/logo/logo";
 import { en } from "@/dictionaries/en";
-import { isBotUserAgent } from "@/shared/bot-user-agent";
-import { pageMetadata } from "@/shared/page-metadata";
-import { PRIVACY_ACK_COOKIE } from "@/shared/privacy-gate";
+import { isBotUserAgent } from "@/shared/privacy-gate/bot-user-agent";
+import { pageMetadata } from "@/shared/seo/page-metadata";
+import { PRIVACY_ACK_COOKIE } from "@/shared/privacy-gate/privacy-gate";
 import { routes } from "@/shared/routes";
 
 export const metadata: Metadata = pageMetadata("home", "en", en);

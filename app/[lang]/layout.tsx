@@ -4,11 +4,11 @@ import Link from "next/link";
 import { BackgroundVideo } from "@/components/background-video/background-video";
 import { LanguageSwitcher } from "@/components/language-switcher/language-switcher";
 import { Navbar } from "@/components/navbar/navbar";
-import { StructuredData } from "@/components/structured-data/structured-data";
+import { SchemaOrg } from "@/components/schema-org/schema-org";
 import { de } from "@/dictionaries/de";
 import { siteConfig } from "@/shared/site-config";
 import { routes } from "@/shared/routes";
-import { buildLocalBusiness, buildWebSite } from "@/shared/structured-data";
+import { buildLocalBusiness, buildWebSite } from "@/shared/seo/schema-org";
 // Grid + utilities only: no Reboot, so Bootstrap doesn't override the
 // existing global element styles/reset in globals.css.
 import "bootstrap/dist/css/bootstrap-grid.css";
@@ -87,7 +87,7 @@ export default async function LangRootLayout({
   return (
     <html lang={lang} className={russoOne.variable}>
       <body>
-        <StructuredData data={[buildLocalBusiness(de), buildWebSite("de", de)]} />
+        <SchemaOrg data={[buildLocalBusiness(de), buildWebSite("de", de)]} />
         <BackgroundVideo />
         <div className="content-layer page-content">
           <header>

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { ContactForm } from "./contact-form";
-import { MAX_ATTACHMENT_BYTES } from "@/shared/contact-attachment";
+import { MAX_ATTACHMENT_BYTES } from "@/shared/contact/contact-attachment";
 
 function oversizedFile(sizeBytes = MAX_ATTACHMENT_BYTES + 1): File {
   const file = new File(["content"], "big.pdf", { type: "application/pdf" });

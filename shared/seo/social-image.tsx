@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { LogoMark } from "./logo-mark";
+import { LogoMark } from "../branding/logo-mark";
 
 // Shared by every route's opengraph-image.tsx. One file has to exist
 // per leaf route segment — a single shared

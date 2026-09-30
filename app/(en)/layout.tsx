@@ -4,11 +4,11 @@ import Link from "next/link";
 import { BackgroundVideo } from "@/components/background-video/background-video";
 import { LanguageSwitcher } from "@/components/language-switcher/language-switcher";
 import { Navbar } from "@/components/navbar/navbar";
-import { StructuredData } from "@/components/structured-data/structured-data";
+import { SchemaOrg } from "@/components/schema-org/schema-org";
 import { en } from "@/dictionaries/en";
 import { siteConfig } from "@/shared/site-config";
 import { routes } from "@/shared/routes";
-import { buildLocalBusiness, buildWebSite } from "@/shared/structured-data";
+import { buildLocalBusiness, buildWebSite } from "@/shared/seo/schema-org";
 // Grid + utilities only: no Reboot, so Bootstrap doesn't override the
 // existing global element styles/reset in globals.css.
 import "bootstrap/dist/css/bootstrap-grid.css";
@@ -25,11 +25,11 @@ const russoOne = localFont({
 // app/[lang]/layout.tsx, for German) — see the "multiple root layouts"
 // pattern in the Next.js layout docs. Each sets its own <html lang> and
 // metadataBase; per-page metadata (canonical/hreflang/openGraph.locale)
-// is layered on top by each page via shared/page-metadata.ts.
+// is layered on top by each page via shared/seo/page-metadata.ts.
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
   // Every page sets its own full, already-branded title via
-  // shared/page-metadata.ts (not a title.template here — that has a
+  // shared/seo/page-metadata.ts (not a title.template here — that has a
   // documented gap for a page.tsx in the same folder as the layout
   // defining it, which is exactly our home route; see that file's own
   // comment). This is just the fallback for the rare case nothing below
@@ -92,7 +92,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={russoOne.variable}>
       <body>
-        <StructuredData data={[buildLocalBusiness(en), buildWebSite("en", en)]} />
+        <SchemaOrg data={[buildLocalBusiness(en), buildWebSite("en", en)]} />
         <BackgroundVideo />
         <div className="content-layer page-content">
           <header>

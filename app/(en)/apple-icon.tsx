@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
-import { LogoMark } from "@/shared/logo-mark";
+import { LogoMark } from "@/shared/branding/logo-mark";
 
-// The real logo (see shared/logo-mark.tsx — reproduces public/logo.svg's
+// The real logo (see shared/branding/logo-mark.tsx — reproduces public/logo.svg's
 // own paths, not a redrawn substitute), letterboxed to fit the square
 // icon undistorted rather than cropped. Duplicated identically under
 // app/[lang] — see app/(en)/opengraph-image.tsx's own comment on why a

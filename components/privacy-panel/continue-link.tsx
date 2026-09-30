@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { PRIVACY_ACK_COOKIE } from "@/shared/privacy-gate";
+import { PRIVACY_ACK_COOKIE } from "@/shared/privacy-gate/privacy-gate";
 
 interface ContinueLinkProps {
   href: string;

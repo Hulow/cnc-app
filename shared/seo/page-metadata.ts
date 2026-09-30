@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Dictionary } from "@/dictionaries/en";
-import { languageAlternates, routes, type Lang, type RouteKey } from "./routes";
+import { languageAlternates, routes, type Lang, type RouteKey } from "../routes";
 
 // Per-page metadata: a unique title/description, self-referencing
 // canonical, a complete hreflang set (en/de/x-default) and a correct

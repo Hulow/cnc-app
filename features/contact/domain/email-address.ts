@@ -1,4 +1,4 @@
-import { EMAIL_PATTERN } from "@/shared/contact-email";
+import { EMAIL_PATTERN } from "@/shared/contact/contact-email";
 import { InvalidEmailAddressError } from "./errors/email-address-error";
 
 /**

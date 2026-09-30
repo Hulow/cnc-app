@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { StructuredData } from "@/components/structured-data/structured-data";
+import { SchemaOrg } from "@/components/schema-org/schema-org";
 import { PrivacyPanel } from "@/components/privacy-panel/privacy-panel";
 import { de } from "@/dictionaries/de";
-import { pageMetadata } from "@/shared/page-metadata";
+import { pageMetadata } from "@/shared/seo/page-metadata";
 import { routes } from "@/shared/routes";
-import { buildBreadcrumbs } from "@/shared/structured-data";
+import { buildBreadcrumbs } from "@/shared/seo/schema-org";
 
 export const metadata: Metadata = pageMetadata("privacy", "de", de);
 
 export default function DatenschutzPage() {
   return (
     <>
-      <StructuredData data={buildBreadcrumbs("privacy", "de", de)} />
+      <SchemaOrg data={buildBreadcrumbs("privacy", "de", de)} />
       <PrivacyPanel
         dict={de}
         homeHref={routes.home.de}

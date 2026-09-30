@@ -1,6 +1,6 @@
 // Canonical route map: every public page's path in each language. Single
 // source of truth for hreflang/canonical alternates (per-page metadata,
-// sitemap.ts, structured-data.ts) and for the language switcher's
+// sitemap.ts, schema-org.ts) and for the language switcher's
 // reverse lookup — keep this in sync whenever a route is added, removed
 // or its slug changes.
 
@@ -42,7 +42,7 @@ export function alternateLanguagePath(pathname: string, currentLang: Lang): stri
 }
 
 // Resolves a site-relative path ("/", "/de/leistungen", …) to its full
-// https://atelier-cut.com/... URL — sitemap.ts and structured-data.ts
+// https://atelier-cut.com/... URL — sitemap.ts and schema-org.ts
 // both need this (sitemap URLs and JSON-LD `url`/`item` values must be
 // absolute; unlike page metadata, neither goes through metadataBase).
 export function absoluteUrl(path: string): string {

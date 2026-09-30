@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { StructuredData } from "@/components/structured-data/structured-data";
+import { SchemaOrg } from "@/components/schema-org/schema-org";
 import { ImpressumPanel } from "@/components/impressum-panel/impressum-panel";
 import { en } from "@/dictionaries/en";
-import { pageMetadata } from "@/shared/page-metadata";
+import { pageMetadata } from "@/shared/seo/page-metadata";
 import { routes } from "@/shared/routes";
-import { buildBreadcrumbs } from "@/shared/structured-data";
+import { buildBreadcrumbs } from "@/shared/seo/schema-org";
 
 export const metadata: Metadata = pageMetadata("impressum", "en", en);
 
 export default function ImpressumPage() {
   return (
     <>
-      <StructuredData data={buildBreadcrumbs("impressum", "en", en)} />
+      <SchemaOrg data={buildBreadcrumbs("impressum", "en", en)} />
       <ImpressumPanel
         dict={en}
         homeHref={routes.home.en}

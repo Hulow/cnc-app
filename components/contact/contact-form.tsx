@@ -6,7 +6,7 @@ import {
   MAX_ATTACHMENT_BYTES,
   formatMegabytes,
   isAttachmentTooLarge,
-} from "@/shared/contact-attachment";
+} from "@/shared/contact/contact-attachment";
 import { en, type Dictionary } from "@/dictionaries/en";
 import { useContactForm } from "./use-contact-form";
 import { HelpOverlay } from "@/components/help-overlay/help-overlay";
