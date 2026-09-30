@@ -5,8 +5,6 @@ const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://atelier-cut.com"
 
 export const siteConfig = {
   name: "Atelier Cut",
-  description:
-    "Individuelle CNC-Fertigung in Berlin: CNC Fräsen, CNC Zuschnitt und CNC Holzfräsen für Ihre Projekte.",
   siteUrl: rawSiteUrl.replace(/\/+$/, ""),
   serviceArea: "Berlin",
   // The natural person the footer copyright already names — reused here
