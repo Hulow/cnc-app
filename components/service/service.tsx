@@ -9,10 +9,24 @@ import { en } from "@/dictionaries/en";
 // img width/height attributes below.
 const MAX_LOGO_ASPECT_RATIO = 355 / 23;
 
+// Logo asset per card — same key set as en.services.cards (see the German
+// equivalent, components/service/service-de.tsx, which follows the same
+// pattern against public/service/*.svg).
+const CARD_LOGOS = {
+  services: { src: "/service/services.svg", width: 154, height: 23 },
+  cuttingServices: { src: "/service/project_size.svg", width: 222, height: 23 },
+  quotesAreBasedOn: { src: "/service/quotes-are-based-on.svg", width: 355, height: 23 },
+  deliveryOptions: { src: "/service/delivery-options.svg", width: 287, height: 23 },
+} as const;
+
+const CARD_ORDER = ["services", "cuttingServices", "quotesAreBasedOn", "deliveryOptions"] as const;
+
 // Server Component: the primary on-page copy, rendered as part of the
 // initial HTML response so it's readable independently of the video and
 // indexable without client-side JavaScript.
 export function Service() {
+  const { cards } = en.services;
+
   return (
     <section aria-labelledby="about-heading">
       <h1 id="about-heading" className="page-title">{en.pages.services.title}</h1>
@@ -24,87 +38,36 @@ export function Service() {
           } as CSSProperties
         }
       >
-        <div className="service-card">
-          <h2>
-            {/* Real text node for crawlers/SEO (see P1.3 in SEO-SPEC.md);
-                the SVG stays the visible heading — same technique on
-                every card below. */}
-            <span className="sr-only">Services Can Include</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/service/services.svg"
-              alt=""
-              aria-hidden="true"
-              width={154}
-              height={23}
-              className="card-heading-logo"
-            />
-          </h2>
-          <ul>
-            <li className="service-item">CAD & design</li>
-            <li className="service-item">CNC machining</li>
-            <li className="service-item">Assembly & finishing</li>
-          </ul>
-        </div>
-
-        <div className="service-card">
-          <h2>
-            <span className="sr-only">Cutting Services</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/service/project_size.svg"
-              alt=""
-              aria-hidden="true"
-              width={222}
-              height={23}
-              className="card-heading-logo"
-            />
-          </h2>
-          <ul>
-            <li className="service-item">Prototypes</li>
-            <li className="service-item">Unique products</li>
-            <li className="service-item">Small production series</li>
-          </ul>
-        </div>
-
-        <div className="service-card">
-          <h2>
-            <span className="sr-only">Quotes Are Based On</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/service/quotes-are-based-on.svg"
-              alt=""
-              aria-hidden="true"
-              width={355}
-              height={23}
-              className="card-heading-logo"
-            />
-          </h2>
-          <ul>
-            <li className="service-item">Material</li>
-            <li className="service-item">Size & quantity</li>
-            <li className="service-item">Design complexity</li>
-          </ul>
-        </div>
-
-        <div className="service-card">
-          <h2>
-            <span className="sr-only">Delivery Options</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/service/delivery-options.svg"
-              alt=""
-              aria-hidden="true"
-              width={287}
-              height={23}
-              className="card-heading-logo"
-            />
-          </h2>
-          <ul>
-            <li className="service-item">Workshop pickup</li>
-            <li className="service-item">Shipping</li>
-          </ul>
-        </div>
+        {CARD_ORDER.map((key) => {
+          const { heading, items } = cards[key];
+          const logo = CARD_LOGOS[key];
+          return (
+            <div className="service-card" key={key}>
+              <h2>
+                {/* Real text node for crawlers/SEO (see P1.3 in SEO-SPEC.md);
+                    the SVG stays the visible heading — same technique on
+                    every card below. */}
+                <span className="sr-only">{heading}</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={logo.src}
+                  alt=""
+                  aria-hidden="true"
+                  width={logo.width}
+                  height={logo.height}
+                  className="card-heading-logo"
+                />
+              </h2>
+              <ul>
+                {items.map((item) => (
+                  <li className="service-item" key={item}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </div>
       <div className="read-more-end">
         {/* TODO: owner copy — see dictionaries/en.ts's intro.services comment */}

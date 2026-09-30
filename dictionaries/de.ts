@@ -63,11 +63,11 @@ export const de: Dictionary = {
   services: {
     cards: {
       cuttingServices: {
-        heading: "CNC-Zuschnitt",
+        heading: "Projektumfang",
         items: ["Prototypen", "Einzelstücke", "Kleinserien"],
       },
-      servicesCanInclude: {
-        heading: "Mögliche Leistungen",
+      services: {
+        heading: "Leistungen",
         items: ["CAD & Design", "CNC-Bearbeitung", "Montage & Veredelung"],
       },
       quotesAreBasedOn: {

@@ -40,7 +40,7 @@ export function buildLocalBusiness(dict: Dictionary) {
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: dict.pages.services.title,
-      itemListElement: dict.services.cards.cuttingServices.items.map((name) => ({
+      itemListElement: dict.services.cards.services.items.map((name) => ({
         "@type": "Offer",
         itemOffered: { "@type": "Service", name },
       })),

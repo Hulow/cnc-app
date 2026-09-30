@@ -13,6 +13,18 @@ interface ServiceDeProps {
 // img width/height attributes below.
 const MAX_LOGO_ASPECT_RATIO = 385 / 23;
 
+// Logo asset per card — same key set as dict.services.cards (see the
+// English equivalent, components/service/service.tsx, which follows the
+// same pattern against public/service/*.svg).
+const CARD_LOGOS = {
+  services: { src: "/service/leistungen.svg", width: 190, height: 23 },
+  cuttingServices: { src: "/service/projektumfang.svg", width: 270, height: 23 },
+  quotesAreBasedOn: { src: "/service/angebot-basieren-auf.svg", width: 385, height: 23 },
+  deliveryOptions: { src: "/service/lieferoptionen.svg", width: 254, height: 23 },
+} as const;
+
+const CARD_ORDER = ["services", "cuttingServices", "quotesAreBasedOn", "deliveryOptions"] as const;
+
 // German equivalent of Service (components/service/service.tsx), now
 // that German heading logos exist (public/service/*.svg) — see P1.1 in
 // SEO-SPEC.md.
@@ -30,96 +42,36 @@ export function ServiceDe({ dict }: ServiceDeProps) {
           } as CSSProperties
         }
       >
-        <div className="service-card">
-          <h2>
-            {/* Real text node for crawlers/SEO (see P1.3 in SEO-SPEC.md);
-                the SVG stays the visible heading — same technique on
-                every card below. */}
-            <span className="sr-only">{cards.servicesCanInclude.heading}</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/service/leistungen.svg"
-              alt=""
-              aria-hidden="true"
-              width={190}
-              height={23}
-              className="card-heading-logo"
-            />
-          </h2>
-          <ul>
-            {cards.servicesCanInclude.items.map((item) => (
-              <li className="service-item" key={item}>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="service-card">
-          <h2>
-            <span className="sr-only">{cards.cuttingServices.heading}</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/service/projektumfang.svg"
-              alt=""
-              aria-hidden="true"
-              width={270}
-              height={23}
-              className="card-heading-logo"
-            />
-          </h2>
-          <ul>
-            {cards.cuttingServices.items.map((item) => (
-              <li className="service-item" key={item}>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="service-card">
-          <h2>
-            <span className="sr-only">{cards.quotesAreBasedOn.heading}</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/service/angebot-basieren-auf.svg"
-              alt=""
-              aria-hidden="true"
-              width={385}
-              height={23}
-              className="card-heading-logo"
-            />
-          </h2>
-          <ul>
-            {cards.quotesAreBasedOn.items.map((item) => (
-              <li className="service-item" key={item}>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="service-card">
-          <h2>
-            <span className="sr-only">{cards.deliveryOptions.heading}</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/service/lieferoptionen.svg"
-              alt=""
-              aria-hidden="true"
-              width={254}
-              height={23}
-              className="card-heading-logo"
-            />
-          </h2>
-          <ul>
-            {cards.deliveryOptions.items.map((item) => (
-              <li className="service-item" key={item}>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {CARD_ORDER.map((key) => {
+          const { heading, items } = cards[key];
+          const logo = CARD_LOGOS[key];
+          return (
+            <div className="service-card" key={key}>
+              <h2>
+                {/* Real text node for crawlers/SEO (see P1.3 in SEO-SPEC.md);
+                    the SVG stays the visible heading — same technique on
+                    every card below. */}
+                <span className="sr-only">{heading}</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={logo.src}
+                  alt=""
+                  aria-hidden="true"
+                  width={logo.width}
+                  height={logo.height}
+                  className="card-heading-logo"
+                />
+              </h2>
+              <ul>
+                {items.map((item) => (
+                  <li className="service-item" key={item}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </div>
       <div className="read-more-end">
         {/* TODO: owner copy — see dictionaries/de.ts's intro.services comment */}

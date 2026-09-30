@@ -55,7 +55,7 @@ export interface Dictionary {
   services: {
     cards: {
       cuttingServices: { heading: string; items: string[] };
-      servicesCanInclude: { heading: string; items: string[] };
+      services: { heading: string; items: string[] };
       quotesAreBasedOn: { heading: string; items: string[] };
       deliveryOptions: { heading: string; items: string[] };
     };
@@ -179,11 +179,11 @@ export const en: Dictionary = {
   services: {
     cards: {
       cuttingServices: {
-        heading: "Cutting Services",
+        heading: "Project Size",
         items: ["Prototypes", "Unique products", "Small production series"],
       },
-      servicesCanInclude: {
-        heading: "Services Can Include",
+      services: {
+        heading: "Services",
         items: ["CAD & design", "CNC machining", "Assembly & finishing"],
       },
       quotesAreBasedOn: {
