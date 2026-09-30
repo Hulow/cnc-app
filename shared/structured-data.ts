@@ -37,6 +37,14 @@ export function buildLocalBusiness(dict: Dictionary) {
     // Populated once the owner provides real profile URLs — see
     // siteConfig.social's own comment.
     sameAs: [...siteConfig.social],
+    knowsAbout: [
+      ...dict.workshop.cards.materials.items,
+      ...dict.workshop.cards.applications.items,
+    ],
+    additionalProperty: dict.workshop.cards.machineCapabilities.items.map((value) => ({
+      "@type": "PropertyValue",
+      value,
+    })),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: dict.pages.services.title,
