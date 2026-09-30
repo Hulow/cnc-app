@@ -37,7 +37,10 @@ export function BackgroundVideo() {
     }
   }, []);
 
-  if (failed) {
+  // In dev, skip the Cloudinary video entirely and show the poster —
+  // avoids streaming the remote video on every reload while iterating
+  // locally. Reuses the same fallback path as a Cloudinary failure.
+  if (failed || process.env.NODE_ENV === "development") {
     // Cloudinary quota/outage fallback (see P2.1 in SEO-SPEC.md and
     // note.md): show the poster image rather than an empty background.
     // Only falls through to a truly blank background if no poster is
