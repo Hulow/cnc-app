@@ -14,18 +14,18 @@ describe("Given buildLocalBusiness", () => {
       expect(data["@context"]).toBe("https://schema.org");
       expect(data["@type"]).toBe("LocalBusiness");
       expect(data["@id"]).toBe(`${siteConfig.siteUrl}/#business`);
-      expect(data.name).toBe(siteConfig.name);
+      expect(data.name).toBe(en.business.name);
       expect(data.url).toBe(siteConfig.siteUrl);
       expect(data.logo).toBe(`${siteConfig.siteUrl}/logo.svg`);
-      expect(data.email).toBe(siteConfig.contact.email);
+      expect(data.email).toBe(en.business.contact.email);
     });
 
-    it("Then it includes the public postal address matching site-config", () => {
+    it("Then it includes the public postal address matching dict.business", () => {
       expect(data.address).toEqual({
         "@type": "PostalAddress",
         streetAddress: "Coppistraße 17",
         postalCode: "10365",
-        addressLocality: siteConfig.serviceArea,
+        addressLocality: en.business.serviceArea,
         addressCountry: "DE",
       });
     });
@@ -71,11 +71,11 @@ describe("Given buildLocalBusiness", () => {
 describe("Given buildWebSite", () => {
   describe("When called for English", () => {
     it("Then it is a WebSite pointing at the English home page", () => {
-      const data = buildWebSite("en");
+      const data = buildWebSite("en", en);
 
       expect(data["@context"]).toBe("https://schema.org");
       expect(data["@type"]).toBe("WebSite");
-      expect(data.name).toBe(siteConfig.name);
+      expect(data.name).toBe(en.business.name);
       expect(data.url).toBe(siteConfig.siteUrl);
       expect(data.inLanguage).toBe("en");
     });
@@ -83,7 +83,7 @@ describe("Given buildWebSite", () => {
 
   describe("When called for German", () => {
     it("Then it points at the German home page", () => {
-      const data = buildWebSite("de");
+      const data = buildWebSite("de", de);
 
       expect(data.url).toBe(`${siteConfig.siteUrl}${routes.home.de}`);
       expect(data.inLanguage).toBe("de");

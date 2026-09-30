@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type { Dictionary } from "@/dictionaries/en";
-import { siteConfig } from "./site-config";
 import { languageAlternates, routes, type Lang, type RouteKey } from "./routes";
 
 // Per-page metadata: a unique title/description, self-referencing
@@ -21,7 +20,7 @@ import { languageAlternates, routes, type Lang, type RouteKey } from "./routes";
 export function pageMetadata(key: RouteKey, lang: Lang, dict: Dictionary): Metadata {
   const path = routes[key][lang];
   const { title: pageTitle, description } = dict.pages[key];
-  const title = `${pageTitle} · ${siteConfig.name}`;
+  const title = `${pageTitle} · ${dict.business.name}`;
 
   return {
     title,
@@ -33,7 +32,7 @@ export function pageMetadata(key: RouteKey, lang: Lang, dict: Dictionary): Metad
     openGraph: {
       title,
       description,
-      siteName: siteConfig.name,
+      siteName: dict.business.name,
       url: path,
       locale: dict.meta.ogLocale,
       alternateLocale: dict.meta.ogAlternateLocale,

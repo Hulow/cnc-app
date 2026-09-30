@@ -13,6 +13,7 @@
 // component actually reads from.
 
 import type { Dictionary } from "./en";
+import { business } from "./business";
 import { footer } from "./footer";
 import { meta } from "./meta";
 import { nav } from "./nav";
@@ -25,6 +26,7 @@ import { servicesPage } from "./pages/services";
 import { workshopPage } from "./pages/workshop";
 
 export const de: Dictionary = {
+  business,
   meta: meta.de,
   pages: {
     home: { title: homePage.de.metaTitle, description: homePage.de.metaDescription },

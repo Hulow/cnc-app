@@ -1,4 +1,4 @@
-import { siteConfig } from "@/shared/site-config";
+import { business } from "@/dictionaries/business";
 import { ContactButton } from "./contact-button";
 
 // Server Component so the contact details (and mailto: link) are present
@@ -10,11 +10,11 @@ export function Contact() {
     <section aria-labelledby="contact-heading">
       <h2 id="contact-heading">Contact</h2>
       <address>
-        <a href={`mailto:${siteConfig.contact.email}`}>
-          {siteConfig.contact.email}
+        <a href={`mailto:${business.contact.email}`}>
+          {business.contact.email}
         </a>
         <br />
-        {siteConfig.contact.address}
+        {business.contact.address}
       </address>
       <ContactButton />
     </section>

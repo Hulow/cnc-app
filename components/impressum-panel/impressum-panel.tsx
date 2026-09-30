@@ -1,9 +1,8 @@
 import Link from "next/link";
 import type { Dictionary } from "@/dictionaries/en";
-import { siteConfig } from "@/shared/site-config";
 
 interface ImpressumPanelProps {
-  dict: Pick<Dictionary, "impressum">;
+  dict: Pick<Dictionary, "impressum" | "business">;
   homeHref: string;
   logoSrc: string;
   logoWidth: number;
@@ -14,7 +13,7 @@ interface ImpressumPanelProps {
 // pages — same visual treatment as PrivacyPanel (see that file), reused
 // for consistency across the two legal pages.
 //
-// Only name/email/address are filled in, from siteConfig — already
+// Only name/email/address are filled in, from dict.business — already
 // public elsewhere on the site, not new facts. Phone and VAT ID are
 // real German legal requirements (§ 5 TMG) this codebase has no source
 // for, so they render the dictionary's placeholder text instead of a
@@ -49,13 +48,13 @@ export function ImpressumPanel({
             className="legal-panel-logo"
           />
           <p>
-            <strong>{fields.name}:</strong> {siteConfig.legalName}
+            <strong>{fields.name}:</strong> {dict.business.legalName}
           </p>
           <p>
-            <strong>{fields.address}:</strong> {siteConfig.contact.address}
+            <strong>{fields.address}:</strong> {dict.business.contact.address}
           </p>
           <p>
-            <strong>{fields.email}:</strong> {siteConfig.contact.email}
+            <strong>{fields.email}:</strong> {dict.business.contact.email}
           </p>
           <p>
             <strong>{fields.phone}:</strong> {placeholder}
@@ -64,7 +63,7 @@ export function ImpressumPanel({
             <strong>{fields.vatId}:</strong> {placeholder}
           </p>
           <p>
-            <strong>{fields.responsibleContent}:</strong> {siteConfig.legalName}
+            <strong>{fields.responsibleContent}:</strong> {dict.business.legalName}
           </p>
         </div>
         <Link href={homeHref} className="welcome-screen-continue">

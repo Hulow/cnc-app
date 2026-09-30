@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { en } from "@/dictionaries/en";
-import { siteConfig } from "@/shared/site-config";
 import { routes } from "@/shared/routes";
 
 // Handles URLs that match no route at all in either language tree (see
@@ -22,7 +21,7 @@ import { routes } from "@/shared/routes";
 // (there's no separate German tree for unmatched routes), so this shows
 // one English version rather than duplicating the copy per language.
 export const metadata: Metadata = {
-  title: `${siteConfig.name} — Not Found`,
+  title: `${en.business.name} — Not Found`,
 };
 
 const LOGO_COLOR = "#0030ff";

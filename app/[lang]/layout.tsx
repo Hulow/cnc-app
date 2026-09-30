@@ -41,23 +41,23 @@ export const dynamicParams = false;
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
   // See app/(en)/layout.tsx's own comment on this title/no-keywords setup.
-  title: siteConfig.name,
+  title: de.business.name,
   description: de.meta.description,
   alternates: {
     canonical: routes.home.de,
   },
   openGraph: {
-    title: siteConfig.name,
+    title: de.business.name,
     description: de.meta.description,
     url: routes.home.de,
-    siteName: siteConfig.name,
+    siteName: de.business.name,
     locale: de.meta.ogLocale,
     alternateLocale: de.meta.ogAlternateLocale,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
+    title: de.business.name,
     description: de.meta.description,
   },
   robots: {
@@ -87,7 +87,7 @@ export default async function LangRootLayout({
   return (
     <html lang={lang} className={russoOne.variable}>
       <body>
-        <StructuredData data={[buildLocalBusiness(de), buildWebSite("de")]} />
+        <StructuredData data={[buildLocalBusiness(de), buildWebSite("de", de)]} />
         <BackgroundVideo />
         <div className="content-layer page-content">
           <header>
@@ -101,7 +101,7 @@ export default async function LangRootLayout({
               {/* Impressum link hidden for the moment */}
             </p>
             <p className="footer-address">
-              {siteConfig.contact.address.split(", ").map((line) => (
+              {de.business.contact.address.split(", ").map((line) => (
                 <span key={line}>{line}</span>
               ))}
             </p>

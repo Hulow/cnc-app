@@ -11,7 +11,7 @@ export function buildLocalBusiness(dict: Dictionary) {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": `${siteConfig.siteUrl}/#business`,
-    name: siteConfig.name,
+    name: dict.business.name,
     description: dict.meta.description,
     url: siteConfig.siteUrl,
     // .svg, not a raster PNG — no PNG export of the logo exists yet.
@@ -19,16 +19,16 @@ export function buildLocalBusiness(dict: Dictionary) {
     logo: `${siteConfig.siteUrl}/logo.svg`,
     // TODO: `image` (a real OG image) once P1.6 ships one — omitted
     // rather than pointed at a placeholder.
-    email: siteConfig.contact.email,
+    email: dict.business.contact.email,
     address: {
       "@type": "PostalAddress",
-      streetAddress: siteConfig.contact.address.split(", ")[0],
-      postalCode: siteConfig.contact.address.match(/\d{5}/)?.[0],
-      addressLocality: siteConfig.serviceArea,
+      streetAddress: dict.business.contact.address.split(", ")[0],
+      postalCode: dict.business.contact.address.match(/\d{5}/)?.[0],
+      addressLocality: dict.business.serviceArea,
       addressCountry: "DE",
     },
     areaServed: [
-      { "@type": "City", name: siteConfig.serviceArea },
+      { "@type": "City", name: dict.business.serviceArea },
       { "@type": "Country", name: "Germany" },
     ],
     // "fr" only if the owner confirms — not claimed here since nothing
@@ -56,11 +56,11 @@ export function buildLocalBusiness(dict: Dictionary) {
   };
 }
 
-export function buildWebSite(lang: Lang) {
+export function buildWebSite(lang: Lang, dict: Dictionary) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: siteConfig.name,
+    name: dict.business.name,
     url: absoluteUrl(routes.home[lang]),
     inLanguage: lang,
   };

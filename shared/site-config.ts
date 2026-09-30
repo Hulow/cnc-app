@@ -1,21 +1,12 @@
-// Single source of truth for site-wide content used across metadata,
-// structured data, and page components.
+// Single source of truth for technical/infra site config used across
+// metadata, structured data, and page components. Business identity
+// facts (name, legalName, contact, serviceArea) live in
+// dictionaries/business.ts instead — see dict.business.
 
 const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://atelier-cut.com";
 
 export const siteConfig = {
-  name: "Atelier Cut",
   siteUrl: rawSiteUrl.replace(/\/+$/, ""),
-  serviceArea: "Berlin",
-  // The natural person the footer copyright already names — reused here
-  // (not invented) as the Impressum's operator name, flagged for the
-  // owner to confirm, since an Impressum is a legal document, not just
-  // a credit line.
-  legalName: "Victor Le Fur",
-  contact: {
-    email: "victor@atelier-cut.com",
-    address: "Coppistraße 17, 10365 Berlin",
-  },
   // Cloudinary transformations: f_auto/q_auto let Cloudinary pick the
   // best format/quality per browser; w_1920/w_960 cap delivered
   // resolution so a phone isn't served desktop-size video.

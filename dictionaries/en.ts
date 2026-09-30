@@ -9,6 +9,7 @@
 // language out of each and assembles the Dictionary shape every
 // component actually reads from.
 
+import { business, type Business } from "./business";
 import { footer } from "./footer";
 import { meta } from "./meta";
 import { nav } from "./nav";
@@ -29,6 +30,7 @@ interface PageMeta {
 }
 
 export interface Dictionary {
+  business: Business;
   meta: {
     description: string;
     ogLocale: string;
@@ -121,6 +123,7 @@ export interface Dictionary {
 }
 
 export const en: Dictionary = {
+  business,
   meta: meta.en,
   pages: {
     home: { title: homePage.en.metaTitle, description: homePage.en.metaDescription },
