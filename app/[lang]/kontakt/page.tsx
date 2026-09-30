@@ -12,8 +12,8 @@ export default function KontaktPage() {
     <>
       <StructuredData data={buildBreadcrumbs("contact", "de", de)} />
       <div className="contact-layout">
-        {/* TODO: owner copy — see dictionaries/de.ts's intro.contact comment */}
-        <ContactRoute lang="de" title={de.pages.contact.title} introText={de.intro.contact} />
+        {/* TODO: owner copy — see dictionaries/de.ts's readMore.contact comment */}
+        <ContactRoute lang="de" title={de.pages.contact.title} introText={de.readMore.contact} />
       </div>
     </>
   );

@@ -4,7 +4,7 @@ import type { Dictionary } from "@/dictionaries/en";
 import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 
 interface CuttingSalonDeProps {
-  dict: Pick<Dictionary, "workshop" | "pages" | "intro">;
+  dict: Pick<Dictionary, "workshop" | "pages" | "readMore">;
 }
 
 // Widest heading logo below (maschinenleistung.svg, 322x23) — feeds
@@ -136,8 +136,8 @@ export function CuttingSalonDe({ dict }: CuttingSalonDeProps) {
         className="cutting-salon-image"
       />
       <div className="read-more-end">
-        {/* TODO: owner copy — see dictionaries/de.ts's intro.workshop comment */}
-        <ReadMoreButton text={dict.intro.workshop} />
+        {/* TODO: owner copy — see dictionaries/de.ts's readMore.workshop comment */}
+        <ReadMoreButton text={dict.readMore.workshop} />
       </div>
     </section>
   );

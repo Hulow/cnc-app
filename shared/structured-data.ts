@@ -75,8 +75,8 @@ function breadcrumbLabel(key: Exclude<RouteKey, "home">, dict: Dictionary): stri
   return dict.nav[key];
 }
 
-// Subpages only — never called for "home", which needs no breadcrumb
-// trail (it IS the root).
+
+// It tells search engines: "This page belongs to this navigation hierarchy: Home → Services."
 export function buildBreadcrumbs(key: Exclude<RouteKey, "home">, lang: Lang, dict: Dictionary) {
   return {
     "@context": "https://schema.org",

@@ -124,8 +124,8 @@ export function CuttingSalon() {
         className="cutting-salon-image"
       />
       <div className="read-more-end">
-        {/* TODO: owner copy — see dictionaries/en.ts's intro.workshop comment */}
-        <ReadMoreButton text={en.intro.workshop} />
+        {/* TODO: owner copy — see dictionaries/en.ts's readMore.workshop comment */}
+        <ReadMoreButton text={en.readMore.workshop} />
       </div>
     </section>
   );

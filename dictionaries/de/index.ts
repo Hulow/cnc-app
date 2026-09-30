@@ -34,11 +34,11 @@ export const de: Dictionary = {
     privacy: { title: privacyPage.metaTitle, description: privacyPage.metaDescription },
     impressum: { title: impressumPage.metaTitle, description: impressumPage.metaDescription },
   },
-  intro: {
-    home: homePage.intro,
-    services: servicesPage.intro,
-    workshop: workshopPage.intro,
-    contact: contactPage.intro,
+  readMore: {
+    home: homePage.readMore,
+    services: servicesPage.readMore,
+    workshop: workshopPage.readMore,
+    contact: contactPage.readMore,
   },
   nav,
   footer,

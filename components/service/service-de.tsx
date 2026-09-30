@@ -3,7 +3,7 @@ import type { Dictionary } from "@/dictionaries/en";
 import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 
 interface ServiceDeProps {
-  dict: Pick<Dictionary, "services" | "pages" | "intro">;
+  dict: Pick<Dictionary, "services" | "pages" | "readMore">;
 }
 
 // Widest heading logo below (angebot-basieren-auf.svg, 385x23) — feeds
@@ -74,8 +74,8 @@ export function ServiceDe({ dict }: ServiceDeProps) {
         })}
       </div>
       <div className="read-more-end">
-        {/* TODO: owner copy — see dictionaries/de.ts's intro.services comment */}
-        <ReadMoreButton text={dict.intro.services} />
+        {/* TODO: owner copy — see dictionaries/de.ts's readMore.services comment */}
+        <ReadMoreButton text={dict.readMore.services} />
       </div>
     </section>
   );

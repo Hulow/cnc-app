@@ -70,8 +70,8 @@ export function Service() {
         })}
       </div>
       <div className="read-more-end">
-        {/* TODO: owner copy — see dictionaries/en.ts's intro.services comment */}
-        <ReadMoreButton text={en.intro.services} />
+        {/* TODO: owner copy — see dictionaries/en.ts's readMore.services comment */}
+        <ReadMoreButton text={en.readMore.services} />
       </div>
     </section>
   );
