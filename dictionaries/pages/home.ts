@@ -1,0 +1,19 @@
+// Home page (app/(en)/page.tsx, app/[lang]/page.tsx). Both languages
+// live here side by side so they stay easy to compare and keep in sync.
+export const homePage = {
+  en: {
+    metaTitle: "CNC cutting services in Berlin",
+    //metaDescription -> Is what i have on google
+    metaDescription:
+      "Atelier Cut designs and CNC-machines prototypes, unique objects and small production series in Berlin — from a CAD file, sketch or idea to finished part.",
+    readMore:
+      "I run a CNC workshop in Berlin, next to Ostkreuz, inside the Coppi community. I help companies, designers, and individuals turn ideas into real objects: precise cuts, complex designs, and consistent quality, thanks to automated machining. \n\n Whether you have a finished file or just a sketch, you can talk to me directly. No minimum order, flexible on timing, and I reply fast. One prototype or a small series, I'll help you get it done quickly. \n\n Send me your project, or come by the workshop.",
+  },
+  de: {
+    metaTitle: "CNC-Zuschnitt in Berlin",
+    metaDescription:
+      "Atelier Cut entwirft und fertigt Prototypen, Einzelstücke und Kleinserien per CNC in Berlin — von der CAD-Datei, Skizze oder Idee bis zum fertigen Teil.",
+    readMore:
+      "Ich betreibe eine CNC-Werkstatt in Berlin, nahe dem Ostkreuz, in der Coppi-Community. Ich helfe Unternehmen, Designer:innen und Privatpersonen dabei, ihre Ideen in echte Objekte zu verwandeln: präzise Zuschnitte, komplexe Designs und gleichbleibende Qualität dank automatisierter Fertigung. \n\n Ob du eine fertige Datei oder nur eine Skizze hast, du sprichst direkt mit mir. Keine Mindestbestellmenge, flexible Termine und schnelle Antworten. Ob einzelner Prototyp oder Kleinserie, ich helfe dir, es zügig umzusetzen. \n\n Schick mir dein Projekt oder komm einfach in der Werkstatt vorbei.",
+  },
+};

@@ -1,11 +1,13 @@
-// English dictionary — the source-of-truth wording; German (dictionaries/de)
-// is a drafted translation of this. Keep both directories' shapes
-// identical (see the Dictionary type below) so a missing German key is a
-// type error, not a silent English fallback in a German page.
+// English dictionary — the source-of-truth wording; German is a drafted
+// translation of this. Keep both languages' shapes identical (see the
+// Dictionary type below) so a missing German key is a type error, not a
+// silent English fallback in a German page.
 //
-// Content lives in one file per page (./pages/*) plus the site-wide chrome
-// (./meta, ./nav, ./footer, ./not-found) — this file only assembles those
-// pieces into the Dictionary shape every component actually reads from.
+// Content lives in one file per page (./pages/*) plus the site-wide
+// chrome (./meta, ./nav, ./footer, ./not-found), each holding English
+// and German side by side — this file (and ./de.ts) only pulls its own
+// language out of each and assembles the Dictionary shape every
+// component actually reads from.
 
 import { footer } from "./footer";
 import { meta } from "./meta";
@@ -120,49 +122,49 @@ export interface Dictionary {
 }
 
 export const en: Dictionary = {
-  meta,
+  meta: meta.en,
   pages: {
-    home: { title: homePage.metaTitle, description: homePage.metaDescription },
-    services: { title: servicesPage.metaTitle, description: servicesPage.metaDescription },
-    workshop: { title: workshopPage.metaTitle, description: workshopPage.metaDescription },
-    contact: { title: contactPage.metaTitle, description: contactPage.metaDescription },
-    privacy: { title: privacyPage.metaTitle, description: privacyPage.metaDescription },
-    impressum: { title: impressumPage.metaTitle, description: impressumPage.metaDescription },
+    home: { title: homePage.en.metaTitle, description: homePage.en.metaDescription },
+    services: { title: servicesPage.en.metaTitle, description: servicesPage.en.metaDescription },
+    workshop: { title: workshopPage.en.metaTitle, description: workshopPage.en.metaDescription },
+    contact: { title: contactPage.en.metaTitle, description: contactPage.en.metaDescription },
+    privacy: { title: privacyPage.en.metaTitle, description: privacyPage.en.metaDescription },
+    impressum: { title: impressumPage.en.metaTitle, description: impressumPage.en.metaDescription },
   },
   readMore: {
-    home: homePage.readMore,
-    services: servicesPage.readMore,
-    workshop: workshopPage.readMore,
-    contact: contactPage.readMore,
+    home: homePage.en.readMore,
+    services: servicesPage.en.readMore,
+    workshop: workshopPage.en.readMore,
+    contact: contactPage.en.readMore,
   },
-  nav,
-  footer,
+  nav: nav.en,
+  footer: footer.en,
   services: {
-    cards: servicesPage.cards,
+    cards: servicesPage.en.cards,
   },
   workshop: {
-    cards: workshopPage.cards,
-    imageAlt: workshopPage.imageAlt,
+    cards: workshopPage.en.cards,
+    imageAlt: workshopPage.en.imageAlt,
   },
   contact: {
-    fields: contactPage.fields,
-    attachmentHint: contactPage.attachmentHint,
-    attachmentTooLarge: contactPage.attachmentTooLarge,
-    removeAttachment: contactPage.removeAttachment,
-    sending: contactPage.sending,
-    success: contactPage.success,
-    help: contactPage.help,
+    fields: contactPage.en.fields,
+    attachmentHint: contactPage.en.attachmentHint,
+    attachmentTooLarge: contactPage.en.attachmentTooLarge,
+    removeAttachment: contactPage.en.removeAttachment,
+    sending: contactPage.en.sending,
+    success: contactPage.en.success,
+    help: contactPage.en.help,
   },
   privacy: {
-    title: privacyPage.title,
-    paragraphs: privacyPage.paragraphs,
-    homeLinkLabel: privacyPage.homeLinkLabel,
+    title: privacyPage.en.title,
+    paragraphs: privacyPage.en.paragraphs,
+    homeLinkLabel: privacyPage.en.homeLinkLabel,
   },
   impressum: {
-    title: impressumPage.title,
-    fields: impressumPage.fields,
-    placeholder: impressumPage.placeholder,
-    homeLinkLabel: impressumPage.homeLinkLabel,
+    title: impressumPage.en.title,
+    fields: impressumPage.en.fields,
+    placeholder: impressumPage.en.placeholder,
+    homeLinkLabel: impressumPage.en.homeLinkLabel,
   },
-  notFound: notFoundPage,
+  notFound: notFoundPage.en,
 };
