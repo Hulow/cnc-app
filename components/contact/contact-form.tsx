@@ -4,6 +4,10 @@ import { useRef, useState, type ChangeEvent, type MouseEvent } from "react";
 import { ALLOWED_ATTACHMENT_EXTENSIONS, MAX_ATTACHMENT_BYTES, formatMegabytes } from "@/shared/contact/contact-attachment";
 import { en, type Dictionary } from "@/dictionaries/en";
 import { useContactForm } from "./use-contact-form";
+import { ContactFormField } from "./contact-form-field";
+import { ContactFormAttachmentField } from "./contact-form-attachment-field";
+import { ContactFormActions } from "./contact-form-actions";
+import { ContactFormSuccess } from "./contact-form-success";
 import { MessagePanel } from "@/components/message-panel/message-panel";
 import { MessagePanelButton } from "@/components/message-panel/message-panel-button";
 
@@ -70,185 +74,90 @@ export function ContactForm({ formId, onClose, dict = en.contact, onSuccessChang
   }
 
   if (status === "success") {
-    return (
-      <div id={formId} className="contact-form contact-form-success" role="status">
-        <p>{dict.success}</p>
-        {/* Same default/hover image-swap mechanism as the site's Continue
-            buttons (see MessagePanelButton), with its own Close asset,
-            size, and CSS class family (button-close-active.svg is the
-            pink hover graphic — there's no separate button-close-
-            hover.svg). */}
-        <MessagePanelButton
-          label="Close"
-          onClick={onClose}
-          defaultSrc="/form/button-close-default.svg"
-          hoverSrc="/form/button-close-active.svg"
-          width={137}
-          height={44}
-          className="contact-form-close-button"
-          iconWrapClassName="contact-form-close-icon-wrap"
-          iconClassName="contact-form-close-icon"
-        />
-      </div>
-    );
+    return <ContactFormSuccess formId={formId} message={dict.success} onClose={onClose} />;
   }
 
   return (
     <>
       <form id={formId} className="contact-form" onSubmit={handleSubmit} noValidate>
-        <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-company-name">{dict.fields.company}</label>
-          <input
-            id="contact-company-name"
-            name="companyName"
-            type="text"
-            autoComplete="organization"
-            placeholder={dict.fields.company}
-            disabled={isSubmitting}
-            onChange={() => clearFieldError("companyName")}
-          />
-          {fieldErrors.companyName && <p role="alert">{fieldErrors.companyName}</p>}
-        </div>
+        <ContactFormField
+          id="contact-company-name"
+          name="companyName"
+          label={dict.fields.company}
+          autoComplete="organization"
+          disabled={isSubmitting}
+          error={fieldErrors.companyName}
+          onChange={() => clearFieldError("companyName")}
+        />
 
-        <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-first-name">{dict.fields.firstName}</label>
-          <input
-            id="contact-first-name"
-            name="firstName"
-            type="text"
-            autoComplete="given-name"
-            placeholder={dict.fields.firstName}
-            required
-            disabled={isSubmitting}
-            onChange={() => clearFieldError("firstName")}
-          />
-          <span className="contact-form-placeholder" aria-hidden="true">
-            {dict.fields.firstName}<span className="contact-form-required"> *</span>
-          </span>
-          {fieldErrors.firstName && <p role="alert">{fieldErrors.firstName}</p>}
-        </div>
+        <ContactFormField
+          id="contact-first-name"
+          name="firstName"
+          label={dict.fields.firstName}
+          autoComplete="given-name"
+          required
+          disabled={isSubmitting}
+          error={fieldErrors.firstName}
+          onChange={() => clearFieldError("firstName")}
+        />
 
-        <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-last-name">{dict.fields.lastName}</label>
-          <input
-            id="contact-last-name"
-            name="lastName"
-            type="text"
-            autoComplete="family-name"
-            placeholder={dict.fields.lastName}
-            required
-            disabled={isSubmitting}
-            onChange={() => clearFieldError("lastName")}
-          />
-          <span className="contact-form-placeholder" aria-hidden="true">
-            {dict.fields.lastName}<span className="contact-form-required"> *</span>
-          </span>
-          {fieldErrors.lastName && <p role="alert">{fieldErrors.lastName}</p>}
-        </div>
+        <ContactFormField
+          id="contact-last-name"
+          name="lastName"
+          label={dict.fields.lastName}
+          autoComplete="family-name"
+          required
+          disabled={isSubmitting}
+          error={fieldErrors.lastName}
+          onChange={() => clearFieldError("lastName")}
+        />
 
-        <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-email">{dict.fields.email}</label>
-          <input
-            id="contact-email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            placeholder={dict.fields.email}
-            required
-            disabled={isSubmitting}
-            onChange={() => clearFieldError("email")}
-            onBlur={(event) => validateEmailOnBlur(event.target.value)}
-          />
-          <span className="contact-form-placeholder" aria-hidden="true">
-            {dict.fields.email}<span className="contact-form-required"> *</span>
-          </span>
-          {fieldErrors.email && <p role="alert">{fieldErrors.email}</p>}
-        </div>
+        <ContactFormField
+          id="contact-email"
+          name="email"
+          label={dict.fields.email}
+          type="email"
+          autoComplete="email"
+          required
+          disabled={isSubmitting}
+          error={fieldErrors.email}
+          onChange={() => clearFieldError("email")}
+          onBlur={validateEmailOnBlur}
+        />
 
-        <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-phone">{dict.fields.phone}</label>
-          <input
-            id="contact-phone"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            placeholder={dict.fields.phone}
-            disabled={isSubmitting}
-            onChange={() => clearFieldError("phone")}
-          />
-          {fieldErrors.phone && <p role="alert">{fieldErrors.phone}</p>}
-        </div>
+        <ContactFormField
+          id="contact-phone"
+          name="phone"
+          label={dict.fields.phone}
+          type="tel"
+          autoComplete="tel"
+          disabled={isSubmitting}
+          error={fieldErrors.phone}
+          onChange={() => clearFieldError("phone")}
+        />
 
-        <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-message">{dict.fields.message}</label>
-          <textarea
-            id="contact-message"
-            name="message"
-            placeholder={dict.fields.message}
-            rows={5}
-            disabled={isSubmitting}
-            onChange={() => clearFieldError("message")}
-          />
-          {fieldErrors.message && <p role="alert">{fieldErrors.message}</p>}
-        </div>
+        <ContactFormField
+          id="contact-message"
+          name="message"
+          label={dict.fields.message}
+          multiline
+          disabled={isSubmitting}
+          error={fieldErrors.message}
+          onChange={() => clearFieldError("message")}
+        />
 
-        <div className="contact-form-field">
-          <label className="sr-only" htmlFor="contact-attachment">{dict.fields.attachment}</label>
-          <div className="contact-form-attachment-row">
-            <div className="contact-form-file">
-              {/* Custom "Upload" trigger + filename/placeholder text — the
-                  real input has no native placeholder and its button label
-                  can't be renamed, so it's fully hidden (opacity: 0,
-                  stacked on top so clicks still reach it natively) and
-                  these decorative elements stand in for it visually. */}
-              <span className="contact-form-file-button" aria-hidden="true">
-                {/* No button-upload-hover.svg exists yet (unlike Send/
-                    Clear/Help/Close/Continue), and this element already
-                    has pointer-events: none (see .contact-form-file-
-                    button below — the real input on top handles clicks),
-                    so there's no hover state to build here regardless. */}
-                {/* eslint-disable @next/next/no-img-element */}
-                <img
-                  src="/form/button-upload-default.svg"
-                  alt=""
-                  width={160}
-                  height={44}
-                  className="contact-form-file-button-icon"
-                />
-                {/* eslint-enable @next/next/no-img-element */}
-              </span>
-              {attachmentName ? (
-                <span className="contact-form-file-name">{attachmentName}</span>
-              ) : (
-                <span className="contact-form-file-placeholder">{dict.fields.attachment}</span>
-              )}
-              <input
-                ref={attachmentInputRef}
-                id="contact-attachment"
-                name="attachment"
-                type="file"
-                accept={ACCEPT_ATTRIBUTE}
-                disabled={isSubmitting}
-                onChange={handleAttachmentChange}
-              />
-            </div>
-            {attachmentName && (
-              <button
-                type="button"
-                className="contact-form-attachment-remove"
-                onClick={handleRemoveAttachment}
-                disabled={isSubmitting}
-                aria-label={dict.removeAttachment}
-              >
-                ×
-              </button>
-            )}
-          </div>
-          <p className="contact-form-hint">{dict.attachmentHint(MAX_ATTACHMENT_MB)}</p>
-          {oversizedAttachmentMb && (
-            <p role="alert">{dict.attachmentTooLarge(oversizedAttachmentMb)}</p>
-          )}
-        </div>
+        <ContactFormAttachmentField
+          label={dict.fields.attachment}
+          hint={dict.attachmentHint(MAX_ATTACHMENT_MB)}
+          oversizedError={oversizedAttachmentMb ? dict.attachmentTooLarge(oversizedAttachmentMb) : null}
+          removeLabel={dict.removeAttachment}
+          acceptAttribute={ACCEPT_ATTRIBUTE}
+          disabled={isSubmitting}
+          attachmentName={attachmentName}
+          inputRef={attachmentInputRef}
+          onChange={handleAttachmentChange}
+          onRemove={handleRemoveAttachment}
+        />
 
         {/* Honeypot: invisible to real visitors (see .contact-form-honeypot),
             skipped from tab order, left empty so genuine submissions never
@@ -264,97 +173,13 @@ export function ContactForm({ formId, onClose, dict = en.contact, onSuccessChang
           </p>
         )}
 
-        <div className="contact-form-actions">
-          <button
-            type="submit"
-            className="contact-form-submit"
-            disabled={isSubmitting || Boolean(fieldErrors.firstName || fieldErrors.lastName || fieldErrors.email)}
-            // The image swap below doesn't reflect the submitting state,
-            // so the accessible name still has to — aria-label overrides
-            // the default (hidden) icon's alt text as the button's name.
-            aria-label={isSubmitting ? dict.sending : undefined}
-          >
-            <span className="contact-form-submit-icon-wrap">
-              {/* Plain <img>, not next/image — see the nav icons in
-                  Navbar for why: these are already unoptimized SVGs, so
-                  Image buys nothing here. */}
-              {/* eslint-disable @next/next/no-img-element */}
-              <img
-                src="/form/button-send-default.svg"
-                alt="Send"
-                width={120}
-                height={44}
-                className="contact-form-submit-icon contact-form-submit-icon-default"
-              />
-              <img
-                src="/form/button-send-hover.svg"
-                alt=""
-                aria-hidden="true"
-                width={120}
-                height={44}
-                className="contact-form-submit-icon contact-form-submit-icon-hover"
-              />
-              {/* eslint-enable @next/next/no-img-element */}
-            </span>
-          </button>
-          <button
-            type="button"
-            className="contact-form-clear"
-            onClick={handleCancel}
-            disabled={isSubmitting}
-          >
-            <span className="contact-form-clear-icon-wrap">
-              {/* eslint-disable @next/next/no-img-element */}
-              <img
-                src="/form/button-clear-default.svg"
-                alt="Clear"
-                width={139}
-                height={44}
-                className="contact-form-clear-icon contact-form-clear-icon-default"
-              />
-              <img
-                src="/form/button-clear-hover.svg"
-                alt=""
-                aria-hidden="true"
-                width={139}
-                height={44}
-                className="contact-form-clear-icon contact-form-clear-icon-hover"
-              />
-              {/* eslint-enable @next/next/no-img-element */}
-            </span>
-          </button>
-          <button
-            type="button"
-            className="contact-form-help"
-            disabled={isSubmitting}
-            onClick={() => setShowHelp(true)}
-          >
-            <span className="contact-form-help-icon-wrap">
-              {/* eslint-disable @next/next/no-img-element */}
-              <img
-                src="/form/button-help-default.svg"
-                alt="Help"
-                width={118}
-                height={44}
-                className="contact-form-help-icon contact-form-help-icon-default"
-              />
-              {/* button-help-active.svg is the pink asset for this set
-                  (its stroke matches button-send-hover.svg/button-clear-
-                  hover.svg's pink, not the "active" pink used for a
-                  persistent nav selection) — there's no separate
-                  button-help-hover.svg, so this is the hover graphic. */}
-              <img
-                src="/form/button-help-active.svg"
-                alt=""
-                aria-hidden="true"
-                width={118}
-                height={44}
-                className="contact-form-help-icon contact-form-help-icon-hover"
-              />
-              {/* eslint-enable @next/next/no-img-element */}
-            </span>
-          </button>
-        </div>
+        <ContactFormActions
+          isSubmitting={isSubmitting}
+          submitDisabled={isSubmitting || Boolean(fieldErrors.firstName || fieldErrors.lastName || fieldErrors.email)}
+          sendingLabel={dict.sending}
+          onCancel={handleCancel}
+          onHelp={() => setShowHelp(true)}
+        />
       </form>
       {showHelp && (
         <MessagePanel
