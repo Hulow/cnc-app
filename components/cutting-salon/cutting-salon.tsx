@@ -37,13 +37,13 @@ const CARD_ORDER = ["machineCapabilities", "materials", "applications", "technol
 // Server Component: same rendering rationale as Service — see that file.
 export function CuttingSalon({ lang }: CuttingSalonProps) {
   const dict = lang === "en" ? en : de;
-  const { cards, imageAlt } = dict.workshop;
+  const { cards, imageAlt } = dict.workshop.websiteContent;
   const logos = CARD_LOGOS[lang];
 
   return (
     <CardGrid
       headingId="cutting-salon-heading"
-      title={dict.pages.workshop.title}
+      title={dict.workshop.metadata.title}
       maxLogoAspectRatio={MAX_LOGO_ASPECT_RATIO[lang]}
       cards={CARD_ORDER.map((key) => ({
         key,
@@ -58,8 +58,8 @@ export function CuttingSalon({ lang }: CuttingSalonProps) {
         height: 1800,
         sizes: "(min-width: 576px) 70vw, 90vw",
       }}
-      // TODO: owner copy — see dictionaries/en.ts's readMore.workshop comment
-      readMoreText={dict.readMore.workshop}
+      // TODO: owner copy — see dictionaries/pages/workshop.ts's websiteContent.readMore comment
+      readMoreText={dict.workshop.websiteContent.readMore}
     />
   );
 }

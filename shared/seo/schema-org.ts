@@ -49,16 +49,16 @@ export { buildServices } from "./schemas/services";
 export function buildBusinessLegal(dict: Dictionary) {
   return prune({
     ...businessCore(dict),
-    legalName: dict.business.registeredName,
-    vatID: dict.business.vatId,
-    email: dict.business.contact.email,
-    telephone: dict.business.contact.phone,
+    legalName: dict.impressum.schemas.registeredName,
+    vatID: dict.impressum.schemas.vatId,
+    email: dict.impressum.schemas.email,
+    telephone: dict.impressum.schemas.phone,
     address: postalAddress(dict),
   });
 }
 
 // Person: the individual behind the business (the same natural person the
-// Impressum names — dict.business.legalName). `profile` adds what a visitor
+// Impressum names — dict.site.legalName). `profile` adds what a visitor
 // reads in a "who I am" section — job title, bio, portrait, skills — which
 // only belongs on the page that shows them (the workshop page).
 export function buildPerson(dict: Dictionary, { profile }: { profile: boolean }) {
@@ -66,15 +66,15 @@ export function buildPerson(dict: Dictionary, { profile }: { profile: boolean })
     "@context": CONTEXT,
     "@type": "Person",
     "@id": schemaIds.person,
-    name: dict.business.legalName,
+    name: dict.site.legalName,
     worksFor: businessRef(dict),
     ...(profile && {
-      jobTitle: dict.schema.person.jobTitle,
-      description: dict.schema.person.description,
-      image: assetUrl(dict.business.person.image),
+      jobTitle: dict.workshop.schemas.jobTitle,
+      description: dict.workshop.schemas.description,
+      image: assetUrl(dict.workshop.schemas.personImage),
       knowsAbout: [
-        ...dict.workshop.cards.materials.items,
-        ...dict.workshop.cards.technology.items,
+        ...dict.workshop.websiteContent.cards.materials.items,
+        ...dict.workshop.websiteContent.cards.technology.items,
       ],
     }),
     ...(siteConfig.social.length > 0 && { sameAs: [...siteConfig.social] }),
@@ -125,15 +125,15 @@ const ABOUT_BUSINESS: readonly RouteKey[] = ["home", "services", "workshop", "co
 
 // CreativeWork > WebPage: an individual page within that website.
 export function buildWebPage(key: RouteKey, lang: Lang, dict: Dictionary) {
-  const { title, description } = dict.pages[key];
-  const { published, modified } = dict.business.pageDates[key];
+  const { title, description } = dict[key].metadata;
+  const { published, modified } = dict[key].schemas.pageDates;
 
   return prune({
     "@context": CONTEXT,
     "@type": PAGE_TYPE[key] ?? "WebPage",
     "@id": schemaIds.webPage(key, lang),
     url: absoluteUrl(routes[key][lang]),
-    name: `${title} · ${dict.business.name}`,
+    name: `${title} · ${dict.site.name}`,
     description,
     inLanguage: lang,
     datePublished: published,
@@ -144,7 +144,7 @@ export function buildWebPage(key: RouteKey, lang: Lang, dict: Dictionary) {
     ...(key !== "home" && { breadcrumb: { "@id": schemaIds.breadcrumb(key, lang) } }),
     // The services page is the one that is *about* the Service entities.
     ...(key === "services" && {
-      mainEntity: dict.services.cards.services.items.map((_, index) => ({
+      mainEntity: dict.services.websiteContent.cards.services.items.map((_, index) => ({
         "@id": schemaIds.service(index),
       })),
     }),

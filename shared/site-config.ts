@@ -1,7 +1,9 @@
 // Single source of truth for technical/infra site config used across
 // metadata, structured data, and page components. Business identity
-// facts (name, legalName, contact, serviceArea) live in
-// dictionaries/business.ts instead — see dict.business.
+// facts used outside any single page (name, address, serviceArea,
+// legalName) live in dictionaries/site.ts instead — see dict.site.
+// Facts specific to one page (foundingDate, vatId, geo, phone…) live in
+// that page's own dictionaries/pages/*.ts, under `schemas`.
 
 const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://atelier-cut.com";
 

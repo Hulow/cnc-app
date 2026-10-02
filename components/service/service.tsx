@@ -39,13 +39,13 @@ const CARD_ORDER = ["services", "cuttingServices", "quotesAreBasedOn", "delivery
 // indexable without client-side JavaScript.
 export function Service({ lang }: ServiceProps) {
   const dict = lang === "en" ? en : de;
-  const { cards } = dict.services;
+  const { cards } = dict.services.websiteContent;
   const logos = CARD_LOGOS[lang];
 
   return (
     <CardGrid
       headingId="about-heading"
-      title={dict.pages.services.title}
+      title={dict.services.metadata.title}
       maxLogoAspectRatio={MAX_LOGO_ASPECT_RATIO[lang]}
       cards={CARD_ORDER.map((key) => ({
         key,
@@ -53,8 +53,8 @@ export function Service({ lang }: ServiceProps) {
         items: cards[key].items,
         logo: logos[key],
       }))}
-      // TODO: owner copy — see dictionaries/en.ts's readMore.services comment
-      readMoreText={dict.readMore.services}
+      // TODO: owner copy — see dictionaries/pages/services.ts's websiteContent.readMore comment
+      readMoreText={dict.services.websiteContent.readMore}
     />
   );
 }

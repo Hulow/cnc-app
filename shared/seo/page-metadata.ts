@@ -19,8 +19,8 @@ import { languageAlternates, routes, type Lang, type RouteKey } from "../routes"
 // title here sidesteps that gap for every route uniformly.
 export function pageMetadata(key: RouteKey, lang: Lang, dict: Dictionary): Metadata {
   const path = routes[key][lang];
-  const { title: pageTitle, description } = dict.pages[key];
-  const title = `${pageTitle} · ${dict.business.name}`;
+  const { title: pageTitle, description } = dict[key].metadata;
+  const title = `${pageTitle} · ${dict.site.name}`;
 
   return {
     title,
@@ -32,7 +32,7 @@ export function pageMetadata(key: RouteKey, lang: Lang, dict: Dictionary): Metad
     openGraph: {
       title,
       description,
-      siteName: dict.business.name,
+      siteName: dict.site.name,
       url: path,
       locale: dict.meta.ogLocale,
       alternateLocale: dict.meta.ogAlternateLocale,

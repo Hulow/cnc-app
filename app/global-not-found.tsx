@@ -21,7 +21,7 @@ import { routes } from "@/shared/routes";
 // (there's no separate German tree for unmatched routes), so this shows
 // one English version rather than duplicating the copy per language.
 export const metadata: Metadata = {
-  title: `${en.business.name} — Not Found`,
+  title: `${en.site.name} — Not Found`,
 };
 
 const LOGO_COLOR = "#0030ff";

@@ -8,10 +8,13 @@ import { businessCore } from "./common";
 export function buildBusinessWorkshop(dict: Dictionary) {
   return prune({
     ...businessCore(dict),
-    knowsAbout: [...dict.workshop.cards.materials.items, ...dict.workshop.cards.applications.items],
-    additionalProperty: dict.workshop.cards.machineCapabilities.items.map((value) => ({
+    knowsAbout: [
+      ...dict.workshop.websiteContent.cards.materials.items,
+      ...dict.workshop.websiteContent.cards.applications.items,
+    ],
+    additionalProperty: dict.workshop.websiteContent.cards.machineCapabilities.items.map((value) => ({
       "@type": "PropertyValue",
-      name: dict.workshop.cards.machineCapabilities.heading,
+      name: dict.workshop.websiteContent.cards.machineCapabilities.heading,
       value,
     })),
   });

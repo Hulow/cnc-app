@@ -4,12 +4,18 @@
 // silent English fallback in a German page.
 //
 // Content lives in one file per page (./pages/*) plus the site-wide
-// chrome (./meta, ./nav, ./footer, ./not-found), each holding English
-// and German side by side — this file (and ./de.ts) only pulls its own
-// language out of each and assembles the Dictionary shape every
+// chrome (./site, ./meta, ./nav, ./footer, ./not-found), each holding
+// English and German side by side — this file (and ./de.ts) only pulls
+// its own language out of each and assembles the Dictionary shape every
 // component actually reads from.
-
-import { business, type Business } from "./business";
+//
+// Each page is one object with exactly three concerns: `metadata`
+// (<title>/<meta description>), `websiteContent` (what's rendered on the
+// page) and `schemas` (what feeds that page's JSON-LD, see
+// shared/seo/schema-org.ts). Editing a page's content, metadata or
+// structured-data inputs means opening exactly that page's file in
+// ./pages — nothing is split across a separate business-facts or
+// schema-copy file.
 import { footer } from "./footer";
 import { meta } from "./meta";
 import { nav } from "./nav";
@@ -20,9 +26,9 @@ import { impressumPage } from "./pages/impressum";
 import { privacyPage } from "./pages/privacy";
 import { servicesPage } from "./pages/services";
 import { workshopPage } from "./pages/workshop";
-import { schema } from "./schema";
+import { site, type Site } from "./site";
 
-interface PageMeta {
+interface PageMetadata {
   // Page portion only — the root layout's title.template appends
   // " · Atelier Cut" automatically. Keep title + " · Atelier Cut" under
   // 60 characters total, and description between 140-160 characters.
@@ -30,37 +36,17 @@ interface PageMeta {
   description: string;
 }
 
+interface PageDates {
+  published: string;
+  modified: string;
+}
+
 export interface Dictionary {
-  business: Business;
+  site: Site;
   meta: {
     description: string;
     ogLocale: string;
     ogAlternateLocale: string;
-  };
-  // Language-dependent structured-data copy with no visible home yet —
-  // see dictionaries/schema.ts for what each field feeds and where it
-  // must also appear on the page.
-  schema: {
-    slogan: string;
-    person: { jobTitle: string; description: string };
-    services: { audience: string; descriptions: string[] };
-  };
-  // Per-page <title>/<meta description> — unique per page, each (except
-  // privacy, a utility page with no search intent of its own) containing
-  // its main term and "Berlin".
-  pages: {
-    home: PageMeta;
-    services: PageMeta;
-    workshop: PageMeta;
-    contact: PageMeta;
-    privacy: PageMeta;
-    impressum: PageMeta;
-  };
-  readMore: {
-    home: string;
-    services: string;
-    workshop: string;
-    contact: string;
   };
   nav: {
     home: string;
@@ -72,57 +58,118 @@ export interface Dictionary {
     privacy: string;
     impressum: string;
   };
+  home: {
+    metadata: PageMetadata;
+    websiteContent: {
+      readMore: string;
+    };
+    schemas: {
+      slogan: string;
+      foundingDate: string;
+      priceRange: string;
+      image: string;
+      pageDates: PageDates;
+    };
+  };
   services: {
-    cards: {
-      cuttingServices: { heading: string; items: string[] };
-      services: { heading: string; items: string[] };
-      quotesAreBasedOn: { heading: string; items: string[] };
-      deliveryOptions: { heading: string; items: string[] };
+    metadata: PageMetadata;
+    websiteContent: {
+      readMore: string;
+      cards: {
+        cuttingServices: { heading: string; items: string[] };
+        services: { heading: string; items: string[] };
+        quotesAreBasedOn: { heading: string; items: string[] };
+        deliveryOptions: { heading: string; items: string[] };
+      };
+    };
+    schemas: {
+      audience: string;
+      descriptions: string[];
+      termsOfServiceUrl: string;
+      pageDates: PageDates;
     };
   };
   workshop: {
-    cards: {
-      machineCapabilities: { heading: string; items: string[] };
-      materials: { heading: string; items: string[] };
-      applications: { heading: string; items: string[] };
-      technology: { heading: string; items: string[] };
+    metadata: PageMetadata;
+    websiteContent: {
+      readMore: string;
+      cards: {
+        machineCapabilities: { heading: string; items: string[] };
+        materials: { heading: string; items: string[] };
+        applications: { heading: string; items: string[] };
+        technology: { heading: string; items: string[] };
+      };
+      imageAlt: string;
     };
-    imageAlt: string;
+    schemas: {
+      jobTitle: string;
+      description: string;
+      personImage: string;
+      pageDates: PageDates;
+    };
   };
   contact: {
-    fields: {
-      company: string;
-      firstName: string;
-      lastName: string;
+    metadata: PageMetadata;
+    websiteContent: {
+      readMore: string;
+      fields: {
+        company: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        phone: string;
+        message: string;
+        attachment: string;
+      };
+      attachmentHint: (maxMb: string) => string;
+      attachmentTooLarge: (mb: string) => string;
+      removeAttachment: string;
+      sending: string;
+      success: string;
+      help: string;
+    };
+    schemas: {
       email: string;
       phone: string;
-      message: string;
-      attachment: string;
+      geo: { latitude: string; longitude: string };
+      hasMapUrl: string;
+      openingHours: string[];
+      pageDates: PageDates;
     };
-    attachmentHint: (maxMb: string) => string;
-    attachmentTooLarge: (mb: string) => string;
-    removeAttachment: string;
-    sending: string;
-    success: string;
-    help: string;
   };
   privacy: {
-    title: string;
-    paragraphs: string[];
-    homeLinkLabel: string;
+    metadata: PageMetadata;
+    websiteContent: {
+      title: string;
+      paragraphs: string[];
+      homeLinkLabel: string;
+    };
+    schemas: {
+      pageDates: PageDates;
+    };
   };
   impressum: {
-    title: string;
-    fields: {
-      name: string;
-      address: string;
+    metadata: PageMetadata;
+    websiteContent: {
+      title: string;
+      fields: {
+        name: string;
+        address: string;
+        email: string;
+        phone: string;
+        vatId: string;
+        responsibleContent: string;
+      };
+      placeholder: string;
+      homeLinkLabel: string;
+    };
+    schemas: {
       email: string;
       phone: string;
+      registeredName: string;
       vatId: string;
-      responsibleContent: string;
+      pageDates: PageDates;
     };
-    placeholder: string;
-    homeLinkLabel: string;
   };
   notFound: {
     heading: string;
@@ -132,51 +179,15 @@ export interface Dictionary {
 }
 
 export const en: Dictionary = {
-  business,
+  site,
   meta: meta.en,
-  schema: schema.en,
-  pages: {
-    home: { title: homePage.en.metaTitle, description: homePage.en.metaDescription },
-    services: { title: servicesPage.en.metaTitle, description: servicesPage.en.metaDescription },
-    workshop: { title: workshopPage.en.metaTitle, description: workshopPage.en.metaDescription },
-    contact: { title: contactPage.en.metaTitle, description: contactPage.en.metaDescription },
-    privacy: { title: privacyPage.en.metaTitle, description: privacyPage.en.metaDescription },
-    impressum: { title: impressumPage.en.metaTitle, description: impressumPage.en.metaDescription },
-  },
-  readMore: {
-    home: homePage.en.readMore,
-    services: servicesPage.en.readMore,
-    workshop: workshopPage.en.readMore,
-    contact: contactPage.en.readMore,
-  },
   nav: nav.en,
   footer: footer.en,
-  services: {
-    cards: servicesPage.en.cards,
-  },
-  workshop: {
-    cards: workshopPage.en.cards,
-    imageAlt: workshopPage.en.imageAlt,
-  },
-  contact: {
-    fields: contactPage.en.fields,
-    attachmentHint: contactPage.en.attachmentHint,
-    attachmentTooLarge: contactPage.en.attachmentTooLarge,
-    removeAttachment: contactPage.en.removeAttachment,
-    sending: contactPage.en.sending,
-    success: contactPage.en.success,
-    help: contactPage.en.help,
-  },
-  privacy: {
-    title: privacyPage.en.title,
-    paragraphs: privacyPage.en.paragraphs,
-    homeLinkLabel: privacyPage.en.homeLinkLabel,
-  },
-  impressum: {
-    title: impressumPage.en.title,
-    fields: impressumPage.en.fields,
-    placeholder: impressumPage.en.placeholder,
-    homeLinkLabel: impressumPage.en.homeLinkLabel,
-  },
+  home: homePage.en,
+  services: servicesPage.en,
+  workshop: workshopPage.en,
+  contact: contactPage.en,
+  privacy: privacyPage.en,
+  impressum: impressumPage.en,
   notFound: notFoundPage.en,
 };

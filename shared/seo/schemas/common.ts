@@ -34,14 +34,14 @@ export const schemaIds = {
 export const businessRef = (dict: Dictionary) => ({
   "@type": "ProfessionalService",
   "@id": schemaIds.business,
-  name: dict.business.name,
+  name: dict.site.name,
 });
 
 export const websiteRef = (lang: Lang, dict: Dictionary) => ({
   "@type": "WebSite",
   "@id": schemaIds.website(lang),
   url: absoluteUrl(routes.home[lang]),
-  name: dict.business.name,
+  name: dict.site.name,
 });
 
 // Image fields in the dictionary are a path under /public ("/workshop.jpg")
@@ -54,16 +54,16 @@ export function assetUrl(value: string): string {
 export function postalAddress(dict: Dictionary) {
   return {
     "@type": "PostalAddress",
-    streetAddress: dict.business.contact.address.split(", ")[0],
-    postalCode: dict.business.contact.address.match(/\d{5}/)?.[0],
-    addressLocality: dict.business.serviceArea,
+    streetAddress: dict.site.address.split(", ")[0],
+    postalCode: dict.site.address.match(/\d{5}/)?.[0],
+    addressLocality: dict.site.serviceArea,
     addressCountry: "DE",
   };
 }
 
 export function areaServed(dict: Dictionary) {
   return [
-    { "@type": "City", name: dict.business.serviceArea },
+    { "@type": "City", name: dict.site.serviceArea },
     { "@type": "Country", name: "Germany" },
   ];
 }
@@ -76,7 +76,7 @@ export function businessCore(dict: Dictionary) {
     "@context": CONTEXT,
     "@type": "ProfessionalService",
     "@id": schemaIds.business,
-    name: dict.business.name,
+    name: dict.site.name,
     url: siteConfig.siteUrl,
   };
 }

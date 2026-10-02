@@ -31,7 +31,7 @@ interface ContactRouteProps {
 // Component into a Client Component's props.
 export function ContactRoute({ lang, title, introText }: ContactRouteProps) {
   const router = useRouter();
-  const dict = lang === "en" ? en.contact : de.contact;
+  const dict = lang === "en" ? en.contact.websiteContent : de.contact.websiteContent;
   const [isSuccess, setIsSuccess] = useState(false);
 
   return (

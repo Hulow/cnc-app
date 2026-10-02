@@ -25,12 +25,12 @@ export function PrivacyPanel({
   return (
     <MessagePanel
       variant="page"
-      action={<ContinueLink href={homeHref} label={dict.privacy.homeLinkLabel} />}
+      action={<ContinueLink href={homeHref} label={dict.privacy.websiteContent.homeLinkLabel} />}
     >
       {/* Real text node for crawlers/screen readers; the logo stays the
           visible content, same sr-only + decorative-img split
           NotFoundPanel uses for its own wordmark. */}
-      <h1 className="sr-only">{dict.privacy.title}</h1>
+      <h1 className="sr-only">{dict.privacy.websiteContent.title}</h1>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={logoSrc}
@@ -40,7 +40,7 @@ export function PrivacyPanel({
         height={logoHeight}
         className="legal-panel-logo"
       />
-      {dict.privacy.paragraphs.map((paragraph) => (
+      {dict.privacy.websiteContent.paragraphs.map((paragraph) => (
         <p key={paragraph}>{paragraph}</p>
       ))}
     </MessagePanel>

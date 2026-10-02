@@ -18,7 +18,7 @@ interface ContactFormProps {
   // buttons stay the English image assets regardless of language (no
   // German artwork exists yet), so their alt text is intentionally not
   // part of this dictionary.
-  dict?: Dictionary["contact"];
+  dict?: Dictionary["contact"]["websiteContent"];
   // Lets a page-level wrapper (ContactRoute) hide its own title/read-more
   // button once the form succeeds, since the success view replaces the
   // whole form rather than sitting alongside it.
@@ -28,7 +28,7 @@ interface ContactFormProps {
 const ACCEPT_ATTRIBUTE = ALLOWED_ATTACHMENT_EXTENSIONS.join(",");
 const MAX_ATTACHMENT_MB = formatMegabytes(MAX_ATTACHMENT_BYTES);
 
-export function ContactForm({ formId, onClose, dict = en.contact, onSuccessChange }: ContactFormProps) {
+export function ContactForm({ formId, onClose, dict = en.contact.websiteContent, onSuccessChange }: ContactFormProps) {
   const {
     status,
     isSubmitting,

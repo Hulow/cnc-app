@@ -33,23 +33,23 @@ export const metadata: Metadata = {
   // comment). This is just the fallback for the rare case nothing below
   // defines one. No `keywords` — the meta tag is ignored by Google;
   // siteConfig.keywords stays as internal copywriting reference only.
-  title: en.business.name,
+  title: en.site.name,
   description: en.meta.description,
   alternates: {
     canonical: routes.home.en,
   },
   openGraph: {
-    title: en.business.name,
+    title: en.site.name,
     description: en.meta.description,
     url: routes.home.en,
-    siteName: en.business.name,
+    siteName: en.site.name,
     locale: en.meta.ogLocale,
     alternateLocale: en.meta.ogAlternateLocale,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: en.business.name,
+    title: en.site.name,
     description: en.meta.description,
   },
   robots: {
@@ -103,7 +103,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               {/* Impressum link hidden for the moment */}
             </p>
             <p className="footer-address">
-              {en.business.contact.address.split(", ").map((line) => (
+              {en.site.address.split(", ").map((line) => (
                 <span key={line}>{line}</span>
               ))}
             </p>

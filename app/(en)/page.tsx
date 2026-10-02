@@ -31,7 +31,7 @@ export default async function Home() {
       <SchemaOrg data={buildPageGraph("home", "en", en)} />
       <div className="home-content">
         <Logo />
-        <h1 className="home-heading">{en.pages.home.title}</h1>
+        <h1 className="home-heading">{en.home.metadata.title}</h1>
       </div>
     </>
   );

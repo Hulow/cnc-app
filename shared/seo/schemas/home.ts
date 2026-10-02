@@ -12,13 +12,13 @@ export function buildProfessionalService(dict: Dictionary) {
   return prune({
     ...businessCore(dict),
     description: dict.meta.description,
-    slogan: dict.schema.slogan,
+    slogan: dict.home.schemas.slogan,
     // .svg, not a raster PNG — no PNG export of the logo exists yet.
     // Most rich-result consumers accept svg; revisit if that changes.
     logo: `${siteConfig.siteUrl}/logo.svg`,
-    image: assetUrl(dict.business.image),
-    foundingDate: dict.business.foundingDate,
-    priceRange: dict.business.priceRange,
+    image: assetUrl(dict.home.schemas.image),
+    foundingDate: dict.home.schemas.foundingDate,
+    priceRange: dict.home.schemas.priceRange,
     address: postalAddress(dict),
     areaServed: areaServed(dict),
     // "fr" only if the owner confirms — not claimed here since nothing

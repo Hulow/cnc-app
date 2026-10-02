@@ -39,23 +39,23 @@ export const dynamicParams = false;
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
   // See app/(en)/layout.tsx's own comment on this title/no-keywords setup.
-  title: de.business.name,
+  title: de.site.name,
   description: de.meta.description,
   alternates: {
     canonical: routes.home.de,
   },
   openGraph: {
-    title: de.business.name,
+    title: de.site.name,
     description: de.meta.description,
     url: routes.home.de,
-    siteName: de.business.name,
+    siteName: de.site.name,
     locale: de.meta.ogLocale,
     alternateLocale: de.meta.ogAlternateLocale,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: de.business.name,
+    title: de.site.name,
     description: de.meta.description,
   },
   robots: {
@@ -98,7 +98,7 @@ export default async function LangRootLayout({
               {/* Impressum link hidden for the moment */}
             </p>
             <p className="footer-address">
-              {de.business.contact.address.split(", ").map((line) => (
+              {de.site.address.split(", ").map((line) => (
                 <span key={line}>{line}</span>
               ))}
             </p>

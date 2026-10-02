@@ -23,18 +23,18 @@ describe("Given buildProfessionalService", () => {
       expect(data["@context"]).toBe("https://schema.org");
       expect(data["@type"]).toBe("ProfessionalService");
       expect(data["@id"]).toBe(schemaIds.business);
-      expect(data.name).toBe(en.business.name);
+      expect(data.name).toBe(en.site.name);
       expect(data.url).toBe(siteConfig.siteUrl);
       expect(data.logo).toBe(`${siteConfig.siteUrl}/logo.svg`);
       expect(data.description).toBe(en.meta.description);
     });
 
-    it("Then it includes the public postal address matching dict.business", () => {
+    it("Then it includes the public postal address matching dict.site", () => {
       expect(data.address).toEqual({
         "@type": "PostalAddress",
         streetAddress: "Coppistraße 17",
         postalCode: "10365",
-        addressLocality: en.business.serviceArea,
+        addressLocality: en.site.serviceArea,
         addressCountry: "DE",
       });
     });
@@ -73,17 +73,17 @@ describe("Given buildServices", () => {
     const data = buildServices("en", en);
 
     it("Then it builds one Service per card item, each referencing the business", () => {
-      expect(data).toHaveLength(en.services.cards.services.items.length);
+      expect(data).toHaveLength(en.services.websiteContent.cards.services.items.length);
 
       data.forEach((service, index) => {
         expect(service["@context"]).toBe("https://schema.org");
         expect(service["@type"]).toBe("Service");
         expect(service["@id"]).toBe(schemaIds.service(index));
-        expect(service.name).toBe(en.services.cards.services.items[index]);
+        expect(service.name).toBe(en.services.websiteContent.cards.services.items[index]);
         expect(service.provider).toEqual({
           "@type": "ProfessionalService",
           "@id": schemaIds.business,
-          name: en.business.name,
+          name: en.site.name,
         });
         expect(service.url).toBe(`${siteConfig.siteUrl}${routes.services.en}`);
       });
@@ -97,7 +97,7 @@ describe("Given buildServices", () => {
 
     it("Then availableChannel lists the delivery options", () => {
       expect(data[0].availableChannel).toEqual(
-        en.services.cards.deliveryOptions.items.map((name) => ({
+        en.services.websiteContent.cards.deliveryOptions.items.map((name) => ({
           "@type": "ServiceChannel",
           name,
         })),
@@ -113,11 +113,11 @@ describe("Given buildPerson", () => {
 
       expect(data["@type"]).toBe("Person");
       expect(data["@id"]).toBe(schemaIds.person);
-      expect(data.name).toBe(en.business.legalName);
+      expect(data.name).toBe(en.site.legalName);
       expect(data.worksFor).toEqual({
         "@type": "ProfessionalService",
         "@id": schemaIds.business,
-        name: en.business.name,
+        name: en.site.name,
       });
       expect(data.jobTitle).toBeUndefined();
       expect(data.knowsAbout).toBeUndefined();
@@ -129,8 +129,8 @@ describe("Given buildPerson", () => {
       const data = buildPerson(en, { profile: true });
 
       expect(data.knowsAbout).toEqual([
-        ...en.workshop.cards.materials.items,
-        ...en.workshop.cards.technology.items,
+        ...en.workshop.websiteContent.cards.materials.items,
+        ...en.workshop.websiteContent.cards.technology.items,
       ]);
     });
   });
@@ -144,13 +144,13 @@ describe("Given buildWebSite", () => {
       expect(data["@context"]).toBe("https://schema.org");
       expect(data["@type"]).toBe("WebSite");
       expect(data["@id"]).toBe(schemaIds.website("en"));
-      expect(data.name).toBe(en.business.name);
+      expect(data.name).toBe(en.site.name);
       expect(data.url).toBe(siteConfig.siteUrl);
       expect(data.inLanguage).toBe("en");
       expect(data.publisher).toEqual({
         "@type": "ProfessionalService",
         "@id": schemaIds.business,
-        name: en.business.name,
+        name: en.site.name,
       });
     });
   });
@@ -173,19 +173,19 @@ describe("Given buildWebPage", () => {
       expect(data["@type"]).toBe("WebPage");
       expect(data["@id"]).toBe(schemaIds.webPage("services", "en"));
       expect(data.url).toBe(`${siteConfig.siteUrl}${routes.services.en}`);
-      expect(data.name).toBe(`${en.pages.services.title} · ${en.business.name}`);
-      expect(data.description).toBe(en.pages.services.description);
+      expect(data.name).toBe(`${en.services.metadata.title} · ${en.site.name}`);
+      expect(data.description).toBe(en.services.metadata.description);
       expect(data.about).toEqual({
         "@type": "ProfessionalService",
         "@id": schemaIds.business,
-        name: en.business.name,
+        name: en.site.name,
       });
       expect(data.breadcrumb).toEqual({ "@id": schemaIds.breadcrumb("services", "en") });
     });
 
     it("Then mainEntity references every Service by id", () => {
       expect(data.mainEntity).toEqual(
-        en.services.cards.services.items.map((_, index) => ({
+        en.services.websiteContent.cards.services.items.map((_, index) => ({
           "@id": schemaIds.service(index),
         })),
       );
@@ -284,7 +284,7 @@ describe("Given buildPageGraph", () => {
 
       const types = data["@graph"].map((node) => node["@type"]);
       expect(types).toEqual([
-        ...en.services.cards.services.items.map(() => "Service"),
+        ...en.services.websiteContent.cards.services.items.map(() => "Service"),
         "WebPage",
         "BreadcrumbList",
       ]);

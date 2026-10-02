@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { business } from "@/dictionaries/business";
+import { site } from "@/dictionaries/site";
 
 // Vector logo served as a static asset (not inlined) so the browser can
 // cache it independently of the page HTML. `unoptimized` skips next/image's
@@ -9,7 +9,7 @@ export function Logo() {
   return (
     <Image
       src="/logo.svg"
-      alt={`${business.name} logo`}
+      alt={`${site.name} logo`}
       width={640}
       height={223}
       priority

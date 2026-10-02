@@ -5,7 +5,7 @@ import { areaServed, businessCore, postalAddress } from "./common";
 
 // What the contact page shows: how, when and where to reach the business.
 export function buildBusinessContact(dict: Dictionary) {
-  const { email, phone } = dict.business.contact;
+  const { email, phone, geo, hasMapUrl, openingHours } = dict.contact.schemas;
 
   return prune({
     ...businessCore(dict),
@@ -14,11 +14,11 @@ export function buildBusinessContact(dict: Dictionary) {
     address: postalAddress(dict),
     geo: {
       "@type": "GeoCoordinates",
-      latitude: dict.business.geo.latitude,
-      longitude: dict.business.geo.longitude,
+      latitude: geo.latitude,
+      longitude: geo.longitude,
     },
-    hasMap: dict.business.hasMapUrl,
-    openingHours: [...dict.business.openingHours],
+    hasMap: hasMapUrl,
+    openingHours: [...openingHours],
     areaServed: areaServed(dict),
     contactPoint: {
       "@type": "ContactPoint",
