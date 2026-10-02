@@ -1,12 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, type ChangeEvent, type MouseEvent } from "react";
-import {
-  ALLOWED_ATTACHMENT_EXTENSIONS,
-  MAX_ATTACHMENT_BYTES,
-  formatMegabytes,
-  isAttachmentTooLarge,
-} from "@/shared/contact/contact-attachment";
+import { useRef, useState, type ChangeEvent, type MouseEvent } from "react";
+import { ALLOWED_ATTACHMENT_EXTENSIONS, MAX_ATTACHMENT_BYTES, formatMegabytes } from "@/shared/contact/contact-attachment";
 import { en, type Dictionary } from "@/dictionaries/en";
 import { useContactForm } from "./use-contact-form";
 import { MessagePanel } from "@/components/message-panel/message-panel";
@@ -35,36 +30,25 @@ export function ContactForm({ formId, onClose, dict = en.contact, onSuccessChang
     isSubmitting,
     formErrorMessage,
     fieldErrors,
+    attachmentName,
+    oversizedAttachmentMb,
     handleSubmit,
     reset,
     clearFieldError,
     validateEmailOnBlur,
-  } = useContactForm();
-  // The real filename, not just a boolean: the native input is fully
-  // hidden (so the button can read "Upload" instead of the browser's
-  // fixed label), so its own filename display is hidden too — this is
-  // rendered in its place ourselves.
-  const [attachmentName, setAttachmentName] = useState<string | null>(null);
-  const [oversizedAttachmentMb, setOversizedAttachmentMb] = useState<string | null>(null);
+    handleAttachmentSelected,
+    clearAttachment,
+  } = useContactForm({ onSuccessChange });
   const [showHelp, setShowHelp] = useState(false);
   const attachmentInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    onSuccessChange?.(status === "success");
-  }, [status, onSuccessChange]);
-
   function handleAttachmentChange(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
+    const file = event.target.files?.[0] ?? null;
+    const accepted = handleAttachmentSelected(file);
 
-    if (file && isAttachmentTooLarge(file.size)) {
+    if (!accepted) {
       event.target.value = "";
-      setAttachmentName(null);
-      setOversizedAttachmentMb(formatMegabytes(file.size));
-      return;
     }
-
-    setAttachmentName(file?.name ?? null);
-    setOversizedAttachmentMb(null);
   }
 
   // File inputs are uncontrolled — clearing one means resetting the DOM
@@ -73,8 +57,7 @@ export function ContactForm({ formId, onClose, dict = en.contact, onSuccessChang
     if (attachmentInputRef.current) {
       attachmentInputRef.current.value = "";
     }
-    setAttachmentName(null);
-    setOversizedAttachmentMb(null);
+    clearAttachment();
   }
 
   // Cancel clears the form in place rather than closing it — native
@@ -83,8 +66,6 @@ export function ContactForm({ formId, onClose, dict = en.contact, onSuccessChang
   // be reset alongside it.
   function handleCancel(event: MouseEvent<HTMLButtonElement>) {
     event.currentTarget.form?.reset();
-    setAttachmentName(null);
-    setOversizedAttachmentMb(null);
     reset();
   }
 

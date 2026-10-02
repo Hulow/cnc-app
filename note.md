@@ -32,3 +32,8 @@ Thing
         - WebPage (an individual page within that website)
 
     Service (what the customer receives, What service do you provide?)
+
+
+We dont need OverlayScreen anymore
+do we need also HelpOverlay?
+the html of MessagePanel is wrong now right? it is not a welcom-screen 

@@ -1,5 +1,9 @@
-import { useState, type FormEvent } from "react";
-import { ATTACHMENT_TOO_LARGE_MESSAGE } from "@/shared/contact/contact-attachment";
+import { useEffect, useState, type FormEvent } from "react";
+import {
+  ATTACHMENT_TOO_LARGE_MESSAGE,
+  formatMegabytes,
+  isAttachmentTooLarge,
+} from "@/shared/contact/contact-attachment";
 import { isValidEmailFormat } from "@/shared/contact/contact-email";
 
 type FieldName = "firstName" | "lastName" | "email" | "phone" | "companyName" | "message" | "attachment";
@@ -42,10 +46,27 @@ function firstEmptyRequiredField(formData: FormData): FieldName | null {
   return null;
 }
 
-export function useContactForm() {
+interface UseContactFormOptions {
+  // Lets a page-level wrapper (ContactRoute) hide its own title/read-more
+  // button once the form succeeds, since the success view replaces the
+  // whole form rather than sitting alongside it.
+  onSuccessChange?: (success: boolean) => void;
+}
+
+export function useContactForm({ onSuccessChange }: UseContactFormOptions = {}) {
   const [status, setStatus] = useState<Status>("idle");
   const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldName, string>>>({});
+  // The real filename, not just a boolean: the native input is fully
+  // hidden (so the button can read "Upload" instead of the browser's
+  // fixed label), so its own filename display is hidden too — ContactForm
+  // renders this in its place itself.
+  const [attachmentName, setAttachmentName] = useState<string | null>(null);
+  const [oversizedAttachmentMb, setOversizedAttachmentMb] = useState<string | null>(null);
+
+  useEffect(() => {
+    onSuccessChange?.(status === "success");
+  }, [status, onSuccessChange]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -106,6 +127,27 @@ export function useContactForm() {
     setStatus("idle");
     setFormErrorMessage(null);
     setFieldErrors({});
+    setAttachmentName(null);
+    setOversizedAttachmentMb(null);
+  }
+
+  // Returns whether the file was accepted, so the caller knows whether to
+  // clear the native (uncontrolled) file input's value in response.
+  function handleAttachmentSelected(file: File | null): boolean {
+    if (file && isAttachmentTooLarge(file.size)) {
+      setAttachmentName(null);
+      setOversizedAttachmentMb(formatMegabytes(file.size));
+      return false;
+    }
+
+    setAttachmentName(file?.name ?? null);
+    setOversizedAttachmentMb(null);
+    return true;
+  }
+
+  function clearAttachment() {
+    setAttachmentName(null);
+    setOversizedAttachmentMb(null);
   }
 
   // Called as the visitor edits a field, so a shown error doesn't linger
@@ -133,9 +175,13 @@ export function useContactForm() {
     isSubmitting: status === "submitting",
     formErrorMessage,
     fieldErrors,
+    attachmentName,
+    oversizedAttachmentMb,
     handleSubmit,
     reset,
     clearFieldError,
     validateEmailOnBlur,
+    handleAttachmentSelected,
+    clearAttachment,
   };
 }
