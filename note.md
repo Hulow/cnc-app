@@ -5,6 +5,8 @@ check 301 - 200 - 307 requests on network
 refactor components in html
 facebook: no metadata
 
+for small screen with low height, we cannot see the button continue
+
 improvement:
 Make a 100% done in the download process?
 

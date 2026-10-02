@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { SchemaOrg } from "@/components/schema-org/schema-org";
-import { CuttingSalonDe } from "@/components/cutting-salon/cutting-salon-de";
+import { CuttingSalon } from "@/components/cutting-salon/cutting-salon";
 import { de } from "@/dictionaries/de";
 import { pageMetadata } from "@/shared/seo/page-metadata";
 import { buildBreadcrumbs } from "@/shared/seo/schema-org";
@@ -11,7 +11,7 @@ export default function WerkstattPage() {
   return (
     <>
       <SchemaOrg data={buildBreadcrumbs("workshop", "de", de)} />
-      <CuttingSalonDe dict={de} />
+      <CuttingSalon lang="de" />
     </>
   );
 }

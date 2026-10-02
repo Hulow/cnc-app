@@ -1,37 +1,55 @@
 import { CardGrid } from "@/components/card-grid/card-grid";
+import { de } from "@/dictionaries/de";
 import { en } from "@/dictionaries/en";
+import type { Lang } from "@/shared/routes";
 
-// Widest heading logo below (machine-capabilities.svg, 348x23) — see
-// CardGrid's maxLogoAspectRatio doc comment. Keep in sync with the
-// logo width/height below.
-const MAX_LOGO_ASPECT_RATIO = 348 / 23;
+interface CuttingSalonProps {
+  lang: Lang;
+}
 
-// Logo asset per card — same key set as en.workshop.cards (see the
-// German equivalent, components/cutting-salon/cutting-salon-de.tsx,
-// which follows the same pattern against public/salon/*.svg).
+// Widest heading logo per language (en: machine-capabilities.svg,
+// 348x23; de: maschinenleistung.svg, 322x23) — see CardGrid's
+// maxLogoAspectRatio doc comment. Keep in sync with CARD_LOGOS below.
+const MAX_LOGO_ASPECT_RATIO: Record<Lang, number> = {
+  en: 348 / 23,
+  de: 322 / 23,
+};
+
+// Logo asset per card, per language — same key set as *.workshop.cards
+// in both dictionaries, against public/salon/*.svg.
 const CARD_LOGOS = {
-  machineCapabilities: { src: "/salon/machine-capabilities.svg", width: 348, height: 23 },
-  materials: { src: "/salon/materials.svg", width: 179, height: 23 },
-  applications: { src: "/salon/applications.svg", width: 224, height: 23 },
-  technology: { src: "/salon/technology.svg", width: 199, height: 23 },
+  en: {
+    machineCapabilities: { src: "/salon/machine-capabilities.svg", width: 348, height: 23 },
+    materials: { src: "/salon/materials.svg", width: 179, height: 23 },
+    applications: { src: "/salon/applications.svg", width: 224, height: 23 },
+    technology: { src: "/salon/technology.svg", width: 199, height: 23 },
+  },
+  de: {
+    machineCapabilities: { src: "/salon/maschinenleistung.svg", width: 322, height: 23 },
+    materials: { src: "/salon/materialen.svg", width: 197, height: 23 },
+    applications: { src: "/salon/anwendungen.svg", width: 229, height: 23 },
+    technology: { src: "/salon/technologie.svg", width: 204, height: 23 },
+  },
 } as const;
 
 const CARD_ORDER = ["machineCapabilities", "materials", "applications", "technology"] as const;
 
 // Server Component: same rendering rationale as Service — see that file.
-export function CuttingSalon() {
-  const { cards, imageAlt } = en.workshop;
+export function CuttingSalon({ lang }: CuttingSalonProps) {
+  const dict = lang === "en" ? en : de;
+  const { cards, imageAlt } = dict.workshop;
+  const logos = CARD_LOGOS[lang];
 
   return (
     <CardGrid
       headingId="cutting-salon-heading"
-      title={en.pages.workshop.title}
-      maxLogoAspectRatio={MAX_LOGO_ASPECT_RATIO}
+      title={dict.pages.workshop.title}
+      maxLogoAspectRatio={MAX_LOGO_ASPECT_RATIO[lang]}
       cards={CARD_ORDER.map((key) => ({
         key,
         heading: cards[key].heading,
         items: cards[key].items,
-        logo: CARD_LOGOS[key],
+        logo: logos[key],
       }))}
       image={{
         src: "/cnc.jpg",
@@ -41,7 +59,7 @@ export function CuttingSalon() {
         sizes: "(min-width: 576px) 70vw, 90vw",
       }}
       // TODO: owner copy — see dictionaries/en.ts's readMore.workshop comment
-      readMoreText={en.readMore.workshop}
+      readMoreText={dict.readMore.workshop}
     />
   );
 }

@@ -48,7 +48,7 @@ describe("Given buildLocalBusiness", () => {
     it("Then hasOfferCatalog lists the services offered", () => {
       expect(data.hasOfferCatalog["@type"]).toBe("OfferCatalog");
       expect(data.hasOfferCatalog.itemListElement).toEqual(
-        en.services.cards.cuttingServices.items.map((name) => ({
+        en.services.cards.services.items.map((name) => ({
           "@type": "Offer",
           itemOffered: { "@type": "Service", name },
         })),
@@ -62,7 +62,7 @@ describe("Given buildLocalBusiness", () => {
 
       expect(data.description).toBe(de.meta.description);
       expect(data.hasOfferCatalog.itemListElement[0].itemOffered.name).toBe(
-        de.services.cards.cuttingServices.items[0],
+        de.services.cards.services.items[0],
       );
     });
   });

@@ -11,7 +11,7 @@ export default function WorkshopPage() {
   return (
     <>
       <SchemaOrg data={buildBreadcrumbs("workshop", "en", en)} />
-      <CuttingSalon />
+      <CuttingSalon lang="en" />
     </>
   );
 }

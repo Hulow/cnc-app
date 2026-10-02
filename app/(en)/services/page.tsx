@@ -11,7 +11,7 @@ export default function ServicesPage() {
   return (
     <>
       <SchemaOrg data={buildBreadcrumbs("services", "en", en)} />
-      <Service />
+      <Service lang="en" />
     </>
   );
 }
