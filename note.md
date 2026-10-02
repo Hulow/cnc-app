@@ -12,24 +12,20 @@ improvement:
 Make a 100% done in the download process?
 
 
-SEO 
-
-generate-schema-org-types.mjs
-
-Thing
-    Organization
-        - LocalBusiness
-            - ProfessionalService (Who is providing the service?)
-
-    Person 
-        - worksFor
-        - knowsAbout
-
-    Intengible
-        - Service
-
-    CreativeWork
-        - WebSite (the entire website)
-        - WebPage (an individual page within that website)
-
-    Service (what the customer receives, What service do you provide?)
+SEO
+├── Metadata
+│   ├── title
+│   ├── description
+│   ├── canonical URL
+│   └── Open Graph / Twitter metadata
+│
+├── Structured data (Schema.org)
+│   ├── LocalBusiness
+│   ├── Service
+│   ├── WebSite
+│   └── WebPage
+│
+└── Technical SEO
+    ├── robots.txt
+    ├── sitemap.xml
+    └── Crawlability / indexability
