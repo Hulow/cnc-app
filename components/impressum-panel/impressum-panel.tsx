@@ -1,5 +1,6 @@
-import Link from "next/link";
 import type { Dictionary } from "@/dictionaries/en";
+import { MessagePanel } from "@/components/message-panel/message-panel";
+import { MessagePanelButton } from "@/components/message-panel/message-panel-button";
 
 interface ImpressumPanelProps {
   dict: Pick<Dictionary, "impressum" | "business">;
@@ -10,8 +11,8 @@ interface ImpressumPanelProps {
 }
 
 // Shared between the English (/impressum) and German (/de/impressum)
-// pages — same visual treatment as PrivacyPanel (see that file), reused
-// for consistency across the two legal pages.
+// pages — same visual treatment as PrivacyPanel (see MessagePanel),
+// reused for consistency across the two legal pages.
 //
 // Only name/email/address are filled in, from dict.business — already
 // public elsewhere on the site, not new facts. Phone and VAT ID are
@@ -31,63 +32,41 @@ export function ImpressumPanel({
   const { fields, placeholder } = dict.impressum;
 
   return (
-    <section className="privacy-panel">
-      <div className="welcome-screen-content">
-        <div className="welcome-screen-text">
-          {/* Real text node for crawlers/screen readers; the logo stays
-              the visible content, same sr-only + decorative-img split
-              NotFoundPanel uses for its own wordmark. */}
-          <h1 className="sr-only">{dict.impressum.title}</h1>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={logoSrc}
-            alt=""
-            aria-hidden="true"
-            width={logoWidth}
-            height={logoHeight}
-            className="legal-panel-logo"
-          />
-          <p>
-            <strong>{fields.name}:</strong> {dict.business.legalName}
-          </p>
-          <p>
-            <strong>{fields.address}:</strong> {dict.business.contact.address}
-          </p>
-          <p>
-            <strong>{fields.email}:</strong> {dict.business.contact.email}
-          </p>
-          <p>
-            <strong>{fields.phone}:</strong> {placeholder}
-          </p>
-          <p>
-            <strong>{fields.vatId}:</strong> {placeholder}
-          </p>
-          <p>
-            <strong>{fields.responsibleContent}:</strong> {dict.business.legalName}
-          </p>
-        </div>
-        <Link href={homeHref} className="welcome-screen-continue">
-          <span className="welcome-screen-continue-icon-wrap">
-            {/* eslint-disable @next/next/no-img-element */}
-            <img
-              src="/welcome/button-continue-default.svg"
-              alt={dict.impressum.homeLinkLabel}
-              width={187}
-              height={44}
-              className="welcome-screen-continue-icon welcome-screen-continue-icon-default"
-            />
-            <img
-              src="/welcome/button-continue-active.svg"
-              alt=""
-              aria-hidden="true"
-              width={187}
-              height={44}
-              className="welcome-screen-continue-icon welcome-screen-continue-icon-hover"
-            />
-            {/* eslint-enable @next/next/no-img-element */}
-          </span>
-        </Link>
-      </div>
-    </section>
+    <MessagePanel
+      variant="page"
+      action={<MessagePanelButton label={dict.impressum.homeLinkLabel} href={homeHref} />}
+    >
+      {/* Real text node for crawlers/screen readers; the logo stays the
+          visible content, same sr-only + decorative-img split
+          NotFoundPanel uses for its own wordmark. */}
+      <h1 className="sr-only">{dict.impressum.title}</h1>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={logoSrc}
+        alt=""
+        aria-hidden="true"
+        width={logoWidth}
+        height={logoHeight}
+        className="legal-panel-logo"
+      />
+      <p>
+        <strong>{fields.name}:</strong> {dict.business.legalName}
+      </p>
+      <p>
+        <strong>{fields.address}:</strong> {dict.business.contact.address}
+      </p>
+      <p>
+        <strong>{fields.email}:</strong> {dict.business.contact.email}
+      </p>
+      <p>
+        <strong>{fields.phone}:</strong> {placeholder}
+      </p>
+      <p>
+        <strong>{fields.vatId}:</strong> {placeholder}
+      </p>
+      <p>
+        <strong>{fields.responsibleContent}:</strong> {dict.business.legalName}
+      </p>
+    </MessagePanel>
   );
 }

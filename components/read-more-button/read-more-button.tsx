@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { OverlayScreen } from "@/components/overlay-screen/overlay-screen";
+import { MessagePanel } from "@/components/message-panel/message-panel";
+import { MessagePanelButton } from "@/components/message-panel/message-panel-button";
 
 interface ReadMoreButtonProps {
   text: string;
 }
 
-// Purely a visibility toggle, same as ContactButton/contact-form's
-// showHelp — opening the overlay has no side effects of its own, and
-// closing it (OverlayScreen's Continue button) just unmounts it, which
-// reveals the home screen underneath again since nothing here navigates.
+// Purely a visibility toggle, same as ContactForm's showHelp — opening the
+// overlay has no side effects of its own, and closing it (MessagePanel's
+// Continue button) just unmounts it, which reveals the home screen
+// underneath again since nothing here navigates.
 export function ReadMoreButton({ text }: ReadMoreButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -40,9 +41,12 @@ export function ReadMoreButton({ text }: ReadMoreButtonProps) {
         </span>
       </button>
       {isOpen && (
-        <OverlayScreen buttonLabel="Continue" onButtonClick={() => setIsOpen(false)}>
+        <MessagePanel
+          variant="overlay"
+          action={<MessagePanelButton label="Continue" onClick={() => setIsOpen(false)} />}
+        >
           <p>{text}</p>
-        </OverlayScreen>
+        </MessagePanel>
       )}
     </>
   );

@@ -276,21 +276,22 @@ h3 {
 }
 
 /* ==========================================================================
-   Privacy Page
+   Message Panel (components/message-panel: the shared centered-panel/
+   white-text-card/pill-button look behind PrivacyPanel, ImpressumPanel,
+   NotFoundPanel, and ContactForm's help overlay/ReadMoreButton's overlay)
    ========================================================================== */
 
-/* Reuses the exact look the old full-screen welcome-screen modal had
-   (.welcome-screen-content/.welcome-screen-text below), but as normal,
-   crawlable page content instead of a gate: fills the space between the
-   sticky header and footer — flex: 1, same mechanism .page-content main
+/* "page" variant (PrivacyPanel/ImpressumPanel/NotFoundPanel): normal,
+   crawlable page content instead of a gate — fills the space between the
+   sticky header and footer, flex: 1, same mechanism .page-content main
    itself uses to fill the page — rather than covering them. Full-bleed
    (same width: 100vw + negative left margin trick as .page-content
    header/footer) so the blue background reaches the real viewport edges
-   horizontally, matching the old modal. Negative top/bottom margins
-   cancel out the residual --space-sm gap .page-content header/main
-   still leave above/below main (see their own margin comments), so the
-   blue reaches flush against the header and footer too, with no gap. */
-.privacy-panel {
+   horizontally. Negative top/bottom margins cancel out the residual
+   --space-sm gap .page-content header/main still leave above/below main
+   (see their own margin comments), so the blue reaches flush against the
+   header and footer too, with no gap. */
+.message-panel {
   flex: 1;
   width: 100vw;
   margin: calc(var(--space-sm) * -1) calc(50% - 50vw);
@@ -301,15 +302,12 @@ h3 {
   background: var(--logo-color);
 }
 
-/* ==========================================================================
-   Overlay Screen (used by HelpOverlay and the privacy page's link back to
-   Home; class name predates the removal of the mandatory welcome/consent
-   gate that used to share it)
-   ========================================================================== */
-
-/* A full-screen, light-transparent dialog over everything else (video +
-   page content). Sits above the content layer so it's always on top. */
-.welcome-screen {
+/* "overlay" variant (ContactForm's help overlay, ReadMoreButton): a
+   full-screen, light-transparent dialog over everything else (video +
+   page content). Sits above the content layer so it's always on top.
+   Class name predates the removal of the mandatory welcome/consent gate
+   this used to be. */
+.message-panel-overlay {
   position: fixed;
   inset: 0;
   z-index: 2;
@@ -321,7 +319,7 @@ h3 {
   color: #171717;
 }
 
-.welcome-screen-content {
+.message-panel-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -330,14 +328,14 @@ h3 {
   text-align: center;
 }
 
-/* Full-bleed: break out of .welcome-screen-content's centered max-width so
-   this box spans the entire viewport width, ignoring .welcome-screen's own
+/* Full-bleed: break out of .message-panel-content's centered max-width so
+   this box spans the entire viewport width, ignoring the panel's own
    padding, regardless of how narrow/wide the centered content column is.
    Margin-only (no position:relative/left): this element is a flex item of
    a column flex container, and percentage-based `left` offsets on flex
    items resolve unreliably, clipping the box off-screen; percentage
    margins don't have that problem. */
-.welcome-screen-text {
+.message-panel-text {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
@@ -350,7 +348,7 @@ h3 {
   border-bottom: 2px solid var(--logo-color);
 }
 
-.welcome-screen-content p {
+.message-panel-content p {
   max-width: 40rem;
   margin-inline: auto;
   font-size: var(--font-size-sm);
@@ -363,15 +361,14 @@ h3 {
   white-space: pre-line;
 }
 
-/* The privacy page's real, visible h1 (used to be sr-only, matching
-   the old welcome-screen modal it reused the look of, which never
-   showed a heading at all). Sits inside
-   .welcome-screen-text (white background) rather than directly in
-   .privacy-panel (solid blue) — .page-content main > section's own
-   color: var(--logo-color) rule would otherwise paint it blue-on-blue.
-   margin: 0 — .welcome-screen-text's own flex gap already spaces it
-   from the first paragraph below. */
-.welcome-screen-text h1 {
+/* PrivacyPanel/ImpressumPanel/NotFoundPanel's h1 is sr-only (the logo
+   image is the visible content — see .not-found-logo/.legal-panel-logo
+   below), so this only matters for any future non-sr-only h1 inside
+   .message-panel-text (white background) — .page-content main > section's
+   own color: var(--logo-color) rule would otherwise paint it blue-on-blue
+   against .message-panel's solid blue. margin: 0 — .message-panel-text's
+   own flex gap already spaces it from the first paragraph below. */
+.message-panel-text h1 {
   font-size: var(--font-size-lg);
   color: var(--logo-color);
   text-align: center;
@@ -379,8 +376,8 @@ h3 {
 }
 
 /* 404 page's logo (see NotFoundPanel): stands in for the h1's text
-   visually, centered above the Continue button inside
-   .welcome-screen-text like PrivacyPanel/ImpressumPanel's own h1 does. */
+   visually, centered above the action button inside .message-panel-text
+   like PrivacyPanel/ImpressumPanel's own h1 does. */
 .not-found-logo {
   display: block;
   width: 100%;
@@ -391,7 +388,7 @@ h3 {
 
 /* PrivacyPanel/ImpressumPanel's logo: same stand-in-for-the-h1 treatment
    as .not-found-logo above, centered above the paragraphs/fields inside
-   .welcome-screen-text. max-width is sized to fit the widest wordmark
+   .message-panel-text. max-width is sized to fit the widest wordmark
    (Datenschutz) at a comfortable size on desktop; width: 100% + height:
    auto already shrinks it with the panel on narrower screens, and the
    767px query shrinks the cap further so wider wordmarks (Datenschutz,
@@ -410,7 +407,7 @@ h3 {
   }
 }
 
-.welcome-screen-content button {
+.message-panel-content button {
   padding: var(--space-xs) var(--space-md);
   border: 1px solid var(--logo-color);
   border-radius: 0.375rem;
@@ -423,8 +420,8 @@ h3 {
   -webkit-tap-highlight-color: transparent;
 }
 
-.welcome-screen-content button:focus-visible,
-.welcome-screen-content button:active {
+.message-panel-content button:focus-visible,
+.message-panel-content button:active {
   background: #fff;
   border-color: rgb(235, 50, 110);
   color: rgb(235, 50, 110);
@@ -435,7 +432,7 @@ h3 {
    styles "stuck" on a button after it's tapped, since touch has no real
    hover state to leave. */
 @media (hover: hover) {
-  .welcome-screen-content button:hover {
+  .message-panel-content button:hover {
     background: #fff;
     border-color: rgb(235, 50, 110);
     color: rgb(235, 50, 110);
@@ -443,22 +440,22 @@ h3 {
   }
 }
 
-/* Continue (see overlay-screen.tsx, used by HelpOverlay, and the privacy
-   page's own link back to Home) is an image button: button-continue-
-   *.svg already draws its own pill border and label, so the generic
-   button chrome above (border, padding, background, border-radius) is
-   cancelled here. .welcome-screen-continue is shared by a real <button>
-   (HelpOverlay's dismiss action) and a <Link> (the privacy page's
-   navigation back to "/"), hence both element selectors below. Each
-   selector repeats the pseudo-class alongside .welcome-screen-continue
-   so it's strictly more specific than the generic rules above (extra
-   class), winning regardless of source order. */
-.welcome-screen-content button.welcome-screen-continue,
-.welcome-screen-content button.welcome-screen-continue:focus-visible,
-.welcome-screen-content button.welcome-screen-continue:active,
-.welcome-screen-content a.welcome-screen-continue,
-.welcome-screen-content a.welcome-screen-continue:focus-visible,
-.welcome-screen-content a.welcome-screen-continue:active {
+/* The action button (see components/message-panel/message-panel-button.tsx)
+   is an image button: button-continue-*.svg already draws its own pill
+   border and label, so the generic button chrome above (border, padding,
+   background, border-radius) is cancelled here. .message-panel-button is
+   shared by a real <button> (ContactForm's help overlay/ReadMoreButton's
+   dismiss action) and a <Link> (PrivacyPanel/ImpressumPanel/
+   NotFoundPanel's navigation back to "/"), hence both element selectors
+   below. Each selector repeats the pseudo-class alongside
+   .message-panel-button so it's strictly more specific than the generic
+   rules above (extra class), winning regardless of source order. */
+.message-panel-content button.message-panel-button,
+.message-panel-content button.message-panel-button:focus-visible,
+.message-panel-content button.message-panel-button:active,
+.message-panel-content a.message-panel-button,
+.message-panel-content a.message-panel-button:focus-visible,
+.message-panel-content a.message-panel-button:active {
   display: inline-block;
   padding: 0;
   border: none;
@@ -467,8 +464,8 @@ h3 {
 }
 
 @media (hover: hover) {
-  .welcome-screen-content button.welcome-screen-continue:hover,
-  .welcome-screen-content a.welcome-screen-continue:hover {
+  .message-panel-content button.message-panel-button:hover,
+  .message-panel-content a.message-panel-button:hover {
     padding: 0;
     border: none;
     border-radius: 0;
@@ -476,20 +473,20 @@ h3 {
   }
 }
 
-/* button-continue-default.svg/-active.svg (used as the hover graphic —
-   see overlay-screen.tsx) are stacked at the same position (absolute
-   inset: 0) and swapped with opacity on hover, same mechanism as the
-   nav icons in Navbar/globals.css and Send/Clear/Help in the contact
-   form. No active/current-section state here — this is a one-off
-   dismiss action, not a persistent selection. */
-.welcome-screen-continue-icon-wrap {
+/* button-continue-default.svg/-active.svg (used as the hover graphic — see
+   message-panel-button.tsx) are stacked at the same position (absolute
+   inset: 0) and swapped with opacity on hover, same mechanism as the nav
+   icons in Navbar/globals.css and Send/Clear/Help in the contact form. No
+   active/current-section state here — this is a one-off dismiss/navigate
+   action, not a persistent selection. */
+.message-panel-button-icon-wrap {
   position: relative;
   display: block;
   width: 12rem;
   aspect-ratio: 187.43 / 43.90;
 }
 
-.welcome-screen-continue-icon {
+.message-panel-button-icon {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -497,18 +494,18 @@ h3 {
   transition: opacity 150ms ease;
 }
 
-.welcome-screen-continue-icon-hover {
+.message-panel-button-icon-hover {
   opacity: 0;
 }
 
 @media (hover: hover) {
-  .welcome-screen-content button.welcome-screen-continue:hover .welcome-screen-continue-icon-default,
-  .welcome-screen-content a.welcome-screen-continue:hover .welcome-screen-continue-icon-default {
+  .message-panel-content button.message-panel-button:hover .message-panel-button-icon-default,
+  .message-panel-content a.message-panel-button:hover .message-panel-button-icon-default {
     opacity: 0;
   }
 
-  .welcome-screen-content button.welcome-screen-continue:hover .welcome-screen-continue-icon-hover,
-  .welcome-screen-content a.welcome-screen-continue:hover .welcome-screen-continue-icon-hover {
+  .message-panel-content button.message-panel-button:hover .message-panel-button-icon-hover,
+  .message-panel-content a.message-panel-button:hover .message-panel-button-icon-hover {
     opacity: 1;
   }
 }
@@ -516,7 +513,7 @@ h3 {
 /* The `hidden` attribute is UA-default `display: none`, but our own
    `display: flex` above has equal specificity and, as an author style,
    wins over that default — so it must be restated explicitly here. */
-.welcome-screen[hidden] {
+.message-panel-overlay[hidden] {
   display: none;
 }
 
@@ -648,10 +645,10 @@ h3 {
 }
 
 /* READ MORE (sits inside .read-more-end above, on Services, Cutting
-   Salon and Contact): opens the page's own intro copy in an
-   OverlayScreen instead of rendering the paragraph inline — see
+   Salon and Contact): opens the page's own intro copy in a MessagePanel
+   overlay instead of rendering the paragraph inline — see
    read-more-button.tsx. Reset + hover-swap mechanics mirror
-   .welcome-screen-continue* above (default/hover SVGs stacked with
+   .message-panel-button* above (default/hover SVGs stacked with
    absolute inset: 0, swapped via opacity). */
 .read-more {
   display: inline-block;

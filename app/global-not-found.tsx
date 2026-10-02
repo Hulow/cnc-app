@@ -12,8 +12,8 @@ import { routes } from "@/shared/routes";
 // one. Deliberately lightweight (no video/nav/full globals.css): this
 // bypasses the normal layout tree entirely, so anything it needs it
 // must import itself, and it's most often hit by dead links or typos.
-// The blue/white look below is hand-copied from .welcome-screen/
-// .welcome-screen-content/.welcome-screen-text in globals.css (same
+// The blue/white look below is hand-copied from .message-panel-overlay/
+// .message-panel-content/.message-panel-text in globals.css (same
 // colors/spacing) rather than importing that file, to keep this page's
 // own footprint small.
 //
@@ -80,7 +80,7 @@ export default function GlobalNotFound() {
         >
           {/* Full-bleed: breaks out to the real viewport width regardless
               of this flex column's own (unconstrained) width, same
-              width: 100vw + negative-margin trick as .welcome-screen-text
+              width: 100vw + negative-margin trick as .message-panel-text
               in globals.css. */}
           <div
             style={{

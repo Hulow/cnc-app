@@ -9,7 +9,8 @@ import {
 } from "@/shared/contact/contact-attachment";
 import { en, type Dictionary } from "@/dictionaries/en";
 import { useContactForm } from "./use-contact-form";
-import { HelpOverlay } from "@/components/help-overlay/help-overlay";
+import { MessagePanel } from "@/components/message-panel/message-panel";
+import { MessagePanelButton } from "@/components/message-panel/message-panel-button";
 
 interface ContactFormProps {
   formId: string;
@@ -91,32 +92,22 @@ export function ContactForm({ formId, onClose, dict = en.contact, onSuccessChang
     return (
       <div id={formId} className="contact-form contact-form-success" role="status">
         <p>{dict.success}</p>
-        <button type="button" className="contact-form-close-button" onClick={onClose}>
-          <span className="contact-form-close-icon-wrap">
-            {/* eslint-disable @next/next/no-img-element */}
-            <img
-              src="/form/button-close-default.svg"
-              alt="Close"
-              width={137}
-              height={44}
-              className="contact-form-close-icon contact-form-close-icon-default"
-            />
-            {/* button-close-active.svg is the pink asset for this set
-                (its stroke matches the *-hover.svg pink used elsewhere,
-                not the "active" pink used for a persistent nav
-                selection) — there's no separate button-close-hover.svg,
-                so this is the hover graphic. */}
-            <img
-              src="/form/button-close-active.svg"
-              alt=""
-              aria-hidden="true"
-              width={137}
-              height={44}
-              className="contact-form-close-icon contact-form-close-icon-hover"
-            />
-            {/* eslint-enable @next/next/no-img-element */}
-          </span>
-        </button>
+        {/* Same default/hover image-swap mechanism as the site's Continue
+            buttons (see MessagePanelButton), with its own Close asset,
+            size, and CSS class family (button-close-active.svg is the
+            pink hover graphic — there's no separate button-close-
+            hover.svg). */}
+        <MessagePanelButton
+          label="Close"
+          onClick={onClose}
+          defaultSrc="/form/button-close-default.svg"
+          hoverSrc="/form/button-close-active.svg"
+          width={137}
+          height={44}
+          className="contact-form-close-button"
+          iconWrapClassName="contact-form-close-icon-wrap"
+          iconClassName="contact-form-close-icon"
+        />
       </div>
     );
   }
@@ -384,7 +375,14 @@ export function ContactForm({ formId, onClose, dict = en.contact, onSuccessChang
           </button>
         </div>
       </form>
-      {showHelp && <HelpOverlay onClose={() => setShowHelp(false)} text={dict.help} />}
+      {showHelp && (
+        <MessagePanel
+          variant="overlay"
+          action={<MessagePanelButton label="Continue" onClick={() => setShowHelp(false)} />}
+        >
+          <p>{dict.help}</p>
+        </MessagePanel>
+      )}
     </>
   );
 }
