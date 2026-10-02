@@ -1,16 +1,13 @@
-import type { CSSProperties } from "react";
+import { CardGrid } from "@/components/card-grid/card-grid";
 import type { Dictionary } from "@/dictionaries/en";
-import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 
 interface ServiceDeProps {
   dict: Pick<Dictionary, "services" | "pages" | "readMore">;
 }
 
-// Widest heading logo below (angebot-basieren-auf.svg, 385x23) — feeds
-// .card-heading-logo's shrink formula in globals.css so every heading in
-// this grid shrinks by the same factor if the grid gets too narrow for
-// this one, instead of only this one shrinking. Keep in sync with the
-// img width/height attributes below.
+// Widest heading logo below (angebot-basieren-auf.svg, 385x23) — see
+// CardGrid's maxLogoAspectRatio doc comment. Keep in sync with the
+// logo width/height below.
 const MAX_LOGO_ASPECT_RATIO = 385 / 23;
 
 // Logo asset per card — same key set as dict.services.cards (see the
@@ -31,50 +28,18 @@ export function ServiceDe({ dict }: ServiceDeProps) {
   const { cards } = dict.services;
 
   return (
-    <section aria-labelledby="about-heading">
-      <h1 id="about-heading" className="page-title">{dict.pages.services.title}</h1>
-      <div
-        className="service-grid"
-        style={
-          {
-            "--card-heading-logo-max-ratio": MAX_LOGO_ASPECT_RATIO,
-          } as CSSProperties
-        }
-      >
-        {CARD_ORDER.map((key) => {
-          const { heading, items } = cards[key];
-          const logo = CARD_LOGOS[key];
-          return (
-            <div className="service-card" key={key}>
-              <h2>
-                {/* Real text node for crawlers/SEO; the SVG stays the
-                    visible heading — same technique on every card below. */}
-                <span className="sr-only">{heading}</span>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={logo.src}
-                  alt=""
-                  aria-hidden="true"
-                  width={logo.width}
-                  height={logo.height}
-                  className="card-heading-logo"
-                />
-              </h2>
-              <ul>
-                {items.map((item) => (
-                  <li className="service-item" key={item}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
-      <div className="read-more-end">
-        {/* TODO: owner copy — see dictionaries/de.ts's readMore.services comment */}
-        <ReadMoreButton text={dict.readMore.services} />
-      </div>
-    </section>
+    <CardGrid
+      headingId="about-heading"
+      title={dict.pages.services.title}
+      maxLogoAspectRatio={MAX_LOGO_ASPECT_RATIO}
+      cards={CARD_ORDER.map((key) => ({
+        key,
+        heading: cards[key].heading,
+        items: cards[key].items,
+        logo: CARD_LOGOS[key],
+      }))}
+      // TODO: owner copy — see dictionaries/de.ts's readMore.services comment
+      readMoreText={dict.readMore.services}
+    />
   );
 }

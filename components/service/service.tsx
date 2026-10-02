@@ -1,17 +1,14 @@
-import type { CSSProperties } from "react";
-import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
+import { CardGrid } from "@/components/card-grid/card-grid";
 import { en } from "@/dictionaries/en";
 
-// Widest heading logo below (quotes-are-based-on.svg, 355x23) — feeds
-// .card-heading-logo's shrink formula in globals.css so every heading in
-// this grid shrinks by the same factor if the grid gets too narrow for
-// this one, instead of only this one shrinking. Keep in sync with the
-// img width/height attributes below.
+// Widest heading logo below (quotes-are-based-on.svg, 355x23) — see
+// CardGrid's maxLogoAspectRatio doc comment. Keep in sync with the
+// logo width/height below.
 const MAX_LOGO_ASPECT_RATIO = 355 / 23;
 
-// Logo asset per card — same key set as en.services.cards (see the German
-// equivalent, components/service/service-de.tsx, which follows the same
-// pattern against public/service/*.svg).
+// Logo asset per card — same key set as en.services.cards (see the
+// German equivalent, components/service/service-de.tsx, which follows
+// the same pattern against public/service/*.svg).
 const CARD_LOGOS = {
   services: { src: "/service/services.svg", width: 154, height: 23 },
   cuttingServices: { src: "/service/project_size.svg", width: 222, height: 23 },
@@ -28,50 +25,18 @@ export function Service() {
   const { cards } = en.services;
 
   return (
-    <section aria-labelledby="about-heading">
-      <h1 id="about-heading" className="page-title">{en.pages.services.title}</h1>
-      <div
-        className="service-grid"
-        style={
-          {
-            "--card-heading-logo-max-ratio": MAX_LOGO_ASPECT_RATIO,
-          } as CSSProperties
-        }
-      >
-        {CARD_ORDER.map((key) => {
-          const { heading, items } = cards[key];
-          const logo = CARD_LOGOS[key];
-          return (
-            <div className="service-card" key={key}>
-              <h2>
-                {/* Real text node for crawlers/SEO; the SVG stays the
-                    visible heading — same technique on every card below. */}
-                <span className="sr-only">{heading}</span>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={logo.src}
-                  alt=""
-                  aria-hidden="true"
-                  width={logo.width}
-                  height={logo.height}
-                  className="card-heading-logo"
-                />
-              </h2>
-              <ul>
-                {items.map((item) => (
-                  <li className="service-item" key={item}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
-      <div className="read-more-end">
-        {/* TODO: owner copy — see dictionaries/en.ts's readMore.services comment */}
-        <ReadMoreButton text={en.readMore.services} />
-      </div>
-    </section>
+    <CardGrid
+      headingId="about-heading"
+      title={en.pages.services.title}
+      maxLogoAspectRatio={MAX_LOGO_ASPECT_RATIO}
+      cards={CARD_ORDER.map((key) => ({
+        key,
+        heading: cards[key].heading,
+        items: cards[key].items,
+        logo: CARD_LOGOS[key],
+      }))}
+      // TODO: owner copy — see dictionaries/en.ts's readMore.services comment
+      readMoreText={en.readMore.services}
+    />
   );
 }

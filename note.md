@@ -9,18 +9,24 @@ improvement:
 Make a 100% done in the download process?
 
 
+SEO 
 
-in shared, lots of files have different responsability. 
-i am trying to group them into sub directory in the shared directory.
+generate-schema-org-types.mjs
 
-what are the responsability of these files?
-shared/structured-data.ts: SEO ?
-shared/social-image.tsx: SEO?
-shared/site-config.ts: website content?
-shared/page-metadata.ts: SEO?
-shared/logo-mark.tsx: SEO?
-shared/contact-email.ts: contact form?
-shared/contact-attachment.ts: contact form?
-shared/bot-user-agent.ts: website content?
-shared/privacy-gate.ts: website content?
-shared/routes.ts: website content?
+Thing
+    Organization
+        - LocalBusiness
+            - ProfessionalService (Who is providing the service?)
+
+    Person 
+        - worksFor
+        - knowsAbout
+
+    Intengible
+        - Service
+
+    CreativeWork
+        - WebSite (the entire website)
+        - WebPage (an individual page within that website)
+
+    Service (what the customer receives, What service do you provide?)
