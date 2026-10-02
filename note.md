@@ -4,6 +4,7 @@ do google maps thing
 check 301 - 200 - 307 requests on network
 refactor components in html
 facebook: no metadata
+form, when i scroll down, the footer is not stable
 
 for small screen with low height, we cannot see the button continue
 
@@ -32,8 +33,3 @@ Thing
         - WebPage (an individual page within that website)
 
     Service (what the customer receives, What service do you provide?)
-
-
-We dont need OverlayScreen anymore
-do we need also HelpOverlay?
-the html of MessagePanel is wrong now right? it is not a welcom-screen 

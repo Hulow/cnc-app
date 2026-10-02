@@ -4,11 +4,9 @@ import Link from "next/link";
 import { BackgroundVideo } from "@/components/background-video/background-video";
 import { LanguageSwitcher } from "@/components/language-switcher/language-switcher";
 import { Navbar } from "@/components/navbar/navbar";
-import { SchemaOrg } from "@/components/schema-org/schema-org";
 import { en } from "@/dictionaries/en";
 import { siteConfig } from "@/shared/site-config";
 import { routes } from "@/shared/routes";
-import { buildLocalBusiness, buildWebSite } from "@/shared/seo/schema-org";
 // Grid + utilities only: no Reboot, so Bootstrap doesn't override the
 // existing global element styles/reset in globals.css.
 import "bootstrap/dist/css/bootstrap-grid.css";
@@ -92,7 +90,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={russoOne.variable}>
       <body>
-        <SchemaOrg data={[buildLocalBusiness(en), buildWebSite("en", en)]} />
         <BackgroundVideo />
         <div className="content-layer page-content">
           <header>

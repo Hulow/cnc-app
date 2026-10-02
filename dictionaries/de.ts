@@ -24,10 +24,12 @@ import { impressumPage } from "./pages/impressum";
 import { privacyPage } from "./pages/privacy";
 import { servicesPage } from "./pages/services";
 import { workshopPage } from "./pages/workshop";
+import { schema } from "./schema";
 
 export const de: Dictionary = {
   business,
   meta: meta.de,
+  schema: schema.de,
   pages: {
     home: { title: homePage.de.metaTitle, description: homePage.de.metaDescription },
     services: { title: servicesPage.de.metaTitle, description: servicesPage.de.metaDescription },

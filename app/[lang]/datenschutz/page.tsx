@@ -4,14 +4,14 @@ import { PrivacyPanel } from "@/components/privacy-panel/privacy-panel";
 import { de } from "@/dictionaries/de";
 import { pageMetadata } from "@/shared/seo/page-metadata";
 import { routes } from "@/shared/routes";
-import { buildBreadcrumbs } from "@/shared/seo/schema-org";
+import { buildPageGraph } from "@/shared/seo/schema-org";
 
 export const metadata: Metadata = pageMetadata("privacy", "de", de);
 
 export default function DatenschutzPage() {
   return (
     <>
-      <SchemaOrg data={buildBreadcrumbs("privacy", "de", de)} />
+      <SchemaOrg data={buildPageGraph("privacy", "de", de)} />
       <PrivacyPanel
         dict={de}
         homeHref={routes.home.de}

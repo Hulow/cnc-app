@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Logo } from "@/components/logo/logo";
+import { SchemaOrg } from "@/components/schema-org/schema-org";
 import { en } from "@/dictionaries/en";
 import { isBotUserAgent } from "@/shared/privacy-gate/bot-user-agent";
 import { pageMetadata } from "@/shared/seo/page-metadata";
 import { PRIVACY_ACK_COOKIE } from "@/shared/privacy-gate/privacy-gate";
 import { routes } from "@/shared/routes";
+import { buildPageGraph } from "@/shared/seo/schema-org";
 
 export const metadata: Metadata = pageMetadata("home", "en", en);
 
@@ -25,9 +27,12 @@ export default async function Home() {
   }
 
   return (
-    <div className="home-content">
-      <Logo />
-      <h1 className="home-heading">{en.pages.home.title}</h1>
-    </div>
+    <>
+      <SchemaOrg data={buildPageGraph("home", "en", en)} />
+      <div className="home-content">
+        <Logo />
+        <h1 className="home-heading">{en.pages.home.title}</h1>
+      </div>
+    </>
   );
 }

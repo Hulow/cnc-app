@@ -20,6 +20,7 @@ import { impressumPage } from "./pages/impressum";
 import { privacyPage } from "./pages/privacy";
 import { servicesPage } from "./pages/services";
 import { workshopPage } from "./pages/workshop";
+import { schema } from "./schema";
 
 interface PageMeta {
   // Page portion only — the root layout's title.template appends
@@ -35,6 +36,14 @@ export interface Dictionary {
     description: string;
     ogLocale: string;
     ogAlternateLocale: string;
+  };
+  // Language-dependent structured-data copy with no visible home yet —
+  // see dictionaries/schema.ts for what each field feeds and where it
+  // must also appear on the page.
+  schema: {
+    slogan: string;
+    person: { jobTitle: string; description: string };
+    services: { audience: string; descriptions: string[] };
   };
   // Per-page <title>/<meta description> — unique per page, each (except
   // privacy, a utility page with no search intent of its own) containing
@@ -125,6 +134,7 @@ export interface Dictionary {
 export const en: Dictionary = {
   business,
   meta: meta.en,
+  schema: schema.en,
   pages: {
     home: { title: homePage.en.metaTitle, description: homePage.en.metaDescription },
     services: { title: servicesPage.en.metaTitle, description: servicesPage.en.metaDescription },
