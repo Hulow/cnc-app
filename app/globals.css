@@ -1266,6 +1266,15 @@ h3 {
   white-space: pre-line;
 }
 
+/* Below tablet width only (matches the .card-grid breakpoint above):
+   the card text is cramped on narrow screens, so step it down to
+   --font-size-sm instead of the fluid --font-size-base used elsewhere. */
+@media (max-width: 767px) {
+  .card-grid .card-content-item {
+    font-size: var(--font-size-sm);
+  }
+}
+
 .card-grid-image {
   width: 100%;
   height: auto;
