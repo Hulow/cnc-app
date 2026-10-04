@@ -14,6 +14,8 @@ export const SERVICE_CARD_KEYS = [
 ] as const;
 
 export function buildServices(lang: Lang, dict: Dictionary) {
+  const { published, modified } = dict.services.schemas.pageDates;
+
   return SERVICE_CARD_KEYS.map((key, index) => {
     const { heading, descriptions } = dict.services.websiteContent.cards[key];
 
@@ -29,6 +31,11 @@ export function buildServices(lang: Lang, dict: Dictionary) {
       audience: { "@type": "Audience", audienceType: dict.services.schemas.audience },
       termsOfService: assetUrl(dict.services.schemas.termsOfServiceUrl),
       url: absoluteUrl(routes.services[lang]),
+      // Every card shares the services page's own publish/modified dates —
+      // there's no per-card date in the dictionary, and all cards live on
+      // the same page.
+      datePublished: published,
+      dateModified: modified,
     };
   });
 }

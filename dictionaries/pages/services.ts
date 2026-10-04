@@ -62,7 +62,7 @@ export const servicesPage = {
       audience: TODO,
       // → Service.termsOfService, a URL.
       termsOfServiceUrl: TODO,
-      pageDates: { published: TODO, modified: TODO },
+      pageDates: { published: "2026-09-19", modified: "2026-10-04" },
     },
   },
   de: {
@@ -119,7 +119,7 @@ export const servicesPage = {
     schemas: {
       audience: TODO,
       termsOfServiceUrl: TODO,
-      pageDates: { published: TODO, modified: TODO },
+      pageDates: { published: "2026-09-19", modified: "2026-10-04" },
     },
   },
 };
