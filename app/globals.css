@@ -278,7 +278,7 @@ h3 {
 /* ==========================================================================
    Message Panel (components/message-panel: the shared centered-panel/
    white-text-card/pill-button look behind PrivacyPanel, ImpressumPanel,
-   NotFoundPanel, and ContactForm's help overlay/ReadMoreButton's overlay)
+   NotFoundPanel, and ReadMoreButton's overlay)
    ========================================================================== */
 
 /* "page" variant (PrivacyPanel/ImpressumPanel/NotFoundPanel): normal,
@@ -302,11 +302,10 @@ h3 {
   background: var(--logo-color);
 }
 
-/* "overlay" variant (ContactForm's help overlay, ReadMoreButton): a
-   full-screen, light-transparent dialog over everything else (video +
-   page content). Sits above the content layer so it's always on top.
-   Class name predates the removal of the mandatory welcome/consent gate
-   this used to be. */
+/* "overlay" variant (ReadMoreButton): a full-screen, light-transparent
+   dialog over everything else (video + page content). Sits above the
+   content layer so it's always on top. Class name predates the removal
+   of the mandatory welcome/consent gate this used to be. */
 .message-panel-overlay {
   position: fixed;
   inset: 0;
@@ -444,8 +443,8 @@ h3 {
    is an image button: button-continue-*.svg already draws its own pill
    border and label, so the generic button chrome above (border, padding,
    background, border-radius) is cancelled here. .message-panel-button is
-   shared by a real <button> (ContactForm's help overlay/ReadMoreButton's
-   dismiss action) and a <Link> (PrivacyPanel/ImpressumPanel/
+   shared by a real <button> (ReadMoreButton's dismiss action) and a
+   <Link> (PrivacyPanel/ImpressumPanel/
    NotFoundPanel's navigation back to "/"), hence both element selectors
    below. Each selector repeats the pseudo-class alongside
    .message-panel-button so it's strictly more specific than the generic
@@ -476,7 +475,7 @@ h3 {
 /* button-continue-default.svg/-active.svg (used as the hover graphic — see
    message-panel-button.tsx) are stacked at the same position (absolute
    inset: 0) and swapped with opacity on hover, same mechanism as the nav
-   icons in Navbar/globals.css and Send/Clear/Help in the contact form. No
+   icons in Navbar/globals.css and Send/Clear in the contact form. No
    active/current-section state here — this is a one-off dismiss/navigate
    action, not a persistent selection. */
 .message-panel-button-icon-wrap {
@@ -589,63 +588,31 @@ h3 {
 
 /* Services, Cutting Salon and Contact: their own h1 is a step smaller
    than the global default so it reads as a section title sitting above
-   the card grid/form rather than a full hero heading. */
+   the card grid rather than a full hero heading. */
 .page-title {
   font-size: var(--font-size-xl);
 }
 
-/* Services and Cutting Salon: their own h1 sits at the left edge of the
-   section instead of centered. Scoped to these two ids (not .page-title
-   itself) so Contact's h1 — also .page-title — keeps its own alignment. */
+/* Services, Cutting Salon and Contact: their own h1 sits at the left
+   edge of the section instead of centered. */
 #about-heading,
-#cutting-salon-heading {
+#cutting-salon-heading,
+#contact-heading {
   text-align: left;
 }
 
-/* Contact's own h1: the site's signature blue instead of the default
-   foreground color, matching the logo/READ MORE button elsewhere. */
-.contact-heading {
-  color: var(--logo-color);
-}
-
 /* Services, Cutting Salon and Contact: sits at the bottom of the page,
-   after the card grid/form, right-aligned (flex-end) instead of beside
-   the heading. */
+   after the card grid, right-aligned (flex-end) instead of beside the
+   heading. Contact's own CardGrid has no readMoreText (see
+   components/contact/contact-route.tsx), so this never renders there. */
 .read-more-end {
   display: flex;
   justify-content: flex-end;
   margin-top: var(--space-sm);
 }
 
-/* Contact only: h1/form/.read-more-end are wrapped in .contact-layout
-   (see contact/page.tsx) instead of sitting directly in main, so this
-   tighter gap governs their spacing instead of .page-content main's own
-   flex gap (--space-md) — Contact's title/form/button were sitting
-   noticeably further apart than Services/Cutting Salon's. .read-more-end
-   keeps its margin-top for the Services/Cutting Salon case above, so it
-   has to be zeroed here to avoid stacking on top of this gap too. */
-.contact-layout {
-  display: flex;
-  flex-direction: column;
-  /* Stretches to fill main's available height so .contact-form's own
-     flex: 1 (see .contact-form below) has actual leftover space to grow
-     into instead of just hugging its own content — otherwise the form
-     stops short of the footer rather than reaching it. min-height: 0
-     overrides flex's default min-height: auto, which would otherwise
-     floor this at its content's height and cancel flex: 1 out whenever
-     that content (e.g. the form's fields) is taller than main's
-     available space. */
-  flex: 1;
-  min-height: 0;
-  gap: var(--space-sm);
-}
-
-.contact-layout > .read-more-end {
-  margin-top: 0;
-}
-
-/* READ MORE (sits inside .read-more-end above, on Services, Cutting
-   Salon and Contact): opens the page's own intro copy in a MessagePanel
+/* READ MORE (sits inside .read-more-end above, on Services and Cutting
+   Salon): opens the page's own intro copy in a MessagePanel
    overlay instead of rendering the paragraph inline — see
    read-more-button.tsx. Reset + hover-swap mechanics mirror
    .message-panel-button* above (default/hover SVGs stacked with
@@ -1373,11 +1340,11 @@ h3 {
   outline-offset: 2px;
 }
 
-/* .card-item is a <li>, inside a <ul>. The <ul> takes over the flex
-   column + gap that used to sit directly on .card around each item div,
-   and drops the browser's default list box model, so the visual rhythm
-   (heading, then each item stacked with the same gap) stays exactly as
-   it was. */
+/* .card-content-item is a <li>, inside a <ul>. The <ul> takes over the
+   flex column + gap that used to sit directly on .card around each item
+   div, and drops the browser's default list box model, so the visual
+   rhythm (heading, then each item stacked with the same gap) stays
+   exactly as it was. */
 .card-grid .card ul {
   display: flex;
   flex-direction: column;
@@ -1387,11 +1354,17 @@ h3 {
   padding: 0;
 }
 
-.card-grid .card-item {
+.card-grid .card-content-item {
   background: #ffffff;
   color: var(--logo-color);
   padding: var(--space-xs);
   border-radius: 0.375rem;
+  /* Contact's Workshop card packs a mini-heading + value into one
+     description (e.g. "Address\nAtelier Cut\n...") — pre-line renders
+     that \n as a line break while still collapsing normal spaces.
+     Services/Cutting Salon's own descriptions are single-line
+     sentences, so this is a no-op for them. */
+  white-space: pre-line;
 }
 
 .card-grid-image {
@@ -1445,27 +1418,20 @@ h3 {
   }
 }
 
-/* Fills .content-layer's box (flex: 1 grows into main's available
-   height, width: 100% takes its full width) instead of floating as a
-   separate ~30rem card. Its own translucent white background sits inset
-   from .content-layer's edges by .page-content's existing padding,
-   rather than butting flush against it — .content-layer itself has no
-   background color (the video shows straight through), so this panel
-   reads as whiter/more opaque than the page around it. */
+/* Contact's "Contact me" card (components/contact/contact-route.tsx)
+   nests .contact-form inside the shared .card/.card-content chrome (see
+   the Card Grid section above) instead of a box of its own, so it
+   stays a plain flex column here — no background/padding, which would
+   otherwise double up with .card's. */
 .contact-form {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  width: 100%;
   gap: var(--space-sm);
-  padding: var(--space-md);
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 0.375rem;
 }
 
-/* Success state reuses .contact-form's box but centers its (much
-   shorter) content in the middle of that box instead of stacking it at
-   the top. */
+/* Success state reuses .contact-form's flex column but centers its
+   (much shorter) content in the middle of the card instead of stacking
+   it at the top. */
 .contact-form-success {
   align-items: center;
   justify-content: center;
@@ -1534,7 +1500,7 @@ h3 {
 
 /* button-close-default.svg/-active.svg (used as the hover graphic — see
    contact-form.tsx) are stacked at the same position (absolute inset: 0)
-   and swapped with opacity on hover, same mechanism as Send/Clear/Help
+   and swapped with opacity on hover, same mechanism as Send/Clear
    above. No active/current-section state here — this is a one-off
    dismiss action, not a persistent selection. */
 .contact-form-close-icon-wrap {
@@ -1865,16 +1831,6 @@ h3 {
   gap: var(--space-sm);
 }
 
-/* Pushes Help to the far end of the row while Send/Clear stay grouped at
-   the start, without needing a separate wrapper for those two — combined
-   with align-items: flex-end above, both groups sit on the row's bottom
-   edge even if one button ends up shorter than the others (e.g. once
-   they start shrinking to fit a narrow form — see the flex-basis rules
-   below). */
-.contact-form-help {
-  margin-left: auto;
-}
-
 .contact-form-actions button {
   padding: var(--space-xs) var(--space-md);
   border: 1px solid var(--logo-color);
@@ -1917,10 +1873,10 @@ h3 {
   pointer-events: none;
 }
 
-/* Send, Clear and Help are image buttons (see contact-form.tsx):
-   button-{send,clear,help}-*.svg already draw their own pill border and
+/* Send and Clear are image buttons (see contact-form-actions.tsx):
+   button-{send,clear}-*.svg already draw their own pill border and
    label, so the generic button chrome above (border, padding,
-   border-radius) is cancelled here for all three. Each selector repeats
+   border-radius) is cancelled here for both. Each selector repeats
    the :hover/:focus-visible/:active pseudo-class alongside the button's
    own class so it's strictly more specific than the generic rules above
    (extra class), winning regardless of source order — background was
@@ -1928,15 +1884,15 @@ h3 {
    repeating. */
 /* flex-basis is each button's own full-size target width (the same
    width its icon-wrap's aspect-ratio produces at the 3.66rem target
-   height below); flex-shrink: 1 with equal factors on all three, plus
+   height below); flex-shrink: 1 with equal factors on both, plus
    min-width: 0 to lift the default min-width: auto floor that would
    otherwise refuse to shrink below the images' intrinsic size, means
    the flexbox shrink algorithm scales every button's rendered width down
    by the *same fraction* of its own basis when the row doesn't fit
    .contact-form-actions's width — never overflowing the form, and never
-   distorting one button's proportions relative to the others (each
+   distorting one button's proportions relative to the other (each
    icon-wrap's own aspect-ratio then derives a proportionally smaller
-   height from that same fraction — see below — so the three stay the
+   height from that same fraction — see below — so the two stay the
    same height as each other at any width). flex-grow: 0 keeps them from
    stretching past their target size when there's room to spare. */
 .contact-form-actions button.contact-form-submit,
@@ -1944,10 +1900,7 @@ h3 {
 .contact-form-actions button.contact-form-submit:active,
 .contact-form-actions button.contact-form-clear,
 .contact-form-actions button.contact-form-clear:focus-visible,
-.contact-form-actions button.contact-form-clear:active,
-.contact-form-actions button.contact-form-help,
-.contact-form-actions button.contact-form-help:focus-visible,
-.contact-form-actions button.contact-form-help:active {
+.contact-form-actions button.contact-form-clear:active {
   padding: 0;
   border: none;
   border-radius: 0;
@@ -1964,34 +1917,27 @@ h3 {
   flex-basis: 8.68rem;
 }
 
-.contact-form-actions button.contact-form-help {
-  flex-basis: 7.35rem;
-}
-
 @media (hover: hover) {
   .contact-form-actions button.contact-form-submit:hover,
-  .contact-form-actions button.contact-form-clear:hover,
-  .contact-form-actions button.contact-form-help:hover {
+  .contact-form-actions button.contact-form-clear:hover {
     padding: 0;
     border: none;
     border-radius: 0;
   }
 }
 
-/* button-{send,clear,help}-default.svg/-hover.svg are stacked at the
-   same position (absolute inset: 0) and swapped with opacity on hover,
-   same mechanism as the nav icons in Navbar/globals.css. No active/
+/* button-{send,clear}-default.svg/-hover.svg are stacked at the same
+   position (absolute inset: 0) and swapped with opacity on hover, same
+   mechanism as the nav icons in Navbar/globals.css. No active/
    current-section state here (unlike the nav) — these are one-off form
-   actions, not a persistent selection (button-help-active.svg is used
-   as Help's hover graphic — see contact-form.tsx for why). width: 100%
-   fills whatever width the button's own flex-basis/shrink resolved to
-   (see above — the buttons, not these wraps, are the flex items); height
-   is left to each wrap's own aspect-ratio to derive from that width, so
-   shrinking the row's width also shrinks height proportionally instead
-   of distorting or overflowing vertically. */
+   actions, not a persistent selection. width: 100% fills whatever width
+   the button's own flex-basis/shrink resolved to (see above — the
+   buttons, not these wraps, are the flex items); height is left to each
+   wrap's own aspect-ratio to derive from that width, so shrinking the
+   row's width also shrinks height proportionally instead of distorting
+   or overflowing vertically. */
 .contact-form-submit-icon-wrap,
-.contact-form-clear-icon-wrap,
-.contact-form-help-icon-wrap {
+.contact-form-clear-icon-wrap {
   position: relative;
   display: block;
   width: 100%;
@@ -2005,13 +1951,8 @@ h3 {
   aspect-ratio: 138.83 / 43.90;
 }
 
-.contact-form-help-icon-wrap {
-  aspect-ratio: 117.59 / 43.90;
-}
-
 .contact-form-submit-icon,
-.contact-form-clear-icon,
-.contact-form-help-icon {
+.contact-form-clear-icon {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -2020,21 +1961,18 @@ h3 {
 }
 
 .contact-form-submit-icon-hover,
-.contact-form-clear-icon-hover,
-.contact-form-help-icon-hover {
+.contact-form-clear-icon-hover {
   opacity: 0;
 }
 
 @media (hover: hover) {
   .contact-form-actions button.contact-form-submit:hover .contact-form-submit-icon-default,
-  .contact-form-actions button.contact-form-clear:hover .contact-form-clear-icon-default,
-  .contact-form-actions button.contact-form-help:hover .contact-form-help-icon-default {
+  .contact-form-actions button.contact-form-clear:hover .contact-form-clear-icon-default {
     opacity: 0;
   }
 
   .contact-form-actions button.contact-form-submit:hover .contact-form-submit-icon-hover,
-  .contact-form-actions button.contact-form-clear:hover .contact-form-clear-icon-hover,
-  .contact-form-actions button.contact-form-help:hover .contact-form-help-icon-hover {
+  .contact-form-actions button.contact-form-clear:hover .contact-form-clear-icon-hover {
     opacity: 1;
   }
 }

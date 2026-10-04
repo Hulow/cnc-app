@@ -114,6 +114,20 @@ export interface Dictionary {
     metadata: PageMetadata;
     websiteContent: {
       readMore: string;
+      cards: {
+        workshop: {
+          heading: string;
+          addressHeading: string;
+          addressLines: string[];
+          hoursHeading: string;
+          hoursText: string;
+          emailHeading: string;
+          email: string;
+        };
+        whatToInclude: { heading: string };
+        contactMe: { heading: string };
+        help: { heading: string };
+      };
       fields: {
         company: string;
         firstName: string;

@@ -11,10 +11,7 @@ export default function ContactPage() {
   return (
     <>
       <SchemaOrg data={buildPageGraph("contact", "en", en)} />
-      <div className="contact-layout">
-        {/* TODO: owner copy — see dictionaries/pages/contact.ts's websiteContent.readMore comment */}
-        <ContactRoute lang="en" title={en.contact.metadata.title} introText={en.contact.websiteContent.readMore} />
-      </div>
+      <ContactRoute lang="en" title={en.contact.metadata.title} />
     </>
   );
 }

@@ -11,7 +11,7 @@ export function SchemaOrg({ data }: SchemaOrgProps) {
   const items = Array.isArray(data) ? data : [data];
 
   // TEMP: log the JSON-LD this page renders — remove once you're done inspecting.
-  console.log(JSON.stringify(data, null, 2));
+  // console.log(JSON.stringify(data, null, 2));
 
   return (
     <>

@@ -12,9 +12,25 @@ export const contactPage = {
         "Request a CNC machining quote in Berlin: send your CAD file, sketch, dimensions, material and quantity — get workshop pickup or shipping options.",
     },
     websiteContent: {
-      // TODO: owner copy.
       readMore:
         "To request a quote, send me your project by email or through the form below. It helps to include:\n\n- A CAD file (DXF, DWG or STEP) or a sketch as a PDF or image\n- The dimensions\n- The material you'd like to use\n- The quantity.\n\nThe more details you share, the faster I can get back to you.\n\nNot sure about everything yet? Even if you only have a rough idea, or nothing at all, just get in touch and we'll figure it out together.",
+      // The four cards rendered on the contact page (see
+      // components/contact/contact-route.tsx): Workshop, What to
+      // include, Contact me and Help.
+      cards: {
+        workshop: {
+          heading: "Workshop",
+          addressHeading: "Address",
+          addressLines: ["Atelier Cut", "Coppistraße 17", "10365 Berlin"],
+          hoursHeading: "Opening Times:",
+          hoursText: "From Monday to Friday\n9h30-12h30 and 13h30-17h30.\nVisits by appointment only.",
+          emailHeading: "Email:",
+          email: "victor@atelier-cut.com",
+        },
+        whatToInclude: { heading: "What to include" },
+        contactMe: { heading: "Contact me" },
+        help: { heading: "Help" },
+      },
       fields: {
         company: "Company",
         firstName: "First name",
@@ -56,6 +72,20 @@ export const contactPage = {
     websiteContent: {
       readMore:
         "Um ein Angebot anzufragen, schick mir dein Projekt per Kontakt Formular oder per E-Mail. Bitte füge foldende informationen hinzu:\n\n- Eine CAD-Datei (DXF, DWG oder STEP) oder eine Skizze als PDF oder Bild\n- Die Maße\n- Das gewünschte Material\n- Die gewünschte Stückzahl\n\nJe mehr Infos du mir gibst, desto schneller kann ich deine Anfrage beantworten.\n\nDu bist dir noch nicht bei allem sicher? Auch wenn du nur eine grobe Idee hast, oder noch gar nichts Konkretes, melde dich einfach. Wir finden gemeinsam heraus, was möglich ist.",
+      cards: {
+        workshop: {
+          heading: "Werkstatt",
+          addressHeading: "Adresse",
+          addressLines: ["Atelier Cut", "Coppistraße 17", "10365 Berlin"],
+          hoursHeading: "Öffnungszeiten:",
+          hoursText: "Montag bis Freitag\n9:30–12:30 Uhr und 13:30–17:30 Uhr.\nBesuche nur nach Terminvereinbarung.",
+          emailHeading: "E-Mail:",
+          email: "victor@atelier-cut.com",
+        },
+        whatToInclude: { heading: "Was du angeben solltest" },
+        contactMe: { heading: "Kontaktiere mich" },
+        help: { heading: "Hilfe" },
+      },
       fields: {
         company: "Firma",
         firstName: "Vorname",

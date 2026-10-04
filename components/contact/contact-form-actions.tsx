@@ -15,8 +15,8 @@ interface IconSwapButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-// The default/hover image-swap button shared by Send, Clear and Help — see
-// .contact-form-actions button.contact-form-{submit,clear,help} in
+// The default/hover image-swap button shared by Send and Clear — see
+// .contact-form-actions button.contact-form-{submit,clear} in
 // globals.css for the hover-swap CSS this markup drives.
 function IconSwapButton({
   type,
@@ -65,7 +65,6 @@ interface ContactFormActionsProps {
   submitDisabled: boolean;
   sendingLabel: string;
   onCancel: MouseEventHandler<HTMLButtonElement>;
-  onHelp: () => void;
 }
 
 export function ContactFormActions({
@@ -73,7 +72,6 @@ export function ContactFormActions({
   submitDisabled,
   sendingLabel,
   onCancel,
-  onHelp,
 }: ContactFormActionsProps) {
   return (
     <div className="contact-form-actions">
@@ -104,24 +102,6 @@ export function ContactFormActions({
         height={44}
         label="Clear"
         onClick={onCancel}
-        disabled={isSubmitting}
-      />
-      <IconSwapButton
-        type="button"
-        className="contact-form-help"
-        iconWrapClassName="contact-form-help-icon-wrap"
-        iconClassName="contact-form-help-icon"
-        defaultSrc="/form/button-help-default.svg"
-        // button-help-active.svg is the pink asset for this set (its
-        // stroke matches button-send-hover.svg/button-clear-hover.svg's
-        // pink, not the "active" pink used for a persistent nav
-        // selection) — there's no separate button-help-hover.svg, so
-        // this is the hover graphic.
-        hoverSrc="/form/button-help-active.svg"
-        width={118}
-        height={44}
-        label="Help"
-        onClick={onHelp}
         disabled={isSubmitting}
       />
     </div>

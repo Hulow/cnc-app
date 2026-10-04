@@ -1,13 +1,16 @@
 import Image from "next/image";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { Card, type CardLogo } from "@/components/card/card";
 import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 
 export interface CardGridCard {
   key: string;
   heading: string;
-  descriptions: readonly string[];
-  logo: CardLogo;
+  // Optional — see Card's own doc comment: omit logo/descriptions for a
+  // plain-text heading and arbitrary children (Contact's cards).
+  logo?: CardLogo;
+  descriptions?: readonly string[];
+  children?: ReactNode;
 }
 
 export interface CardGridImage {
@@ -24,19 +27,26 @@ interface CardGridProps {
   // Widest heading logo in `cards` (width / height) — feeds
   // .card-heading-logo's shrink formula in globals.css so every heading
   // in this grid shrinks by the same factor if the grid gets too narrow
-  // for the widest one, instead of only that one shrinking.
-  maxLogoAspectRatio: number;
+  // for the widest one, instead of only that one shrinking. Omit when no
+  // card in this grid has a logo (Contact) — the formula falls back to
+  // its own default ratio, which never matters with no logo to size.
+  maxLogoAspectRatio?: number;
   cards: readonly CardGridCard[];
   image?: CardGridImage;
-  readMoreText: string;
+  // Omit when this grid has no separate intro paragraph of its own
+  // (Contact's cards carry all their own copy) — the trailing read-more
+  // button then doesn't render at all.
+  readMoreText?: string;
 }
 
-// Server Component: shared layout for the Services and Cutting Salon
-// pages — a title, a single-column stack of collapsible cards, an
-// optional trailing image, and a closing "read more" button. Rendered as
-// part of the initial HTML response so it's readable independently of the
-// video and indexable without client-side JavaScript. See globals.css's
-// "Card Grid" section for the shared styles this renders into.
+// Server Component: shared layout for the Services, Cutting Salon and
+// Contact pages — a title, a single-column stack of collapsible cards,
+// and an optional trailing image and closing "read more" button (neither
+// used by Contact, which has no separate intro paragraph or photo).
+// Rendered as part of the initial HTML response so it's readable
+// independently of the video and indexable without client-side
+// JavaScript. See globals.css's "Card Grid" section for the shared
+// styles this renders into.
 export function CardGrid({ headingId, title, maxLogoAspectRatio, cards, image, readMoreText }: CardGridProps) {
   return (
     <section aria-labelledby={headingId}>
@@ -49,8 +59,10 @@ export function CardGrid({ headingId, title, maxLogoAspectRatio, cards, image, r
           } as CSSProperties
         }
       >
-        {cards.map(({ key, heading, descriptions, logo }) => (
-          <Card key={key} heading={heading} logo={logo} descriptions={descriptions} />
+        {cards.map(({ key, heading, descriptions, logo, children }) => (
+          <Card key={key} heading={heading} logo={logo} descriptions={descriptions}>
+            {children}
+          </Card>
         ))}
       </div>
       {image && (
@@ -68,9 +80,11 @@ export function CardGrid({ headingId, title, maxLogoAspectRatio, cards, image, r
           className="card-grid-image"
         />
       )}
-      <div className="read-more-end">
-        <ReadMoreButton text={readMoreText} />
-      </div>
+      {readMoreText && (
+        <div className="read-more-end">
+          <ReadMoreButton text={readMoreText} />
+        </div>
+      )}
     </section>
   );
 }

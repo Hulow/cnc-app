@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ChangeEvent, type MouseEvent } from "react";
+import { useRef, type ChangeEvent, type MouseEvent } from "react";
 import { ALLOWED_ATTACHMENT_EXTENSIONS, MAX_ATTACHMENT_BYTES, formatMegabytes } from "@/shared/contact/contact-attachment";
 import { en, type Dictionary } from "@/dictionaries/en";
 import { useContactForm } from "./use-contact-form";
@@ -8,13 +8,11 @@ import { ContactFormField } from "./contact-form-field";
 import { ContactFormAttachmentField } from "./contact-form-attachment-field";
 import { ContactFormActions } from "./contact-form-actions";
 import { ContactFormSuccess } from "./contact-form-success";
-import { MessagePanel } from "@/components/message-panel/message-panel";
-import { MessagePanelButton } from "@/components/message-panel/message-panel-button";
 
 interface ContactFormProps {
   formId: string;
   onClose: () => void;
-  // Field labels/placeholders/messages only — the Send/Clear/Help/Upload
+  // Field labels/placeholders/messages only — the Send/Clear/Upload
   // buttons stay the English image assets regardless of language (no
   // German artwork exists yet), so their alt text is intentionally not
   // part of this dictionary.
@@ -43,7 +41,6 @@ export function ContactForm({ formId, onClose, dict = en.contact.websiteContent,
     handleAttachmentSelected,
     clearAttachment,
   } = useContactForm({ onSuccessChange });
-  const [showHelp, setShowHelp] = useState(false);
   const attachmentInputRef = useRef<HTMLInputElement>(null);
 
   function handleAttachmentChange(event: ChangeEvent<HTMLInputElement>) {
@@ -78,117 +75,106 @@ export function ContactForm({ formId, onClose, dict = en.contact.websiteContent,
   }
 
   return (
-    <>
-      <form id={formId} className="contact-form" onSubmit={handleSubmit} noValidate>
-        <ContactFormField
-          id="contact-company-name"
-          name="companyName"
-          label={dict.fields.company}
-          autoComplete="organization"
-          disabled={isSubmitting}
-          error={fieldErrors.companyName}
-          onChange={() => clearFieldError("companyName")}
-        />
+    <form id={formId} className="contact-form" onSubmit={handleSubmit} noValidate>
+      <ContactFormField
+        id="contact-company-name"
+        name="companyName"
+        label={dict.fields.company}
+        autoComplete="organization"
+        disabled={isSubmitting}
+        error={fieldErrors.companyName}
+        onChange={() => clearFieldError("companyName")}
+      />
 
-        <ContactFormField
-          id="contact-first-name"
-          name="firstName"
-          label={dict.fields.firstName}
-          autoComplete="given-name"
-          required
-          disabled={isSubmitting}
-          error={fieldErrors.firstName}
-          onChange={() => clearFieldError("firstName")}
-        />
+      <ContactFormField
+        id="contact-first-name"
+        name="firstName"
+        label={dict.fields.firstName}
+        autoComplete="given-name"
+        required
+        disabled={isSubmitting}
+        error={fieldErrors.firstName}
+        onChange={() => clearFieldError("firstName")}
+      />
 
-        <ContactFormField
-          id="contact-last-name"
-          name="lastName"
-          label={dict.fields.lastName}
-          autoComplete="family-name"
-          required
-          disabled={isSubmitting}
-          error={fieldErrors.lastName}
-          onChange={() => clearFieldError("lastName")}
-        />
+      <ContactFormField
+        id="contact-last-name"
+        name="lastName"
+        label={dict.fields.lastName}
+        autoComplete="family-name"
+        required
+        disabled={isSubmitting}
+        error={fieldErrors.lastName}
+        onChange={() => clearFieldError("lastName")}
+      />
 
-        <ContactFormField
-          id="contact-email"
-          name="email"
-          label={dict.fields.email}
-          type="email"
-          autoComplete="email"
-          required
-          disabled={isSubmitting}
-          error={fieldErrors.email}
-          onChange={() => clearFieldError("email")}
-          onBlur={validateEmailOnBlur}
-        />
+      <ContactFormField
+        id="contact-email"
+        name="email"
+        label={dict.fields.email}
+        type="email"
+        autoComplete="email"
+        required
+        disabled={isSubmitting}
+        error={fieldErrors.email}
+        onChange={() => clearFieldError("email")}
+        onBlur={validateEmailOnBlur}
+      />
 
-        <ContactFormField
-          id="contact-phone"
-          name="phone"
-          label={dict.fields.phone}
-          type="tel"
-          autoComplete="tel"
-          disabled={isSubmitting}
-          error={fieldErrors.phone}
-          onChange={() => clearFieldError("phone")}
-        />
+      <ContactFormField
+        id="contact-phone"
+        name="phone"
+        label={dict.fields.phone}
+        type="tel"
+        autoComplete="tel"
+        disabled={isSubmitting}
+        error={fieldErrors.phone}
+        onChange={() => clearFieldError("phone")}
+      />
 
-        <ContactFormField
-          id="contact-message"
-          name="message"
-          label={dict.fields.message}
-          multiline
-          disabled={isSubmitting}
-          error={fieldErrors.message}
-          onChange={() => clearFieldError("message")}
-        />
+      <ContactFormField
+        id="contact-message"
+        name="message"
+        label={dict.fields.message}
+        multiline
+        disabled={isSubmitting}
+        error={fieldErrors.message}
+        onChange={() => clearFieldError("message")}
+      />
 
-        <ContactFormAttachmentField
-          label={dict.fields.attachment}
-          hint={dict.attachmentHint(MAX_ATTACHMENT_MB)}
-          oversizedError={oversizedAttachmentMb ? dict.attachmentTooLarge(oversizedAttachmentMb) : null}
-          removeLabel={dict.removeAttachment}
-          acceptAttribute={ACCEPT_ATTRIBUTE}
-          disabled={isSubmitting}
-          attachmentName={attachmentName}
-          inputRef={attachmentInputRef}
-          onChange={handleAttachmentChange}
-          onRemove={handleRemoveAttachment}
-        />
+      <ContactFormAttachmentField
+        label={dict.fields.attachment}
+        hint={dict.attachmentHint(MAX_ATTACHMENT_MB)}
+        oversizedError={oversizedAttachmentMb ? dict.attachmentTooLarge(oversizedAttachmentMb) : null}
+        removeLabel={dict.removeAttachment}
+        acceptAttribute={ACCEPT_ATTRIBUTE}
+        disabled={isSubmitting}
+        attachmentName={attachmentName}
+        inputRef={attachmentInputRef}
+        onChange={handleAttachmentChange}
+        onRemove={handleRemoveAttachment}
+      />
 
-        {/* Honeypot: invisible to real visitors (see .contact-form-honeypot),
-            skipped from tab order, left empty so genuine submissions never
-            trip the server's spam check in app/api/contact/route.ts. */}
-        <div className="contact-form-honeypot" aria-hidden="true">
-          <label htmlFor="contact-company">Company</label>
-          <input id="contact-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
-        </div>
+      {/* Honeypot: invisible to real visitors (see .contact-form-honeypot),
+          skipped from tab order, left empty so genuine submissions never
+          trip the server's spam check in app/api/contact/route.ts. */}
+      <div className="contact-form-honeypot" aria-hidden="true">
+        <label htmlFor="contact-company">Company</label>
+        <input id="contact-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
 
-        {formErrorMessage && (
-          <p className="contact-form-error" role="alert">
-            {formErrorMessage}
-          </p>
-        )}
-
-        <ContactFormActions
-          isSubmitting={isSubmitting}
-          submitDisabled={isSubmitting || Boolean(fieldErrors.firstName || fieldErrors.lastName || fieldErrors.email)}
-          sendingLabel={dict.sending}
-          onCancel={handleCancel}
-          onHelp={() => setShowHelp(true)}
-        />
-      </form>
-      {showHelp && (
-        <MessagePanel
-          variant="overlay"
-          action={<MessagePanelButton label="Continue" onClick={() => setShowHelp(false)} />}
-        >
-          <p>{dict.help}</p>
-        </MessagePanel>
+      {formErrorMessage && (
+        <p className="contact-form-error" role="alert">
+          {formErrorMessage}
+        </p>
       )}
-    </>
+
+      <ContactFormActions
+        isSubmitting={isSubmitting}
+        submitDisabled={isSubmitting || Boolean(fieldErrors.firstName || fieldErrors.lastName || fieldErrors.email)}
+        sendingLabel={dict.sending}
+        onCancel={handleCancel}
+      />
+    </form>
   );
 }
