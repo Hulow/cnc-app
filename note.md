@@ -31,56 +31,52 @@ SEO
     └── Crawlability / indexability
 
 
-I want to break down the component card-grid into:
-- card-grid
-- card
+Now i want to update my services section.
 
-The card grid display the card list with a grid 1 column, many lines. 
-The card width should cover the width of the section.
+1) dictionary
+i want first to update my field names in dictionaries/pages/services.ts:
+- from cuttingServices to serviceOne
+- from services to serviceTwo
+- from quotesAreBasedOn to serviceThree
+- from deliveryOptions to serviceFour
 
-card is composed of:
-- card-header
- (for instance)
-<h2>
-    <span className="sr-only">{heading}</span>
-    <img
-        src={logo.src}
-        alt=""
-        aria-hidden="true"
-        width={logo.width}
-        height={logo.height}
-        className="card-heading-logo"
-    />
-</h2>
+on each service, i want to change the heading:
+- ServiceOne: from "Project Size" to CAD Design (CAD design in german)
+- serviceTwo: from  "Services" to CNC Machining (CNC Leistungen in german)
+- serviceThree: Materials (Materialien in german)
+- serviceFour: from "quotes are based on" on to "quotes based on" (Angebote basieren auf in german)
+- serviceFive: from "Delivery Options" to Delivery (Lieferung in german)
 
-className should not be sr-only anymore, it should be card-header
+2) card header
 
-- card-content
-with descriptions
+I want to update the images:
+- ServiceOne:
+in english: change to /service/cad-design.svg
+in german: change to /service/cad-design.svg
 
-By default, the card is closed. That means we can only see the header.
-in the card header:
-- on the left side, i want the heading
-- in the right side, i want a button to open the card.
+- serviceTwo:
+in english: change to /service/cnc-machining.svg
+in german: change to /service/cnc-leistungen.svg
 
-If the user click on this button, the card "drop down" and we can see the descriptions of the card.
+- serviceThree:
+in english: change to /service/materials.svg
+in german: change to /service/materialen.svg
 
-If the user click on the button again, the card closes. that means we only see the header again.
+- serviceFour: 
+in english: change to /service/quotes.svg
+in german: lets keep /service/angebot-basieren-auf.svg
 
-
-In dictionary, for service and workshop, for each card:
-- i want the heading
-- i want descriptions instead of items. 
+- serviceFive: 
+in english: change to /service/delivery.svg
+in german: change to /service/lieferung.svg
 
 
-Do it first for service, i validate and commit. 
-then you do workshop
-Dont try web server.
+and then delete the images:
+- /service/services.svg
+- /service/project_size.svg
+- /service/quotes-are-based-on.svg
+- /service/delivery-options.svg
 
-
-perfect. however, 
-in the card header, i can see the {heading} and the image. i just want to see the image. 
-also just in case, the image/header cannot overlap on the button, if it is the case:
-- the image should be smaller.
-- if the image should be smaller, the other image should also be smaller proportionally
-- also i dont want  <li className="card-item" key={description}>, i want: card-content-item
+- /service/leistungen.svg
+- /service/projektumfang.svg
+- /service/lieferoptionen.svg

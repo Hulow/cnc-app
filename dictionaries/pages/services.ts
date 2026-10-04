@@ -16,20 +16,24 @@ export const servicesPage = {
       readMore:
         "I help turn ideas into real objects, from precise cuts and complex designs to consistent, repeatable parts.\n\nWhether you have a CAD file, a sketch, or simply an idea, I can help you figure out how to make it, from design and CNC machining to assembly and finishing.\n\nEvery project is different, so I quote each one individually.\n\nPick up your parts at the workshop or have them shipped to you.",
       cards: {
-        cuttingServices: {
-          heading: "Project Size",
+        serviceOne: {
+          heading: "CAD Design",
           descriptions: ["Prototypes", "Unique products", "Small production series"],
         },
-        services: {
-          heading: "Services",
+        serviceTwo: {
+          heading: "CNC Machining",
           descriptions: ["CAD & design", "CNC machining", "Assembly & finishing"],
         },
-        quotesAreBasedOn: {
-          heading: "Quotes Are Based On",
+        serviceThree: {
+          heading: "Materials",
+          descriptions: ["will describe it later"],
+        },
+        serviceFour: {
+          heading: "Quotes Based On",
           descriptions: ["Material", "Size & quantity", "Design complexity"],
         },
-        deliveryOptions: {
-          heading: "Delivery Options",
+        serviceFive: {
+          heading: "Delivery",
           descriptions: ["Workshop pickup", "Shipping"],
         },
       },
@@ -37,7 +41,7 @@ export const servicesPage = {
     schemas: {
       // → Service.audience. Who the work is for.
       audience: TODO,
-      // → Service.description, in the SAME ORDER as the services card
+      // → Service.description, in the SAME ORDER as the serviceTwo card
       // ("CAD & design", "CNC machining", "Assembly & finishing"). One or
       // two sentences each: what the customer receives.
       descriptions: [TODO, TODO, TODO] as string[],
@@ -56,20 +60,24 @@ export const servicesPage = {
       readMore:
         "Ich helfe dabei, Ideen in echte Objekte zu verwandeln: von präzisen Schnitten und komplexen Designs bis hin zu gleichbleibend Einzelteilen.\n\nEgal, ob du eine CAD-Datei, eine Skizze oder einfach nur eine Idee hast: Ich kann dir dabei helfen, herauszufinden, wie sie umgesetzt werden kann, von Design und CNC-Bearbeitung bis hin zu Montage und Nachbearbeitung.\n\nJedes Projekt ist anders, deshalb erstelle ich für jedes Projekt ein individuelles Angebot.\n\nDu kannst deine fertigen Teile in der Werkstatt abholen oder sie dir zuschicken lassen.",
       cards: {
-        cuttingServices: {
-          heading: "Projektumfang",
+        serviceOne: {
+          heading: "CAD Design",
           descriptions: ["Prototypen", "Einzelstücke", "Kleinserien"],
         },
-        services: {
-          heading: "Leistungen",
+        serviceTwo: {
+          heading: "CNC Leistungen",
           descriptions: ["CAD & Design", "CNC-Bearbeitung", "Montage & Veredelung"],
         },
-        quotesAreBasedOn: {
+        serviceThree: {
+          heading: "Materialien",
+          descriptions: ["Wird später beschrieben"],
+        },
+        serviceFour: {
           heading: "Angebote basieren auf",
           descriptions: ["Material", "Größe & Menge", "Designkomplexität"],
         },
-        deliveryOptions: {
-          heading: "Lieferoptionen",
+        serviceFive: {
+          heading: "Lieferung",
           descriptions: ["Abholung in der Werkstatt", "Versand"],
         },
       },

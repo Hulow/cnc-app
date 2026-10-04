@@ -7,11 +7,11 @@ interface ServiceProps {
   lang: Lang;
 }
 
-// Widest heading logo per language (en: quotes-are-based-on.svg, 355x23;
+// Widest heading logo per language (en: cnc-machining.svg, 239x23;
 // de: angebot-basieren-auf.svg, 385x23) — see CardGrid's
 // maxLogoAspectRatio doc comment. Keep in sync with CARD_LOGOS below.
 const MAX_LOGO_ASPECT_RATIO: Record<Lang, number> = {
-  en: 355 / 23,
+  en: 239 / 23,
   de: 385 / 23,
 };
 
@@ -19,20 +19,22 @@ const MAX_LOGO_ASPECT_RATIO: Record<Lang, number> = {
 // in both dictionaries, against public/service/*.svg.
 const CARD_LOGOS = {
   en: {
-    services: { src: "/service/services.svg", width: 154, height: 23 },
-    cuttingServices: { src: "/service/project_size.svg", width: 222, height: 23 },
-    quotesAreBasedOn: { src: "/service/quotes-are-based-on.svg", width: 355, height: 23 },
-    deliveryOptions: { src: "/service/delivery-options.svg", width: 287, height: 23 },
+    serviceOne: { src: "/service/cad-design.svg", width: 185, height: 23 },
+    serviceTwo: { src: "/service/cnc-machining.svg", width: 239, height: 23 },
+    serviceThree: { src: "/service/materials.svg", width: 179, height: 23 },
+    serviceFour: { src: "/service/quotes.svg", width: 132, height: 23 },
+    serviceFive: { src: "/service/delivery.svg", width: 151, height: 23 },
   },
   de: {
-    services: { src: "/service/leistungen.svg", width: 190, height: 23 },
-    cuttingServices: { src: "/service/projektumfang.svg", width: 270, height: 23 },
-    quotesAreBasedOn: { src: "/service/angebot-basieren-auf.svg", width: 385, height: 23 },
-    deliveryOptions: { src: "/service/lieferoptionen.svg", width: 254, height: 23 },
+    serviceOne: { src: "/service/cad-design.svg", width: 185, height: 23 },
+    serviceTwo: { src: "/service/cnc-leistungen.svg", width: 258, height: 23 },
+    serviceThree: { src: "/service/materialen.svg", width: 197, height: 23 },
+    serviceFour: { src: "/service/angebot-basieren-auf.svg", width: 385, height: 23 },
+    serviceFive: { src: "/service/lieferung.svg", width: 169, height: 23 },
   },
 } as const;
 
-const CARD_ORDER = ["services", "cuttingServices", "quotesAreBasedOn", "deliveryOptions"] as const;
+const CARD_ORDER = ["serviceOne", "serviceTwo", "serviceThree", "serviceFour", "serviceFive"] as const;
 
 // Server Component: the primary on-page copy, rendered as part of the
 // initial HTML response so it's readable independently of the video and

@@ -11,7 +11,7 @@ business, hobbist, artist
 // Organization > LocalBusiness > ProfessionalService: who provides the service.
 
 - id: https://atelier-cut.com#business
-- name: Atrelier Cut
+- name: Atelier Cut
 - url: https://atelier-cut.com
 
 - description:
