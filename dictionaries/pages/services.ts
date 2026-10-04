@@ -9,7 +9,7 @@ export const servicesPage = {
     metadata: {
       title: "What I Offer",
       description:
-        "CNC machining services in Berlin: prototypes, one-off products and small production series, from CAD design to CNC machining, assembly and finishing.",
+        "CNC services in Berlin for CAD design, CNC cutting and milling, material selection, individual quotes and delivery for prototypes, one-off products and small series.",
     },
     websiteContent: {
       // TODO: owner copy.
@@ -95,7 +95,7 @@ export const servicesPage = {
     metadata: {
       title: "Mein Angebot",
       description:
-        "CNC-Fertigungsleistungen in Berlin: Prototypen, Einzelstücke und Kleinserien, von CAD-Design über CNC-Bearbeitung bis Montage und Veredelung.",
+        "CNC-Leistungen in Berlin für CAD-Design, CNC-Zuschnitt und -Fräsen, Materialauswahl, individuelle Angebote und Lieferung von Prototypen, Einzelstücken und Kleinserien.",
     },
     websiteContent: {
       readMore:
