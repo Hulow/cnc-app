@@ -5,7 +5,7 @@ import { assetUrl, businessCore, businessRef, CONTEXT, postalAddress, schemaIds,
 import { buildProfessionalService, buildWebSite } from "./schemas/home";
 import { buildBusinessContact } from "./schemas/contact";
 import { buildBusinessWorkshop } from "./schemas/workshop";
-import { buildServicesProfessionalService, SERVICE_CARD_KEYS, SERVICE_ENTITY_KEYS } from "./schemas/services";
+import { buildServicesProfessionalService } from "./schemas/services";
 
 // JSON-LD builders. Every value comes from siteConfig + the
 // per-language dictionary, so English and German pages stay
@@ -82,11 +82,14 @@ export function buildPerson(dict: Dictionary, { profile }: { profile: boolean })
 }
 
 // Short label for a route in breadcrumbs — the nav's own short labels
-// ("Service", not the full <title>), except privacy/impressum, which
-// aren't in the nav (footer-only); their footer labels double as the
-// breadcrumb label there.
+// ("Cutting Salon", not the full <title>), except privacy/impressum,
+// which aren't in the nav (footer-only); their footer labels double as
+// the breadcrumb label there. Services has its own label rather than the
+// nav's: the page holds more than one service, so the breadcrumb says
+// "Services"/"Leistungen" where the nav link stays the shorter "Service".
 function breadcrumbLabel(key: Exclude<RouteKey, "home">, dict: Dictionary): string {
   if (key === "privacy" || key === "impressum") return dict.footer[key];
+  if (key === "services") return dict.services.schemas.breadcrumbLabel;
   return dict.nav[key];
 }
 
@@ -139,16 +142,15 @@ export function buildWebPage(key: RouteKey, lang: Lang, dict: Dictionary) {
     datePublished: published,
     dateModified: modified,
     isPartOf: websiteRef(lang, dict),
-    ...(ABOUT_BUSINESS.includes(key) && { about: businessRef(dict) }),
+    // Services' mainEntity below already references #business, so `about`
+    // here would just be a second, redundant pointer to the same node.
+    ...(key !== "services" && ABOUT_BUSINESS.includes(key) && { about: businessRef(dict) }),
     // Home has no breadcrumb trail (see buildBreadcrumbs).
     ...(key !== "home" && { breadcrumb: { "@id": schemaIds.breadcrumb(key, lang) } }),
-    // The services page is the one that is *about* the Service entities
-    // nested in the ProfessionalService's hasOfferCatalog.
-    ...(key === "services" && {
-      mainEntity: SERVICE_ENTITY_KEYS.map((entityKey) => ({
-        "@id": schemaIds.service(SERVICE_CARD_KEYS.indexOf(entityKey)),
-      })),
-    }),
+    // The services page is fundamentally about Atelier Cut and what it
+    // offers — the ProfessionalService, whose hasOfferCatalog is where the
+    // CAD Design/CNC Machining Service entities actually live.
+    ...(key === "services" && { mainEntity: { "@id": schemaIds.business } }),
   };
 }
 

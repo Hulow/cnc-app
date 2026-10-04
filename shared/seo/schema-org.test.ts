@@ -96,19 +96,17 @@ describe("Given buildServicesProfessionalService", () => {
         expect(service.name).toBe(en.services.websiteContent.cards[key].heading);
         expect(service.serviceType).toBe(en.services.websiteContent.cards[key].heading);
         expect(service.description).toBe(en.services.websiteContent.cards[key].descriptions.join(" "));
-        expect(service.provider).toEqual({
-          "@type": "ProfessionalService",
-          "@id": schemaIds.business,
-          name: en.site.name,
-        });
         expect(service.url).toBe(`${siteConfig.siteUrl}${routes.services.en}`);
+        // Service itself carries no audience/areaServed/dates — the type
+        // of buildServiceEntity's return has no such properties, since
+        // those live once on the ProfessionalService instead.
       });
     });
 
-    it("Then still-TODO audience passes through as empty", () => {
-      expect(data.hasOfferCatalog.itemListElement[0].itemOffered.audience).toEqual({
+    it("Then audience lists who the business serves, not each Service", () => {
+      expect(data.audience).toEqual({
         "@type": "Audience",
-        audienceType: "",
+        audienceType: [...en.services.schemas.audience],
       });
     });
 
@@ -209,20 +207,12 @@ describe("Given buildWebPage", () => {
       expect(data.url).toBe(`${siteConfig.siteUrl}${routes.services.en}`);
       expect(data.name).toBe(`${en.services.metadata.title} · ${en.site.name}`);
       expect(data.description).toBe(en.services.metadata.description);
-      expect(data.about).toEqual({
-        "@type": "ProfessionalService",
-        "@id": schemaIds.business,
-        name: en.site.name,
-      });
+      expect(data.about).toBeUndefined();
       expect(data.breadcrumb).toEqual({ "@id": schemaIds.breadcrumb("services", "en") });
     });
 
-    it("Then mainEntity references the two Service entities by id", () => {
-      expect(data.mainEntity).toEqual(
-        SERVICE_ENTITY_KEYS.map((key) => ({
-          "@id": schemaIds.service(SERVICE_CARD_KEYS.indexOf(key)),
-        })),
-      );
+    it("Then mainEntity references the business by id", () => {
+      expect(data.mainEntity).toEqual({ "@id": schemaIds.business });
     });
   });
 
@@ -247,7 +237,7 @@ describe("Given buildWebPage", () => {
 
 describe("Given buildBreadcrumbs", () => {
   describe("When called for the English services page", () => {
-    it("Then it is a two-item BreadcrumbList: Home, then Service", () => {
+    it("Then it is a two-item BreadcrumbList: Home, then Services", () => {
       const data = buildBreadcrumbs("services", "en", en);
 
       expect(data["@context"]).toBe("https://schema.org");
@@ -258,10 +248,23 @@ describe("Given buildBreadcrumbs", () => {
         {
           "@type": "ListItem",
           position: 2,
-          name: "Service",
+          name: "Services",
           item: `${siteConfig.siteUrl}/services`,
         },
       ]);
+    });
+  });
+
+  describe("When called for the German services page", () => {
+    it("Then it uses the Leistungen label", () => {
+      const data = buildBreadcrumbs("services", "de", de);
+
+      expect(data.itemListElement[1]).toEqual({
+        "@type": "ListItem",
+        position: 2,
+        name: "Leistungen",
+        item: `${siteConfig.siteUrl}${routes.services.de}`,
+      });
     });
   });
 

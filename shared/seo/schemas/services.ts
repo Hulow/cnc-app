@@ -28,17 +28,17 @@ function buildServiceEntity(key: (typeof SERVICE_ENTITY_KEYS)[number], lang: Lan
     // No `provider` here: nesting inside the ProfessionalService's own
     // hasOfferCatalog already says who provides it, so repeating the
     // ProfessionalService reference on every Service would be redundant.
+    // Likewise no `areaServed`/`audience`/publication dates: both services
+    // share the same coverage, audience and page dates as the business
+    // itself, so those live once on the ProfessionalService below instead
+    // of being repeated on every Service.
     "@type": "Service",
     "@id": schemaIds.service(index),
     name: heading,
     serviceType: heading,
     description: descriptions.join(" "),
-    areaServed: areaServed(dict),
-    audience: { "@type": "Audience", audienceType: dict.services.schemas.audience },
     // termsOfService: assetUrl(dict.services.schemas.termsOfServiceUrl), TODO: add terms of service url
     url: absoluteUrl(routes.services[lang]),
-    datePublished: dict.services.schemas.pageDates.published,
-    dateModified: dict.services.schemas.pageDates.modified,
   };
 }
 
@@ -74,5 +74,6 @@ export function buildServicesProfessionalService(lang: Lang, dict: Dictionary) {
       },
     ],
     areaServed: areaServed(dict),
+    audience: { "@type": "Audience", audienceType: [...dict.services.schemas.audience] },
   };
 }

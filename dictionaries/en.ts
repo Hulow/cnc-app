@@ -84,10 +84,11 @@ export interface Dictionary {
       };
     };
     schemas: {
-      audience: string;
+      audience: string[];
       termsOfServiceUrl: string;
       pageDates: PageDates;
       knowsAbout: string[];
+      breadcrumbLabel: string;
     };
   };
   workshop: {

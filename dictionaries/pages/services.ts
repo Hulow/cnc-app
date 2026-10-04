@@ -58,11 +58,21 @@ export const servicesPage = {
       },
     },
     schemas: {
-      // → Service.audience, shared by every card's Service entity.
-      audience: TODO,
+      // → ProfessionalService.audience: who Atelier Cut serves, not
+      // specific to either Service.
+      audience: [
+        "Designers",
+        "Model makers",
+        "Hobbyists",
+        "Students"
+      ],
       // → Service.termsOfService, a URL.
       termsOfServiceUrl: TODO,
-      pageDates: { published: "2026-09-19", modified: "2026-10-05" },
+      pageDates: { published: "2026-09-19", modified: "2026-10-04" },
+      // → BreadcrumbList item for this page. Distinct from nav.services
+      // ("Service"): the page covers more than one service, so the
+      // breadcrumb says so.
+      breadcrumbLabel: "Services",
       knowsAbout: [
         "Solid wood",
         "Plywood",
@@ -133,9 +143,12 @@ export const servicesPage = {
       },
     },
     schemas: {
-      audience: TODO,
+      // Empty, not TODO, since it's a list rather than a single value
+      // with no real content yet.
+      audience: [] as string[],
       termsOfServiceUrl: TODO,
       pageDates: { published: "2026-09-19", modified: "2026-10-04" },
+      breadcrumbLabel: "Leistungen",
       knowsAbout: [
         "Massivholz",
         "Multiplex",
