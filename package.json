@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepare": "simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "node scripts/check-page-dates.js"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
@@ -27,6 +31,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
     "jsdom": "^29.1.1",
+    "simple-git-hooks": "^2.14.0",
     "typescript": "^5",
     "vite": "^8.3.0",
     "vitest": "^5.0.1"
