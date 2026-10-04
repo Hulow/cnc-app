@@ -87,6 +87,7 @@ export interface Dictionary {
       audience: string;
       termsOfServiceUrl: string;
       pageDates: PageDates;
+      knowsAbout: string[];
     };
   };
   workshop: {

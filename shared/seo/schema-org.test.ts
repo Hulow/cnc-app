@@ -8,11 +8,12 @@ import {
   buildPageGraph,
   buildPerson,
   buildProfessionalService,
-  buildServices,
+  buildServicesProfessionalService,
   buildWebPage,
   buildWebSite,
   schemaIds,
   SERVICE_CARD_KEYS,
+  SERVICE_ENTITY_KEYS,
 } from "./schema-org";
 
 describe("Given buildProfessionalService", () => {
@@ -69,17 +70,27 @@ describe("Given buildProfessionalService", () => {
   });
 });
 
-describe("Given buildServices", () => {
+describe("Given buildServicesProfessionalService", () => {
   describe("When called with the English dictionary", () => {
-    const data = buildServices("en", en);
+    const data = buildServicesProfessionalService("en", en);
 
-    it("Then it builds one Service per card, named after the card's heading", () => {
-      expect(data).toHaveLength(SERVICE_CARD_KEYS.length);
+    it("Then it is the business, identified by the same @id as the home page", () => {
+      expect(data["@context"]).toBe("https://schema.org");
+      expect(data["@type"]).toBe("ProfessionalService");
+      expect(data["@id"]).toBe(schemaIds.business);
+      expect(data.name).toBe(en.site.name);
+    });
 
-      data.forEach((service, index) => {
-        const key = SERVICE_CARD_KEYS[index];
+    it("Then hasOfferCatalog wraps one Offer per SERVICE_ENTITY_KEYS card", () => {
+      expect(data.hasOfferCatalog["@type"]).toBe("OfferCatalog");
+      expect(data.hasOfferCatalog.itemListElement).toHaveLength(SERVICE_ENTITY_KEYS.length);
 
-        expect(service["@context"]).toBe("https://schema.org");
+      data.hasOfferCatalog.itemListElement.forEach((offer, i) => {
+        const key = SERVICE_ENTITY_KEYS[i];
+        const index = SERVICE_CARD_KEYS.indexOf(key);
+        const service = offer.itemOffered;
+
+        expect(offer["@type"]).toBe("Offer");
         expect(service["@type"]).toBe("Service");
         expect(service["@id"]).toBe(schemaIds.service(index));
         expect(service.name).toBe(en.services.websiteContent.cards[key].heading);
@@ -94,9 +105,37 @@ describe("Given buildServices", () => {
       });
     });
 
-    it("Then still-TODO audience/termsOfService pass through as empty", () => {
-      expect(data[0].audience).toEqual({ "@type": "Audience", audienceType: "" });
-      expect(data[0].termsOfService).toBe("");
+    it("Then still-TODO audience passes through as empty", () => {
+      expect(data.hasOfferCatalog.itemListElement[0].itemOffered.audience).toEqual({
+        "@type": "Audience",
+        audienceType: "",
+      });
+    });
+
+    it("Then knowsAbout lists the services page's materials", () => {
+      expect(data.knowsAbout).toEqual([...en.services.schemas.knowsAbout]);
+    });
+
+    it("Then additionalProperty carries the Quotes Based On and Delivery cards", () => {
+      expect(data.additionalProperty).toEqual([
+        {
+          "@type": "PropertyValue",
+          name: en.services.websiteContent.cards.serviceFour.heading,
+          value: en.services.websiteContent.cards.serviceFour.descriptions.join(" "),
+        },
+        {
+          "@type": "PropertyValue",
+          name: en.services.websiteContent.cards.serviceFive.heading,
+          value: en.services.websiteContent.cards.serviceFive.descriptions.join(" "),
+        },
+      ]);
+    });
+
+    it("Then areaServed covers Berlin and Germany", () => {
+      expect(data.areaServed).toEqual([
+        { "@type": "City", name: "Berlin" },
+        { "@type": "Country", name: "Germany" },
+      ]);
     });
   });
 });
@@ -178,10 +217,10 @@ describe("Given buildWebPage", () => {
       expect(data.breadcrumb).toEqual({ "@id": schemaIds.breadcrumb("services", "en") });
     });
 
-    it("Then mainEntity references every Service by id", () => {
+    it("Then mainEntity references the two Service entities by id", () => {
       expect(data.mainEntity).toEqual(
-        SERVICE_CARD_KEYS.map((_, index) => ({
-          "@id": schemaIds.service(index),
+        SERVICE_ENTITY_KEYS.map((key) => ({
+          "@id": schemaIds.service(SERVICE_CARD_KEYS.indexOf(key)),
         })),
       );
     });
@@ -274,11 +313,11 @@ describe("Given buildPageGraph", () => {
   });
 
   describe("When called for the services page", () => {
-    it("Then the graph has one node per service, then the page and a breadcrumb", () => {
+    it("Then the graph has the business, the page and a breadcrumb", () => {
       const data = buildPageGraph("services", "en", en);
 
       const types = data["@graph"].map((node) => node["@type"]);
-      expect(types).toEqual([...SERVICE_CARD_KEYS.map(() => "Service"), "WebPage", "BreadcrumbList"]);
+      expect(types).toEqual(["ProfessionalService", "WebPage", "BreadcrumbList"]);
     });
   });
 

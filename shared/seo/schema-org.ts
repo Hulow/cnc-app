@@ -5,7 +5,7 @@ import { assetUrl, businessCore, businessRef, CONTEXT, postalAddress, schemaIds,
 import { buildProfessionalService, buildWebSite } from "./schemas/home";
 import { buildBusinessContact } from "./schemas/contact";
 import { buildBusinessWorkshop } from "./schemas/workshop";
-import { buildServices, SERVICE_CARD_KEYS } from "./schemas/services";
+import { buildServicesProfessionalService, SERVICE_CARD_KEYS, SERVICE_ENTITY_KEYS } from "./schemas/services";
 
 // JSON-LD builders. Every value comes from siteConfig + the
 // per-language dictionary, so English and German pages stay
@@ -15,8 +15,9 @@ import { buildServices, SERVICE_CARD_KEYS } from "./schemas/services";
 //
 //   Thing
 //   ├─ Organization → LocalBusiness → ProfessionalService   "who provides the service"
+//   │     └─ hasOfferCatalog → OfferCatalog
+//   │           └─ itemListElement → Offer → itemOffered → Service   "what the customer receives"
 //   ├─ Person                                               worksFor, knowsAbout
-//   ├─ Intangible → Service                                 "what the customer receives"
 //   └─ CreativeWork → WebSite (whole site), WebPage (one page of it)
 //
 // Markup is PAGE-SCOPED: a page only carries the entities (and the
@@ -43,7 +44,7 @@ export { schemaIds } from "./schemas/common";
 export { buildProfessionalService, buildWebSite } from "./schemas/home";
 export { buildBusinessContact } from "./schemas/contact";
 export { buildBusinessWorkshop } from "./schemas/workshop";
-export { buildServices, SERVICE_CARD_KEYS } from "./schemas/services";
+export { buildServicesProfessionalService, SERVICE_CARD_KEYS, SERVICE_ENTITY_KEYS } from "./schemas/services";
 
 export function buildBusinessLegal(dict: Dictionary) {
   return {
@@ -141,10 +142,11 @@ export function buildWebPage(key: RouteKey, lang: Lang, dict: Dictionary) {
     ...(ABOUT_BUSINESS.includes(key) && { about: businessRef(dict) }),
     // Home has no breadcrumb trail (see buildBreadcrumbs).
     ...(key !== "home" && { breadcrumb: { "@id": schemaIds.breadcrumb(key, lang) } }),
-    // The services page is the one that is *about* the Service entities.
+    // The services page is the one that is *about* the Service entities
+    // nested in the ProfessionalService's hasOfferCatalog.
     ...(key === "services" && {
-      mainEntity: SERVICE_CARD_KEYS.map((_, index) => ({
-        "@id": schemaIds.service(index),
+      mainEntity: SERVICE_ENTITY_KEYS.map((entityKey) => ({
+        "@id": schemaIds.service(SERVICE_CARD_KEYS.indexOf(entityKey)),
       })),
     }),
   };
@@ -157,8 +159,9 @@ type Node = { "@context": string } & Record<string, unknown>;
 const pageSections: Record<RouteKey, (lang: Lang, dict: Dictionary) => Node[]> = {
   // The business is what the home page is about; it also hosts the WebSite.
   home: (lang, dict) => [buildProfessionalService(dict), buildWebSite(lang, dict)],
-  // The three services the page lists.
-  services: (lang, dict) => buildServices(lang, dict),
+  // The business as the services page shows it: what it offers, works
+  // with, and how it quotes/delivers.
+  services: (lang, dict) => [buildServicesProfessionalService(lang, dict)],
   // Materials/applications/machine specs, and the person who works with them.
   workshop: (_lang, dict) => [buildBusinessWorkshop(dict), buildPerson(dict, { profile: true })],
   // How, when and where to reach the business.

@@ -31,70 +31,30 @@ SEO
     └── Crawlability / indexability
 
 
-Now i want to update my services section.
 
-1) dictionary
-i want first to update my field names in dictionaries/pages/services.ts:
-- from cuttingServices to serviceOne
-- from services to serviceTwo
-- from quotesAreBasedOn to serviceThree
-- from deliveryOptions to serviceFour
+regarding shared/seo/schemas/services.ts
 
-on each service, i want to change the heading:
-- ServiceOne: from "Project Size" to CAD Design (CAD design in german)
-- serviceTwo: from  "Services" to CNC Machining (CNC Leistungen in german)
-- serviceThree: Materials (Materialien in german)
-- serviceFour: from "quotes are based on" on to "quotes based on" (Angebote basieren auf in german)
-- serviceFive: from "Delivery Options" to Delivery (Lieferung in german)
+I am defining everything as a service. 
+regarding schema.org https://schema.org/
 
-2) card header
+i would like to update the service schema like this:
 
-I want to update the images:
-- ServiceOne:
-in english: change to /service/cad-design.svg
-in german: change to /service/cad-design.svg
-
-- serviceTwo:
-in english: change to /service/cnc-machining.svg
-in german: change to /service/cnc-leistungen.svg
-
-- serviceThree:
-in english: change to /service/materials.svg
-in german: change to /service/materialen.svg
-
-- serviceFour: 
-in english: change to /service/quotes.svg
-in german: lets keep /service/angebot-basieren-auf.svg
-
-- serviceFive: 
-in english: change to /service/delivery.svg
-in german: change to /service/lieferung.svg
+ProfessionalService
+│
+├── provides → Service
+│     ├── CNC cutting
+│     ├── CNC machining
+│     ├── CAD & design
+│     └── Assembly & finishing
+│
+├── knowsAbout
+│     ├── Wood
+│     ├── Aluminium
+│     └── Plastics
+│
+└── additionalProperty
+      ├── Quote factors
+      └── Delivery
 
 
-and then delete the images:
-- /service/services.svg
-- /service/project_size.svg
-- /service/quotes-are-based-on.svg
-- /service/delivery-options.svg
-
-- /service/leistungen.svg
-- /service/projektumfang.svg
-- /service/lieferoptionen.svg
-
-
-i updated the content of my services here: dictionaries/pages/services.ts
-
-i want to update my schema accordingly in shared/seo/schemas/services.ts
-
-
-
-
-For the grid card / card system, regarding the button opening and closing the card:
-I added these icons, each icon is for a specific logic:
-- public/navigation/chevron-down-default.svg is for when the card is closed
-- public/navigation/chevron-down-hover.svg is for when the card is closed with hover effect
-- public/navigation/chevron-up-default.svg is for when the card is open 
-- public/navigation/chevron-up-hover.svg is for when the card is open with hover effect. 
-
-Can you implement this logic?
-Dont use test server
+what do you think?

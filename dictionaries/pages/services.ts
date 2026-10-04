@@ -62,7 +62,23 @@ export const servicesPage = {
       audience: TODO,
       // → Service.termsOfService, a URL.
       termsOfServiceUrl: TODO,
-      pageDates: { published: "2026-09-19", modified: "2026-10-04" },
+      pageDates: { published: "2026-09-19", modified: "2026-10-05" },
+      knowsAbout: [
+        "Solid wood",
+        "Plywood",
+        "MDF",
+        "Plastics",
+        "Polyurethane foam",
+        "Acrylic",
+        "Corian",
+        "Forex",
+        "Trespa",
+        "HPL",
+        "Melamine",
+        "Dibond",
+        "Plaster",
+        "Styrofoam"
+      ],
     },
   },
   de: {
@@ -120,6 +136,22 @@ export const servicesPage = {
       audience: TODO,
       termsOfServiceUrl: TODO,
       pageDates: { published: "2026-09-19", modified: "2026-10-04" },
+      knowsAbout: [
+        "Massivholz",
+        "Multiplex",
+        "MDF",
+        "Kunststoffe",
+        "Polyurethanschaum",
+        "Acrylglas",
+        "Corian",
+        "Forex",
+        "Trespa",
+        "HPL",
+        "Melamin",
+        "Dibond",
+        "Gips",
+        "Styropor"
+      ],
     },
   },
 };
