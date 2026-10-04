@@ -1,13 +1,12 @@
 import type { Dictionary } from "@/dictionaries/en";
 import { SUPPORTED_LANGS } from "../../routes";
-import { prune } from "../todo";
 import { areaServed, businessCore, postalAddress } from "./common";
 
 // What the contact page shows: how, when and where to reach the business.
 export function buildBusinessContact(dict: Dictionary) {
   const { email, phone, geo, hasMapUrl, openingHours } = dict.contact.schemas;
 
-  return prune({
+  return {
     ...businessCore(dict),
     email,
     telephone: phone,
@@ -27,5 +26,5 @@ export function buildBusinessContact(dict: Dictionary) {
       telephone: phone,
       availableLanguage: [...SUPPORTED_LANGS],
     },
-  });
+  };
 }

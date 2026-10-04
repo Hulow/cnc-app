@@ -1,6 +1,5 @@
 import type { Dictionary } from "@/dictionaries/en";
 import { absoluteUrl, routes, type Lang } from "../../routes";
-import { prune } from "../todo";
 import { areaServed, assetUrl, businessRef, CONTEXT, schemaIds } from "./common";
 
 // Every card on the services page becomes its own Service entity, in the
@@ -18,7 +17,7 @@ export function buildServices(lang: Lang, dict: Dictionary) {
   return SERVICE_CARD_KEYS.map((key, index) => {
     const { heading, descriptions } = dict.services.websiteContent.cards[key];
 
-    return prune({
+    return {
       "@context": CONTEXT,
       "@type": "Service",
       "@id": schemaIds.service(index),
@@ -30,6 +29,6 @@ export function buildServices(lang: Lang, dict: Dictionary) {
       audience: { "@type": "Audience", audienceType: dict.services.schemas.audience },
       termsOfService: assetUrl(dict.services.schemas.termsOfServiceUrl),
       url: absoluteUrl(routes.services[lang]),
-    });
+    };
   });
 }

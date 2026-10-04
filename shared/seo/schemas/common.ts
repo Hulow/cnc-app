@@ -45,8 +45,8 @@ export const websiteRef = (lang: Lang, dict: Dictionary) => ({
 });
 
 // Image fields in the dictionary are a path under /public ("/workshop.jpg")
-// or already an absolute URL. JSON-LD wants absolute. (A TODO passes
-// through unchanged and is pruned.)
+// or already an absolute URL. JSON-LD wants absolute. (A TODO is an empty
+// string, so it passes through unchanged.)
 export function assetUrl(value: string): string {
   return value.startsWith("/") ? `${siteConfig.siteUrl}${value}` : value;
 }

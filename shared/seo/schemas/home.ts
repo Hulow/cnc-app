@@ -1,7 +1,6 @@
 import type { Dictionary } from "@/dictionaries/en";
 import { siteConfig } from "../../site-config";
 import { SUPPORTED_LANGS, type Lang } from "../../routes";
-import { prune } from "../todo";
 import { areaServed, assetUrl, businessCore, businessRef, CONTEXT, postalAddress, websiteRef } from "./common";
 
 // What the home page shows: the business as a whole (identity — name,
@@ -9,7 +8,7 @@ import { areaServed, assetUrl, businessCore, businessRef, CONTEXT, postalAddress
 
 // Organization > LocalBusiness > ProfessionalService: who provides the service.
 export function buildProfessionalService(dict: Dictionary) {
-  return prune({
+  return {
     ...businessCore(dict),
     description: dict.meta.description,
     slogan: dict.home.schemas.slogan,
@@ -27,16 +26,16 @@ export function buildProfessionalService(dict: Dictionary) {
     // Populated once the owner provides real profile URLs — see
     // siteConfig.social's own comment.
     sameAs: [...siteConfig.social],
-  });
+  };
 }
 
 // CreativeWork > WebSite: the entire website (one per language version).
 export function buildWebSite(lang: Lang, dict: Dictionary) {
-  return prune({
+  return {
     "@context": CONTEXT,
     ...websiteRef(lang, dict),
     description: dict.meta.description,
     inLanguage: lang,
     publisher: businessRef(dict),
-  });
+  };
 }

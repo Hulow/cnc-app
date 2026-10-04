@@ -1,12 +1,11 @@
 import type { Dictionary } from "@/dictionaries/en";
-import { prune } from "../todo";
 import { businessCore } from "./common";
 
 // What the workshop page shows: materials, applications and machine
 // capabilities. The person who works with them (buildPerson) is shared
 // with the impressum page, so it stays in ../schema-org.ts instead.
 export function buildBusinessWorkshop(dict: Dictionary) {
-  return prune({
+  return {
     ...businessCore(dict),
     knowsAbout: [
       ...dict.workshop.websiteContent.cards.materials.items,
@@ -17,5 +16,5 @@ export function buildBusinessWorkshop(dict: Dictionary) {
       name: dict.workshop.websiteContent.cards.machineCapabilities.heading,
       value,
     })),
-  });
+  };
 }

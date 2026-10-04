@@ -51,12 +51,12 @@ describe("Given buildProfessionalService", () => {
       expect(data.knowsLanguage).toEqual(["en", "de"]);
     });
 
-    it("Then still-TODO fields (slogan, foundingDate, priceRange, image, sameAs) are left out", () => {
-      expect(data.slogan).toBeUndefined();
-      expect(data.foundingDate).toBeUndefined();
-      expect(data.priceRange).toBeUndefined();
-      expect(data.image).toBeUndefined();
-      expect(data.sameAs).toBeUndefined();
+    it("Then still-TODO fields (slogan, foundingDate, priceRange, image) pass through as empty", () => {
+      expect(data.slogan).toBe("");
+      expect(data.foundingDate).toBe("");
+      expect(data.priceRange).toBe("");
+      expect(data.image).toBe("");
+      expect(data.sameAs).toEqual([]);
     });
   });
 
@@ -94,9 +94,9 @@ describe("Given buildServices", () => {
       });
     });
 
-    it("Then still-TODO audience/termsOfService are left out", () => {
-      expect(data[0].audience).toBeUndefined();
-      expect(data[0].termsOfService).toBeUndefined();
+    it("Then still-TODO audience/termsOfService pass through as empty", () => {
+      expect(data[0].audience).toEqual({ "@type": "Audience", audienceType: "" });
+      expect(data[0].termsOfService).toBe("");
     });
   });
 });

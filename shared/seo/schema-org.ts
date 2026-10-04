@@ -6,7 +6,6 @@ import { buildProfessionalService, buildWebSite } from "./schemas/home";
 import { buildBusinessContact } from "./schemas/contact";
 import { buildBusinessWorkshop } from "./schemas/workshop";
 import { buildServices, SERVICE_CARD_KEYS } from "./schemas/services";
-import { prune } from "./todo";
 
 // JSON-LD builders. Every value comes from siteConfig + the
 // per-language dictionary, so English and German pages stay
@@ -36,9 +35,9 @@ import { prune } from "./todo";
 //
 // The builders also know about properties the site has no content for yet
 // (phone, opening hours, service descriptions, …). Those live in the
-// dictionaries as `TODO` (see ./todo.ts) and are dropped from the output
-// by `prune` until they have a real value — so this file (and ./schemas/)
-// doubles as the checklist of what content to add.
+// dictionaries as `TODO` (see ./todo.ts, a plain empty string) until they
+// have a real value — so this file (and ./schemas/) doubles as the
+// checklist of what content to add.
 
 export { schemaIds } from "./schemas/common";
 export { buildProfessionalService, buildWebSite } from "./schemas/home";
@@ -47,14 +46,14 @@ export { buildBusinessWorkshop } from "./schemas/workshop";
 export { buildServices, SERVICE_CARD_KEYS } from "./schemas/services";
 
 export function buildBusinessLegal(dict: Dictionary) {
-  return prune({
+  return {
     ...businessCore(dict),
     legalName: dict.impressum.schemas.registeredName,
     vatID: dict.impressum.schemas.vatId,
     email: dict.impressum.schemas.email,
     telephone: dict.impressum.schemas.phone,
     address: postalAddress(dict),
-  });
+  };
 }
 
 // Person: the individual behind the business (the same natural person the
@@ -62,7 +61,7 @@ export function buildBusinessLegal(dict: Dictionary) {
 // reads in a "who I am" section — job title, bio, portrait, skills — which
 // only belongs on the page that shows them (the workshop page).
 export function buildPerson(dict: Dictionary, { profile }: { profile: boolean }) {
-  return prune({
+  return {
     "@context": CONTEXT,
     "@type": "Person",
     "@id": schemaIds.person,
@@ -78,7 +77,7 @@ export function buildPerson(dict: Dictionary, { profile }: { profile: boolean })
       ],
     }),
     ...(siteConfig.social.length > 0 && { sameAs: [...siteConfig.social] }),
-  });
+  };
 }
 
 // Short label for a route in breadcrumbs — the nav's own short labels
@@ -128,7 +127,7 @@ export function buildWebPage(key: RouteKey, lang: Lang, dict: Dictionary) {
   const { title, description } = dict[key].metadata;
   const { published, modified } = dict[key].schemas.pageDates;
 
-  return prune({
+  return {
     "@context": CONTEXT,
     "@type": PAGE_TYPE[key] ?? "WebPage",
     "@id": schemaIds.webPage(key, lang),
@@ -148,7 +147,7 @@ export function buildWebPage(key: RouteKey, lang: Lang, dict: Dictionary) {
         "@id": schemaIds.service(index),
       })),
     }),
-  });
+  };
 }
 
 type Node = { "@context": string } & Record<string, unknown>;
