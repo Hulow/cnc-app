@@ -144,7 +144,7 @@ export function buildWebPage(key: RouteKey, lang: Lang, dict: Dictionary) {
     ...(key !== "home" && { breadcrumb: { "@id": schemaIds.breadcrumb(key, lang) } }),
     // The services page is the one that is *about* the Service entities.
     ...(key === "services" && {
-      mainEntity: dict.services.websiteContent.cards.services.items.map((_, index) => ({
+      mainEntity: dict.services.websiteContent.cards.services.descriptions.map((_, index) => ({
         "@id": schemaIds.service(index),
       })),
     }),

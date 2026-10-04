@@ -48,7 +48,7 @@ export function CuttingSalon({ lang }: CuttingSalonProps) {
       cards={CARD_ORDER.map((key) => ({
         key,
         heading: cards[key].heading,
-        items: cards[key].items,
+        descriptions: cards[key].items,
         logo: logos[key],
       }))}
       image={{

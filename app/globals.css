@@ -1245,21 +1245,20 @@ h3 {
 
 /* ==========================================================================
    Card Grid (shared by the Services and Cutting Salon pages — see
-   components/card-grid/card-grid.tsx)
+   components/card-grid/card-grid.tsx and components/card/card.tsx)
    ========================================================================== */
 
+/* One column, many rows — each card spans the full width of the section
+   it sits in (the grid itself doesn't constrain width any further). */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: var(--space-md);
 }
 
-@media (max-width: 767px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
+/* .card is a <details> element — open/closed is native browser state
+   ([open] attribute), so the card-content below needs no JS or extra
+   CSS to hide when closed; <details> does that itself. */
 .card-grid .card {
   display: flex;
   flex-direction: column;
@@ -1274,6 +1273,25 @@ h3 {
   container-type: inline-size;
 }
 
+/* .card-header is the <summary> — the native disclosure control, so the
+   whole row (not just .card-toggle) opens/closes the card. list-style and
+   the -webkit- marker rule below strip the browser's default triangle;
+   display: flex already drops it in most browsers, but older Safari
+   still needs the explicit rule. */
+.card-grid .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  list-style: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card-grid .card-header::-webkit-details-marker {
+  display: none;
+}
+
 /* h2 now (was h3: card headings need to be real heading text for
    crawlers, one level below the page's own h1).
    font-size pinned back to the old h3 default (h2's own global default,
@@ -1281,6 +1299,9 @@ h3 {
    sized in em off this element's font-size — keeps rendering at exactly
    its old visual size. */
 .card-grid .card h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
   font-size: var(--font-size-lg);
   text-align: left;
 }
@@ -1301,6 +1322,56 @@ h3 {
   display: inline-block;
   width: auto;
   height: min(1.4em, calc(100cqw / var(--card-heading-logo-max-ratio, 16)));
+}
+
+/* The open/close affordance on .card-header's right side. Square button
+   chrome matching .contact-button's border/radius; the chevron itself is
+   a rotated corner (the classic border-trick triangle) rather than an
+   image asset, since this is a generic UI affordance, not branded
+   artwork like the rest of this project's icons. */
+.card-toggle {
+  flex: 0 0 auto;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--logo-color);
+  border-radius: 0.375rem;
+  background: #ffffff;
+}
+
+.card-toggle::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid var(--logo-color);
+  border-bottom: 2px solid var(--logo-color);
+  transform: rotate(45deg);
+  transition: transform 150ms ease;
+}
+
+/* Points up once the <details> is open. */
+.card-grid .card[open] .card-toggle::before {
+  transform: rotate(-135deg);
+}
+
+@media (hover: hover) {
+  .card-grid .card-header:hover .card-toggle {
+    border-color: rgb(235, 50, 110);
+  }
+
+  .card-grid .card-header:hover .card-toggle::before {
+    border-color: rgb(235, 50, 110);
+  }
+}
+
+.card-grid .card-header:focus-visible .card-toggle {
+  border-color: rgb(235, 50, 110);
+  box-shadow: 0 0 0 1px rgb(235, 50, 110);
+}
+
+.card-grid .card-header:focus-visible .card-toggle::before {
+  border-color: rgb(235, 50, 110);
 }
 
 /* .card-item is a <li>, inside a <ul>. The <ul> takes over the flex

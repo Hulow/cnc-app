@@ -6,7 +6,7 @@ import { areaServed, assetUrl, businessRef, CONTEXT, schemaIds } from "./common"
 // What the services page shows: one Service entity per entry in the
 // services card ("CAD & design", "CNC machining", "Assembly & finishing").
 export function buildServices(lang: Lang, dict: Dictionary) {
-  return dict.services.websiteContent.cards.services.items.map((name, index) =>
+  return dict.services.websiteContent.cards.services.descriptions.map((name, index) =>
     prune({
       "@context": CONTEXT,
       "@type": "Service",
@@ -19,7 +19,7 @@ export function buildServices(lang: Lang, dict: Dictionary) {
       areaServed: areaServed(dict),
       audience: { "@type": "Audience", audienceType: dict.services.schemas.audience },
       // "Workshop pickup", "Shipping" — shown on the services page.
-      availableChannel: dict.services.websiteContent.cards.deliveryOptions.items.map((channel) => ({
+      availableChannel: dict.services.websiteContent.cards.deliveryOptions.descriptions.map((channel) => ({
         "@type": "ServiceChannel",
         name: channel,
       })),

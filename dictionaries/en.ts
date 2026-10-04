@@ -76,10 +76,10 @@ export interface Dictionary {
     websiteContent: {
       readMore: string;
       cards: {
-        cuttingServices: { heading: string; items: string[] };
-        services: { heading: string; items: string[] };
-        quotesAreBasedOn: { heading: string; items: string[] };
-        deliveryOptions: { heading: string; items: string[] };
+        cuttingServices: { heading: string; descriptions: string[] };
+        services: { heading: string; descriptions: string[] };
+        quotesAreBasedOn: { heading: string; descriptions: string[] };
+        deliveryOptions: { heading: string; descriptions: string[] };
       };
     };
     schemas: {

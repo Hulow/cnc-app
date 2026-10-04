@@ -1,12 +1,13 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import { Card, type CardLogo } from "@/components/card/card";
 import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 
 export interface CardGridCard {
   key: string;
   heading: string;
-  items: readonly string[];
-  logo: { src: string; width: number; height: number };
+  descriptions: readonly string[];
+  logo: CardLogo;
 }
 
 export interface CardGridImage {
@@ -31,11 +32,11 @@ interface CardGridProps {
 }
 
 // Server Component: shared layout for the Services and Cutting Salon
-// pages — a title, a responsive grid of logo-headed cards, an optional
-// trailing image, and a closing "read more" button. Rendered as part of
-// the initial HTML response so it's readable independently of the video
-// and indexable without client-side JavaScript. See globals.css's "Card
-// Grid" section for the shared styles this renders into.
+// pages — a title, a single-column stack of collapsible cards, an
+// optional trailing image, and a closing "read more" button. Rendered as
+// part of the initial HTML response so it's readable independently of the
+// video and indexable without client-side JavaScript. See globals.css's
+// "Card Grid" section for the shared styles this renders into.
 export function CardGrid({ headingId, title, maxLogoAspectRatio, cards, image, readMoreText }: CardGridProps) {
   return (
     <section aria-labelledby={headingId}>
@@ -48,30 +49,8 @@ export function CardGrid({ headingId, title, maxLogoAspectRatio, cards, image, r
           } as CSSProperties
         }
       >
-        {cards.map(({ key, heading, items, logo }) => (
-          <div className="card" key={key}>
-            <h2>
-              {/* Real text node for crawlers/SEO; the SVG stays the
-                  visible heading — same technique on every card. */}
-              <span className="sr-only">{heading}</span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={logo.src}
-                alt=""
-                aria-hidden="true"
-                width={logo.width}
-                height={logo.height}
-                className="card-heading-logo"
-              />
-            </h2>
-            <ul>
-              {items.map((item) => (
-                <li className="card-item" key={item}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+        {cards.map(({ key, heading, descriptions, logo }) => (
+          <Card key={key} heading={heading} logo={logo} descriptions={descriptions} />
         ))}
       </div>
       {image && (

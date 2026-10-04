@@ -18,19 +18,19 @@ export const servicesPage = {
       cards: {
         cuttingServices: {
           heading: "Project Size",
-          items: ["Prototypes", "Unique products", "Small production series"],
+          descriptions: ["Prototypes", "Unique products", "Small production series"],
         },
         services: {
           heading: "Services",
-          items: ["CAD & design", "CNC machining", "Assembly & finishing"],
+          descriptions: ["CAD & design", "CNC machining", "Assembly & finishing"],
         },
         quotesAreBasedOn: {
           heading: "Quotes Are Based On",
-          items: ["Material", "Size & quantity", "Design complexity"],
+          descriptions: ["Material", "Size & quantity", "Design complexity"],
         },
         deliveryOptions: {
           heading: "Delivery Options",
-          items: ["Workshop pickup", "Shipping"],
+          descriptions: ["Workshop pickup", "Shipping"],
         },
       },
     },
@@ -58,19 +58,19 @@ export const servicesPage = {
       cards: {
         cuttingServices: {
           heading: "Projektumfang",
-          items: ["Prototypen", "Einzelstücke", "Kleinserien"],
+          descriptions: ["Prototypen", "Einzelstücke", "Kleinserien"],
         },
         services: {
           heading: "Leistungen",
-          items: ["CAD & Design", "CNC-Bearbeitung", "Montage & Veredelung"],
+          descriptions: ["CAD & Design", "CNC-Bearbeitung", "Montage & Veredelung"],
         },
         quotesAreBasedOn: {
           heading: "Angebote basieren auf",
-          items: ["Material", "Größe & Menge", "Designkomplexität"],
+          descriptions: ["Material", "Größe & Menge", "Designkomplexität"],
         },
         deliveryOptions: {
           heading: "Lieferoptionen",
-          items: ["Abholung in der Werkstatt", "Versand"],
+          descriptions: ["Abholung in der Werkstatt", "Versand"],
         },
       },
     },
