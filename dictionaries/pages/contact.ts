@@ -82,8 +82,8 @@ export const contactPage = {
           emailHeading: "E-Mail:",
           email: "victor@atelier-cut.com",
         },
-        whatToInclude: { heading: "Was du angeben solltest" },
-        contactMe: { heading: "Kontaktiere mich" },
+        whatToInclude: { heading: "Was du hast" },
+        contactMe: { heading: "Schreib mir" },
         help: { heading: "Hilfe" },
       },
       fields: {

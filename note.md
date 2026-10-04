@@ -125,4 +125,9 @@ If you are experiencing any issues while filling out the form, please email me a
 content in german:
 Falls beim Ausfüllen des Formulars Probleme auftreten, schreiben Sie mir bitte eine E-Mail an victor@atelier-cut.com.
 
+For contact page.
+
+instead of the h2 card header. i want the logo:
+i added the logo. following the same styling with the page services or workshop. replace the header h2 by the logo i added
+
 
