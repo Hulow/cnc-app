@@ -29,11 +29,8 @@ export function buildServices(lang: Lang, dict: Dictionary) {
       provider: businessRef(dict),
       areaServed: areaServed(dict),
       audience: { "@type": "Audience", audienceType: dict.services.schemas.audience },
-      termsOfService: assetUrl(dict.services.schemas.termsOfServiceUrl),
+      // termsOfService: assetUrl(dict.services.schemas.termsOfServiceUrl), TODO: add terms of service url
       url: absoluteUrl(routes.services[lang]),
-      // Every card shares the services page's own publish/modified dates —
-      // there's no per-card date in the dictionary, and all cards live on
-      // the same page.
       datePublished: published,
       dateModified: modified,
     };

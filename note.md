@@ -85,3 +85,16 @@ and then delete the images:
 i updated the content of my services here: dictionaries/pages/services.ts
 
 i want to update my schema accordingly in shared/seo/schemas/services.ts
+
+
+
+
+For the grid card / card system, regarding the button opening and closing the card:
+I added these icons, each icon is for a specific logic:
+- public/navigation/chevron-down-default.svg is for when the card is closed
+- public/navigation/chevron-down-hover.svg is for when the card is closed with hover effect
+- public/navigation/chevron-up-default.svg is for when the card is open 
+- public/navigation/chevron-up-hover.svg is for when the card is open with hover effect. 
+
+Can you implement this logic?
+Dont use test server
