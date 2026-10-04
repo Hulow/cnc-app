@@ -1324,54 +1324,53 @@ h3 {
   height: min(1.4em, calc(100cqw / var(--card-heading-logo-max-ratio, 16)));
 }
 
-/* The open/close affordance on .card-header's right side. Square button
-   chrome matching .contact-button's border/radius; the chevron itself is
-   a rotated corner (the classic border-trick triangle) rather than an
-   image asset, since this is a generic UI affordance, not branded
-   artwork like the rest of this project's icons. */
+/* The open/close affordance on .card-header's right side. The four
+   chevron-*-*.svg assets in public/navigation are self-contained artwork
+   (own outline + fill), one per open/closed x default/hover combination,
+   so the state here is just which image is shown — swapped via the
+   native [open] attribute and :hover/:focus-visible, no JS needed. */
 .card-toggle {
   flex: 0 0 auto;
   width: 1.75rem;
-  height: 1.75rem;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--logo-color);
-  border-radius: 0.375rem;
-  background: #ffffff;
+  aspect-ratio: 68.27 / 43.9;
+  background: url("/navigation/chevron-down-default.svg") no-repeat center /
+    contain;
 }
 
-.card-toggle::before {
-  content: "";
-  width: 0.5rem;
-  height: 0.5rem;
-  border-right: 2px solid var(--logo-color);
-  border-bottom: 2px solid var(--logo-color);
-  transform: rotate(45deg);
-  transition: transform 150ms ease;
+/* Tablet width and up (matches the breakpoint used for .footer-address
+   above): more room per card, so the toggle can grow without crowding
+   the heading next to it. */
+@media (min-width: 768px) {
+  .card-toggle {
+    width: 3.25rem;
+  }
 }
 
-/* Points up once the <details> is open. */
-.card-grid .card[open] .card-toggle::before {
-  transform: rotate(-135deg);
+.card-grid .card[open] .card-toggle {
+  background-image: url("/navigation/chevron-up-default.svg");
 }
 
 @media (hover: hover) {
-  .card-grid .card-header:hover .card-toggle {
-    border-color: rgb(235, 50, 110);
+  .card-grid .card:not([open]) .card-header:hover .card-toggle {
+    background-image: url("/navigation/chevron-down-hover.svg");
   }
 
-  .card-grid .card-header:hover .card-toggle::before {
-    border-color: rgb(235, 50, 110);
+  .card-grid .card[open] .card-header:hover .card-toggle {
+    background-image: url("/navigation/chevron-up-hover.svg");
   }
+}
+
+.card-grid .card:not([open]) .card-header:focus-visible .card-toggle {
+  background-image: url("/navigation/chevron-down-hover.svg");
+}
+
+.card-grid .card[open] .card-header:focus-visible .card-toggle {
+  background-image: url("/navigation/chevron-up-hover.svg");
 }
 
 .card-grid .card-header:focus-visible .card-toggle {
-  border-color: rgb(235, 50, 110);
-  box-shadow: 0 0 0 1px rgb(235, 50, 110);
-}
-
-.card-grid .card-header:focus-visible .card-toggle::before {
-  border-color: rgb(235, 50, 110);
+  outline: 2px solid rgb(235, 50, 110);
+  outline-offset: 2px;
 }
 
 /* .card-item is a <li>, inside a <ul>. The <ul> takes over the flex
