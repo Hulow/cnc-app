@@ -18,23 +18,42 @@ export const servicesPage = {
       cards: {
         serviceOne: {
           heading: "CAD Design",
-          descriptions: ["Prototypes", "Unique products", "Small production series"],
+          descriptions: [
+            "I help you develop your project from the initial idea to a design that meets your expectations, budget, and technical requirements.", 
+            "Together, we can explore sketches, 3D models, visualisations, materials, aesthetics, production methods, costs, and feasibility.", 
+            "A tailored approach to turn your ideas into something that can actually be made."
+          ],
         },
         serviceTwo: {
           heading: "CNC Machining",
-          descriptions: ["CAD & design", "CNC machining", "Assembly & finishing"],
+          descriptions: [
+            "I bring your ideas to life in my workshop near Ostkreuz.", 
+            "I create custom furniture, kitchens, signs, decorative pieces, sculptures, interior elements, prototypes, and small series.", 
+            "I combine modern 2D cutting and 3D milling techniques with traditional craftsmanship to achieve precise results and a high-quality, durable finish."
+          ],
         },
         serviceThree: {
           heading: "Materials",
-          descriptions: ["will describe it later"],
+          descriptions: [
+            "Solid wood, plywood, MDF, plastics, polyurethane foam, acrylic, Corian, Forex, Trespa, HPL, melamine, Dibond, plaster, Styrofoam...",
+            "For logistical reasons and to ensure consistent quality, I generally prefer to supply the materials myself. However, this is of course something we can discuss together.",
+            "Can’t find the material you’re looking for in the list? I love experimenting with new materials and techniques. Get in touch and let’s see what we can create together."
+          ],
         },
         serviceFour: {
           heading: "Quotes Based On",
-          descriptions: ["Material", "Size & quantity", "Design complexity"],
+          descriptions: [
+            "Digital cutting and machining is priced based on machine time, the chosen material, and the quantity to be produced.", 
+            "Additional charges may apply for handling, tool changes, or machine calibration when working with pre-cut parts.", 
+            "Send me your file and any relevant information to receive a precise, fixed quote."
+          ],
         },
         serviceFive: {
           heading: "Delivery",
-          descriptions: ["Workshop pickup", "Shipping"],
+          descriptions: [
+            "I usually complete your cuts within 3 to 5 business days for commonly available materials.", 
+            "Pick up your parts at the workshop or have them shipped to you."
+          ],
         },
       },
     },
@@ -62,23 +81,42 @@ export const servicesPage = {
       cards: {
         serviceOne: {
           heading: "CAD Design",
-          descriptions: ["Prototypen", "Einzelstücke", "Kleinserien"],
+          descriptions: [
+            "Ich unterstütze Sie bei der Entwicklung Ihres Projekts, damit es Ihren Vorstellungen und Ihrem Budget entspricht.", 
+            "Ich begleite Sie bei der Ideenfindung, von ersten Skizzen über 3D-Simulationen und Renderings bis hin zu Fragen der Fertigung, Ästhetik, Materialien, Kosten und Machbarkeit.", 
+            "Eine individuelle Begleitung, um Ihre Zufriedenheit zu gewährleisten. "
+          ],
         },
         serviceTwo: {
           heading: "CNC Leistungen",
-          descriptions: ["CAD & Design", "CNC-Bearbeitung", "Montage & Veredelung"],
+          descriptions: [
+            "Ich bringe Ihre Ideen in meiner Werkstatt in der Nähe des Ostkreuz zum Leben.", 
+            "Ich fertige individuelle Möbel, Küchen, Schilder, Dekorationen, Skulpturen, Einrichtungselemente, Prototypen und Kleinserien.", 
+            "Ich kombiniere moderne 2D-Schneid- und 3D-Frästechniken mit traditionellem Handwerk, um präzise Ergebnisse und eine hochwertige, langlebige Ausführung zu erzielen."
+          ],
         },
         serviceThree: {
           heading: "Materialien",
-          descriptions: ["Wird später beschrieben"],
+          descriptions: [
+            "Massivholz, Multiplex, MDF, Kunststoffe, Polyurethanschaum, Acrylglas, Corian, Forex, Trespa, HPL, Melamin, Dibond, Gips, Styropor ...",
+            "Aus logistischen Gründen und um eine gleichbleibende Qualität zu gewährleisten, stelle ich das Material grundsätzlich lieber selbst zur Verfügung. Natürlich können wir das aber gemeinsam besprechen.",
+            "Das gewünschte Material ist nicht in der Liste? Ich probiere gerne neue Materialien und Techniken aus. Schreib mir einfach und wir schauen gemeinsam, was wir daraus machen können."
+      ],
         },
         serviceFour: {
           heading: "Angebote basieren auf",
-          descriptions: ["Material", "Größe & Menge", "Designkomplexität"],
+          descriptions: [
+            "CNC-Schneiden und -Fräsen wird auf Grundlage der Maschinenzeit, des gewählten Materials und der zu produzierenden Stückzahl berechnet.", 
+            "Zusätzliche Kosten können für die Handhabung, Werkzeugwechsel oder die Kalibrierung der Maschine bei der Bearbeitung bereits zugeschnittener Werkstücke anfallen.", 
+            "Sende mir deine Datei und alle relevanten Informationen, um ein präzises und verbindliches Angebot zu erhalten."
+          ],
         },
         serviceFive: {
           heading: "Lieferung",
-          descriptions: ["Abholung in der Werkstatt", "Versand"],
+          descriptions: [
+            "Ich fertige Ihre Zuschnitte bei gängigen Materialien in der Regel innerhalb von 3 bis 5 Werktagen an.", 
+            "Sie können Ihre Teile in der Werkstatt abholen oder sich zuschicken lassen."
+          ],
         },
       },
     },

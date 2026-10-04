@@ -75,8 +75,17 @@ name: design
 serviceType: CAD design and technical drawing
 description:
 
+1) I help you develop your project from the initial idea to a design that meets your expectations, budget, and technical requirements.
 
-We help you in the design of your project so that it perfectly meets your expectations and your budget. We assist you in the process of reflection, sketches, 3D simulations and computer rendering, production, aesthetics, materials, budget or feasibility for commercial projects. A tailored accompaniment to guarantee your satisfaction.
+1) Ich unterstütze Sie bei der Entwicklung Ihres Projekts, damit es Ihren Vorstellungen und Ihrem Budget entspricht.
+
+2) Together, we can explore sketches, 3D models, visualisations, materials, aesthetics, production methods, costs, and feasibility.
+
+2) Ich begleite Sie bei der Ideenfindung, von ersten Skizzen über 3D-Simulationen und Renderings bis hin zu Fragen der Fertigung, Ästhetik, Materialien, Kosten und Machbarkeit.
+
+3) A tailored approach to turn your ideas into something that can actually be made.
+
+3) Eine individuelle Begleitung, um Ihre Zufriedenheit zu gewährleisten. 
 
 ## service item making
 
@@ -87,7 +96,18 @@ name: cutting
 service type: 2D cutting and 3D milling
 description:
 
-We bring your projects to life in our 350m2 workshop located in the heart of Brussels. We make your custom furniture, kitchens, signs, decorations, engravings, sculptures, interior decorations, prototypes, series .. We use contemporary tools of digital cutting, by milling and laser, coupled with traditional craftsmanship for a qualitative and durable finish over time.
+1) I bring your ideas to life in my workshop near Ostkreuz.
+
+1) Ich bringe Ihre Ideen in meiner Werkstatt in der Nähe des Ostkreuz zum Leben.
+
+2) I create custom furniture, kitchens, signs, decorative pieces, sculptures, interior elements, prototypes, and small series.
+
+2) Ich fertige individuelle Möbel, Küchen, Schilder, Dekorationen, Skulpturen, Einrichtungselemente, Prototypen und Kleinserien.
+
+3) I combine modern 2D cutting and 3D milling techniques with traditional craftsmanship to achieve precise results and a high-quality, durable finish.
+
+3) Ich kombiniere moderne 2D-Schneid- und 3D-Frästechniken mit traditionellem Handwerk, um präzise Ergebnisse und eine hochwertige, langlebige Ausführung zu erzielen.
+
 
 ## service item Materials
 
@@ -98,7 +118,17 @@ name: materials
 service type: materials used
 description: 
 
-We do the cnc milling in 2D or 3D in a multitude of materials. We can work solid wood, plywood, plastics, polyurethane foam, plexi, corian, forex, trespa, melamine, HPL, leather, cardboard, MDF, paper, fabric ..
+1) Solid wood, plywood, MDF, plastics, polyurethane foam, acrylic, Corian, Forex, Trespa, HPL, melamine, Dibond, plaster, Styrofoam...
+
+1) Massivholz, Multiplex, MDF, Kunststoffe, Polyurethanschaum, Acrylglas, Corian, Forex, Trespa, HPL, Melamin, Dibond, Gips, Styropor ...
+
+2) For logistical reasons and to ensure consistent quality, I generally prefer to supply the materials myself. However, this is of course something we can discuss together.
+
+2) Aus logistischen Gründen und um eine gleichbleibende Qualität zu gewährleisten, stelle ich das Material grundsätzlich lieber selbst zur Verfügung. Natürlich können wir das aber gemeinsam besprechen.
+
+3) Can’t find the material you’re looking for in the list? I love experimenting with new materials and techniques. Get in touch and let’s see what we can create together.
+
+3) Das gewünschte Material ist nicht in der Liste? Ich probiere gerne neue Materialien und Techniken aus. Schreib mir einfach und wir schauen gemeinsam, was wir daraus machen können.
 
 ## service quotes
 @context: schema.org
@@ -108,6 +138,19 @@ name: quotes
 service type: quotes are based on
 description:
 
+1) Digital cutting and machining is priced based on machine time, the chosen material, and the quantity to be produced.
+
+1) CNC-Schneiden und -Fräsen wird auf Grundlage der Maschinenzeit, des gewählten Materials und der zu produzierenden Stückzahl berechnet.
+
+2) Additional charges may apply for handling, tool changes, or machine calibration when working with pre-cut parts.
+
+2) Zusätzliche Kosten können für die Handhabung, Werkzeugwechsel oder die Kalibrierung der Maschine bei der Bearbeitung bereits zugeschnittener Werkstücke anfallen.
+
+3) Send me your file and any relevant information to receive a precise, fixed quote.
+
+3) Sende mir deine Datei und alle relevanten Informationen, um ein präzises und verbindliches Angebot zu erhalten.
+
+
 ## service delivery
 @context: schema.org
 @type": "Service"
@@ -115,3 +158,13 @@ description:
 name: delivery
 service type: delivery time and options
 description:
+
+1) I usually complete your cuts within 3 to 5 business days for commonly available materials.
+
+1) Ich fertige Ihre Zuschnitte bei gängigen Materialien in der Regel innerhalb von 3 bis 5 Werktagen an.
+
+2) Pick up your parts at the workshop or have them shipped to you.
+
+2) Sie können Ihre Teile in der Werkstatt abholen oder sich zuschicken lassen.
+
+
