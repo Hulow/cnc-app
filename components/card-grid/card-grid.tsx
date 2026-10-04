@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import { Card, type CardLogo } from "@/components/card/card";
-import { ReadMoreButton } from "@/components/read-more-button/read-more-button";
 
 export interface CardGridCard {
   key: string;
@@ -33,21 +32,16 @@ interface CardGridProps {
   maxLogoAspectRatio?: number;
   cards: readonly CardGridCard[];
   image?: CardGridImage;
-  // Omit when this grid has no separate intro paragraph of its own
-  // (Contact's cards carry all their own copy) — the trailing read-more
-  // button then doesn't render at all.
-  readMoreText?: string;
 }
 
 // Server Component: shared layout for the Services, Cutting Salon and
 // Contact pages — a title, a single-column stack of collapsible cards,
-// and an optional trailing image and closing "read more" button (neither
-// used by Contact, which has no separate intro paragraph or photo).
-// Rendered as part of the initial HTML response so it's readable
-// independently of the video and indexable without client-side
-// JavaScript. See globals.css's "Card Grid" section for the shared
-// styles this renders into.
-export function CardGrid({ headingId, title, maxLogoAspectRatio, cards, image, readMoreText }: CardGridProps) {
+// and an optional trailing image (not used by Contact, which has no
+// separate intro paragraph or photo). Rendered as part of the initial
+// HTML response so it's readable independently of the video and
+// indexable without client-side JavaScript. See globals.css's "Card
+// Grid" section for the shared styles this renders into.
+export function CardGrid({ headingId, title, maxLogoAspectRatio, cards, image }: CardGridProps) {
   return (
     <section aria-labelledby={headingId}>
       <h1 id={headingId} className="page-title">{title}</h1>
@@ -79,11 +73,6 @@ export function CardGrid({ headingId, title, maxLogoAspectRatio, cards, image, r
           sizes={image.sizes}
           className="card-grid-image"
         />
-      )}
-      {readMoreText && (
-        <div className="read-more-end">
-          <ReadMoreButton text={readMoreText} />
-        </div>
       )}
     </section>
   );

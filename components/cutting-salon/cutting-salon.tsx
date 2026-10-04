@@ -56,8 +56,6 @@ export function CuttingSalon({ lang }: CuttingSalonProps) {
         height: 1800,
         sizes: "(min-width: 576px) 70vw, 90vw",
       }}
-      // TODO: owner copy — see dictionaries/pages/workshop.ts's websiteContent.readMore comment
-      readMoreText={dict.workshop.websiteContent.readMore}
     />
   );
 }

@@ -11,8 +11,6 @@ export const workshopPage = {
         "CNC workshop in Berlin with a 3-axis machine and 2.2 × 1.5 m working area, machining wood, aluminium and plastics for art, acoustics, design, architecture, furniture and engineering.",
     },
     websiteContent: {
-      readMore:
-        "The machine has 3 axes and a 2.2 × 1.5 m working area.\n\nWith full control over spindle speed, feed rate and tooling, I can machine a wide variety of woods, aluminium and plastics.\n\nI'm open to projects of all kinds, for clients across Berlin and Germany.",
       cards: {
         machineCapabilities: {
           heading: "Machine Capabilities",
@@ -76,8 +74,6 @@ export const workshopPage = {
         "CNC-Werkstatt in Berlin mit 3-Achs-Maschine und 2,2 × 1,5 m Arbeitsbereich für die Bearbeitung von Holz, Aluminium und Kunststoffen in Kunst, Akustik, Design, Architektur, Möbelbau und Technik.",
     },
     websiteContent: {
-      readMore:
-        "Die Maschine verfügt über 3 Achsen und einen Arbeitsbereich von 2,2 × 1,5 m.\n\nDurch die präzise Steuerung von Spindeldrehzahl, Vorschub und Werkzeugen kann ich eine große Auswahl an Hölzern, Aluminium und Kunststoffen bearbeiten.\n\nIch bin offen für Projekte aller Art: für Kunden und Kundinnen in Berlin und ganz Deutschland.",
       cards: {
         machineCapabilities: {
           heading: "Maschinenleistung",

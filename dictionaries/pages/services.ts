@@ -12,9 +12,6 @@ export const servicesPage = {
         "CNC services in Berlin for CAD design, CNC cutting and milling, material selection, individual quotes and delivery for prototypes, one-off products and small series.",
     },
     websiteContent: {
-      // TODO: owner copy.
-      readMore:
-        "I help turn ideas into real objects, from precise cuts and complex designs to consistent, repeatable parts.\n\nWhether you have a CAD file, a sketch, or simply an idea, I can help you figure out how to make it, from design and CNC machining to assembly and finishing.\n\nEvery project is different, so I quote each one individually.\n\nPick up your parts at the workshop or have them shipped to you.",
       cards: {
         serviceOne: {
           heading: "CAD Design",
@@ -98,8 +95,6 @@ export const servicesPage = {
         "CNC-Leistungen in Berlin für CAD-Design, CNC-Zuschnitt und -Fräsen, Materialauswahl, individuelle Angebote und Lieferung von Prototypen, Einzelstücken und Kleinserien.",
     },
     websiteContent: {
-      readMore:
-        "Ich helfe dabei, Ideen in echte Objekte zu verwandeln: von präzisen Schnitten und komplexen Designs bis hin zu gleichbleibend Einzelteilen.\n\nEgal, ob du eine CAD-Datei, eine Skizze oder einfach nur eine Idee hast: Ich kann dir dabei helfen, herauszufinden, wie sie umgesetzt werden kann, von Design und CNC-Bearbeitung bis hin zu Montage und Nachbearbeitung.\n\nJedes Projekt ist anders, deshalb erstelle ich für jedes Projekt ein individuelles Angebot.\n\nDu kannst deine fertigen Teile in der Werkstatt abholen oder sie dir zuschicken lassen.",
       cards: {
         serviceOne: {
           heading: "CAD Design",

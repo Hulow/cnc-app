@@ -278,7 +278,7 @@ h3 {
 /* ==========================================================================
    Message Panel (components/message-panel: the shared centered-panel/
    white-text-card/pill-button look behind PrivacyPanel, ImpressumPanel,
-   NotFoundPanel, and ReadMoreButton's overlay)
+   NotFoundPanel, and ContactForm's help overlay)
    ========================================================================== */
 
 /* "page" variant (PrivacyPanel/ImpressumPanel/NotFoundPanel): normal,
@@ -302,7 +302,7 @@ h3 {
   background: var(--logo-color);
 }
 
-/* "overlay" variant (ReadMoreButton): a full-screen, light-transparent
+/* "overlay" variant (ContactForm's help overlay): a full-screen, light-transparent
    dialog over everything else (video + page content). Sits above the
    content layer so it's always on top. Class name predates the removal
    of the mandatory welcome/consent gate this used to be. */
@@ -443,7 +443,7 @@ h3 {
    is an image button: button-continue-*.svg already draws its own pill
    border and label, so the generic button chrome above (border, padding,
    background, border-radius) is cancelled here. .message-panel-button is
-   shared by a real <button> (ReadMoreButton's dismiss action) and a
+   shared by a real <button> (ContactFormSuccess's action) and a
    <Link> (PrivacyPanel/ImpressumPanel/
    NotFoundPanel's navigation back to "/"), hence both element selectors
    below. Each selector repeats the pseudo-class alongside
@@ -577,8 +577,7 @@ h3 {
   font-size: clamp(0.9rem, 5.5cqi, var(--font-size-lg));
   font-weight: normal;
   text-align: center;
-  /* Matches the logo/READ MORE button's blue instead of the default
-     body text color. */
+  /* Matches the logo's blue instead of the default body text color. */
   color: var(--logo-color);
   /* .home-content's own gap already spaces this from the logo above —
      the global h1 { margin-bottom } rule would otherwise add trailing
@@ -599,61 +598,6 @@ h3 {
 #cutting-salon-heading,
 #contact-heading {
   text-align: left;
-}
-
-/* Services, Cutting Salon and Contact: sits at the bottom of the page,
-   after the card grid, right-aligned (flex-end) instead of beside the
-   heading. Contact's own CardGrid has no readMoreText (see
-   components/contact/contact-route.tsx), so this never renders there. */
-.read-more-end {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: var(--space-sm);
-}
-
-/* READ MORE (sits inside .read-more-end above, on Services and Cutting
-   Salon): opens the page's own intro copy in a MessagePanel
-   overlay instead of rendering the paragraph inline — see
-   read-more-button.tsx. Reset + hover-swap mechanics mirror
-   .message-panel-button* above (default/hover SVGs stacked with
-   absolute inset: 0, swapped via opacity). */
-.read-more {
-  display: inline-block;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.read-more-icon-wrap {
-  position: relative;
-  display: block;
-  width: 7rem;
-  aspect-ratio: 212.63 / 43.90;
-}
-
-.read-more-icon {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  transition: opacity 150ms ease;
-}
-
-.read-more-icon-hover {
-  opacity: 0;
-}
-
-@media (hover: hover) {
-  .read-more:hover .read-more-icon-default {
-    opacity: 0;
-  }
-
-  .read-more:hover .read-more-icon-hover {
-    opacity: 1;
-  }
 }
 
 /* ==========================================================================

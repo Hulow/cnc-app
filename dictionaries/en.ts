@@ -74,7 +74,6 @@ export interface Dictionary {
   services: {
     metadata: PageMetadata;
     websiteContent: {
-      readMore: string;
       cards: {
         serviceOne: { heading: string; descriptions: string[] };
         serviceTwo: { heading: string; descriptions: string[] };
@@ -94,7 +93,6 @@ export interface Dictionary {
   workshop: {
     metadata: PageMetadata;
     websiteContent: {
-      readMore: string;
       cards: {
         machineCapabilities: { heading: string; items: string[] };
         applications: { heading: string; items: string[] };

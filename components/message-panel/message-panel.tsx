@@ -4,9 +4,9 @@ interface MessagePanelProps {
   // "page" renders normal, crawlable page content (PrivacyPanel,
   // ImpressumPanel, NotFoundPanel) — a <section> that fills the space
   // between header/footer. "overlay" renders a fixed, full-screen dialog
-  // on top of whatever's behind it (ContactForm's help overlay,
-  // ReadMoreButton) — see .message-panel vs .message-panel-overlay in
-  // globals.css for how these two wrappers differ.
+  // on top of whatever's behind it (ContactForm's help overlay) — see
+  // .message-panel vs .message-panel-overlay in globals.css for how
+  // these two wrappers differ.
   variant: "page" | "overlay";
   hidden?: boolean;
   children: ReactNode;
@@ -15,10 +15,10 @@ interface MessagePanelProps {
 
 // The centered, blue-background panel with a white text card and a
 // single pill action button at the bottom — the shared look behind
-// PrivacyPanel, ImpressumPanel, NotFoundPanel, ContactForm's help
-// overlay, and ReadMoreButton. Pass the text/logo content as children and
-// the action button (see MessagePanelButton) separately, since what the
-// action does (navigate, dismiss, set a cookie) differs per caller.
+// PrivacyPanel, ImpressumPanel, NotFoundPanel, and ContactForm's help
+// overlay. Pass the text/logo content as children and the action button
+// (see MessagePanelButton) separately, since what the action does
+// (navigate, dismiss, set a cookie) differs per caller.
 export function MessagePanel({ variant, hidden = false, children, action }: MessagePanelProps) {
   const content = (
     <div className="message-panel-content">

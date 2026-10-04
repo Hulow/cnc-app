@@ -55,8 +55,6 @@ export function Service({ lang }: ServiceProps) {
         descriptions: cards[key].descriptions,
         logo: logos[key],
       }))}
-      // TODO: owner copy — see dictionaries/pages/services.ts's websiteContent.readMore comment
-      readMoreText={dict.services.websiteContent.readMore}
     />
   );
 }
