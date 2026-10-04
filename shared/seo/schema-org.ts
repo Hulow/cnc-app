@@ -5,7 +5,7 @@ import { assetUrl, businessCore, businessRef, CONTEXT, postalAddress, schemaIds,
 import { buildProfessionalService, buildWebSite } from "./schemas/home";
 import { buildBusinessContact } from "./schemas/contact";
 import { buildBusinessWorkshop } from "./schemas/workshop";
-import { buildServices } from "./schemas/services";
+import { buildServices, SERVICE_CARD_KEYS } from "./schemas/services";
 import { prune } from "./todo";
 
 // JSON-LD builders. Every value comes from siteConfig + the
@@ -44,7 +44,7 @@ export { schemaIds } from "./schemas/common";
 export { buildProfessionalService, buildWebSite } from "./schemas/home";
 export { buildBusinessContact } from "./schemas/contact";
 export { buildBusinessWorkshop } from "./schemas/workshop";
-export { buildServices } from "./schemas/services";
+export { buildServices, SERVICE_CARD_KEYS } from "./schemas/services";
 
 export function buildBusinessLegal(dict: Dictionary) {
   return prune({
@@ -144,7 +144,7 @@ export function buildWebPage(key: RouteKey, lang: Lang, dict: Dictionary) {
     ...(key !== "home" && { breadcrumb: { "@id": schemaIds.breadcrumb(key, lang) } }),
     // The services page is the one that is *about* the Service entities.
     ...(key === "services" && {
-      mainEntity: dict.services.websiteContent.cards.serviceTwo.descriptions.map((_, index) => ({
+      mainEntity: SERVICE_CARD_KEYS.map((_, index) => ({
         "@id": schemaIds.service(index),
       })),
     }),

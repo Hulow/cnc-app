@@ -80,3 +80,8 @@ and then delete the images:
 - /service/leistungen.svg
 - /service/projektumfang.svg
 - /service/lieferoptionen.svg
+
+
+i updated the content of my services here: dictionaries/pages/services.ts
+
+i want to update my schema accordingly in shared/seo/schemas/services.ts

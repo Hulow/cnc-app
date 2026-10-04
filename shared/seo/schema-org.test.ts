@@ -12,6 +12,7 @@ import {
   buildWebPage,
   buildWebSite,
   schemaIds,
+  SERVICE_CARD_KEYS,
 } from "./schema-org";
 
 describe("Given buildProfessionalService", () => {
@@ -72,14 +73,18 @@ describe("Given buildServices", () => {
   describe("When called with the English dictionary", () => {
     const data = buildServices("en", en);
 
-    it("Then it builds one Service per card item, each referencing the business", () => {
-      expect(data).toHaveLength(en.services.websiteContent.cards.serviceTwo.descriptions.length);
+    it("Then it builds one Service per card, named after the card's heading", () => {
+      expect(data).toHaveLength(SERVICE_CARD_KEYS.length);
 
       data.forEach((service, index) => {
+        const key = SERVICE_CARD_KEYS[index];
+
         expect(service["@context"]).toBe("https://schema.org");
         expect(service["@type"]).toBe("Service");
         expect(service["@id"]).toBe(schemaIds.service(index));
-        expect(service.name).toBe(en.services.websiteContent.cards.serviceTwo.descriptions[index]);
+        expect(service.name).toBe(en.services.websiteContent.cards[key].heading);
+        expect(service.serviceType).toBe(en.services.websiteContent.cards[key].heading);
+        expect(service.description).toBe(en.services.websiteContent.cards[key].descriptions.join(" "));
         expect(service.provider).toEqual({
           "@type": "ProfessionalService",
           "@id": schemaIds.business,
@@ -89,19 +94,9 @@ describe("Given buildServices", () => {
       });
     });
 
-    it("Then still-TODO description/audience/termsOfService are left out", () => {
-      expect(data[0].description).toBeUndefined();
+    it("Then still-TODO audience/termsOfService are left out", () => {
       expect(data[0].audience).toBeUndefined();
       expect(data[0].termsOfService).toBeUndefined();
-    });
-
-    it("Then availableChannel lists the delivery options", () => {
-      expect(data[0].availableChannel).toEqual(
-        en.services.websiteContent.cards.serviceFive.descriptions.map((name) => ({
-          "@type": "ServiceChannel",
-          name,
-        })),
-      );
     });
   });
 });
@@ -185,7 +180,7 @@ describe("Given buildWebPage", () => {
 
     it("Then mainEntity references every Service by id", () => {
       expect(data.mainEntity).toEqual(
-        en.services.websiteContent.cards.serviceTwo.descriptions.map((_, index) => ({
+        SERVICE_CARD_KEYS.map((_, index) => ({
           "@id": schemaIds.service(index),
         })),
       );
@@ -283,11 +278,7 @@ describe("Given buildPageGraph", () => {
       const data = buildPageGraph("services", "en", en);
 
       const types = data["@graph"].map((node) => node["@type"]);
-      expect(types).toEqual([
-        ...en.services.websiteContent.cards.serviceTwo.descriptions.map(() => "Service"),
-        "WebPage",
-        "BreadcrumbList",
-      ]);
+      expect(types).toEqual([...SERVICE_CARD_KEYS.map(() => "Service"), "WebPage", "BreadcrumbList"]);
     });
   });
 

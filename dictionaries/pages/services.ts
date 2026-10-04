@@ -58,12 +58,8 @@ export const servicesPage = {
       },
     },
     schemas: {
-      // → Service.audience. Who the work is for.
+      // → Service.audience, shared by every card's Service entity.
       audience: TODO,
-      // → Service.description, in the SAME ORDER as the serviceTwo card
-      // ("CAD & design", "CNC machining", "Assembly & finishing"). One or
-      // two sentences each: what the customer receives.
-      descriptions: [TODO, TODO, TODO] as string[],
       // → Service.termsOfService, a URL.
       termsOfServiceUrl: TODO,
       pageDates: { published: TODO, modified: TODO },
@@ -122,7 +118,6 @@ export const servicesPage = {
     },
     schemas: {
       audience: TODO,
-      descriptions: [TODO, TODO, TODO] as string[],
       termsOfServiceUrl: TODO,
       pageDates: { published: TODO, modified: TODO },
     },

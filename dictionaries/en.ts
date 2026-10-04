@@ -85,7 +85,6 @@ export interface Dictionary {
     };
     schemas: {
       audience: string;
-      descriptions: string[];
       termsOfServiceUrl: string;
       pageDates: PageDates;
     };
