@@ -72,10 +72,7 @@ export function buildPerson(dict: Dictionary, { profile }: { profile: boolean })
       jobTitle: dict.workshop.schemas.jobTitle,
       description: dict.workshop.schemas.description,
       image: assetUrl(dict.workshop.schemas.personImage),
-      knowsAbout: [
-        ...dict.workshop.websiteContent.cards.materials.items,
-        ...dict.workshop.websiteContent.cards.technology.items,
-      ],
+      knowsAbout: [...dict.workshop.websiteContent.cards.technology.items],
     }),
     ...(siteConfig.social.length > 0 && { sameAs: [...siteConfig.social] }),
   };

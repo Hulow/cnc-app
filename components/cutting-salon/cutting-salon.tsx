@@ -20,19 +20,17 @@ const MAX_LOGO_ASPECT_RATIO: Record<Lang, number> = {
 const CARD_LOGOS = {
   en: {
     machineCapabilities: { src: "/salon/machine-capabilities.svg", width: 348, height: 23 },
-    materials: { src: "/salon/materials.svg", width: 179, height: 23 },
     applications: { src: "/salon/applications.svg", width: 224, height: 23 },
     technology: { src: "/salon/technology.svg", width: 199, height: 23 },
   },
   de: {
     machineCapabilities: { src: "/salon/maschinenleistung.svg", width: 322, height: 23 },
-    materials: { src: "/salon/materialen.svg", width: 197, height: 23 },
     applications: { src: "/salon/anwendungen.svg", width: 229, height: 23 },
     technology: { src: "/salon/technologie.svg", width: 204, height: 23 },
   },
 } as const;
 
-const CARD_ORDER = ["machineCapabilities", "materials", "applications", "technology"] as const;
+const CARD_ORDER = ["machineCapabilities", "applications", "technology"] as const;
 
 // Server Component: same rendering rationale as Service — see that file.
 export function CuttingSalon({ lang }: CuttingSalonProps) {

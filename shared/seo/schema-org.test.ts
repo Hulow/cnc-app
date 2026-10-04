@@ -157,13 +157,10 @@ describe("Given buildPerson", () => {
   });
 
   describe("When called with a profile (workshop)", () => {
-    it("Then it adds knowsAbout from the workshop materials/technology", () => {
+    it("Then it adds knowsAbout from the workshop technology", () => {
       const data = buildPerson(en, { profile: true });
 
-      expect(data.knowsAbout).toEqual([
-        ...en.workshop.websiteContent.cards.materials.items,
-        ...en.workshop.websiteContent.cards.technology.items,
-      ]);
+      expect(data.knowsAbout).toEqual([...en.workshop.websiteContent.cards.technology.items]);
     });
   });
 });

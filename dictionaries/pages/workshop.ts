@@ -20,10 +20,6 @@ export const workshopPage = {
           heading: "Machine Capabilities",
           items: ["Working area: 2.2m × 1.5m", "3 axis CNC"],
         },
-        materials: {
-          heading: "Materials",
-          items: ["Wood", "Aluminium", "Plastics"],
-        },
         applications: {
           heading: "Applications",
           items: ["Art", "Acoustics", "Design", "Architecture", "Furniture", "Engineering", "Beyond"],
@@ -59,10 +55,6 @@ export const workshopPage = {
         machineCapabilities: {
           heading: "Maschinenleistung",
           items: ["Arbeitsbereich: 2,2 m × 1,5 m", "3-Achs-CNC"],
-        },
-        materials: {
-          heading: "Materialien",
-          items: ["Holz", "Aluminium", "Kunststoffe"],
         },
         applications: {
           heading: "Anwendungen",

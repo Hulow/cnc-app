@@ -97,7 +97,6 @@ export interface Dictionary {
       readMore: string;
       cards: {
         machineCapabilities: { heading: string; items: string[] };
-        materials: { heading: string; items: string[] };
         applications: { heading: string; items: string[] };
         technology: { heading: string; items: string[] };
       };
