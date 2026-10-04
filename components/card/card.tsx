@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+"use client";
+
+import { useRef, type MouseEvent, type ReactNode } from "react";
 
 export interface CardLogo {
   src: string;
@@ -22,14 +24,30 @@ interface CardProps {
   children?: ReactNode;
 }
 
-// Server Component: a <details>/<summary> disclosure, closed by default.
-// The content stays in the initial HTML either way — <details> itself
-// hides everything but the summary until opened — so this needs no client
-// JavaScript to open/close, and no JavaScript at all to stay readable by
-// crawlers and no-JS clients.
+// A <details>/<summary> disclosure, closed by default. The content stays
+// in the initial HTML either way — <details> itself hides everything but
+// the summary until opened — so opening/closing via the header still
+// works with no client JavaScript (progressive enhancement). Closing via
+// a click on the content below the header (see handleContentClick) does
+// need JS, which is why this is a Client Component.
 export function Card({ heading, logo, descriptions, children }: CardProps) {
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+
+  // Clicking the open card's content closes it too, not just the header
+  // — except clicks on an interactive control (the Contact card's form
+  // fields/buttons/links), which must keep working normally.
+  function handleContentClick(event: MouseEvent<HTMLDivElement>) {
+    const target = event.target as HTMLElement;
+    if (target.closest("a, button, input, textarea, select, label")) {
+      return;
+    }
+    if (detailsRef.current) {
+      detailsRef.current.open = false;
+    }
+  }
+
   return (
-    <details className="card">
+    <details ref={detailsRef} className="card">
       <summary className="card-header">
         <h2>
           {logo ? (
@@ -52,9 +70,8 @@ export function Card({ heading, logo, descriptions, children }: CardProps) {
             heading
           )}
         </h2>
-        <span aria-hidden="true" className="card-toggle" />
       </summary>
-      <div className="card-content">
+      <div className="card-content" onClick={handleContentClick}>
         {descriptions ? (
           <ul>
             {descriptions.map((description) => (

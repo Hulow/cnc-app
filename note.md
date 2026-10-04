@@ -131,3 +131,4 @@ instead of the h2 card header. i want the logo:
 i added the logo. following the same styling with the page services or workshop. replace the header h2 by the logo i added
 
 
+for each card, remove the chevron logo. i want that the card is closed and open we the user click on the card

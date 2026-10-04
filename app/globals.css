@@ -1185,14 +1185,13 @@ h3 {
 }
 
 /* .card-header is the <summary> — the native disclosure control, so the
-   whole row (not just .card-toggle) opens/closes the card. list-style and
-   the -webkit- marker rule below strip the browser's default triangle;
-   display: flex already drops it in most browsers, but older Safari
-   still needs the explicit rule. */
+   whole row opens/closes the card. list-style and the -webkit- marker
+   rule below strip the browser's default triangle; display: flex
+   already drops it in most browsers, but older Safari still needs the
+   explicit rule. */
 .card-grid .card-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-sm);
   list-style: none;
   cursor: pointer;
@@ -1235,51 +1234,7 @@ h3 {
   height: min(1.4em, calc(100cqw / var(--card-heading-logo-max-ratio, 16)));
 }
 
-/* The open/close affordance on .card-header's right side. The four
-   chevron-*-*.svg assets in public/navigation are self-contained artwork
-   (own outline + fill), one per open/closed x default/hover combination,
-   so the state here is just which image is shown — swapped via the
-   native [open] attribute and :hover/:focus-visible, no JS needed. */
-.card-toggle {
-  flex: 0 0 auto;
-  width: 1.75rem;
-  aspect-ratio: 68.27 / 43.9;
-  background: url("/navigation/chevron-down-default.svg") no-repeat center /
-    contain;
-}
-
-/* Tablet width and up (matches the breakpoint used for .footer-address
-   above): more room per card, so the toggle can grow without crowding
-   the heading next to it. */
-@media (min-width: 768px) {
-  .card-toggle {
-    width: 3.25rem;
-  }
-}
-
-.card-grid .card[open] .card-toggle {
-  background-image: url("/navigation/chevron-up-default.svg");
-}
-
-@media (hover: hover) {
-  .card-grid .card:not([open]) .card-header:hover .card-toggle {
-    background-image: url("/navigation/chevron-down-hover.svg");
-  }
-
-  .card-grid .card[open] .card-header:hover .card-toggle {
-    background-image: url("/navigation/chevron-up-hover.svg");
-  }
-}
-
-.card-grid .card:not([open]) .card-header:focus-visible .card-toggle {
-  background-image: url("/navigation/chevron-down-hover.svg");
-}
-
-.card-grid .card[open] .card-header:focus-visible .card-toggle {
-  background-image: url("/navigation/chevron-up-hover.svg");
-}
-
-.card-grid .card-header:focus-visible .card-toggle {
+.card-grid .card-header:focus-visible {
   outline: 2px solid rgb(235, 50, 110);
   outline-offset: 2px;
 }
