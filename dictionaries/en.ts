@@ -103,10 +103,11 @@ export interface Dictionary {
       imageAlt: string;
     };
     schemas: {
-      jobTitle: string;
-      description: string;
-      personImage: string;
       pageDates: PageDates;
+      breadcrumbLabel: string;
+      knowsAbout: string[];
+      machineSpecs: { name: string; value: string }[];
+      personKnowsAbout: string[];
     };
   };
   contact: {

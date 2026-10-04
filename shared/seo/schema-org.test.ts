@@ -151,16 +151,15 @@ describe("Given buildPerson", () => {
         "@id": schemaIds.business,
         name: en.site.name,
       });
-      expect(data.jobTitle).toBeUndefined();
       expect(data.knowsAbout).toBeUndefined();
     });
   });
 
   describe("When called with a profile (workshop)", () => {
-    it("Then it adds knowsAbout from the workshop technology", () => {
+    it("Then it adds concise knowsAbout from the workshop schema", () => {
       const data = buildPerson(en, { profile: true });
 
-      expect(data.knowsAbout).toEqual([...en.workshop.websiteContent.cards.technology.items]);
+      expect(data.knowsAbout).toEqual([...en.workshop.schemas.personKnowsAbout]);
     });
   });
 });

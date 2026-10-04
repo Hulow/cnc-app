@@ -1,7 +1,7 @@
 import type { Dictionary } from "@/dictionaries/en";
 import { siteConfig } from "../site-config";
 import { absoluteUrl, routes, type Lang, type RouteKey } from "../routes";
-import { assetUrl, businessCore, businessRef, CONTEXT, postalAddress, schemaIds, websiteRef } from "./schemas/common";
+import { businessCore, businessRef, CONTEXT, postalAddress, schemaIds, websiteRef } from "./schemas/common";
 import { buildProfessionalService, buildWebSite } from "./schemas/home";
 import { buildBusinessContact } from "./schemas/contact";
 import { buildBusinessWorkshop } from "./schemas/workshop";
@@ -58,9 +58,9 @@ export function buildBusinessLegal(dict: Dictionary) {
 }
 
 // Person: the individual behind the business (the same natural person the
-// Impressum names — dict.site.legalName). `profile` adds what a visitor
-// reads in a "who I am" section — job title, bio, portrait, skills — which
-// only belongs on the page that shows them (the workshop page).
+// Impressum names — dict.site.legalName). `profile` adds the concise
+// technical expertise a visitor reads about in the workshop page's "who I
+// am" section — which only belongs on the page that shows it.
 export function buildPerson(dict: Dictionary, { profile }: { profile: boolean }) {
   return {
     "@context": CONTEXT,
@@ -69,24 +69,22 @@ export function buildPerson(dict: Dictionary, { profile }: { profile: boolean })
     name: dict.site.legalName,
     worksFor: businessRef(dict),
     ...(profile && {
-      jobTitle: dict.workshop.schemas.jobTitle,
-      description: dict.workshop.schemas.description,
-      image: assetUrl(dict.workshop.schemas.personImage),
-      knowsAbout: [...dict.workshop.websiteContent.cards.technology.items],
+      knowsAbout: [...dict.workshop.schemas.personKnowsAbout],
     }),
     ...(siteConfig.social.length > 0 && { sameAs: [...siteConfig.social] }),
   };
 }
 
-// Short label for a route in breadcrumbs — the nav's own short labels
-// ("Cutting Salon", not the full <title>), except privacy/impressum,
-// which aren't in the nav (footer-only); their footer labels double as
-// the breadcrumb label there. Services has its own label rather than the
-// nav's: the page holds more than one service, so the breadcrumb says
-// "Services"/"Leistungen" where the nav link stays the shorter "Service".
+// Short label for a route in breadcrumbs — the nav's own short labels,
+// except privacy/impressum, which aren't in the nav (footer-only); their
+// footer labels double as the breadcrumb label there. Services and
+// workshop have their own label rather than the nav's: "Services"
+// ("Service" in the nav covers more than one service) and "Workshop"
+// (the nav's "Cutting Salon" doesn't describe the page/function clearly).
 function breadcrumbLabel(key: Exclude<RouteKey, "home">, dict: Dictionary): string {
   if (key === "privacy" || key === "impressum") return dict.footer[key];
   if (key === "services") return dict.services.schemas.breadcrumbLabel;
+  if (key === "workshop") return dict.workshop.schemas.breadcrumbLabel;
   return dict.nav[key];
 }
 

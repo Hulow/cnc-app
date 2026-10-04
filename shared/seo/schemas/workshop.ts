@@ -7,10 +7,10 @@ import { businessCore } from "./common";
 export function buildBusinessWorkshop(dict: Dictionary) {
   return {
     ...businessCore(dict),
-    knowsAbout: [...dict.workshop.websiteContent.cards.applications.items],
-    additionalProperty: dict.workshop.websiteContent.cards.machineCapabilities.items.map((value) => ({
+    knowsAbout: [...dict.workshop.schemas.knowsAbout],
+    additionalProperty: dict.workshop.schemas.machineSpecs.map(({ name, value }) => ({
       "@type": "PropertyValue",
-      name: dict.workshop.websiteContent.cards.machineCapabilities.heading,
+      name,
       value,
     })),
   };

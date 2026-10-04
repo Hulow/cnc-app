@@ -1,5 +1,3 @@
-import { TODO } from "../../shared/seo/todo";
-
 // Workshop page (app/(en)/workshop/page.tsx, app/[lang]/werkstatt/page.tsx)
 // — also feeds components/cutting-salon/cutting-salon.tsx's card grid.
 // Both languages live here side by side so they stay easy to compare and
@@ -10,7 +8,7 @@ export const workshopPage = {
       title: "Inside the Atelier",
       //what is see on the link at whatsapp for instance
       description:
-        "Inside the CNC workshop in Berlin: a 3-axis machine with a 2.2 × 1.5 m working area, machining wood, aluminium and plastics for acoustics, furniture art, architecture, engineering and beyond.",
+        "CNC workshop in Berlin with a 3-axis machine and 2.2 × 1.5 m working area, machining wood, aluminium and plastics for art, acoustics, design, architecture, furniture and engineering.",
     },
     websiteContent: {
       readMore:
@@ -18,35 +16,64 @@ export const workshopPage = {
       cards: {
         machineCapabilities: {
           heading: "Machine Capabilities",
-          items: ["Working area: 2.2m × 1.5m", "3 axis CNC"],
+          items: [
+            "Our CNC machine is a 3-axis milling machine with manual tool changing and a working area of 2200 × 1500 × 50 mm.",
+            "I use CNC milling techniques to cut and machine your projects in both 2D and 3D, allowing for precise cuts, pockets, contours, and three-dimensional shapes."
+          ],
         },
         applications: {
           heading: "Applications",
-          items: ["Art", "Acoustics", "Design", "Architecture", "Furniture", "Engineering", "Beyond"],
+          items: [
+            "I have experience working on a wide range of CNC projects across art, acoustics, design, architecture, furniture, and engineering — from sculptures and acoustic components to architectural elements, custom furniture, prototypes, and functional parts.",
+            "These are just some of the areas where CNC machining can be useful. If you have a different project in mind, I’m always open to new ideas, unusual applications, and new challenges."
+          ],
         },
         technology: {
           heading: "Technology",
-          items: ["ESP32 · Dual-core 32-bit", "grblHAL", "Universal Gcode Sender", "Fusion 360"],
+          items: ["I use an ESP32 dual-core 32-bit controller running grblHAL to drive the machine, with Universal Gcode Sender for control and Fusion 360 for CAD and CAM."],
         },
       },
       imageAlt: "CNC machine cutting material",
     },
     schemas: {
-      // → Person.jobTitle, e.g. "CNC machinist and designer".
-      jobTitle: TODO,
-      // → Person.description. Two or three sentences about you and your
-      // background.
-      description: TODO,
-      // → Person.image, a portrait.
-      personImage: TODO,
-      pageDates: { published: TODO, modified: TODO },
+      pageDates: { published: "2026-09-19", modified: "2026-10-04" },
+      // → BreadcrumbList item for this page. Distinct from nav.workshop
+      // ("Cutting Salon"), which is the shorter visible nav label.
+      breadcrumbLabel: "Workshop",
+      // → ProfessionalService.knowsAbout: concise CNC expertise +
+      // application areas, not the prose in websiteContent.cards.
+      knowsAbout: [
+        "CNC machining",
+        "CNC milling",
+        "2D CNC cutting",
+        "3D CNC milling",
+        "Art",
+        "Acoustics",
+        "Design",
+        "Architecture",
+        "Furniture",
+        "Engineering",
+        "Prototyping",
+      ],
+      // → ProfessionalService.additionalProperty, one PropertyValue per
+      // entry. The actual machine specs, not the explanatory sentences
+      // in websiteContent.cards.machineCapabilities.
+      machineSpecs: [
+        { name: "Number of axes", value: "3" },
+        { name: "Working area", value: "2200 × 1500 × 50 mm" },
+        { name: "Tool changing", value: "Manual" },
+        { name: "Machining", value: "2D and 3D CNC milling" },
+      ],
+      // → Person.knowsAbout: concise technical expertise, not the
+      // technology sentence in websiteContent.cards.technology.
+      personKnowsAbout: ["CNC machining", "CNC milling", "CAD", "CAM", "Fusion 360", "CNC machine control"],
     },
   },
   de: {
     metadata: {
       title: "Im Atelier",
       description:
-        "Die CNC-Werkstatt in Berlin: eine 3-Achs-Maschine mit 2,2 × 1,5 m Arbeitsbereich, für Holz, Aluminium und Kunststoffe — für Akustik, Möbel und Kunst.",
+        "CNC-Werkstatt in Berlin mit 3-Achs-Maschine und 2,2 × 1,5 m Arbeitsbereich für die Bearbeitung von Holz, Aluminium und Kunststoffen in Kunst, Akustik, Design, Architektur, Möbelbau und Technik.",
     },
     websiteContent: {
       readMore:
@@ -54,26 +81,50 @@ export const workshopPage = {
       cards: {
         machineCapabilities: {
           heading: "Maschinenleistung",
-          items: ["Arbeitsbereich: 2,2 m × 1,5 m", "3-Achs-CNC"],
+          items: [
+            "Unsere CNC-Maschine ist eine 3-Achs-Fräsmaschine mit manuellem Werkzeugwechsel und einem Arbeitsbereich von 2200 × 1500 × 50 mm.",
+            "Ich bearbeite Ihre Projekte mit CNC-Frästechniken in 2D und 3D und ermögliche präzise Schnitte, Taschen, Konturen und dreidimensionale Formen."
+          ],
         },
         applications: {
           heading: "Anwendungen",
-          items: ["Kunst", "Akustik", "Design", "Architektur", "Möbel", "Technik", "Und mehr"],
+          items: [
+            "Ich habe Erfahrung mit einer Vielzahl von CNC-Projekten in den Bereichen Kunst, Akustik, Design, Architektur, Möbelbau und Technik – von Skulpturen und akustischen Komponenten über architektonische Elemente und individuelle Möbel bis hin zu Prototypen und funktionalen Bauteilen.",
+            "Das sind nur einige der Bereiche, in denen CNC-Bearbeitung zum Einsatz kommen kann. Wenn Sie ein anderes Projekt im Sinn haben, bin ich immer offen für neue Ideen, ungewöhnliche Anwendungen und spannende Herausforderungen."
+          ],
         },
         // ESP32/grblHAL/Universal Gcode Sender/Fusion 360 are product
         // names — left untranslated.
         technology: {
           heading: "Technologie",
-          items: ["ESP32 · Dual-core 32-bit", "grblHAL", "Universal Gcode Sender", "Fusion 360"],
+          items: ["Ich steuere die Maschine über einen ESP32 Dual-Core 32-Bit-Controller mit grblHAL. Für die Maschinensteuerung nutze ich Universal Gcode Sender und für CAD und CAM Fusion 360."],
         },
       },
       imageAlt: "CNC-Maschine beim Fräsen von Material",
     },
     schemas: {
-      jobTitle: TODO,
-      description: TODO,
-      personImage: TODO,
-      pageDates: { published: TODO, modified: TODO },
+      pageDates: { published: "2026-09-19", modified: "2026-10-04" },
+      breadcrumbLabel: "Werkstatt",
+      knowsAbout: [
+        "CNC-Bearbeitung",
+        "CNC-Fräsen",
+        "2D-CNC-Zuschnitt",
+        "3D-CNC-Fräsen",
+        "Kunst",
+        "Akustik",
+        "Design",
+        "Architektur",
+        "Möbelbau",
+        "Technik",
+        "Prototyping",
+      ],
+      machineSpecs: [
+        { name: "Anzahl der Achsen", value: "3" },
+        { name: "Arbeitsbereich", value: "2200 × 1500 × 50 mm" },
+        { name: "Werkzeugwechsel", value: "Manuell" },
+        { name: "Bearbeitung", value: "2D- und 3D-CNC-Fräsen" },
+      ],
+      personKnowsAbout: ["CNC-Bearbeitung", "CNC-Fräsen", "CAD", "CAM", "Fusion 360", "CNC-Maschinensteuerung"],
     },
   },
 };
